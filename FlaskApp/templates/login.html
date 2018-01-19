@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block body %}
+  <div class="login-page">
+    <div class="form">
+      <form method=post>
+        <dl>
+          <dt><input type=text name=group placeholder="Group" required>
+          <dt><input type=text name=username placeholder="Username" required>
+        </dl>
+        <input type=submit value=Login class="button buttonBlue">
+          {% if error %}
+            <p class=error><strong>Error:</strong> {{ error }}</p>
+          {% endif %}
+      </form>
+    {% endblock %}
+    </div>
+</div>

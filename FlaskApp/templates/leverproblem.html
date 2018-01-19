@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+    <title>Lever Problem</title>
+	<script type="text/javascript" src="static/js/phaser.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <style type="text/css">
+        body {
+						background-color: #000000;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+
+function preload() {
+	game.load.spritesheet('button', 'static/assets/button.png', 82, 82, 2);
+}
+
+var expected = [0,1,2,3];
+var status = 0;
+var text;
+var buttons;
+
+var moves = 0;
+
+var complete = false;
+
+function create() {
+	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+	this.game.scale.pageAlignHorizontally = true;
+	this.game.scale.pageAlignVertically = true;
+	this.game.scale.refresh();
+	shuffle(expected);
+	buttons = game.add.group();
+	x = 0;
+	while (x<4) {
+		button = game.add.sprite(75+175*x, 218, 'button');
+		button.inputEnabled=true;
+		button.events.onInputDown.add(listener, this);
+		button.id = x
+		button.state = 0
+		buttons.add(button)
+		x++;
+	}
+	text = game.add.text(game.world.centerX, 50, '', { fill: '#ffffff' });
+	text.anchor.x = Math.round(text.width * 0.5) / text.width;
+	text.text = "Moves: " + moves
+}
+
+function listener(b) {
+	//b.loadTexture('button', (b.frame+1)%2);
+	//$.post(url: '',{ name: "John", time: "2pm" });
+	if (!complete) {
+		moves ++;
+		if (b.id == expected[status]) {
+			b.loadTexture('button', 1);
+			status ++;
+		}
+		else{
+			x = 0;
+			while (x<4) {
+				buttons.children[x].loadTexture('button', 0);
+				x++;
+			}
+			status = 0;
+			//game.state.restart();
+		}
+
+		if (status == 4) {
+			text.text = "You finished in " + moves + " moves!"
+			complete = true
+		}
+		else{
+			text.text = "Moves: " + moves;
+		}
+		$.ajax({type: 'POST',url: '',data: {complete:complete,item:b.id,move:moves}});
+	}
+
+}
+
+function shuffle (array) {
+  var i = 0
+    , j = 0
+    , temp = null
+
+  for (i = array.length - 1; i > 0; i -= 1) {
+    j = Math.floor(Math.random() * (i + 1))
+    temp = array[i]
+    array[i] = array[j]
+    array[j] = temp
+  }
+}
+
+
+</script>
+
+</body>
+</html>
