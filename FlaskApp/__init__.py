@@ -8,14 +8,27 @@ from datetime import datetime, timedelta
 from wtforms import PasswordField, HiddenField
 from wtforms.validators import InputRequired
 import re
+import os
 
 # https://blog.openshift.com/use-flask-login-to-add-user-authentication-to-your-python-application/
 
 def create_app():
+    db_user = os.environ['app_db_user']
+    db_pw   = os.environ['app_db_pass']
+    db_host = os.environ['app_db_host']
+    db_name = os.environ['app_db_name']
+
+    if db_user == None or db_pw == None:
+        db_uri = "sqlite:////tmp/flask.db" 
+    else:
+        db_uri = "mysql://" + db_user + ":" + db_pw + "@" + db_host + "/" + db_name
+
+    #print("Connecting to " + db_uri)
+
     app = Flask(__name__)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/flask.db'
-    app.secret_key = 'fuai1fu2s4n5jkfu'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.secret_key = 'L6wK8IN.AQV0kyR5QkaHIyS^&gbHiC&wnaRAow.&(ik8))ncIfVs0Pf%c@OTm2VYM)n.2Pb0'
     db.init_app(app)
     with app.app_context():
         db.create_all()
