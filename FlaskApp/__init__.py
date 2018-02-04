@@ -23,7 +23,7 @@ def create_app():
     else:
         db_uri = "mysql://" + db_user + ":" + db_pw + "@" + db_host + "/" + db_name
 
-    print("Connecting to " + db_uri)
+    #print("Connecting to " + db_uri)
 
     app = Flask(__name__)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
