@@ -1,0 +1,77 @@
+@import '../colours';
+
+@mixin panel() {
+   margin: 0em auto 1em auto;
+
+   border-radius: 0.20em;
+
+   padding: 1em;
+
+   overflow: auto;
+
+   background: $color3;
+
+   header {
+      text-align: center;
+   }
+}
+
+@mixin float-panel() {
+   @include panel();
+   @include fade-in();
+
+   position: absolute;
+   left: 0; // to centner
+   right: 0;
+   max-width: 30em;
+   z-index: 100;
+
+   box-shadow: 0.15em 0.15em 0.25em #888;
+
+   & > header {
+      margin-bottom: 1em;
+      padding: 0.5em;
+
+      background: $color1;
+      color: white;
+
+      font-weight: bold;
+      font-family: verdana, sans-serif;
+
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: default;
+   }
+
+   form {
+      input {
+         &[type=button],
+         &[type=submit] {
+            @include button($color1, white);
+         }
+      }
+   }
+
+   & > input[type=button] {
+      @include button();
+
+      position: absolute;
+      top: 1em;
+      right: 1em;
+   }
+}
+
+@mixin overlay() {
+   @include fade-in();
+
+   position: fixed;
+
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: 10;
+
+   background: rgba(0, 0, 0, 0.5);
+   transition: all 1s ease-in;
+}

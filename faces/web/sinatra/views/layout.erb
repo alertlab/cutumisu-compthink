@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html moznomarginboxes mozdisallowselectionprint>
+<head>
+   <title>Alert Lab Computational Thinking | University of Alberta</title>
+   <meta name="viewport" content="width=device-width, user-scalable=yes">
+
+   <script type="text/javascript" src="<%= javascript_path('main') %>"></script>
+
+   <link rel="stylesheet" href="<%= stylesheet_path('manifest') %>">
+</head>
+<body>
+
+<header>
+   <div>
+      <a class="logo" href="/people">
+         <img src="/logos/logo.png" alt="Alert Lab Logo" title="Home">
+      </a>
+
+      <span class="subtitle">Computational Thinking</span>
+   </div>
+   <role-limiter params="role: 'admin'">
+      <nav class="main-nav">
+         <ul>
+            <li>
+               <a href="/people">People</a>
+            </li>
+            <li>
+               <session></session>
+            </li>
+         </ul>
+      </nav>
+   </role-limiter>
+</header>
+
+<main>
+   <status params="notices: window.notices,
+                  errors: window.errors,
+                  dismissable: true"></status>
+
+   <%= yield %>
+</main>
+
+</body>
+</html>

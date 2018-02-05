@@ -1,0 +1,120 @@
+@import 'mixins/all';
+
+user-editor {
+   display: block;
+   
+   & > header {
+      margin-bottom: 1em;
+      
+      padding: 1em 0.25em;
+      
+      background: $color1;
+      color: $color3;
+      
+      font-size: 1.25em;
+   }
+   
+   form {
+      position: relative;
+   }
+   
+   label {
+      display: block;
+      
+      min-width: 5em;
+      
+      span {
+         display: inline-block;
+         
+         vertical-align: top;
+         
+         min-width: 4em;
+         
+         padding: 0.5em 0.5em 0.5em 0;
+      }
+   }
+   
+   select {
+      @include button(white, $color1);
+      
+      padding: 0.5em;
+      
+      vertical-align: baseline;
+   }
+   
+   fieldset {
+      border: 1px dotted grey;
+      
+      legend {
+         font-style: italic;
+      }
+      
+      label span {
+         min-width: 9em;
+      }
+   }
+   
+   .personal {
+      display: inline-block;
+      
+      margin: 0 auto;
+      
+      max-width: 49%;
+      
+      border-right: 1px dotted black;
+      
+      padding-right: 1%;
+      
+      .identity {
+         padding: 0 0.75em;
+      }
+      
+      .contact-info {
+         margin-top: 1.5em;
+         
+         textarea {
+            width: 15em;
+            max-width: 25em;
+            height: 7em;
+            
+            font-family: "Verdana", "Arial", sans-serif;
+         }
+      }
+   }
+   
+   .controls {
+      position: relative;
+      
+      text-align: right;
+      
+      a {
+         @include back-link();
+         
+         margin: 1em 0;
+      }
+      
+      .delete {
+         position: absolute;
+         
+         left: 0;
+      }
+      
+      .delete-confirm {
+         @include float-panel();
+         
+         position: absolute;
+         
+         bottom: 2em;
+         
+         strong {
+            display: block;
+         }
+         
+         a {
+            @include button();
+            
+            margin: 0 0.5em;
+         }
+      }
+   }
+}

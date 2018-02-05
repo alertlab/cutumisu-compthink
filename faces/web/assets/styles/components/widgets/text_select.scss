@@ -1,0 +1,31 @@
+@import 'mixins/all';
+
+text-select {
+   position: relative;
+
+   .results-section {
+      position: absolute;
+
+      border: 1px solid grey;
+
+      background: white;
+
+      cursor: pointer;
+
+      div {
+         padding: 0.25em;
+
+         font-size: 0.8em;
+
+         white-space: nowrap;
+         -webkit-user-select: none;
+         -moz-user-select: none;
+         -ms-user-select: none;
+         user-select: none;
+      }
+
+      div.highlighted {
+         background: lightblue;
+      }
+   }
+}
