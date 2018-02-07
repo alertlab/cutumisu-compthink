@@ -86,14 +86,14 @@ end
 
 get '/auth/unauthenticated/?' do
    opts = env['warden.options']
-   if opts[:redirect]
-      if opts[:message]
-         response.set_cookie('flash', URI.escape({errors: [opts[:message]]}.to_json))
-      end
-      redirect opts[:redirect]
-   else
-      {error: opts[:message]}.to_json
-   end
+   # if opts[:redirect]
+   #    if opts[:message]
+   #       response.set_cookie('flash', URI.escape({errors: [opts[:message]]}.to_json))
+   #    end
+   #    redirect opts[:redirect]
+   # else
+   {error: opts[:message]}.to_json
+   # end
 end
 
 #--------------------------#

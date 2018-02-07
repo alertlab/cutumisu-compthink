@@ -9,7 +9,7 @@ module CompThink
             # rubocop:disable Style/SymbolProc
             config.serialize_into_session {|user| user.id}
             config.serialize_from_session do |id|
-               Sinatra::Application.container.persisters[:user].user_with(id: id)
+               Sinatra::Application.container.persisters[:user].find(id: id)
             end
             # rubocop:enable Style/SymbolProc
 
@@ -33,7 +33,7 @@ module CompThink
             def authenticate!
                users_persister = Sinatra::Application.container.persisters[:user]
 
-               user = users_persister.user_with(email: params['user']['email'])
+               user = users_persister.find(email: params['user']['email'])
                auth = user ? users_persister.user_authentication_with(user_id: user.id) : nil
 
                is_recognized = !auth.nil? && auth.authenticate(params['user']['password'])

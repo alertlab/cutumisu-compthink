@@ -1,6 +1,6 @@
 When(/^"(.*?)" signs in$/) do |first_name|
    unless first_name.blank?
-      email    = @persisters[:user].user_with(first_name: first_name).email
+      email    = @persisters[:user].find(first_name: first_name).email
       password = 'sekret' # probably should grab this via some some testing constant somewhere.
 
       step(%["#{ first_name }" signs in with "#{ email }" and "#{ password }"])
@@ -9,7 +9,7 @@ end
 
 When(/^"(.*?)" force signs in$/) do |first_name|
    unless first_name.blank?
-      email    = @persisters[:user].user_with(first_name: first_name).email
+      email    = @persisters[:user].find(first_name: first_name).email
       password = 'sekret' # probably should grab this via some some testing constant somewhere.
 
       step(%["#{ first_name }" force signs in with "#{ email }" and "#{ password }"])
@@ -24,7 +24,7 @@ end
 
 
 When(/^"(.*?)" signs in with the wrong password$/) do |first_name|
-   email = @persisters[:user].user_with(first_name: first_name).email
+   email = @persisters[:user].find(first_name: first_name).email
 
    step(%["#{ first_name }" signs in with "#{ email }" and "someR@ndomGarbage"])
 
@@ -33,7 +33,7 @@ When(/^"(.*?)" signs in with the wrong password$/) do |first_name|
 end
 
 When(/^"(.*?)" signs in with "(.*?)" and "(.*?)"$/) do |first_name, email, password|
-   user = @persisters[:user].user_with(first_name: first_name)
+   user = @persisters[:user].find(first_name: first_name)
 
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
@@ -57,12 +57,12 @@ When(/^"(.*?)" signs in with "(.*?)" and "(.*?)"$/) do |first_name, email, passw
       # TODO: thus the sleep. -remiller
       sleep(0.5)
 
-      @current_user = @persisters[:user].user_with(first_name: first_name, email: email)
+      @current_user = @persisters[:user].find(first_name: first_name, email: email)
    end
 end
 
 When(/^"(.*?)" force signs in with "(.*?)" and "(.*?)"$/) do |first_name, email, password|
-   user = @persisters[:user].user_with(first_name: first_name)
+   user = @persisters[:user].find(first_name: first_name)
 
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
@@ -73,8 +73,8 @@ When(/^"(.*?)" force signs in with "(.*?)" and "(.*?)"$/) do |first_name, email,
                                                         password: password})
       expect(page.driver.status_code).to be < 400
 
-      @current_user = @persisters[:user].user_with(first_name: first_name,
-                                                   email:      email)
+      @current_user = @persisters[:user].find(first_name: first_name,
+                                              email:      email)
    end
 end
 

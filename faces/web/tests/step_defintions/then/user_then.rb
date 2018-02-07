@@ -2,7 +2,7 @@
 Then(/^"(.*?)" should( not)? see user summary for "(.*?)"$/) do |viewer_name, negated, user_name|
    step(%["#{ viewer_name }" is signed in])
 
-   user = @persisters[:user].user_with(first_name: user_name)
+   user = @persisters[:user].find(first_name: user_name)
 
    within('user-listing .user-summaries') do
       step(%["#{ viewer_name }" should#{ negated } see "#{ user.name }"])
@@ -18,7 +18,7 @@ Then(/^"(.*?)" should see user summaries for "(.*?)" in that order$/) do |viewer
    step(%["#{ viewer_name }" is signed in])
 
    extract_list(user_list).each_with_index do |user_name, i|
-      user = @persisters[:user].user_with(first_name: user_name)
+      user = @persisters[:user].find(first_name: user_name)
 
       within(".user-summaries user-summary:nth-child(#{ i + 1 })") do
          step(%["#{ viewer_name }" should see "#{ user.name }"])
@@ -29,7 +29,7 @@ Then(/^"(.*?)" should see user summaries for "(.*?)" in that order$/) do |viewer
 end
 
 Then(/^"(.*?)" should have password "(.*?)"$/) do |user_name, pass|
-   user = @persisters[:user].user_with(first_name: user_name)
+   user = @persisters[:user].find(first_name: user_name)
 
    auth = @persisters[:user].user_authentication_with(user_id: user.id)
 
@@ -39,7 +39,7 @@ Then(/^"(.*?)" should have password "(.*?)"$/) do |user_name, pass|
 end
 
 Then(/^"(.*?)" should( not)? be signed in$/) do |first_name, negated|
-   # user = @persisters[:user].user_with(first_name: first_name)
+   # user = @persisters[:user].find(first_name: first_name)
 
    if negated
       step('they should see "Sign In"')

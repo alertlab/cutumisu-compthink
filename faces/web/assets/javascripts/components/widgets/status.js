@@ -1,6 +1,6 @@
-ko.components.register('status', {
-    template: '<div data-bind="visible: hasMessages()">\
-                   <section data-bind="visible: notices().length > 0">\
+ko.components.register('status-messages', {
+   template: '<div data-bind="visible: hasMessages()">\
+                   <section class="notices" data-bind="visible: notices().length > 0">\
                      <ul>\
                          <!-- ko foreach: notices() -->\
                             <li>\
@@ -11,7 +11,7 @@ ko.components.register('status', {
                          <!-- /ko --> \
                      </ul>\
                    </section>\
-                   <section data-bind="visible: warnings().length > 0">\
+                   <section class="warnings" data-bind="visible: warnings().length > 0">\
                      <header>Warning</header>\
                      <p data-bind="text: warningFlavour(), visible: warningFlavour()"></p>\
                      <ul>\
@@ -24,7 +24,7 @@ ko.components.register('status', {
                          <!-- /ko --> \
                      </ul>\
                    </section>\
-                   <section data-bind="visible: errors().length > 0">\
+                   <section class="errors" data-bind="visible: errors().length > 0">\
                      <ul>\
                          <!-- ko foreach: errors() -->\
                             <li>\
@@ -37,22 +37,22 @@ ko.components.register('status', {
                    </section>\
                </div>',
 
-    viewModel: function (params) {
-        var self = this;
+   viewModel: function (params) {
+      var self = this;
 
-        self.dismissable = ko.observable(params.dismissable || false);
+      self.dismissable = ko.observable(params.dismissable || false);
 
-        self.notices = params.notices || ko.observableArray([]);
-        self.warnings = params.warnings || ko.observableArray([]);
-        self.errors = params.errors || ko.observableArray([]);
+      self.notices = params.notices || ko.observableArray([]);
+      self.warnings = params.warnings || ko.observableArray([]);
+      self.errors = params.errors || ko.observableArray([]);
 
-        // the text below the warnings, describing it
-        self.warningFlavour = ko.observable(params.warningFlavour);
+      // the text below the warnings, describing it
+      self.warningFlavour = ko.observable(params.warningFlavour);
 
-        self.hasMessages = function () {
-            return self.notices().length > 0 ||
-                self.warnings().length > 0 ||
-                self.errors().length > 0;
-        }
-    }
+      self.hasMessages = function () {
+         return self.notices().length > 0 ||
+            self.warnings().length > 0 ||
+            self.errors().length > 0;
+      }
+   }
 });

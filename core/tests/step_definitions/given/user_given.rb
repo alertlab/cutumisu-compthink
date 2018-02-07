@@ -25,7 +25,7 @@ end
 Given(/^"(.*?)" has role "(.*?)"$/) do |user_name, role_name|
    role_persister = @persisters[:role]
 
-   user = @persisters[:user].user_with(first_name: user_name)
+   user = @persisters[:user].find(first_name: user_name)
 
    role = role_persister.role_with(name: role_name) || role_persister.create(name: role_name)
 

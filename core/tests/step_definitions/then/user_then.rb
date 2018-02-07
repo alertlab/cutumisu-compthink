@@ -9,7 +9,7 @@ Then(/^there should( not)? be a user with:$/) do |negated, table|
          row[:last_name]  = name.last
       end
 
-      user = @persisters[:user].user_with(row)
+      user = @persisters[:user].find(row)
 
       if negated
          expect(user).to be_nil
@@ -37,7 +37,7 @@ Then(/^"(.*?)" should not have roles "(.*?)"$/) do |user_name, roles|
 end
 
 Then(/^"(.*?)" should( not)? be an? (admin|participant)$/) do |user_name, negated, role_name|
-   user = @persisters[:user].user_with(first_name: user_name)
+   user = @persisters[:user].find(first_name: user_name)
    role = @persisters[:role].role_with(name: role_name)
 
    has_role = @persisters[:user].user_has_role?(user, role)
@@ -50,7 +50,7 @@ Then(/^"(.*?)" should( not)? be an? (admin|participant)$/) do |user_name, negate
 end
 
 Then(/^"(.*?)" should have (\d+) roles?$/) do |user_name, number|
-   user = @persisters[:user].user_with(first_name: user_name)
+   user = @persisters[:user].find(first_name: user_name)
 
    expect(user.roles.count).to eq number.to_i
 end
@@ -65,13 +65,13 @@ Then(/^it should return user summaries for "(.*?)"( in that order)?$/) do |user_
 
    if ordered
       user_hashes = names.collect do |name|
-         user_persister.user_with(first_name: name).to_hash
+         user_persister.find(first_name: name).to_hash
       end
 
       expect(@result[:results]).to eq user_hashes
    else
       names.each do |name|
-         user = user_persister.user_with(first_name: name)
+         user = user_persister.find(first_name: name)
 
          expect(user).to_not be_nil # sanity check
 
@@ -103,6 +103,6 @@ end
 
 Then(/^there should be a person with:$/) do |table|
    symtable(table).hashes.each do |row|
-      expect(@persisters[:user].user_with(row)).to_not be_nil
+      expect(@persisters[:user].find(row)).to_not be_nil
    end
 end

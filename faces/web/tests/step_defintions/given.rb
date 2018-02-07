@@ -6,7 +6,7 @@ Given(/^"(.*?)" is signed in$/) do |first_name|
 end
 
 Given(/^"(.*?)" has password "(.*?)"$/) do |user_name, password|
-   user     = @persisters[:user].user_with(first_name: user_name)
+   user     = @persisters[:user].find(first_name: user_name)
 
    password = 'sekret' if password.blank?
 

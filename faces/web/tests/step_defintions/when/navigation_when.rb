@@ -27,7 +27,7 @@ end
 When(/^"(.*?)" navigates to user editor for "(.*?)"$/) do |navigator, user_name|
    step(%["#{ navigator }" navigates to "People"])
 
-   user = @persisters[:user].user_with(first_name: user_name)
+   user = @persisters[:user].find(first_name: user_name)
 
    within("#user-#{ user.id }") do
       click_link('Edit')

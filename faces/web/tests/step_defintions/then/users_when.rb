@@ -31,7 +31,7 @@ end
 When(/^"(.*?)" updates user "(.*?)" with:$/) do |admin_name, user_name, table|
    step(%["#{ admin_name }" navigates to user editor for "#{ user_name }"])
 
-   user = @persisters[:user].user_with(first_name: user_name)
+   user = @persisters[:user].find(first_name: user_name)
 
    row = symrow(table)
 
@@ -114,7 +114,7 @@ end
 When(/^"(.*?)" removes user "(.*?)"$/) do |admin_name, user_name|
    step(%["#{ admin_name }" navigates to "People"])
 
-   user = @persisters[:user].user_with(first_name: user_name)
+   user = @persisters[:user].find(first_name: user_name)
 
    within("#user-#{ user.id }") do
       click_link('Edit')

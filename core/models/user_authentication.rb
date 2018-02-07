@@ -5,14 +5,14 @@ module CompThink
       class UserAuthentication < ROM::Struct
          attr_reader :encrypted_password
 
+         BCRYPT_COST = (ENV['app_bcrypt_cost'] || BCrypt::Engine.cost).to_i
+
          def initialize(id: nil, user_id:, password: nil, encrypted_password: nil)
             @id      = id
             @user_id = user_id
 
-            cost = (ENV['app_bcrypt_cost'] || BCrypt::Engine.cost).to_i
-
             @encrypted_password = if password
-                                     BCrypt::Password.create(password, cost: cost)
+                                     BCrypt::Password.create(password, cost: BCRYPT_COST)
                                   else
                                      BCrypt::Password.new(encrypted_password)
                                   end
@@ -23,7 +23,7 @@ module CompThink
          end
 
          def self.encrypt(password)
-            BCrypt::Password.create(password)
+            BCrypt::Password.create(password, cost: BCRYPT_COST)
          end
 
          # def password=(password)

@@ -43,7 +43,7 @@ end
 When(/^user "(.*?)" is updated( twice)? with:$/) do |user_name, twice, table|
    row = symrow(table)
 
-   user = @persisters[:user].user_with(first_name: user_name)
+   user = @persisters[:user].find(first_name: user_name)
 
    if twice
       update_user(@container, row.merge(id: user.id))
@@ -53,7 +53,7 @@ When(/^user "(.*?)" is updated( twice)? with:$/) do |user_name, twice, table|
 end
 
 When(/^user "(.*?)" is deleted$/) do |user_name|
-   user = @persisters[:user].user_with(first_name: user_name)
+   user = @persisters[:user].find(first_name: user_name)
 
    @result = delete_user(@container, id: user ? user.id : -1)
 end

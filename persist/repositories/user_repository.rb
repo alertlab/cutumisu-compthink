@@ -4,7 +4,7 @@ module CompThink
 
       struct_namespace CompThink::Model
 
-      def user_with(attributes)
+      def find(attributes)
          users.combine(:roles).where(attributes).one!
       rescue ROM::TupleCountMismatchError
          return nil
