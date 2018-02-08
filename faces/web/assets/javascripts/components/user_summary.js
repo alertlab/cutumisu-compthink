@@ -23,7 +23,7 @@ ko.components.register('user-summary', {
 
       self.user = ko.unwrap(params.user || explode("Must provide 'user' parameter to user summary"));
 
-      self.edit_link = '/edit_person?id=' + self.user.id;
+      self.edit_link = '/admin/edit_person?id=' + self.user.id;
 
       self.formatRoles = function (roleList) {
          return (roleList || []).map(function (roleName) {

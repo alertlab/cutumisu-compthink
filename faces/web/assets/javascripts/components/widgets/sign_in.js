@@ -39,7 +39,7 @@ ko.components.register('sign-in', {
             var cookie = JSON.stringify({notices: [response.notice]});
             document.cookie = 'flash=' + encodeURIComponent(cookie);
 
-            window.location = window.deserializeSearch().uri || '/people';
+            window.location = window.deserializeSearch().uri || '/admin/people';
          });
 
          self.password(null);

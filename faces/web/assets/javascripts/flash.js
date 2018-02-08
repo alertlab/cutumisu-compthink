@@ -6,7 +6,9 @@
 (function (window, undefined) {
    var cookie = eatCookie('flash');
 
-   var preloaded = cookie ? JSON.parse(decodeURIComponent(decodeURIComponent(cookie))) : {};
+   var preloaded = cookie ? JSON.parse(decodeURIComponent(cookie)) : {};
+
+   console.log('preloaded: ' + JSON.stringify(preloaded), window.location)
 
    window.notices = ko.observableArray();
    window.warnings = ko.observableArray();

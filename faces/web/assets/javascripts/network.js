@@ -48,7 +48,6 @@
 
       match = document.cookie.match(new RegExp(name + '=([^;]+)'));
       if (match) {
-         //document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
          return match[1];
       }
    };
@@ -66,7 +65,7 @@
 
       match = document.cookie.match(new RegExp(name + '=([^;]+)'));
       if (match) {
-         document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+         document.cookie = name + '=;path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
          return match[1];
       }
    };

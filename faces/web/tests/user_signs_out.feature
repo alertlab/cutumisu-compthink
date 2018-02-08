@@ -12,7 +12,6 @@ Feature: User Signs Out
       And "Dot" has password "sekret"
    
    Scenario Outline: it should sign out
-      Given "<user>" is signed in
       When "<user>" signs out
       Then "<user>" should not be signed in
       Examples:
@@ -21,7 +20,6 @@ Feature: User Signs Out
          | Dot  |
    
    Scenario: it should say so
-      Given "Bob" is signed in
       When "Bob" signs out
-      Then "" should see "Signed out."
+      Then they should see "Signed out."
       

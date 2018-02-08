@@ -22,7 +22,7 @@ ko.components.register('user-editor', {
                   </div>\
                   <div class="controls">\
                      <input type="button" class="delete" value="Delete" data-bind="visible: !isNewRecord(), click: toggleDeleteConfirm"/>\
-                     <a href="/people" class="cancel">Cancel</a>\
+                     <a href="/admin/people" class="cancel">Cancel</a>\
                      <input type="submit" value="Save" />\
                      <div class="delete-confirm" data-bind="visible: deleteConfirmVisible">\
                         <header>Confirm Deletion</header>\
@@ -52,7 +52,7 @@ ko.components.register('user-editor', {
       });
 
       self.onSave = function () {
-         window.location = '/people'
+         window.location = '/admin/people'
       };
 
       self.deleteConfirmVisible = ko.observable(false);

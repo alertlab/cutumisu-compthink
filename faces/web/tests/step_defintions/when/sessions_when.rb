@@ -79,7 +79,9 @@ When(/^"(.*?)" force signs in with "(.*?)" and "(.*?)"$/) do |first_name, email,
 end
 
 
-When(/^.*? signs out$/) do
+When(/^"([^"]+)" signs out$/) do |name|
+   step(%["#{ name }" is signed in])
+
    @current_user = nil
    click_link('Sign Out')
 

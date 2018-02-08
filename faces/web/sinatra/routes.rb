@@ -41,7 +41,9 @@ end
 
 before do
    if current_user
-      response.set_cookie('compthink.user_data', value: current_user.to_hash.to_json)
+      response.set_cookie('compthink.user_data',
+                          path:  '/',
+                          value: current_user.to_hash.to_json)
    else
       response.delete_cookie('compthink.user_data')
    end
@@ -79,7 +81,6 @@ post '/auth/sign_in/?' do
 end
 
 post '/auth/sign_out/?' do
-   # env['warden'].raw_session.inspect
    env['warden'].logout
    {notice: 'Signed out'}.to_json
 end

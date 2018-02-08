@@ -21,8 +21,8 @@ Feature: User Signs In
          | Dot  |
    
    Scenario Outline: it should redirect to users view when given a follow uri
-      When "<user>" signs in with follow uri "/people"
-      Then "<user>" should be at "/people"
+      When "<user>" signs in with follow uri "/admin/people"
+      Then "<user>" should be at "/admin/people"
       Examples:
          | user |
          | Bob  |
@@ -30,7 +30,7 @@ Feature: User Signs In
    
    Scenario Outline: it should redirect to dashboard by default
       When "<user>" signs in
-      Then "<user>" should be at "/people"
+      Then "<user>" should be at "/admin/people"
       Examples:
          | user |
          | Bob  |
