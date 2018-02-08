@@ -17,6 +17,7 @@ end
 def page!
    save_and_open_page
 end
+
 # rubocop:enable Lint/Debugger
 
 module HelperMethods
@@ -41,9 +42,11 @@ end
 
 After do |scenario|
    if scenario.failed?
-      pic!
-      # or:
-      # page!
+      begin
+         pic!
+      rescue Capybara::NotSupportedByDriverError
+         page!
+      end
    end
 end
 

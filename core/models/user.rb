@@ -12,12 +12,21 @@ module CompThink
                         first_name: '',
                         last_name: '',
                         email: '',
+                        group_id: nil,
+                        puzzle_lever: nil,
+                        puzzle_towers: nil,
+                        creation_time: nil,
                         user_authentications: nil,
                         roles: [])
             @id         = id
             @first_name = first_name
             @last_name  = last_name
             @email      = email
+
+            @group_id      = group_id
+            @puzzle_lever  = puzzle_lever
+            @puzzle_towers = puzzle_towers
+            @creation_time = creation_time
 
             @roles          = roles
             @authentication = user_authentications

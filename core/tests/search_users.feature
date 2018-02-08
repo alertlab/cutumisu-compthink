@@ -1,4 +1,4 @@
-Feature: search users
+Feature: Search Users
    
    Background:
       Given the following users:

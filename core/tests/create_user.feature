@@ -1,4 +1,4 @@
-Feature: create user
+Feature: Create User
    
    Scenario Outline: it should create a user with contact information
       When a user is created with:
