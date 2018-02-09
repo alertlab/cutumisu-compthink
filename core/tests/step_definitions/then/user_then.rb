@@ -1,7 +1,7 @@
 # === Users ===
 Then(/^there should( not)? be a user with:$/) do |negated, table|
    symtable(table).hashes.each do |row|
-      role_names = extract_list(row.delete(:role) || row.delete(:roles))
+      # role_names = extract_list(row.delete(:role) || row.delete(:roles))
 
       if row[:name]
          name             = row.delete(:name).split(/\s/)
@@ -15,44 +15,13 @@ Then(/^there should( not)? be a user with:$/) do |negated, table|
          expect(user).to be_nil
       else
          expect(user).to_not be_nil
-         role_names.each do |role_name|
-            names = user.roles.collect {|r| r.name.downcase}
-
-            expect(names).to include(role_name.downcase)
-         end
+         # role_names.each do |role_name|
+         #    names = user.roles.collect {|r| r.name.downcase}
+         #
+         #    expect(names).to include(role_name.downcase)
+         # end
       end
    end
-end
-
-Then(/^"(.*?)" should not have roles "(.*?)"$/) do |user_name, roles|
-   user = @persisters[:user].user_and_roles(first_name: user_name)
-
-   expect(user).to_not be_nil # sanity check
-
-   roles.split(',').each do |role_name|
-      user_role_names = user.roles.collect {|r| r.name.downcase.parameterize('_')}
-
-      expect(user_role_names).to_not include(role_name.strip.downcase.parameterize('_'))
-   end
-end
-
-Then(/^"(.*?)" should( not)? be an? (admin|participant)$/) do |user_name, negated, role_name|
-   user = @persisters[:user].find(first_name: user_name)
-   role = @persisters[:role].role_with(name: role_name)
-
-   has_role = @persisters[:user].user_has_role?(user, role)
-
-   if negated
-      expect(has_role).to be false
-   else
-      expect(has_role).to be true
-   end
-end
-
-Then(/^"(.*?)" should have (\d+) roles?$/) do |user_name, number|
-   user = @persisters[:user].find(first_name: user_name)
-
-   expect(user.roles.count).to eq number.to_i
 end
 
 Then(/^it should return user summaries for "(.*?)"( in that order)?$/) do |user_list, ordered|

@@ -40,14 +40,10 @@ When(/^users are searched starting at (\d+)$/) do |starting_number|
    @result = search_users(@container, starting: starting_number)
 end
 
-When(/^user "(.*?)" is updated( twice)? with:$/) do |user_name, twice, table|
+When(/^user "(.*?)" is updated with:$/) do |user_name, table|
    row = symrow(table)
 
    user = @persisters[:user].find(first_name: user_name)
-
-   if twice
-      update_user(@container, row.merge(id: user.id))
-   end
 
    @result = update_user(@container, row.merge(id: user.id))
 end

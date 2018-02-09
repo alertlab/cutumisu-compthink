@@ -16,14 +16,6 @@ Given(/^"(.*?)" has password "(.*?)"$/) do |user_name, password|
    @persisters[:user].create_auth(auth.to_hash)
 end
 
-Given(/^"(.*?)" is at "(.*?)"$/) do |user_name, path|
-   step(%["#{ user_name }" is signed in])
-
-   visit(path)
-
-   wait_for_ajax
-end
-
 # Given (/^the browser date is "(.*?)"$/) do |date_string|
 #    page.evaluate_script(%q[
 #       console.warn('Stubbing date.');

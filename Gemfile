@@ -32,7 +32,7 @@ end
 group :core do
    gem 'activesupport' # Gross
    gem 'filesize'
-      # gem 'procrastinator', '~> 0.6.1'
+   # gem 'procrastinator', '~> 0.6.1'
 end
 
 group :persist do
@@ -46,6 +46,8 @@ end
 group :development do
    gem 'rubocop', '~> 0.52.1', require: false
    gem 'ruby-prof'
+
+   gem 'dotenv'
 end
 
 group :test do

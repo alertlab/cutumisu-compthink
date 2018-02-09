@@ -8,8 +8,6 @@
 
    var preloaded = cookie ? JSON.parse(decodeURIComponent(cookie)) : {};
 
-   console.log('preloaded: ' + JSON.stringify(preloaded), window.location)
-
    window.notices = ko.observableArray();
    window.warnings = ko.observableArray();
    window.errors = ko.observableArray();

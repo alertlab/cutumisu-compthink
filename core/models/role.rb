@@ -10,12 +10,12 @@ module CompThink
             @user_id = user_id
          end
 
-         def to_hash
-            {
-                  id:   @id,
-                  name: @name
-            }
-         end
+         # def to_hash
+         #    {
+         #          id:   @id,
+         #          name: @name
+         #    }
+         # end
       end
    end
 end

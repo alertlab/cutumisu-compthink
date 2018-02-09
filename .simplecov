@@ -10,6 +10,9 @@ SimpleCov.start do
 
    # add_filter 'faces/email/tests'
 
+   add_filter 'core/tests/support'
+   add_filter 'faces/web/tests/support'
+
    add_filter 'persist/seeds.rb'
    add_filter 'persist/rom/'
 end
