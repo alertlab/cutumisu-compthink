@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+    <title>Towers of Hanoi</title>
+	<script type="text/javascript" src="static/js/phaser.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <style type="text/css">
+        body {
+						background-color: #000000;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'gameArea', { preload: preload, create: create });
+
+//canvas {   display : block;   margin : auto;}
+
+function preload() {
+	game.load.image('disc1', 'static/assets/disc_unselected.png');
+	game.load.image('disc2', 'static/assets/disc_selected.png');
+	game.load.image('peg', 'static/assets/peg.png');
+}
+
+var text;
+var discs;
+var numDiscs = 3;
+var numPegs = 3;
+var pegs = [[],[],[]];
+var pegPosition = [200,400,600];
+
+var discY = 348;
+var discOffset = 15;
+
+var lastDiscClick = -1;
+
+var moves = 0;
+
+var previousPeg;
+
+var complete = false;
+
+function create() {
+	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+	this.game.scale.pageAlignHorizontally = true;
+	this.game.scale.pageAlignVertically = true;
+	this.game.scale.refresh();
+	//game.stage.scale.refresh();
+	i = 0;
+	while (i<numPegs) {
+		peg = game.add.sprite(pegPosition[i], 300, 'peg');
+		peg.anchor.setTo(0.5);
+		peg.scale.setTo(0.1,0.1);
+		peg.id = i;
+		peg.inputEnabled=true;
+		peg.events.onInputDown.add(pegClick, this);
+		i++;
+	}
+
+	discs = game.add.group();
+	while (pegs[0].length<numDiscs) {
+		l = pegs[0].length
+		disc = game.add.sprite(pegPosition[0], discY - discOffset*l, 'disc1');
+		disc.anchor.setTo(0.5);
+		disc.scale.setTo(0.15 - 0.125*l/numDiscs,0.1);
+		disc.inputEnabled=true;
+		disc.id = l;
+		disc.peg = 0;
+		disc.events.onInputDown.add(discClick, this);
+		discs.add(disc);
+		pegs[0].push(disc.id);
+	}
+	text = game.add.text(game.world.centerX, 50, '', { fill: '#ffffff' });
+	text.anchor.x = Math.round(text.width * 0.5) / text.width;
+	text.text = "Moves: " + moves
+}
+
+function discClick(d) {
+	if (!complete) {
+		if (lastDiscClick >= 0){
+			discs.children[lastDiscClick].loadTexture('disc1');
+		}
+		if (pegs[d.peg][pegs[d.peg].length-1] == d.id) {
+			lastDiscClick = d.id;
+			d.loadTexture('disc2');
+		}
+	}
+	//text.text = lastDiscClick
+}
+
+function pegClick(p) {
+	//text.text = pegs[p.id];
+	if (!complete) {
+		if (pegs[p.id].length == 0) {
+			topDisc = -1;
+		}
+		else {
+			topDisc = pegs[p.id][pegs[p.id].length-1];
+		}
+
+		if (lastDiscClick >= 0){
+			disc = discs.children[lastDiscClick]
+			disc.loadTexture('disc1');
+			newDiscClick = -1;
+		}
+		else {
+			discs.children[topDisc].loadTexture('disc2');
+			newDiscClick = topDisc;
+		}
+
+		if (lastDiscClick>topDisc) {
+			disc.x = pegPosition[p.id];
+			disc.y = discY - discOffset*pegs[p.id].length;
+			pegs[disc.peg].pop()
+			pegs[p.id].push(disc.id);
+			disc.peg = p.id;
+			moves ++
+		}
+		if ((p.id > 0) && (pegs[p.id].length == numDiscs)) {
+			text.text = "You finished in " + moves + " moves!"
+			complete = true
+		}
+		else {
+			text.text = "Moves: " + moves
+		}
+
+		lastDiscClick = newDiscClick;
+
+		$.ajax({type: 'POST',url: '',data: {complete:complete,item:p.id,move:moves}});
+	}
+}
+
+
+</script>
+
+</body>
+</html>

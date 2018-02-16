@@ -39,7 +39,6 @@ configure do # |application|
    set :views, (proc {root + 'faces/web/sinatra/views'})
    set :public_folder, (proc {root + 'faces/web/public'})
 
-   layout :layout
    set :partial_template_engine, :erb
 
    also_reload __FILE__ if development?
@@ -53,8 +52,9 @@ configure do # |application|
       unless __container__
          set :__container__, OpenStruct.new
 
-         container.persister_env = CompThink.build_persistence_environment
-         container.persisters    = CompThink.build_persisters(container.persister_env)
+         container.persister_env  = CompThink.build_persistence_environment
+         container.persisters     = CompThink.build_persisters(container.persister_env)
+         container.forced_cookies = {}
 
          container
       end

@@ -59,6 +59,7 @@ group :test do
 
    gem 'capybara', '~> 2.17.0'
    gem 'poltergeist'
+   gem 'capybara-webkit', '~> 1.15'
    gem 'launchy'
 
    gem 'parallel_tests'

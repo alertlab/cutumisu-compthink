@@ -15,6 +15,7 @@ require 'capybara/cucumber'
 require 'rspec/expectations'
 require 'capybara/poltergeist'
 require 'timecop'
+require 'capybara-webkit'
 
 require 'fakefs/safe'
 
@@ -32,6 +33,11 @@ include CompThink
 # == CAPYBARA ==
 Capybara.app = Sinatra::Application
 
+Capybara::Webkit.configure do |config|
+   config.debug                   = false #true
+   config.raise_javascript_errors = true
+end
+
 Capybara.register_driver :poltergeist do |app|
    Capybara::Poltergeist::Driver.new(app,
                                      extensions: [])
@@ -39,6 +45,7 @@ Capybara.register_driver :poltergeist do |app|
 end
 
 Capybara.default_driver = :poltergeist
+
 # so that it can click checkboxes that are styled pretty
 Capybara.automatic_label_click = true
 
@@ -51,59 +58,6 @@ module HelperMethods
 end
 
 World(RSpec::Matchers, HelperMethods)
-
-Before '@no-js' do
-   @normal_driver          = Capybara.default_driver
-   Capybara.default_driver = :rack_test
-end
-
-After '@no-js' do
-   Capybara.default_driver = @normal_driver
-end
-
-Before '@pending' do
-   pending 'Formal definition'
-end
-
-# Based on: http://collectiveidea.com/blog/archives/2014/01/21/mocking-html5-apis-using-phantomjs-extensions/
-Before '@stub_date' do
-   # there is only a #extensions= method. I don't know why it isn't an accessor like normal things.
-   ext = [File.expand_path('../../extensions/stub_date.js', __dir__)]
-
-   page.driver.browser.extensions = [ext]
-end
-
-After '@stub_date' do
-   ext = [File.expand_path('../../extensions/unstub_date.js', __dir__)]
-
-   page.driver.browser.extensions = [ext]
-end
-
-TEST_IMAGE_PATH = Pathname.new(__dir__).dirname + Pathname.new('test_image.png')
-
-Before '@remove-test-photo' do
-   photo_dir = Capybara.app.container.pet_photo_directory
-
-   @existing_photos = photo_dir.children
-end
-
-After '@remove-test-photo' do
-   photo_dir = Capybara.app.container.pet_photo_directory
-
-   (photo_dir.children - @existing_photos).each do |f|
-      File.delete(f)
-   end
-
-   @existing_photos = nil
-end
-
-Before '@expect-err' do
-   page.driver.browser.js_errors = false
-end
-
-After '@expect-err' do
-   page.driver.browser.js_errors = true
-end
 
 # == REGULAR SETTINGS ==
 Before do

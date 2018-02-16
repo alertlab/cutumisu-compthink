@@ -5,7 +5,7 @@ Dirt::SCREENSHOT_DIR = Dirt::PROJECT_ROOT + '.screenshots'
 
 # rubocop:disable Lint/Debugger
 def pic!
-   next_num = Dir.glob(Dirt::SCREENSHOT_DIR).size + 1
+   next_num = Dir.glob(Dirt::SCREENSHOT_DIR + '*').size + 1
 
    save_screenshot(Dirt::SCREENSHOT_DIR + "#{ next_num }.png", full: true)
 end
@@ -32,6 +32,12 @@ module HelperMethods
    def wait_for_ajax
       Timeout.timeout(Capybara.default_max_wait_time) do
          loop until (page.evaluate_script('window.ajaxCount') || 0) <= 0
+      end
+   end
+
+   def wait_for_game_load
+      Timeout.timeout(Capybara.default_max_wait_time) do
+         loop until (page.evaluate_script('game.isBooted') || false)
       end
    end
 

@@ -1,0 +1,127 @@
+<script type="text/javascript">
+   var game, text, buttonGroup, expected, shuffleExpected;
+
+   var moves = 0;
+
+   window.setTimeout(function () {
+      var gameWidth = 800;
+      var gameHeight = 600;
+      var buttonSize = 82;
+      var shuffleExpected = true;
+
+      expected = eatCookie('compthink.game.expected')
+
+      if (expected) {
+         expected = decodeURIComponent(expected).split(',');
+         shuffleExpected = false;
+      } else
+         expected = ['A', 'B', 'C', 'D'];
+
+
+      game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, document.querySelector('#game-container'), {
+         preload: preload,
+         create: create
+      });
+
+      function preload() {
+         game.load.spritesheet('button', '/assets/images/games/button.png', buttonSize, buttonSize, 2);
+      }
+
+      function create() {
+         var game, buttonX, buttonY, button, spaceSize;
+
+         game = this.game;
+
+         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+         game.scale.pageAlignHorizontally = true;
+         game.scale.pageAlignVertically = true;
+         game.scale.refresh();
+
+         game.stage.backgroundColor = "#444444";
+
+         buttonGroup = this.game.add.group();
+
+         spaceSize = (gameWidth - (expected.length * buttonSize)) / (expected.length + 1);
+         buttonY = gameHeight / 3;
+
+         expected.forEach(function (leverName, i) {
+            buttonX = spaceSize * (i + 1) + buttonSize * i;
+            button = game.add.sprite(buttonX, buttonY, 'button');
+            button.inputEnabled = true;
+            button.events.onInputDown.add(buttonClick, this);
+            button.name = leverName;
+            button.switched = false;
+            button.switch = function () {
+               this.switched = true;
+               this.loadTexture('button', 1);
+            };
+            button.reset = function () {
+               this.switched = false;
+               this.loadTexture('button', 0);
+            };
+            buttonGroup.add(button);
+         });
+
+         text = game.add.text(game.world.centerX, 50, 'Moves: ', {fill: '#ffffff', fontSize: '18px'});
+         text.anchor.x = Math.round(text.width * 0.5) / text.width;
+         text.text = "Moves: " + moves;
+
+         if (shuffleExpected)
+            shuffle(expected);
+         console.log('Expecting:' + expected)
+      }
+
+      window.buttonClick = function (button, inputDevice) {
+         var prereqButton, finalButton;
+
+         finalButton = buttonGroup.getByName(expected[expected.length - 1]);
+         prereqButton = buttonGroup.getByName(expected[expected.indexOf(button.name) - 1]);
+
+         // intentionally ignoring any clicks after they're done
+         if (finalButton.switched)
+            return;
+
+         moves++;
+         text.text = "Moves: " + moves;
+
+         if (!prereqButton || prereqButton.switched) {
+            button.switch();
+
+            if (button === finalButton)
+               text.text = "You finished in " + moves + " moves!";
+         } else {
+            buttonGroup.children.forEach(function (b) {
+               b.reset();
+            });
+         }
+
+         $.ajax({
+            type: 'POST',
+            url: '',
+            data: {
+               expected: expected,
+               complete: finalButton.switched,
+               item: button.name,
+               move: moves
+            }
+         });
+      }
+
+      function shuffle(array) {
+         var i = 0
+            , j = 0
+            , temp = null;
+
+         for (i = array.length - 1; i > 0; i -= 1) {
+            j = Math.floor(Math.random() * (i + 1));
+            temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+         }
+      }
+   });
+</script>
+
+
+</body>
+</html>

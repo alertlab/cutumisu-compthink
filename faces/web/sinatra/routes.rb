@@ -9,10 +9,14 @@ rules do
    can(:get, '/')
    can(:get, '/assets/*')
    can(:get, '/assets/javascripts/*')
+   can(:get, '/assets/javascripts/lib/*')
    can(:get, '/assets/styles/*')
    can(:get, '/assets/images/*')
+   can(:get, '/assets/images/games/*')
    can(:get, '/assets/fonts/*')
    can(:get, '/assets/logos/*')
+
+   can(:get, '/games/*')
 
    can(:get, '/auth/unauthenticated')
 
@@ -46,6 +50,12 @@ before do
                           value: current_user.to_hash.to_json)
    else
       response.delete_cookie('compthink.user_data')
+   end
+
+   settings.container.forced_cookies.each do |key, value|
+      response.set_cookie("compthink.#{key}",
+                          path:  '/',
+                          value: value)
    end
 
    content_type 'application/json' if request.post?
@@ -128,7 +138,7 @@ get '/?' do
    # if current_user
    #    redirect '/'
    # else
-   erb(:_home)
+   erb(:_home, layout: layout)
    # end
 end
 
@@ -139,7 +149,7 @@ get '/*/?' do |name|
    parts = name.split('/')
    file  = parts.pop
 
-   erb((parts << "_#{ file }").join('/').to_sym)
+   erb((parts << "_#{ file }").join('/').to_sym, layout: layout)
 end
 
 #######################
@@ -154,5 +164,13 @@ helpers do
       p = params.dup
       p.delete('captures')
       p
+   end
+
+   def layout
+      if request.path.match?(%r{^/admin})
+         :'layouts/admin'
+      else
+         :'layouts/user'
+      end
    end
 end

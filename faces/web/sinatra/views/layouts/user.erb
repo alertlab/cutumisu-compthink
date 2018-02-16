@@ -4,33 +4,16 @@
    <title>Alert Lab Computational Thinking | University of Alberta</title>
    <meta name="viewport" content="width=device-width, user-scalable=yes">
 
+   <!-- TODO: eliminate unnecessary jquery -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
    <script type="text/javascript" src="<%= javascript_path('main') %>"></script>
+   <script type="text/javascript" src="<%= javascript_path('lib/phaser-ce-2.10.0.min') %>"></script>
+   <!--<script type="text/javascript" src="<%= javascript_path('lib/phaser.min') %>"></script>-->
 
    <link rel="stylesheet" href="<%= stylesheet_path('manifest') %>">
 </head>
 <body>
-
-<header>
-   <div>
-      <a class="logo" href="/admin/people">
-         <img src="/logos/logo.png" alt="Alert Lab Logo" title="Home">
-      </a>
-
-      <span class="subtitle">Computational Thinking</span>
-   </div>
-   <role-limiter params="role: 'admin'">
-      <nav class="main-nav">
-         <ul>
-            <li>
-               <a href="/admin/people">People</a>
-            </li>
-            <li>
-               <session></session>
-            </li>
-         </ul>
-      </nav>
-   </role-limiter>
-</header>
 
 <main>
    <status-messages params="notices: window.notices,
@@ -38,6 +21,8 @@
                             dismissable: true"></status-messages>
 
    <%= yield %>
+
+   <div id="game-container"></div>
 </main>
 
 </body>

@@ -1,0 +1,10 @@
+@import 'mixins/all';
+
+html body {
+   main {
+      #game-container {
+         max-width: 800px;
+         margin: auto;
+      }
+   }
+}
