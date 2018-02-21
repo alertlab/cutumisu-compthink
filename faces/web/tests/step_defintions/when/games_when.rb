@@ -25,12 +25,12 @@ end
 When("{string} flips levers {string}") do |user_name, lever_list|
    step(%["#{user_name}" plays levers])
 
-   sleep 0.5
+   sleep 0.25
 
    extract_list(lever_list).each do |lever_name|
       # firing this handler directly because trying to invoke a click event (ie. MouseEvent with 'onpointerdown')
       # worked in browser, but not in testing.
-      page.evaluate_script(%{buttonClick(buttonGroup.getByName("#{lever_name}"))})
+      page.evaluate_script(%[#{game_vm_js}.buttonClick(#{game_vm_js}.buttonGroup.getByName("#{lever_name}"));])
    end
 
    wait_for_ajax

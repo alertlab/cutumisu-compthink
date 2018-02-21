@@ -12,6 +12,10 @@ module CompThink
          find_all(attrs).first
       end
 
+      def first
+         groups.first
+      end
+
       # def count
       #    clicks.count
       # end

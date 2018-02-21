@@ -1,5 +1,8 @@
 Then("lever {lever} {should} be flipped") do |lever, should|
-   is_flipped = page.evaluate_script(%{buttonGroup.getByName("#{lever}").switched})
+   is_flipped = page.evaluate_script(%[
+                var vm = ko.dataFor(document.querySelector('lever-game #game-container'));
+                vm.buttonGroup.getByName("#{lever}").switched;
+   ])
 
    expect(is_flipped).to be(should)
 end

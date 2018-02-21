@@ -37,12 +37,16 @@ module HelperMethods
 
    def wait_for_game_load
       Timeout.timeout(Capybara.default_max_wait_time) do
-         loop until (page.evaluate_script('game.isBooted') || false)
+         loop until (page.evaluate_script("#{game_vm_js}.game.isBooted") || false)
       end
    end
 
    def format_phone(phone)
       "1-#{ phone[0, 3] }-#{ phone[3, 3] }-#{ phone[6, 4] }"
+   end
+
+   def game_vm_js
+      %[ko.dataFor(document.querySelector('lever-game #game-container'))]
    end
 end
 

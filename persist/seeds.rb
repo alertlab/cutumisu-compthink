@@ -44,9 +44,19 @@ module Garden
             role_persister.assign_role(user: admin, role: admin_role)
          end
 
+         seed_bag.define_seed(:demo_groups) do |garden|
+            group_persister = garden.persisters[:group]
+
+            group_persister.create(name:       'test.group',
+                                   regex:      'test.group',
+                                   start_date: Date.today,
+                                   end_date:   Date.today.next_year)
+         end
+
          seed_bag.define_seed(:demo_users) do |garden|
-            user_persister = garden.persisters[:user]
-            role_persister = garden.persisters[:role]
+            user_persister  = garden.persisters[:user]
+            role_persister  = garden.persisters[:role]
+            group_persister = garden.persisters[:group]
 
             admin_role = role_persister.role_with(name: 'admin')
             # guest_role = role_persister.role_with(name: 'admin')
@@ -66,12 +76,18 @@ module Garden
                                                           encrypted_password: auth_hash
                                                     })
 
+            group = group_persister.first
+
+            participant = user_persister.create(first_name: 'test.user',
+                                                group_id:   group.id)
+
             role_persister.assign_role(user: userA, role: admin_role)
             # role_persister.assign_role(user: userB, role: guest_role)
          end
 
          seed_bag.define_seed(:demo) do |garden|
             garden.plant(:production_data)
+            garden.plant(:demo_groups)
             garden.plant(:demo_users)
          end
       end
