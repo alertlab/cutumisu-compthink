@@ -40,6 +40,8 @@ When(/^"(.*?)" signs in with "(.*?)" and "(.*?)"$/) do |first_name, email, passw
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
       step(%["#{ first_name }" signs out]) if @current_user
 
+      visit('/admin')
+
       close_flash
 
       within('sign-in') do

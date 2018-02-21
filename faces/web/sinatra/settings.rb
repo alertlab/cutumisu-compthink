@@ -52,9 +52,9 @@ configure do # |application|
       unless __container__
          set :__container__, OpenStruct.new
 
-         container.persister_env  = CompThink.build_persistence_environment
-         container.persisters     = CompThink.build_persisters(container.persister_env)
-         container.forced_cookies = {}
+         container.persister_env = CompThink.build_persistence_environment
+         container.persisters    = CompThink.build_persisters(container.persister_env)
+         container.test_cookies  = {}
 
          container
       end

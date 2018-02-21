@@ -1,6 +1,6 @@
 module CompThink
    module Interactor
-      class SearchUser
+      class SearchUsers
          DEFAULT_USER_RESULT_COUNT = 10
 
          def self.run(container,

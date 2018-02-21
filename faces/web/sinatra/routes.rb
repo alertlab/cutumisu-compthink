@@ -57,7 +57,7 @@ before do
       response.delete_cookie('compthink.user_data')
    end
 
-   settings.container.forced_cookies.each do |key, value|
+   settings.container.test_cookies.each do |key, value|
       response.set_cookie("compthink.#{key}",
                           path:  '/',
                           value: value)
@@ -119,7 +119,7 @@ end
 include CompThink::Interactor
 
 post '/admin/search_users' do
-   SearchUser.run(settings.container, app_params.deep_symbolize_keys).to_json
+   SearchUsers.run(settings.container, app_params.deep_symbolize_keys).to_json
 end
 
 post '/admin/create_user' do
@@ -143,12 +143,12 @@ end
 #--------------------------#
 
 # === Catchall ===
+get '/admin' do
+   erb(:'admin/_dashboard', layout: layout)
+end
+
 get '/?' do
-   # if current_user
-   #    redirect '/'
-   # else
-   erb(:_home, layout: layout)
-   # end
+   erb(:_user_login, layout: layout)
 end
 
 get '/*/?' do |name|

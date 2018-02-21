@@ -15,6 +15,10 @@ Given("the following user(s):") do |table|
          row[:email] = "#{ row[:first_name] }@example.com"
       end
 
+      if row[:name]
+         row[:first_name], row[:last_name] = row.delete(:name).split(/\s+/)
+      end
+
       if row[:group]
          step(%[group "#{row[:group]}"])
          row[:group_id] = group_persister.find(name: row[:group]).id

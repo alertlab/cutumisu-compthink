@@ -18,8 +18,8 @@ Feature: Property Manager Finds Person
       And "Kelly" should not see "Kelly Meyers"
       Examples:
          | search |
-         | gan    |
-         | ing    |
+         | allan  |
+         | ani    |
    
    Scenario: it should filter by email
       When "Kelly" searches for users with:

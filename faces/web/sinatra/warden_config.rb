@@ -32,18 +32,12 @@ module CompThink
 
             def authenticate!
                users_persister = Sinatra::Application.container.persisters[:user]
+               user_data       = params['admin']
 
-               user = users_persister.find(email: params['user']['email'])
-               auth = user ? users_persister.user_authentication_with(user_id: user.id) : nil
+               user = users_persister.find(email: user_data['email'])
 
-               is_recognized = !auth.nil? && auth.authenticate(params['user']['password'])
-
-               if is_recognized
-                  # if is_admin
+               if user && user.authenticate(user_data['password'])
                   success!(user, "Welcome back, #{ user.first_name }")
-                  # else
-                  #    throw(:warden, message: 'Non-administrators may not log in.')
-                  # end
                else
                   throw(:warden, message: 'That email or password does not match our records.')
                end

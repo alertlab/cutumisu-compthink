@@ -5,8 +5,8 @@ Feature: Property Manager Adds Person
    
    Background:
       Given the following users:
-         | Name         | Email             | role  |
-         | Kelly Meyers | kelly@example.com | admin |
+         | first name | last name | Email             | role  |
+         | Kelly      | Meyers    | kelly@example.com | admin |
       And "Kelly" has password "sekret"
    
    Scenario: it should add a person
@@ -23,8 +23,8 @@ Feature: Property Manager Adds Person
    @no-js
    Scenario Outline: it should not allow non-admins to add people
       Given the following users:
-         | Name      | Email           |
-         | Hex Virus | hex@example.com |
+         | first name | last name | Email           |
+         | Hex        | Virus     | hex@example.com |
       And "Hex" has password "sekret"
       When "<user>" force adds a person named "John Doe"
       Then there should be 2 people

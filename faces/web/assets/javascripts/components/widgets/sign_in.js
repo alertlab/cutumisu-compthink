@@ -11,7 +11,7 @@ ko.components.register('sign-in', {
                        <input name="password" type="password" data-bind="value: password" />\
                     </li>\
                  </ul>\
-                 <ul data-bind="visible: !isAdmin()">\
+                 <ul data-bind="visible: !isAdmin">\
                     <li>\
                        <label>\
                           <span>Group</span>\
@@ -39,10 +39,10 @@ ko.components.register('sign-in', {
       self.group = ko.observable();
       self.username = ko.observable();
 
-      self.isAdmin = ko.observable(false);
+      self.isAdmin = !!(window.location.pathname.match(/^\/admin/) || window.location.search.match(/\?uri=\/admin/));
 
       self.buttonText = ko.pureComputed(function () {
-         return self.isAdmin() ? 'Sign In' : 'Go!'
+         return self.isAdmin ? 'Sign In' : 'Go!'
       });
 
       self.signIn = function () {
@@ -65,7 +65,7 @@ ko.components.register('sign-in', {
             cookie = JSON.stringify({notices: [response.notice]});
             document.cookie = 'flash=' + encodeURIComponent(cookie);
 
-            homepage = self.isAdmin() ? '/admin' : '/games';
+            homepage = self.isAdmin ? '/admin' : '/games';
 
             window.location = window.deserializeSearch().uri || homepage;
          });

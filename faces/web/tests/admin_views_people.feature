@@ -5,10 +5,10 @@ Feature: Property Manager Views People
    
    Scenario: it should display all users
       Given the following users:
-         | Name          | Email             | role       |
-         | Kelly Meyers  | kelly@example.com | admin      |
-         | Allan Daniels | allan@example.com | instructor |
-         | John Doe      | john@example.com  | instructor |
+         | First Name | Last Name | Email             | role       |
+         | Kelly      | Meyers    | kelly@example.com | admin      |
+         | Allan      | Daniels   | allan@example.com | instructor |
+         | John       | Doe       | john@example.com  | instructor |
       And "Kelly" has password "sekret"
       When "Kelly" navigates to "People"
       And "Kelly" should see user summary for "Kelly"

@@ -2,11 +2,11 @@ Feature: Search Users
    
    Background:
       Given the following users:
-         | Name          | Email             | role       |
-         | Kelly Meyers  | kelly@example.com | admin      |
-         | Allan Daniels | zebra@example.com | instructor |
-         | John Doe      | jdoe1@example.com | guest      |
-         | Jane Doe      | jdoe2@example.com | guest      |
+         | first name | last name | Email             | role       |
+         | Kelly      | Meyers    | kelly@example.com | admin      |
+         | Allan      | Daniels   | zebra@example.com | instructor |
+         | John       | Doe       | jdoe1@example.com | guest      |
+         | Jane       | Doe       | jdoe2@example.com | guest      |
    
    Scenario Outline: it should sort results by the given property
       When users are searched and sorted by "<property>"
@@ -59,9 +59,9 @@ Feature: Search Users
    
    Scenario Outline: it should return users with the exact given id
       Given the following users:
-         | id    | name        |
-         | 1000  | Tom Mulcair |
-         | 10001 | Joe Clark   |
+         | id    | first name | last name |
+         | 1000  | Tom        | Mulcair   |
+         | 10001 | Joe        | lark      |
       When users are searched by:
          | id   |
          | <id> |

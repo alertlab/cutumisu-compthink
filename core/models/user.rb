@@ -42,6 +42,10 @@ module CompThink
             end
          end
 
+         def authenticate(password)
+            @authentication.authenticate(password)
+         end
+
          def to_hash
             hash = {
                   id:         @id,

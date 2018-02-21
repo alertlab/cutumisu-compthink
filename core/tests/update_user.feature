@@ -3,8 +3,8 @@ Feature: Update User
    
    Background:
       Given the following users:
-         | name          | email             |
-         | Allan Daniels | allan@example.com |
+         | first name | last name | email             |
+         | Allan      | Daniels   | allan@example.com |
    
    Scenario Outline: it should update their contact information
       When user "Allan" is updated with:

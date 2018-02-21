@@ -5,9 +5,9 @@ Feature: User Signs In
    
    Background:
       Given the following users:
-         | Name          | Email           | roles |
-         | Bob Mainframe | bob@example.com | admin |
-         | Dot Matrix    | dot@example.com | admin |
+         | first name | last name | Email           | roles |
+         | Bob        | Mainframe | bob@example.com | admin |
+         | Dot        | Matrix    | dot@example.com | admin |
       And "Bob" has password "sekret"
       And "Dot" has password "sekret"
    
@@ -20,9 +20,9 @@ Feature: User Signs In
          | Bob  |
          | Dot  |
    
-   Scenario Outline: it should redirect to users view when given a follow uri
-      When "<user>" signs in with follow uri "/admin/people"
-      Then "<user>" should be at "/admin/people"
+   Scenario Outline: it should redirect to dashboard when given a follow uri
+      When "<user>" signs in with follow uri "/admin"
+      Then "<user>" should be at "/admin"
       Examples:
          | user |
          | Bob  |
@@ -30,7 +30,7 @@ Feature: User Signs In
    
    Scenario Outline: it should redirect to dashboard by default
       When "<user>" signs in
-      Then "<user>" should be at "/admin/people"
+      Then "<user>" should be at "/admin"
       Examples:
          | user |
          | Bob  |
