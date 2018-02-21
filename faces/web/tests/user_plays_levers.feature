@@ -1,5 +1,11 @@
 Feature: User Plays Levers
    
+   Background:
+      Given the following user:
+         | first name | group      |
+         | Bob        | test.group |
+   
+   
    @webkit
    Scenario Outline: it should reset the levers when they choose a wrong one
       Given the lever order is "<first>, <second>, <third>"
@@ -37,3 +43,20 @@ Feature: User Plays Levers
          | first | second | third | fourth |
          | B     | D      | C     | A      |
          | C     | A      | C     | B      |
+   
+   @webkit
+   Scenario Outline: it should not record clicks after they are done
+      Given the lever order is "A,B,C"
+      When "Bob" flips levers "A,B,C,<fourth>"
+      Then there should be 3 clicks
+      Examples:
+         | fourth |
+         | A      |
+         | B      |
+         | C      |
+   
+   # ==== Security ===
+   Scenario: it should not record clicks after they are done
+      When a guest visits the lever puzzle
+      Then they should be at "/"
+      And they should not see "Lever Puzzle"

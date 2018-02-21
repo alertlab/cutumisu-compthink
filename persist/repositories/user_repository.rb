@@ -10,6 +10,15 @@ module CompThink
          return nil
       end
 
+      def find_participant(group: nil, username: nil)
+         users_and_groups = users.inner_join(:groups, Sequel.qualify(:groups, :id) => :group_id)
+
+         users_and_groups
+               .where(Sequel.qualify(:groups, :name) => group,
+                      first_name:                    username)
+               .one
+      end
+
       def users_matching(attrs, count:, offset:, sort_by:, sort_direction:)
          results    = users.combine(:roles)
          role_names = nil

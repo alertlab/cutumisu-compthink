@@ -1,7 +1,7 @@
 ko.components.register('sign-in', {
    template: '<header>Sign In</header>\
               <form data-bind="submit: signIn">\
-                 <ul>\
+                 <ul data-bind="visible: isAdmin">\
                     <li>\
                        <label for="email">Email</label>\
                        <input type="email" name="email" placeholder="eg. jdoe@example.com" data-bind="value: email" />\
@@ -11,7 +11,21 @@ ko.components.register('sign-in', {
                        <input name="password" type="password" data-bind="value: password" />\
                     </li>\
                  </ul>\
-                 <input type="submit" value="Sign In" />\
+                 <ul data-bind="visible: !isAdmin()">\
+                    <li>\
+                       <label>\
+                          <span>Group</span>\
+                          <input type="text" name="group" data-bind="value: group" />\
+                       </label>\
+                    </li>\
+                    <li>\
+                       <label>\
+                          <span>Username</span>\
+                          <input type="text" name="username" data-bind="value: username" />\
+                       </label>\
+                    </li>\
+                 </ul>\
+                 <input type="submit" data-bind="value: buttonText"  />\
               </form>',
 
    viewModel: function () {
@@ -22,24 +36,38 @@ ko.components.register('sign-in', {
       self.email = ko.observable();
       self.password = ko.observable();
 
+      self.group = ko.observable();
+      self.username = ko.observable();
+
+      self.isAdmin = ko.observable(false);
+
+      self.buttonText = ko.pureComputed(function () {
+         return self.isAdmin() ? 'Sign In' : 'Go!'
+      });
+
       self.signIn = function () {
-         var data = ko.mapping.toJSON({
-            user: {
+         var data = {
+            admin: {
                email: self.email(),
                password: self.password()
+            },
+            user: {
+               group: self.group(),
+               username: self.username()
             }
-         });
+         };
 
-         ajax('post', '/auth/sign_in', data, function (response) {
-            //if (response.notice)
-            //   window.flash('notice', response.notice);
+         ajax('post', '/auth/sign_in', ko.mapping.toJSON(data), function (response) {
+            var homepage, cookie;
 
             self.user(ko.mapping.fromJS(response.user));
 
-            var cookie = JSON.stringify({notices: [response.notice]});
+            cookie = JSON.stringify({notices: [response.notice]});
             document.cookie = 'flash=' + encodeURIComponent(cookie);
 
-            window.location = window.deserializeSearch().uri || '/admin/people';
+            homepage = self.isAdmin() ? '/admin' : '/games';
+
+            window.location = window.deserializeSearch().uri || homepage;
          });
 
          self.password(null);

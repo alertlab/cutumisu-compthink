@@ -14,7 +14,7 @@ module CompThink
             # rubocop:enable Style/SymbolProc
 
             config.scope_defaults :default,
-                                  strategies: [:password],
+                                  strategies: [:password, :group_user],
                                   action:     '/auth/unauthenticated'
             config.failure_app = Sinatra::Application
          end
@@ -25,9 +25,9 @@ module CompThink
 
          Warden::Strategies.add(:password) do
             def valid?
-               user = params['user']
+               admin = params['admin']
 
-               user && user['email'] && user['password']
+               admin && admin['email'] && admin['password']
             end
 
             def authenticate!
@@ -44,6 +44,26 @@ module CompThink
                   # else
                   #    throw(:warden, message: 'Non-administrators may not log in.')
                   # end
+               else
+                  throw(:warden, message: 'That email or password does not match our records.')
+               end
+            end
+         end
+
+         Warden::Strategies.add(:group_user) do
+            def valid?
+               user = params['user']
+
+               user && user['group'] && user['username']
+            end
+
+            def authenticate!
+               users_persister = Sinatra::Application.container.persisters[:user]
+
+               user = users_persister.find_participant(params['user'].symbolize_keys)
+
+               if user
+                  success!(user, "Hello!")
                else
                   throw(:warden, message: 'That email or password does not match our records.')
                end

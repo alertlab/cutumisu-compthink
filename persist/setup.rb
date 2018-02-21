@@ -21,8 +21,10 @@ module CompThink
 
    def self.build_persisters(rom_container)
       {
-            user: UserRepository.new(rom_container),
-            role: RoleRepository.new(rom_container)
+            user:  UserRepository.new(rom_container),
+            role:  RoleRepository.new(rom_container),
+            click: ClickRepository.new(rom_container),
+            group: GroupRepository.new(rom_container)
       }
    end
 end

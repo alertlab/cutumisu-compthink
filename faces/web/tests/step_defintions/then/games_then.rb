@@ -9,8 +9,10 @@ Then("there should be {int} clicks") do |n|
 end
 
 Then("there should be a lever click for user {string} with lever {lever}") do |user_name, lever_name|
-   @persisters[:user].find(first_name: user_name)
-   click = @persisters[:click].find(user: user, lever: lever_name)
+   user  = @persisters[:user].find(first_name: user_name)
+   click = @persisters[:click].find(user_id: user.id,
+                                    target:  lever_name,
+                                    puzzle:  'levers')
 
    expect(click).to_not be_nil
 end

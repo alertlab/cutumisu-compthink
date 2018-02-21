@@ -95,17 +95,14 @@
             });
          }
 
-         $.ajax({
-            type: 'POST',
-            url: '',
-            data: {
-               expected: expected,
-               complete: finalButton.switched,
-               item: button.name,
-               move: moves
-            }
-         });
-      }
+         ajax('post', '/games/logging/record_click', ko.toJSON({
+            puzzle: 'levers',
+            expected: expected,
+            complete: finalButton.switched,
+            target: button.name,
+            move: moves
+         }));
+      };
 
       function shuffle(array) {
          var i = 0
@@ -121,7 +118,4 @@
       }
    });
 </script>
-
-
-</body>
-</html>
+<header>Lever Puzzle</header>

@@ -1,18 +1,24 @@
-Given(/^the following roles:$/) do |table|
+require_relative 'group_given'
+
+Given("the following role(s):") do |table|
    @persisters[:role].create(symrow(table))
 end
 
-Given(/^the following users?:?$/) do |table|
-   user_persister = @persisters[:user]
+Given("the following user(s):") do |table|
+   user_persister  = @persisters[:user]
+   group_persister = @persisters[:group]
 
    symtable(table).hashes.each do |row|
       row[:roles] = extract_list(row.delete(:role) || row.delete(:roles)) if row[:role] || row[:roles]
 
-      if row[:name]
-         row[:first_name], row[:last_name] = row.delete(:name).split(' ')
+      unless row.key?(:email) || row.key?(:group)
+         row[:email] = "#{ row[:first_name] }@example.com"
       end
 
-      row[:email] = "#{ row[:first_name] }@example.com" unless row.key?(:email)
+      if row[:group]
+         step(%[group "#{row[:group]}"])
+         row[:group_id] = group_persister.find(name: row[:group]).id
+      end
 
       user = user_persister.create(row)
 

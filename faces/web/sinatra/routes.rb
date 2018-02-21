@@ -16,22 +16,27 @@ rules do
    can(:get, '/assets/fonts/*')
    can(:get, '/assets/logos/*')
 
-   can(:get, '/games/*')
-
    can(:get, '/auth/unauthenticated')
 
    can(:post, '/auth/sign_in')
    can(:post, '/auth/sign_out')
 
    if current_user
-      can(:get, :all)
+      can(:get, '/games')
+      can(:get, '/games/*')
 
-      # can(:post, '/admin/search_users')
-      # can(:post, '/admin/create_user')
-      # can(:post, '/admin/update_user')
-      # can(:post, '/admin/delete_user')
+      can(:post, '/games/logging/record_click')
 
-      can(:post, :all) if current_user.has_role?(:admin)
+      if current_user.has_role?(:admin)
+         can(:get, :all)
+
+         # can(:post, '/admin/search_users')
+         # can(:post, '/admin/create_user')
+         # can(:post, '/admin/update_user')
+         # can(:post, '/admin/delete_user')
+
+         can(:post, :all)
+      end
    end
 end
 
@@ -114,19 +119,23 @@ end
 include CompThink::Interactor
 
 post '/admin/search_users' do
-   search_users(settings.container, app_params.deep_symbolize_keys).to_json
+   SearchUser.run(settings.container, app_params.deep_symbolize_keys).to_json
 end
 
 post '/admin/create_user' do
-   create_user(settings.container, app_params.deep_symbolize_keys).to_json
+   CreateUser.run(settings.container, app_params.deep_symbolize_keys).to_json
 end
 
 post '/admin/update_user' do
-   update_user(settings.container, app_params.deep_symbolize_keys).to_json
+   UpdateUser.run(settings.container, app_params.deep_symbolize_keys).to_json
 end
 
 post '/admin/delete_user' do
-   delete_user(settings.container, app_params.deep_symbolize_keys).to_json
+   DeleteUser.run(settings.container, app_params.deep_symbolize_keys).to_json
+end
+
+post '/games/logging/record_click' do
+   RecordClick.run(settings.container, app_params.deep_symbolize_keys.merge(user: current_user)).to_json
 end
 
 #--------------------------#
