@@ -1,5 +1,5 @@
 ko.components.register('lever-game', {
-   template: '<div id="game-container"></div>\
+   template: '<div class="game-container"></div>\
               <header>Lever Puzzle</header>',
 
    /**
@@ -105,7 +105,7 @@ ko.components.register('lever-game', {
          }));
       };
 
-      self.game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, document.querySelector('#game-container'), {
+      self.game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, document.querySelector('lever-game .game-container'), {
          preload: self.preload,
          create: self.create
       });
