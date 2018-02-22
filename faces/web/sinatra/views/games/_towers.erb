@@ -1,141 +1,138 @@
-<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8" />
-    <title>Towers of Hanoi</title>
-	<script type="text/javascript" src="static/js/phaser.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <style type="text/css">
-        body {
-						background-color: #000000;
-            margin: 0;
-        }
-    </style>
-</head>
-<body>
-
 <script type="text/javascript">
 
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'gameArea', { preload: preload, create: create });
+   var game, statusLabel, moves, discs, pegs, selectedDisc;
 
-//canvas {   display : block;   margin : auto;}
+   var gameWidth = 800;
+   var gameHeight = 600;
 
-function preload() {
-	game.load.image('disc1', 'static/assets/disc_unselected.png');
-	game.load.image('disc2', 'static/assets/disc_selected.png');
-	game.load.image('peg', 'static/assets/peg.png');
-}
+   game = new Phaser.Game(gameWidth, gameHeight, Phaser.CANVAS, 'gameArea', {preload: preload, create: create});
 
-var text;
-var discs;
-var numDiscs = 3;
-var numPegs = 3;
-var pegs = [[],[],[]];
-var pegPosition = [200,400,600];
+   function preload() {
+      game.load.image('disc_normal', '/assets/images/games/disc_unselected.png');
+      game.load.image('disc_selected', '/assets/images/games/disc_selected.png');
+      game.load.image('peg', '/assets/images/games/peg.png');
+   }
 
-var discY = 348;
-var discOffset = 15;
+   var numDiscs = 3;
+   var discPadding = 5;
 
-var lastDiscClick = -1;
+   discs = [];
+   pegs = [];
 
-var moves = 0;
+   selectedDisc = null;
 
-var previousPeg;
+   function create() {
+      game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      this.game.scale.pageAlignHorizontally = true;
+      this.game.scale.pageAlignVertically = true;
+      this.game.scale.refresh();
 
-var complete = false;
+      var pegY = gameHeight / 2;
 
-function create() {
-	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-	this.game.scale.pageAlignHorizontally = true;
-	this.game.scale.pageAlignVertically = true;
-	this.game.scale.refresh();
-	//game.stage.scale.refresh();
-	i = 0;
-	while (i<numPegs) {
-		peg = game.add.sprite(pegPosition[i], 300, 'peg');
-		peg.anchor.setTo(0.5);
-		peg.scale.setTo(0.1,0.1);
-		peg.id = i;
-		peg.inputEnabled=true;
-		peg.events.onInputDown.add(pegClick, this);
-		i++;
-	}
+      ['A', 'B', 'C'].forEach(function (pegName, i) {
+         var peg = game.add.sprite(gameWidth / 4 * (i + 1), pegY, 'peg');
 
-	discs = game.add.group();
-	while (pegs[0].length<numDiscs) {
-		l = pegs[0].length
-		disc = game.add.sprite(pegPosition[0], discY - discOffset*l, 'disc1');
-		disc.anchor.setTo(0.5);
-		disc.scale.setTo(0.15 - 0.125*l/numDiscs,0.1);
-		disc.inputEnabled=true;
-		disc.id = l;
-		disc.peg = 0;
-		disc.events.onInputDown.add(discClick, this);
-		discs.add(disc);
-		pegs[0].push(disc.id);
-	}
-	text = game.add.text(game.world.centerX, 50, '', { fill: '#ffffff' });
-	text.anchor.x = Math.round(text.width * 0.5) / text.width;
-	text.text = "Moves: " + moves
-}
+         peg.anchor.setTo(0.5);
+         peg.scale.setTo(0.1, 0.1);
+         peg.name = i;
+         peg.inputEnabled = true;
+         peg.events.onInputDown.add(pegClick, this);
 
-function discClick(d) {
-	if (!complete) {
-		if (lastDiscClick >= 0){
-			discs.children[lastDiscClick].loadTexture('disc1');
-		}
-		if (pegs[d.peg][pegs[d.peg].length-1] == d.id) {
-			lastDiscClick = d.id;
-			d.loadTexture('disc2');
-		}
-	}
-	//text.text = lastDiscClick
-}
+         pegs.push(peg);
+      });
 
-function pegClick(p) {
-	//text.text = pegs[p.id];
-	if (!complete) {
-		if (pegs[p.id].length == 0) {
-			topDisc = -1;
-		}
-		else {
-			topDisc = pegs[p.id][pegs[p.id].length-1];
-		}
+      for (var discNumber = 0; discNumber < numDiscs; discNumber++) {
+         var disc;
 
-		if (lastDiscClick >= 0){
-			disc = discs.children[lastDiscClick]
-			disc.loadTexture('disc1');
-			newDiscClick = -1;
-		}
-		else {
-			discs.children[topDisc].loadTexture('disc2');
-			newDiscClick = topDisc;
-		}
+         disc = game.add.sprite(0, 0, 'disc_normal');
+         disc.name = discNumber;
+         disc.anchor.setTo(0.5);
+         disc.scale.setTo(0.15 - 0.125 * discNumber / numDiscs, 0.1);
 
-		if (lastDiscClick>topDisc) {
-			disc.x = pegPosition[p.id];
-			disc.y = discY - discOffset*pegs[p.id].length;
-			pegs[disc.peg].pop()
-			pegs[p.id].push(disc.id);
-			disc.peg = p.id;
-			moves ++
-		}
-		if ((p.id > 0) && (pegs[p.id].length == numDiscs)) {
-			text.text = "You finished in " + moves + " moves!"
-			complete = true
-		}
-		else {
-			text.text = "Moves: " + moves
-		}
+         moveTo(disc, pegs[0]);
 
-		lastDiscClick = newDiscClick;
+         disc.inputEnabled = true;
+         disc.events.onInputDown.add(discClick, this);
 
-		$.ajax({type: 'POST',url: '',data: {complete:complete,item:p.id,move:moves}});
-	}
-}
+         discs.push(disc);
+      }
 
+      moves = 0;
 
+      statusLabel = game.add.text(game.world.centerX, 50, 'Moves:', {fill: '#ffffff'});
+      statusLabel.anchor.x = Math.round(statusLabel.width * 0.5) / statusLabel.width;
+      statusLabel.text = "Moves: " + moves
+   }
+
+   function getDiscs(peg) {
+      return discs.filter(function (disc) {
+         return disc.peg === peg;
+      });
+   }
+
+   function getTopDisc(peg) {
+      var filteredDiscs = getDiscs(peg);
+
+      return filteredDiscs[filteredDiscs.length - 1];
+   }
+
+   function discClick(disc) {
+      if (isComplete() || !disc)
+         return;
+
+      if (selectedDisc)
+         selectedDisc.loadTexture('disc_normal');
+
+      if (getTopDisc(disc.peg) === disc) {
+         selectedDisc = disc;
+         disc.loadTexture('disc_selected');
+      }
+   }
+
+   function moveTo(disc, peg) {
+      disc.x = peg.x;
+      disc.y = peg.y + peg.height / 2 - (disc.height + discPadding) * (getDiscs(peg).length + 1);
+
+      disc.peg = peg;
+
+      moves++;
+   }
+
+   function isComplete() {
+      // game objective is complete if moved all to any *but* starting peg
+      return pegs.slice(1).some(function (peg) {
+         return getDiscs(peg).length === numDiscs;
+      });
+   }
+
+   function pegClick(peg) {
+      var topDisc;
+
+      if (isComplete())
+         return;
+
+      topDisc = getTopDisc(peg);
+
+      if (!selectedDisc) {
+         // treat peg clicks (when nothing selected) as implicit selection of top disc for ease of use
+         discClick(topDisc);
+      } else {
+         if (!topDisc || selectedDisc.width < topDisc.width)
+            moveTo(selectedDisc, peg);
+
+         selectedDisc.loadTexture('disc_normal');
+         selectedDisc = null;
+      }
+
+      if (isComplete())
+         statusLabel.text = "You finished in " + moves + " moves!";
+      else
+         statusLabel.text = "Moves: " + moves;
+
+      ajax('post', '/games/logging/record_click', ko.toJSON({
+         complete: isComplete(),
+         item: peg.name,
+         move: moves
+      }));
+   }
 </script>
-
-</body>
-</html>
