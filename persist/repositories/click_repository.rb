@@ -15,5 +15,9 @@ module CompThink
       def count
          clicks.count
       end
+
+      def last
+         clicks.last
+      end
    end
 end

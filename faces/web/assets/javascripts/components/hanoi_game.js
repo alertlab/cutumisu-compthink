@@ -7,8 +7,8 @@ ko.components.register('hanoi-game', {
    viewModel: function (params) {
       var self = this;
 
-      var gameWidth = 800;
-      var gameHeight = 600;
+      var gameWidth = params['width'] || explode('Must provide game width in params');
+      var gameHeight = params['height'] || explode('Must provide game height in params');
 
       self.preload = function () {
          self.game.load.image('disc_normal', '/assets/images/games/disc_unselected.png');
@@ -16,7 +16,7 @@ ko.components.register('hanoi-game', {
          self.game.load.image('peg', '/assets/images/games/peg.png');
       };
 
-      var numDiscs = 3;
+      var numDiscs = params['discs'] || 3;
       var discPadding = 5; // px
 
       self.discs = [];
@@ -37,7 +37,7 @@ ko.components.register('hanoi-game', {
 
             peg.anchor.setTo(0.5);
             peg.scale.setTo(0.1, 0.1);
-            peg.name = i;
+            peg.name = pegName;
             peg.inputEnabled = true;
             peg.events.onInputDown.add(self.pegClick, this);
 
@@ -139,9 +139,10 @@ ko.components.register('hanoi-game', {
             self.statusLabel.text = "Moves: " + self.moves;
 
          ajax('post', '/games/logging/record_click', ko.toJSON({
+            puzzle: 'hanoi',
             complete: self.isComplete(),
-            item: peg.name,
-            move: self.moves
+            target: peg.name,
+            move_number: self.moves
          }));
       }
    }

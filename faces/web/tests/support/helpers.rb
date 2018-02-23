@@ -46,7 +46,7 @@ module HelperMethods
    end
 
    def game_vm_js
-      %[ko.dataFor(document.querySelector('lever-game #game-container'))]
+      %[ko.dataFor(document.querySelector('.game-container'))]
    end
 end
 

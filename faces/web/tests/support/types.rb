@@ -8,7 +8,21 @@ ParameterType(
 )
 
 ParameterType(
+      name:        'puzzle',
+      regexp:      /levers?|hanoi/,
+      type:        String,
+      transformer: lambda {|s| s}
+)
+
+ParameterType(
       name:        'lever',
+      regexp:      /[A-Z]/,
+      type:        String,
+      transformer: lambda {|s| s}
+)
+
+ParameterType(
+      name:        'peg',
       regexp:      /[A-Z]/,
       type:        String,
       transformer: lambda {|s| s}

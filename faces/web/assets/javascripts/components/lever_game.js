@@ -7,13 +7,14 @@ ko.components.register('lever-game', {
    viewModel: function (params) {
       var self = this;
 
-      var moves, expected, shuffleExpected;
+      var expected, shuffleExpected;
 
-      var gameWidth = 800;
-      var gameHeight = 600;
+      var gameWidth = params['width'] || explode('Must provide game width in params');
+      var gameHeight = params['height'] || explode('Must provide game height in params');
+
       var buttonSize = 82;
 
-      moves = 0;
+      self.moves = 0;
       shuffleExpected = true;
 
       expected = eatCookie('compthink.game.expected');
@@ -65,7 +66,7 @@ ko.components.register('lever-game', {
 
          self.text = game.add.text(game.world.centerX, 50, 'Moves: ', {fill: '#ffffff', fontSize: '18px'});
          self.text.anchor.x = Math.round(self.text.width * 0.5) / self.text.width;
-         self.text.text = "Moves: " + moves;
+         self.text.text = "Moves: " + self.moves;
 
          if (shuffleExpected)
             self.shuffle(expected);
@@ -82,14 +83,14 @@ ko.components.register('lever-game', {
          if (finalButton.switched)
             return;
 
-         moves++;
-         self.text.text = "Moves: " + moves;
+         self.moves++;
+         self.text.text = "Moves: " + self.moves;
 
          if (!prereqButton || prereqButton.switched) {
             button.switch();
 
             if (button === finalButton)
-               self.text.text = "You finished in " + moves + " moves!";
+               self.text.text = "You finished in " + self.moves + " moves!";
          } else {
             self.buttonGroup.children.forEach(function (b) {
                b.reset();
@@ -101,7 +102,7 @@ ko.components.register('lever-game', {
             expected: expected,
             complete: finalButton.switched,
             target: button.name,
-            move: moves
+            move_number: self.moves
          }));
       };
 

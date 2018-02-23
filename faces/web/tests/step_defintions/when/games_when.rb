@@ -11,21 +11,26 @@ When("user {string} in group {string} views game list") do |user_name, group_nam
    wait_for_ajax
 end
 
-When("{string} plays levers") do |user_name|
+When("{string} plays {puzzle}") do |user_name, puzzle|
    user  = @persisters[:user].find(first_name: user_name)
    group = @persisters[:group].find(id: user.group_id)
 
-   step(%[user "#{user_name}" in group "#{group.name}" views game list])
+   unless current_path.match?('/game')
+      step(%[user "#{user_name}" in group "#{group.name}" views game list])
 
-   click_link('Lever Puzzle')
+      if puzzle.match?('hanoi')
+         click_link('Tower Puzzle')
+      else
+         click_link('Lever Puzzle')
+      end
 
-   wait_for_game_load
+      wait_for_game_load
+      sleep 0.25
+   end
 end
 
 When("{string} flips levers {string}") do |user_name, lever_list|
    step(%["#{user_name}" plays levers])
-
-   sleep 0.25
 
    extract_list(lever_list).each do |lever_name|
       # firing this handler directly because trying to invoke a click event (ie. MouseEvent with 'onpointerdown')
@@ -36,6 +41,52 @@ When("{string} flips levers {string}") do |user_name, lever_list|
    wait_for_ajax
 end
 
-When("a guest visits the lever puzzle") do
-   visit('/games/leverproblem')
+When("a guest visits the {puzzle} puzzle") do |puzzle|
+   if puzzle.match?('hanoi')
+      visit('/games/towers')
+   else
+      visit('/games/leverproblem')
+   end
+end
+
+When("{string} moves a disc from {peg} to {peg}") do |user_name, sourcePeg, targetPeg|
+   step(%["#{user_name}" plays hanoi])
+
+   step(%["#{user_name}" clicks peg #{sourcePeg}])
+   step(%["#{user_name}" clicks peg #{targetPeg}])
+end
+
+When("{string} moves a disc from {peg} to {peg} twice") do |user_name, sourcePeg, targetPeg|
+   step(%["#{user_name}" plays hanoi])
+
+   step(%["#{user_name}" moves a disc from #{sourcePeg} to #{targetPeg}])
+   step(%["#{user_name}" moves a disc from #{sourcePeg} to #{targetPeg}])
+end
+
+When("{string} moves 2 discs") do |user_name|
+   step(%["#{user_name}" plays hanoi])
+
+   step(%["#{user_name}" moves a disc from A to B])
+   step(%["#{user_name}" moves a disc from A to C])
+end
+
+When("{string} clicks peg {peg}") do |user_name, pegName|
+   page.evaluate_script(%[
+                        var peg = #{game_vm_js}.pegs.find(function(p){return p.name === "#{pegName}"});
+                        #{game_vm_js}.pegClick(peg);
+                       ])
+
+   wait_for_ajax
+end
+
+When("{string} completes the puzzle") do |user_name|
+   step(%["#{user_name}" plays hanoi])
+
+   step(%["#{user_name}" moves a disc from A to B])
+   step(%["#{user_name}" moves a disc from A to C])
+   step(%["#{user_name}" moves a disc from B to C])
+   step(%["#{user_name}" moves a disc from A to B])
+   step(%["#{user_name}" moves a disc from C to A])
+   step(%["#{user_name}" moves a disc from C to B])
+   step(%["#{user_name}" moves a disc from A to B])
 end

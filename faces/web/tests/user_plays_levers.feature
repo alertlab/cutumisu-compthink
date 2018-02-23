@@ -45,6 +45,9 @@ Feature: User Plays Levers
          | C     | A      | C     | B      |
    
    @webkit
+   Scenario Outline: it should record when they complete the puzzle
+   
+   @webkit
    Scenario Outline: it should not record clicks after they are done
       Given the lever order is "A,B,C"
       When "Bob" flips levers "A,B,C,<fourth>"
@@ -56,7 +59,7 @@ Feature: User Plays Levers
          | C      |
    
    # ==== Security ===
-   Scenario: it should not record clicks after they are done
+   Scenario: it should NOT allow people who are not signed in to view the puzzle
       When a guest visits the lever puzzle
       Then they should be at "/"
       And they should not see "Lever Puzzle"
