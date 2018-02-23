@@ -6,27 +6,25 @@
  */
 html {
    min-height: 100%;
-
+   
    body {
       margin: 0em;
       height: 100%; // firefox needs this. It won't restrict height, I promise.
-
+      
       // All elements should default to border-box instead of content-box as that's the most expected behaviour
       * {
          box-sizing: border-box;
       }
-
+      
       & > header {
          margin-top: 0em;
          margin-bottom: 1em;
-
-         padding: 0.1em 0em;
       }
-
+      
       main {
          min-height: 66%;
       }
-
+      
       input,
       input[type=text],
       input[type=search],
@@ -39,21 +37,21 @@ html {
             &::-webkit-input-placeholder {
                color: transparent;
             }
-
+            
             // Firefox 18-
             &:-moz-placeholder {
                color: transparent;
             }
-
+            
             // Firefox 19+
             &::-moz-placeholder {
                color: transparent;
             }
-
+            
             &:-ms-input-placeholder {
                color: transparent;
             }
-
+            
             // Generics for later
             &:input-placeholder,
             &:placeholder {
@@ -61,143 +59,147 @@ html {
             }
          }
       }
-
+      
       textarea {
          padding: 0.5em;
          max-width: 100%;
       }
-
+      
       input {
          margin: 0.5em 0;
-
+         
          padding: 0.5em;
-
+         
          border-radius: 0.5em;
-
+         
          &[type=text],
          &[type=password],
          &[type=email] {
             width: 15em;
-
+            
             border-radius: 0.25em;
             border: 1px solid grey;
          }
-
+         
          &[type=button],
          &[type=submit] {
             @include button();
-
+            
             font-size: 1.25em;
          }
-
+         
          &[type="checkbox"] {
             display: none;
-
+            
             & + span {
                position: relative;
-
+               
                padding: 0 0 0 1.5em;
-
+               
                -webkit-user-select: none;
                -moz-user-select: none;
                user-select: none;
-
+               
                cursor: pointer;
-
+               
                &:before {
                   position: absolute;
-
+                  
                   left: 0;
-
+                  
                   top: 0.1em;
-
+                  
                   width: 1em;
                   height: 1em;
-
+                  
                   box-shadow: inset 0 1px 3px rgba(0, 0, 0, .3);
-
+                  
                   border: 1px solid #aaa;
                   border-radius: 3px;
-
+                  
                   background: #f8f8f8;
-
+                  
                   content: '';
                }
-
+               
                &:after {
                   position: absolute;
-
+                  
                   top: 0.15em;
                   left: 0.15em;
-
+                  
                   opacity: 0;
                   transform: scale(0);
-
+                  
                   font-size: 18px;
                   line-height: 0.8;
                   color: $color1;
-
+                  
                   transition: all .2s;
-
+                  
                   content: '✔';
                }
             }
-
+            
             &:checked + span {
                &:after {
                   opacity: 1;
                   transform: scale(1);
                }
             }
-
+            
             &:disabled {
-
+            
             }
          }
       }
-
+      
       fieldset {
          margin: 0 0 0.5em 0;
-
+         
          & > ul {
             margin: 0.5em;
-
+            
             padding: 0.25em;
-
+            
             & > li {
                list-style: none;
             }
          }
       }
-
+      
       label {
          span {
             display: inline-block;
-
+            
             min-width: 5em;
          }
       }
-
+      
       a {
          text-decoration: none;
-
+         
          &:hover {
             text-decoration: underline;
          }
       }
-
+      
       section {
          overflow: auto;
       }
-
+      
       footer {
          margin: 3em 0em 1em 0em;
          vertical-align: bottom;
-
+         
          text-align: center;
          font-size: 75%;
-
+         
          color: black;
       }
+   }
+   
+   img {
+      display: inline-block;
    }
 }

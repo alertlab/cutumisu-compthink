@@ -1,25 +1,30 @@
 @import '../colours';
 
-@mixin button($text_color: white, $button_color: $color2) {
+@mixin button($text_color: transparentize(black, 0.3), $button_color: $color2) {
    display: inline-block; // some elements are just inline, and therefore do not respect all the size rules.
    
    vertical-align: bottom;
    
-   box-shadow: 1px 1px 2px darken($color2, 50%);
+   box-shadow: 1px 1px 2px darken($color2, 30%);
    
    border: none;
    border-radius: 0.25em;
    
-   padding: 0.25em 0.5em;
+   padding: 0.5em 1em;
    
    background: $button_color;
    color: $text_color;
-   //  text-shadow: -1px -1px 1px darken($color1, 10%);
    
    cursor: pointer;
    
+   text-align: center;
+   
+   font-family: sans-serif;
+   
    &:hover {
-      background: lighten($button_color, 3%)
+      background: lighten($button_color, 10%);
+      
+      text-decoration: none;
    }
    
    &:active {

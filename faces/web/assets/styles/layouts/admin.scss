@@ -1,227 +1,272 @@
 @import 'mixins/all';
 
 html body {
-   //margin: 0 auto;
-   //
-   //padding: 0 1em;
-   //
-   //max-width: 65em;
-   //
-   //background: white;
-   //font-family: Verdana, Helvetica, Arial, sans-serif;
-
+   $main-column-width: 60em;
+   
+   font-family: sans-serif;
+   
    .overlay {
       @include overlay();
    }
-
-   & > header {
+   
+   .page-header {
       position: relative;
-
+      
       margin-bottom: 1em;
-
+      
       text-align: center;
-
-      & > div {
+      
+      color: $color1;
+      
+      box-shadow: 1px 0 1em rgba(0, 0, 0, 0.25);
+      
+      .banner {
          display: inline-block;
-
-         position: relative;
-
+         
          margin-top: 1em;
-
-         // group photo
-         & > img {
-            vertical-align: bottom;
+         
+         padding: 1em 1em 0 1em;
+         
+         &:visited {
+            color: $color1;
          }
-      }
-
-      .logo {
-         display: inline-block;
-
-         vertical-align: bottom;
-
+         
          &:hover {
             text-decoration: none;
+            
+            box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
+            transition: 0.2s all ease-in-out;
+         }
+         
+         .logo {
+            display: inline-block;
+            
+            vertical-align: bottom;
+            
+            border-radius: 0.25em;
+            
+            img {
+               margin-right: 1em;
+               
+               max-width: 10em;
+               
+               -moz-user-select: none;
+               -webkit-user-select: none;
+               -ms-user-select: none;
+               user-select: none;
+            }
+            
+            span {
+               font-size: 3em;
+            }
+            
+            &:hover {
+               text-decoration: none;
+            }
+         }
+         
+         .subtitle {
+            display: block;
+            
+            margin-bottom: 1em;
+            
+            font-family: "georgia", "times", "times new roman", serif;
+            font-style: italic;
+            
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            
+            font-size: 1.5em;
          }
       }
-
-      .subtitle {
-         display: inline-block;
-
-         position: absolute;
-
-         left: 325px;
-         top: 2em;
-
-         color: $color1;
-
-         font-family: "georgia", "times", "times new roman", serif;
-         font-style: italic;
-
-         cursor: default;
-         -moz-user-select: none;
-         -webkit-user-select: none;
-         -ms-user-select: none;
-         user-select: none;
-      }
-
+      
       nav {
-         $main-border: solid 1px #000;
-         border-top: $main-border;
-         border-bottom: $main-border;
-
          & > ul {
             @include h-menu();
-
-            margin: 0;
-
-            session a {
-               display: inline-block;
-
-               margin-left: 0.5em;
-
-               padding: 0.5em 1em;
-
-               background: darkgrey;
-
+            
+            margin: 0 auto;
+            
+            max-width: $main-column-width;
+            
+            li.session {
+               float: right;
+            }
+            
+            & > li a {
+               background: $color1;
                color: $color3;
+            }
+            
+            li > a:hover,
+            session > a:hover {
+               opacity: 0.8;
+               background: $color1;
+               color: $color3;
+               
+               transition: 0.2s all;
+            }
+            
+            session {
+               a,
+               span {
+                  display: inline-block;
+                  
+                  padding: 0.5em 1em;
+               }
+               
+               span {
+                  color: $color1;
+                  
+                  opacity: 0.5;
+               }
+               
+               a:hover {
+                  text-decoration: none;
+               }
             }
          }
       }
    }
-
+   
    main {
+      margin: 0 auto;
+      
+      max-width: $main-column-width;
+      
       padding-bottom: 10em;
-
+      
       & > header {
          font-size: 2em;
          color: $color1;
       }
-
+      
       // All generic top-level sections
       & > div > section,
       & > section {
          @include panel();
          background: none;
-
+         
          max-width: 50em;
          margin-top: 3%;
-
+         
          padding: 0.1em;
-
+         
          & > header {
             margin-bottom: 0.5em;
-
+            
             font-size: 2em;
             color: $color1;
          }
-
+         
          section {
             header {
                margin-top: 1em;
-
+               
                text-align: left;
-
+               
                font-size: 1.1em;
                font-weight: bold;
             }
          }
       }
-
+      
       p {
          margin: 0.5em 0em;
-
+         
          font-size: 1em;
          font-family: "Questrial", Verdana, sans-serif;
          color: black;
       }
-
+      
       a {
          color: $color1;
-
+         
          text-decoration: none;
-
+         
          &:hover {
             text-decoration: underline;
          }
       }
-
+      
       blockquote {
          p {
             position: relative;
-
+            
             font-style: italic;
-
+            
             &:before {
                position: absolute;
-
+               
                top: -0.4em;
                left: -0.6em;
-
+               
                font-family: Georgia, "Times New Roman", serif;
                font-size: 4em;
                color: $color1;
-
+               
                content: '\201C';
             }
          }
-
+         
          cite {
             text-shadow: 0.1em 0.1em 0.25em rgba(0, 0, 0, 0.10);
             font-family: "georgia", "times", "times new roman", serif;
             color: lighten($color2, 50%);
-
+            
             &:before {
                content: '\2014';
-
+               
                margin-left: 2em;
                margin-right: 0.5em;
             }
          }
       }
-
+      
       aside {
          display: inline-block;
-
+         
          vertical-align: top;
-
+         
          max-width: 20em;
-
+         
          margin: 1em;
-
+         
          box-shadow: 0em 0em 0.5em rgba(0, 0, 0, 0.31);
          border-radius: 0.25em;
-
+         
          padding: 1em;
-
+         
          header {
             font-style: italic;
             font-weight: bold;
             color: $color1;
          }
       }
-
+      
       fieldset {
          border: 1px solid grey;
          border-radius: 0.25em;
       }
-
-      paginator{
+      
+      paginator {
          a {
             @include button(white, $color1);
          }
       }
    }
-
+   
    footer {
       margin-bottom: 10em;
-
+      
       text-align: center;
-
+      
       div {
          margin-bottom: 0.5em;
-
+         
          padding: 1em;
-
+         
          background: $color3 no-repeat fixed;
          color: white;
       }

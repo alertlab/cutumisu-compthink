@@ -1,5 +1,5 @@
 ko.components.register('session', {
-   template: '<!--<a data-bind="visible: currentEmail(), text: currentEmail(), attr: {href: \'edit_account\'}"></a>-->\
+   template: '<span data-bind="text: currentEmail()"></span>\
               <a href="#" data-bind="click: signOut">Sign Out</a>',
 
    viewModel: function () {

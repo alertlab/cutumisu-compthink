@@ -9,25 +9,26 @@
 
    <script type="text/javascript" src="<%= javascript_path('main') %>"></script>
 
-   <link rel="stylesheet" href="<%= stylesheet_path('manifest') %>">
+   <link rel="stylesheet" href="<%= stylesheet_path('admin_manifest') %>">
 </head>
 <body>
 
-<header>
-   <div>
-      <a class="logo" href="/admin/people">
-         <img src="/logos/logo.png" alt="Alert Lab Logo" title="Home">
-      </a>
+<header class="page-header">
+   <a href="/admin/people" class="banner">
+      <div class="logo">
+         <img src="/assets/images/logos/UA-COLOUR-440px.png" alt="U of A Logo" title="Admin Home">
+         <span>Alert Lab</span>
+      </div>
 
-      <span class="subtitle">Computational Thinking</span>
-   </div>
+      <span class="subtitle">Computational Thinking Experiments</span>
+   </a>
    <role-limiter params="role: 'admin'">
       <nav class="main-nav">
          <ul>
             <li>
                <a href="/admin/people">People</a>
             </li>
-            <li>
+            <li class="session">
                <session></session>
             </li>
          </ul>
