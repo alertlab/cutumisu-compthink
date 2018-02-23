@@ -2,40 +2,40 @@
 
 paginator {
    position: relative;
-
+   
    display: block;
-
+   
    padding: 1em;
-
+   
    text-align: center;
-
+   
    a {
       @include button();
    }
-
+   
    .prev {
       margin-right: 1em;
    }
-
+   
    .numbers {
       display: inline-block;
-
+      
       .current {
-         @include button(white, $color2);
+         @include button();
       }
    }
-
+   
    .next {
       margin-left: 1em;
    }
-
+   
    .meta-controls {
       position: absolute;
       left: 0;
       top: 40%;
       font-size: 0.75em;
    }
-
+   
    .stats {
       position: absolute;
       right: 0;
