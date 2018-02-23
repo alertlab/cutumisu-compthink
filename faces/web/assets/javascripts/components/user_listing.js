@@ -34,7 +34,13 @@ ko.components.register('user-listing', {
                   <span>Sort</span>\
                   <select data-bind="value: sortBy, options: sortOptions, optionsText: \'name\', optionsValue: \'value\'"></select>\
                </label>\
-               <a class="add-user-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ togglePersonCreator() }">Add Person...</a>\
+               <a class="add-user-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ togglePersonCreator() }">\
+                  <div class="icon">\
+                     <img src="/assets/images/person.svg"/>\
+                     <span class="plus">+</span>\
+                  </div>\
+                  Add Person\
+               </a>\
                <div data-bind="visible: !createEditorVisible()">\
                   <p data-bind="visible: users.isLoaded() && users().length == 0">\
                      There are no people yet. \

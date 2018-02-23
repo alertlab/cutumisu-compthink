@@ -90,10 +90,6 @@ html body {
             
             max-width: $main-column-width;
             
-            li.session {
-               float: right;
-            }
-            
             & > li a {
                background: $color1;
                color: $color3;
@@ -106,6 +102,22 @@ html body {
                color: $color3;
                
                transition: 0.2s all;
+            }
+            
+            .people {
+               img {
+                  margin-right: 0.25em;
+                  
+                  max-height: 1em;
+                  
+                  filter: invert(100%);
+                  display: inline-block;
+                  vertical-align: top;
+               }
+            }
+            
+            li.session {
+               float: right;
             }
             
             session {
