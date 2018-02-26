@@ -1,5 +1,5 @@
 ko.components.register('sign-in', {
-   template: '<header>Sign In</header>\
+   template: '<header>Hello</header>\
               <form data-bind="submit: signIn">\
                  <ul data-bind="visible: isAdmin">\
                     <li>\

@@ -1,5 +1,5 @@
-Feature: Property Manager Removes Person
-   As a Property Manager
+Feature: Researcher Removes Person
+   As a Researcher
    So that I can eliminate pets no longer in the building
    I will remove a Pet
    

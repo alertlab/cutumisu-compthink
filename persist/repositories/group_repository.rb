@@ -16,8 +16,8 @@ module CompThink
          groups.first
       end
 
-      # def count
-      #    clicks.count
-      # end
+      def count
+         groups.count
+      end
    end
 end

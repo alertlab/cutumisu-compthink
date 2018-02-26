@@ -27,6 +27,8 @@ html body {
          
          padding: 1em 1em 0 1em;
          
+         &,
+         &:hover,
          &:visited {
             color: $color1;
          }
@@ -58,6 +60,7 @@ html body {
             
             span {
                font-size: 3em;
+               font-family: serif;
             }
             
             &:hover {

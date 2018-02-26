@@ -1,4 +1,4 @@
-When(/^"(.*?)" signs in$/) do |first_name|
+When('{string} signs in') do |first_name|
    unless first_name.blank?
       email    = @persisters[:user].find(first_name: first_name).email
       password = 'sekret' # probably should grab this via some some testing constant somewhere.
@@ -7,7 +7,7 @@ When(/^"(.*?)" signs in$/) do |first_name|
    end
 end
 
-When(/^"(.*?)" force signs in$/) do |first_name|
+When('{string} force signs in') do |first_name|
    unless first_name.blank?
       email    = @persisters[:user].find(first_name: first_name).email
       password = 'sekret' # probably should grab this via some some testing constant somewhere.
@@ -16,14 +16,13 @@ When(/^"(.*?)" force signs in$/) do |first_name|
    end
 end
 
-When(/^"(.*?)" signs in with follow uri "(.*?)"$/) do |first_name, uri|
+When('{string} signs in with follow uri {string}') do |first_name, uri|
    visit("/?uri=#{ uri }")
 
    step(%["#{ first_name }" signs in])
 end
 
-
-When(/^"(.*?)" signs in with the wrong password$/) do |first_name|
+When('{string} signs in with the wrong password') do |first_name|
    email = @persisters[:user].find(first_name: first_name).email
 
    step(%["#{ first_name }" signs in with "#{ email }" and "someR@ndomGarbage"])
@@ -32,7 +31,7 @@ When(/^"(.*?)" signs in with the wrong password$/) do |first_name|
    @current_user = nil
 end
 
-When(/^"(.*?)" signs in with "(.*?)" and "(.*?)"$/) do |first_name, email, password|
+When('{string} signs in with {string} and {string}') do |first_name, email, password|
    user = @persisters[:user].find(first_name: first_name)
 
    # Don't bother signing in again if we're already the desired user
@@ -63,7 +62,7 @@ When(/^"(.*?)" signs in with "(.*?)" and "(.*?)"$/) do |first_name, email, passw
    end
 end
 
-When(/^"(.*?)" force signs in with "(.*?)" and "(.*?)"$/) do |first_name, email, password|
+When('{string} force signs in with {string} and {string}') do |first_name, email, password|
    user = @persisters[:user].find(first_name: first_name)
 
    # Don't bother signing in again if we're already the desired user
@@ -81,7 +80,7 @@ When(/^"(.*?)" force signs in with "(.*?)" and "(.*?)"$/) do |first_name, email,
 end
 
 
-When(/^"([^"]+)" signs out$/) do |name|
+When('{string} signs out') do |name|
    step(%["#{ name }" is signed in])
 
    @current_user = nil

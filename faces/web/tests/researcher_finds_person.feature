@@ -1,5 +1,5 @@
-Feature: Property Manager Finds Person
-   As a Property Manager
+Feature: Researcher Finds Person
+   As a Researcher
    So that I can quickly locate a person
    I will filter for them
    

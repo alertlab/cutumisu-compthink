@@ -1,5 +1,5 @@
 # ============= Users ===============
-Then(/^"(.*?)" should( not)? see user summary for "(.*?)"$/) do |viewer_name, negated, user_name|
+Then('{string} {should} see user summary for {string}') do |viewer_name, negated, user_name|
    step(%["#{ viewer_name }" is signed in])
 
    user = @persisters[:user].find(first_name: user_name)
@@ -14,7 +14,7 @@ Then(/^"(.*?)" should( not)? see user summary for "(.*?)"$/) do |viewer_name, ne
    end
 end
 
-Then(/^"(.*?)" should see user summaries for "(.*?)" in that order$/) do |viewer_name, user_list|
+Then('{string} should see user summaries for {string} in that order') do |viewer_name, user_list|
    step(%["#{ viewer_name }" is signed in])
 
    extract_list(user_list).each_with_index do |user_name, i|
@@ -28,7 +28,7 @@ Then(/^"(.*?)" should see user summaries for "(.*?)" in that order$/) do |viewer
    end
 end
 
-Then(/^"(.*?)" should have password "(.*?)"$/) do |user_name, pass|
+Then('{string} should have password {string} ') do |user_name, pass|
    user = @persisters[:user].find(first_name: user_name)
 
    auth = @persisters[:user].user_authentication_with(user_id: user.id)
@@ -36,18 +36,4 @@ Then(/^"(.*?)" should have password "(.*?)"$/) do |user_name, pass|
    expect(auth).to_not be_nil
 
    expect(auth.authenticate(pass)).to be true
-end
-
-Then(/^"(.*?)" should( not)? be signed in$/) do |first_name, negated|
-   # user = @persisters[:user].find(first_name: first_name)
-
-   if negated
-      step('they should see "Sign In"')
-      step('they should not see "Sign Out"')
-      # step %["" should not see "#{ user.email }" ] if user
-   else
-      step(%["#{ first_name }" should not see "Sign In"])
-      step(%["#{ first_name }" should see "Sign Out"])
-      # step(%["#{ first_name }" should see "#{ user.email }"])
-   end
 end

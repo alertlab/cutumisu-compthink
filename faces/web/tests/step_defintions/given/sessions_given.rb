@@ -1,11 +1,11 @@
 require 'core/tests/step_definitions/given/user_given'
 require 'core/tests/step_definitions/given/time_given'
 
-Given(/^"(.*?)" is signed in$/) do |first_name|
+Given('{string} is signed in') do |first_name|
    step(%["#{ first_name }" signs in])
 end
 
-Given(/^"(.*?)" has password "(.*?)"$/) do |user_name, password|
+Given('{string} has password {string}') do |user_name, password|
    user     = @persisters[:user].find(first_name: user_name)
 
    password = 'sekret' if password.blank?
@@ -16,7 +16,7 @@ Given(/^"(.*?)" has password "(.*?)"$/) do |user_name, password|
    @persisters[:user].create_auth(auth.to_hash)
 end
 
-# Given (/^the browser date is "(.*?)"$/) do |date_string|
+# Given ('the browser date is {string}') do |date_string|
 #    page.evaluate_script(%q[
 #       console.warn('Stubbing date.');
 #

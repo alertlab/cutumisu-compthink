@@ -130,21 +130,8 @@ ko.components.register('user-listing', {
       };
 
       // BEHAVIOUR
-      self.isAddressEnabled = function () {
-         return (self.adminVersion() && self.adminConfirmed()) || !self.adminVersion();
-      };
-
       self.togglePersonCreator = function () {
          self.createEditorVisible(!self.createEditorVisible());
-      };
-
-      self.toggleBuildingChooser = function () {
-         self.buildingChooserVisible(!self.buildingChooserVisible());
-      };
-
-      self.toggleVersion = function () {
-         self.adminVersion(!self.adminVersion());
-         self.adminConfirmed(false);
       };
 
       self.personCreated = function () {

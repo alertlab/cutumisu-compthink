@@ -1,6 +1,8 @@
 @import 'mixins/all';
 
 html body {
+   font-family: sans-serif;
+   
    main {
       .game-container {
          max-width: 800px;

@@ -1,5 +1,5 @@
 # === Users ===
-Then(/^there should( not)? be a user with:$/) do |negated, table|
+Then('there {should} be a user with:') do |negated, table|
    symtable(table).hashes.each do |row|
       # role_names = extract_list(row.delete(:role) || row.delete(:roles))
 
@@ -24,7 +24,7 @@ Then(/^there should( not)? be a user with:$/) do |negated, table|
    end
 end
 
-Then(/^it should return user summaries for "(.*?)"( in that order)?$/) do |user_list, ordered|
+Then('it should return user summaries for {string}') do |user_list|
    user_persister = @persisters[:user]
 
    names = extract_list(user_list)
@@ -32,45 +32,52 @@ Then(/^it should return user summaries for "(.*?)"( in that order)?$/) do |user_
    expect(@result[:results]).to_not be_nil
    expect(@result[:results].size).to eq names.size
 
-   if ordered
-      user_hashes = names.collect do |name|
-         user_persister.find(first_name: name).to_hash
-      end
+   names.each do |name|
+      user = user_persister.find(first_name: name)
 
-      expect(@result[:results]).to eq user_hashes
-   else
-      names.each do |name|
-         user = user_persister.find(first_name: name)
+      expect(user).to_not be_nil # sanity check
 
-         expect(user).to_not be_nil # sanity check
-
-         expect(@result[:results]).to include user.to_hash
-      end
+      expect(@result[:results]).to include user.to_hash
    end
 end
 
-Then(/^it should return (\d+) user summar(?:ies|y)$/) do |n|
+Then('it should return user summaries for {string} in that order') do |user_list|
+   user_persister = @persisters[:user]
+
+   names = extract_list(user_list)
+
+   expect(@result[:results]).to_not be_nil
+   expect(@result[:results].size).to eq names.size
+
+   user_hashes = names.collect do |name|
+      user_persister.find(first_name: name).to_hash
+   end
+
+   expect(@result[:results]).to eq user_hashes
+end
+
+Then('it should return {int} user summary/summaries') do |n|
    expect(@result[:results]).to be_a Array
    expect(@result[:results].size).to eq n
 end
 
-Then(/^it should not return user summaries$/) do
+Then('it should not return user summaries') do
    expect(@result[:results]).to be_nil
 end
 
-Then(/^there should be (\d+) users?$/) do |count|
+Then('there should be {int} user(s)') do |count|
    expect(@persisters[:user].users.to_a.size).to eq count
 end
 
-Then(/^it should return (\d+) total users$/) do |count|
+Then('it should return {int} total users') do |count|
    expect(@result[:all_data_count]).to eq(count)
 end
 
-Then(/^there should be (\d+) (?:person|people)$/) do |n|
+Then('there should be {int} person/people') do |n|
    expect(@persisters[:user].users.count).to eq(n)
 end
 
-Then(/^there should be a person with:$/) do |table|
+Then('there should be a person with:') do |table|
    symtable(table).hashes.each do |row|
       expect(@persisters[:user].find(row)).to_not be_nil
    end

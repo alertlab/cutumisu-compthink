@@ -1,5 +1,5 @@
-Feature: Property Manager Adds Person
-   As a Property Manager
+Feature: Researcher Adds Person
+   As a researcher
    So that I can track contact information
    I will add a Person
    

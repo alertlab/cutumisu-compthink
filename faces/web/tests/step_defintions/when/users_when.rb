@@ -1,4 +1,4 @@
-When(/^"(.*?)" views more users$/) do |user_name|
+When('{string} views more users') do |user_name|
    step(%["#{ user_name }" navigates to "People"])
 
    click_link('Next 〉')
@@ -6,7 +6,7 @@ When(/^"(.*?)" views more users$/) do |user_name|
    wait_for_ajax
 end
 
-When(/^"(.*?)" views users sorted by "(.*?)" (ascending|descending)$/) do |user_name, sort_field, direction|
+When('{string} views users sorted by {string} {direction}') do |user_name, sort_field, direction|
    step(%["#{ user_name }" navigates to "People"])
 
    if direction =~ /asc/
@@ -19,7 +19,7 @@ When(/^"(.*?)" views users sorted by "(.*?)" (ascending|descending)$/) do |user_
 end
 
 
-When(/^"(.*?)" updates user "(.*?)" with no changes$/) do |admin_name, user_name|
+When('{string} updates user {string} with no changes') do |admin_name, user_name|
    step(%["#{ admin_name }" navigates to user editor for "#{ user_name }"])
 
    click_button('Save')
@@ -28,7 +28,7 @@ When(/^"(.*?)" updates user "(.*?)" with no changes$/) do |admin_name, user_name
 end
 
 
-When(/^"(.*?)" updates user "(.*?)" with:$/) do |admin_name, user_name, table|
+When('{string} updates user {string} with:') do |admin_name, user_name, table|
    step(%["#{ admin_name }" navigates to user editor for "#{ user_name }"])
 
    user = @persisters[:user].find(first_name: user_name)
@@ -47,7 +47,7 @@ When(/^"(.*?)" updates user "(.*?)" with:$/) do |admin_name, user_name, table|
    end
 end
 
-When(/^"(.*?)" force updates user "(.*?)" with:$/) do |admin_name, user_name, table|
+When('{string} force updates user {string} with:') do |admin_name, user_name, table|
    step(%["#{ admin_name }" force signs in])
 
    page.driver.follow(:post, '/admin/update_user')
@@ -55,12 +55,12 @@ end
 
 
 # this one is for internal use
-When(/^"(.*?)" fills in a new person named "(.*?)"$/) do |user_name, person_name|
+When('{string} fills in a new person named {string}') do |user_name, person_name|
    step(%["#{ user_name }" navigates to "People"])
 
    first, last = person_name.split(' ')
 
-   click_link('Add Person...')
+   click_link('Add Person')
 
    within('.add-user-controls') do
       fill_in(:first_name, with: first)
@@ -72,7 +72,7 @@ When(/^"(.*?)" fills in a new person named "(.*?)"$/) do |user_name, person_name
    # no wait for ajax needed because this step is a shared step. The actual submit is done elsewhere.
 end
 
-When(/^"(.*?)" adds a person named "(.*?)"$/) do |admin_name, person_name|
+When('{string} adds a person named {string}') do |admin_name, person_name|
    step(%["#{ admin_name }" fills in a new person named "#{ person_name }"])
 
    within('.add-user-controls') do
@@ -82,11 +82,11 @@ When(/^"(.*?)" adds a person named "(.*?)"$/) do |admin_name, person_name|
    wait_for_ajax
 end
 
-When(/^"(.*?)" force adds a person named "(.*?)"$/) do |admin_name, person_name|
+When('{string} force adds a person named {string}') do |admin_name, person_name|
    page.driver.follow(:post, '/admin/create_user', first_name: person_name)
 end
 
-When(/^"(.*?)" searches for users with:$/) do |user_name, table|
+When('{string} searches for users with:') do |user_name, table|
    step(%["#{ user_name }" navigates to "People"])
 
    row = symrow(table)
@@ -104,14 +104,14 @@ When(/^"(.*?)" searches for users with:$/) do |user_name, table|
    wait_for_ajax
 end
 
-When(/^"(.*?)" force searches for users with:$/) do |user_name, table|
+When('{string} force searches for users with:') do |user_name, table|
    step(%["#{ user_name }" force signs in])
 
    page.driver.follow(:post, '/admin/search_users', filter: symrow(table))
 end
 
 
-When(/^"(.*?)" removes user "(.*?)"$/) do |admin_name, user_name|
+When('{string} removes user {string}') do |admin_name, user_name|
    step(%["#{ admin_name }" navigates to "People"])
 
    user = @persisters[:user].find(first_name: user_name)
@@ -129,7 +129,7 @@ When(/^"(.*?)" removes user "(.*?)"$/) do |admin_name, user_name|
    wait_for_ajax
 end
 
-When(/^"(.*?)" force removes user "(.*?)"$/) do |admin_name, user_name|
+When('{string} force removes user {string}') do |admin_name, user_name|
    step(%["#{ admin_name }" force signs in])
 
    page.driver.follow(:post, '/admin/remove_user')

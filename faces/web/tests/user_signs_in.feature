@@ -22,7 +22,7 @@ Feature: User Signs In
    
    Scenario Outline: it should redirect to dashboard when given a follow uri
       When "<user>" signs in with follow uri "/admin"
-      Then "<user>" should be at "/admin"
+      Then "<user>" should be at /admin
       Examples:
          | user |
          | Bob  |
@@ -30,7 +30,7 @@ Feature: User Signs In
    
    Scenario Outline: it should redirect to dashboard by default
       When "<user>" signs in
-      Then "<user>" should be at "/admin"
+      Then "<user>" should be at /admin
       Examples:
          | user |
          | Bob  |

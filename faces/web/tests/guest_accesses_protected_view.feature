@@ -5,7 +5,7 @@ Feature: Guest Access Protected View
    
    Scenario Outline: it should redirect the guest to the login page
       When anonymous visits "<uri>"
-      Then they should be at "/"
+      Then they should be at /
       Examples:
          | uri           |
          | /admin        |

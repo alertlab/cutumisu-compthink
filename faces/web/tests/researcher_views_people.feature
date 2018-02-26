@@ -1,5 +1,5 @@
-Feature: Property Manager Views People
-   As a Property Manager
+Feature: Researcher Views People
+   As a Researcher
    So that I can know which people exist
    I will view the list of all users
    

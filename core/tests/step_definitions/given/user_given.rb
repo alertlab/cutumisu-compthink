@@ -1,5 +1,3 @@
-require_relative 'group_given'
-
 Given("the following role(s):") do |table|
    @persisters[:role].create(symrow(table))
 end
@@ -32,7 +30,7 @@ Given("the following user(s):") do |table|
    end
 end
 
-Given(/^"(.*?)" has role "(.*?)"$/) do |user_name, role_name|
+Given('{string} has role {string}') do |user_name, role_name|
    role_persister = @persisters[:role]
 
    user = @persisters[:user].find(first_name: user_name)
@@ -42,13 +40,13 @@ Given(/^"(.*?)" has role "(.*?)"$/) do |user_name, role_name|
    role_persister.assign_role(user: user, role: role)
 end
 
-Given(/^there are no users$/) do
+Given('there are no users') do
    @persisters[:user].users.to_a.each do |user|
       @persisters[:user].delete(user.id)
    end
 end
 
-Given(/^(\d+) users$/) do |count|
+Given('{int} users') do |count|
    step('there are no users') # clear the set so that we get exactly the expected amount.
 
    count.times do |n|

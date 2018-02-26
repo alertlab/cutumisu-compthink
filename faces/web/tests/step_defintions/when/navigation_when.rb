@@ -1,6 +1,6 @@
 # ==== General Navigation ====
 
-When(/^"(.*?)" navigates to "(.*?)"$/) do |user, location|
+When('{string} navigates to {string}') do |user, location|
    step(%["#{ user }" is signed in])
 
    close_flash
@@ -12,11 +12,11 @@ When(/^"(.*?)" navigates to "(.*?)"$/) do |user, location|
    wait_for_ajax
 end
 
-When(/^anonymous visits "(.*?)"$/) do |uri|
+When('anonymous visits {string}') do |uri|
    visit(uri)
 end
 
-When(/^"(.*?)" navigates to user editor for "(.*?)"$/) do |navigator, user_name|
+When('{string} navigates to user editor for {string}') do |navigator, user_name|
    step(%["#{ navigator }" navigates to "People"])
 
    user = @persisters[:user].find(first_name: user_name)
@@ -28,11 +28,11 @@ When(/^"(.*?)" navigates to user editor for "(.*?)"$/) do |navigator, user_name|
    wait_for_ajax
 end
 
-When(/^guest force posts to "(.*?)"$/) do |uri|
+When('guest force posts to {string}') do |uri|
    page.driver.follow(:post, uri)
 end
 
-When(/^"(.*?)" views the pagination page (\d+)$/) do |user_name, n|
+When('{string} views the pagination page {int}') do |user_name, n|
    step(%["#{ user_name }" navigates to "People"])
 
    within('paginator .numbers') do

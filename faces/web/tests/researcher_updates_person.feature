@@ -1,5 +1,5 @@
-Feature: Property Manager Updates Person
-   As a Property Manager
+Feature: Researcher Updates Person
+   As a Researcher
    So that I can keep accurate contact information
    I will update a Person
    

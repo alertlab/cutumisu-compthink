@@ -1,9 +1,9 @@
-Then("lever {lever} {should} be flipped") do |lever, should|
+Then("lever {lever} {should} be flipped") do |lever, negated|
    is_flipped = page.evaluate_script(%[
                                      #{game_vm_js}.buttonGroup.getByName("#{lever}").switched;
    ])
 
-   expect(is_flipped).to be(should)
+   expect(is_flipped).to be(!negated.match?('not'))
 end
 
 Then("there should be {int} click(s)") do |n|

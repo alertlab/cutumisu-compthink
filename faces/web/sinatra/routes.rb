@@ -138,6 +138,14 @@ post '/games/logging/record_click' do
    RecordClick.run(settings.container, app_params.deep_symbolize_keys.merge(user: current_user)).to_json
 end
 
+post '/admin/create_group' do
+   CreateGroup.run(settings.container, app_params.deep_symbolize_keys).to_json
+end
+
+post '/admin/search_groups' do
+   SearchGroups.run(settings.container, app_params.deep_symbolize_keys).to_json
+end
+
 #--------------------------#
 # Views                    #
 #--------------------------#
