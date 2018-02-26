@@ -3,8 +3,6 @@
 When('{string} navigates to {string}') do |user, location|
    step(%["#{ user }" is signed in])
 
-   close_flash
-
    within('nav') do
       click_link(location)
    end
@@ -33,9 +31,9 @@ When('guest force posts to {string}') do |uri|
 end
 
 When('{string} views the pagination page {int}') do |user_name, n|
-   step(%["#{ user_name }" navigates to "People"])
-
    within('paginator .numbers') do
       click_link(n)
    end
+
+   wait_for_ajax
 end

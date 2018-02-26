@@ -58,7 +58,8 @@ Feature: Researcher Finds Person
          | Name         | Email             | role  |
          | Kelly Meyers | kelly@example.com | admin |
       And "Kelly" has password "sekret"
-      When "Kelly" views the pagination page <n>
+      When "Kelly" navigates to "People"
+      And "Kelly" views the pagination page <n>
       And "Kelly" searches for users with:
          | Name  |
          | Kelly |

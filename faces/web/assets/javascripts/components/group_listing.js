@@ -2,6 +2,14 @@ ko.components.register('group-listing', {
    template: ' <a class="add-group-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ toggleGroupCreator() }">\
                   Add Group\
                </a>\
+               <div class="filter">\
+                  <div class="simple-fields">\
+                     <label>\
+                        <span>Filter by Name</span>\
+                        <input type="text" name="name" data-bind="textInput: search.name"/>\
+                     </label>                        \
+                  </div>\
+               </div>\
                <div data-bind="visible: !createEditorVisible()">\
                   <p data-bind="visible: groups.isLoaded() && groups().length == 0">\
                      There are no groups yet. \
@@ -17,6 +25,7 @@ ko.components.register('group-listing', {
                </div>\
                <paginator params="data: groups, \
                                   uri: \'/admin/search_groups\',\
+                                  filter: search,\
                                   sortWith: sort,\
                                   pageSizeOptions: [10],\
                                   scrollTo: \'group-listing\'"></paginator>',
@@ -32,7 +41,7 @@ ko.components.register('group-listing', {
       var searchLimit = 500;
 
       self.sort = {
-         field: ko.observable('first_name'),
+         field: ko.observable(),
          direction: ko.observable(true).extend({notify: 'always'})
       };
       self.sortBy = ko.computed({
@@ -59,6 +68,10 @@ ko.components.register('group-listing', {
          {name: 'Last Name A-Z', value: 'last_name__asc'},
          {name: 'Last Name Z-A', value: 'last_name__desc'}
       ];
+
+      self.search = {
+         name: ko.observable().extend({rateLimit: searchLimit})
+      };
 
       self.formatRoles = function (roleList) {
          return roleList.map(function (roleName) {

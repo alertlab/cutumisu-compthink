@@ -1,5 +1,5 @@
 # === Users ===
-Then('there {should} be a user with:') do |negated, table|
+Then('there {should} be a user with:') do |should, table|
    symtable(table).hashes.each do |row|
       # role_names = extract_list(row.delete(:role) || row.delete(:roles))
 
@@ -11,15 +11,15 @@ Then('there {should} be a user with:') do |negated, table|
 
       user = @persisters[:user].find(row)
 
-      if negated
-         expect(user).to be_nil
-      else
+      if should
          expect(user).to_not be_nil
          # role_names.each do |role_name|
          #    names = user.roles.collect {|r| r.name.downcase}
          #
          #    expect(names).to include(role_name.downcase)
          # end
+      else
+         expect(user).to be_nil
       end
    end
 end
@@ -67,10 +67,6 @@ end
 
 Then('there should be {int} user(s)') do |count|
    expect(@persisters[:user].users.to_a.size).to eq count
-end
-
-Then('it should return {int} total users') do |count|
-   expect(@result[:all_data_count]).to eq(count)
 end
 
 Then('there should be {int} person/people') do |n|

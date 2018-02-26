@@ -1,15 +1,15 @@
 # ============= Users ===============
-Then('{string} {should} see user summary for {string}') do |viewer_name, negated, user_name|
+Then('{string} {should} see user summary for {string}') do |viewer_name, should, user_name|
    step(%["#{ viewer_name }" is signed in])
 
    user = @persisters[:user].find(first_name: user_name)
 
    within('user-listing .user-summaries') do
-      step(%["#{ viewer_name }" should#{ negated } see "#{ user.name }"])
-      step(%["#{ viewer_name }" should#{ negated } see "#{ user.email }"])
+      step(%["#{ viewer_name }" #{ should ? 'should' : 'should not' } see "#{ user.name }"])
+      step(%["#{ viewer_name }" #{ should ? 'should' : 'should not' } see "#{ user.email }"])
 
       unless user.roles.empty?
-         step(%["#{ viewer_name }" should#{ negated } see "#{ user.roles.collect(&:name).join(', ') }"])
+         step(%["#{ viewer_name }" #{ should ? 'should' : 'should not' } see "#{ user.roles.collect(&:name).join(', ') }"])
       end
    end
 end

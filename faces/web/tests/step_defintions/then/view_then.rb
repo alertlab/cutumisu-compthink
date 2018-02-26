@@ -1,28 +1,28 @@
 Then('they {should} see {string}') do |should, msg|
-   step(%["" #{ should } see "#{ msg }"])
+   step(%["" #{ should ? 'should' : 'should not' } see "#{ msg }"])
 end
 
-Then('{string} {should} see {string}') do |user_name, hidden, msg|
+Then('{string} {should} see {string}') do |user_name, should, msg|
    step(%["#{ user_name }" is signed in])
 
-   if hidden
-      expect(page).to_not have_content(/#{ msg }/i)
-   else
+   if should
       expect(page).to have_content(/#{ msg }/i)
+   else
+      expect(page).to_not have_content(/#{ msg }/i)
    end
 end
 
-Then('they {should} see {html element}') do |hidden, element|
-   step(%["" should#{ hidden } see <#{ element }>])
+Then('they {should} see {html element}') do |should, element|
+   step(%["" #{ should ? 'should' : 'should not' } see <#{ element }>])
 end
 
-Then('{string} {should} see {html element}') do |user_name, hidden, element|
+Then('{string} {should} see {html element}') do |user_name, should, element|
    step(%["#{ user_name }" is signed in])
 
-   if hidden
-      expect(page).to_not have_selector(element)
-   else
+   if should
       expect(page).to have_selector(element)
+   else
+      expect(page).to_not have_selector(element)
    end
 end
 

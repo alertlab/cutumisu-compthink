@@ -7,11 +7,13 @@ When("{string} creates a group with:") do |user_name, table|
 
    click_link('Add Group')
 
-   fill_in(:name, with: row[:name])
-   fill_in(:start_date, with: row[:start_date])
-   fill_in(:end_date, with: row[:end_date])
+   within('group-editor') do
+      fill_in(:name, with: row[:name])
+      fill_in(:start_date, with: row[:start_date])
+      fill_in(:end_date, with: row[:end_date])
 
-   click_button('Save')
+      click_button('Save')
+   end
 
    wait_for_ajax
 end
@@ -24,4 +26,22 @@ When("{string} force adds a group") do |user_name|
          start_date: Date.today,
          end_date:   Date.today
    })
+end
+
+When("{string} searches for groups with:") do |user_name, table|
+   step(%["#{ user_name }" navigates to "Groups"])
+
+   row = symrow(table)
+
+   within('.filter') do
+      fill_in(:name, with: row[:name]) if row[:name]
+   end
+
+   wait_for_ajax
+end
+
+When("{string} force searches for group(s) with:") do |user_name, table|
+   # step(%["#{user_name}" is signed in])
+
+   page.driver.follow(:post, '/admin/search_groups', filter: symrow(table))
 end

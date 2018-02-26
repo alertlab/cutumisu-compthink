@@ -2,7 +2,7 @@ ko.components.register('user-listing', {
    template: ' <expander params="expandedText: \'Filters\', \
                                  collapsedText: \'Filters\',\
                                  defaultExpanded: true">\
-                  <div class="user-filter">\
+                  <div class="filter">\
                      <div class="simple-fields">\
                         <label>\
                            <span>Name</span>\

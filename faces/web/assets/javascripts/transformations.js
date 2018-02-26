@@ -14,8 +14,7 @@
       if (!stamp)
          return null;
 
-      var date = new Date(stamp * 1000);
-      var now = new Date();
+      var date = new Date(typeof stamp === 'number' ? stamp * 1000 : stamp);
 
       // IE8 doesn't suppport:
       // date.toLocaleDateString(navigator.language, {month: 'short'});

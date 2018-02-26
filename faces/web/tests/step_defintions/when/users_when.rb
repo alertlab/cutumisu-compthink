@@ -91,7 +91,7 @@ When('{string} searches for users with:') do |user_name, table|
 
    row = symrow(table)
 
-   within('.user-filter') do
+   within('.filter') do
       fill_in(:name, with: row[:name]) if row[:name]
 
       fill_in(:email, with: row[:email]) if row[:email]

@@ -1,8 +1,8 @@
 ParameterType(
       name:        'should',
       regexp:      /(should(?:[[:blank:]]+not)?)/,
-      type:        String,
-      transformer: lambda {|s| s}
+      type:        TrueClass,
+      transformer: lambda {|s| !s.match?('not')}
 )
 
 ParameterType(

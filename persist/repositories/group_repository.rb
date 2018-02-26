@@ -12,6 +12,34 @@ module CompThink
          find_all(attrs).first
       end
 
+      def groups_matching(attrs, count:, offset:, sort_by:, sort_direction:)
+         results = groups
+
+         unless attrs.nil?
+            if attrs[:id]
+               results = results.where(id: attrs[:id])
+            else
+               attrs.each do |attr, search_string|
+                  search_string = search_string.split(/\s/)
+
+                  search_string.each do |term|
+                     results = results.where(Sequel.ilike(Sequel.cast(attr, String), "%#{ term }%"))
+                  end
+               end
+            end
+         end
+
+         results = results.order(Sequel.qualify('groups', sort_by))
+
+         unless sort_direction.nil? || sort_direction == 'asc'
+            results = results.reverse
+         end
+
+         count = 1 if count < 1
+
+         results.limit(count, offset).to_a
+      end
+
       def first
          groups.first
       end
