@@ -1,15 +1,20 @@
 ko.components.register('group-listing', {
-   template: ' <div class="filter">\
-                  <div class="simple-fields">\
+   template: ' <div class="controls">\
+                  <div class="filter">\
+                     <header>Filter</header>\
                      <label>\
-                        <span>Filter by Name</span>\
+                        <span>Name</span>\
                         <input type="text" name="name" data-bind="textInput: search.name"/>\
                      </label>                        \
                   </div>\
+                  <a class="add-group-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ toggleGroupCreator() }">\
+                     <div class="icon">\
+                        <img src="/assets/images/people.svg"/>\
+                        <span class="plus">+</span>\
+                     </div>\
+                     Add Group\
+                  </a>\
                </div>\
-               <a class="add-group-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ toggleGroupCreator() }">\
-                  Add Group\
-               </a>\
                <div data-bind="visible: !createEditorVisible()">\
                   <p data-bind="visible: groups.isLoaded() && groups().length == 0">\
                      There are no groups yet. \
@@ -20,15 +25,17 @@ ko.components.register('group-listing', {
                   <group-editor params="onSave: groupCreated, \
                                         onAbort: toggleGroupCreator"></group-editor>\
                </div>\
-               <div class="group-summaries" data-bind="foreach: {data: groups, as: \'group\'}">\
-                  <group-summary params="group: group"></group-summary>\
-               </div>\
-               <paginator params="data: groups, \
-                                  uri: \'/admin/search_groups\',\
-                                  filter: search,\
-                                  sortWith: sort,\
-                                  pageSizeOptions: [10],\
-                                  scrollTo: \'group-listing\'"></paginator>',
+               <div class="group-summaries">\
+                  <div data-bind="foreach: {data: groups, as: \'group\'}">\
+                     <group-summary params="group: group"></group-summary>\
+                  </div>\
+                  <paginator params="data: groups, \
+                                     uri: \'/admin/search_groups\',\
+                                     filter: search,\
+                                     sortWith: sort,\
+                                     pageSizeOptions: [10],\
+                                     scrollTo: \'group-listing\'"></paginator>\
+               </div>',
 
    /**
     */

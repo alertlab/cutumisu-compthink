@@ -98,6 +98,10 @@ html body {
                color: $color3;
             }
             
+            .current-page {
+               box-shadow: 0 0 0.75em #0000006E;
+            }
+            
             li > a:hover,
             session > a:hover {
                opacity: 0.8;
@@ -107,7 +111,7 @@ html body {
                transition: 0.2s all;
             }
             
-            .people {
+            li {
                img {
                   margin-right: 0.25em;
                   

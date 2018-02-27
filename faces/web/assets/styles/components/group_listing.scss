@@ -1,76 +1,14 @@
 @import 'mixins/all';
 
 html body group-listing {
-   display: block;
+   display: flex;
    
    position: relative;
    
-   expander {
-      display: block;
-      
-      & > a {
-         display: inline-block;
-         
-         margin: 0.5em 0;
-      }
-   }
-   
-   .filter {
-      margin-bottom: 1em;
-      
-      padding: 1em;
-      
-      background: lighten($color4, 7%);
-      
-      label {
-         display: block;
-      }
-      
-      .simple-fields {
-         display: inline-block;
-         
-         margin-right: 2em;
-         vertical-align: top;
-         
-         label {
-            padding: 0.1em 0;
-            
-            span {
-               min-width: 3.5em;
-            }
-            
-            input {
-               padding: 0.5em;
-            }
-         }
-      }
-      
-      .roles {
-         display: inline-block;
-         
-         label {
-            margin-bottom: 0.1em;
-            
-            cursor: pointer;
-         }
-      }
-   }
-   
-   & > label {
-      span {
-         min-width: auto;
-      }
-      
-      select {
-         vertical-align: middle;
-         
-         padding: 0.25em;
-         
-         background: none;
-      }
-   }
-   
    .group-summaries {
+      margin-right: 1em;
+      flex-grow: 1;
+      
       min-height: 20em;
    }
    
@@ -78,6 +16,57 @@ html body group-listing {
       display: block;
       
       box-shadow: 0.2em 0.2em 0.25em rgba(128, 128, 128, 0.5);
+   }
+   
+   .controls {
+      order: 1;
+      
+      header {
+         text-align: center;
+         
+         font-size: 1.25em;
+      }
+      
+      .filter {
+         margin-bottom: 1em;
+         
+         padding: 1em;
+         
+         background: lighten($color4, 7%);
+         
+         label {
+            display: block;
+         }
+         
+         .simple-fields {
+            display: inline-block;
+            
+            margin-right: 2em;
+            vertical-align: top;
+            
+            label {
+               padding: 0.1em 0;
+               
+               span {
+                  min-width: 3.5em;
+               }
+               
+               input {
+                  padding: 0.5em;
+               }
+            }
+         }
+         
+         .roles {
+            display: inline-block;
+            
+            label {
+               margin-bottom: 0.1em;
+               
+               cursor: pointer;
+            }
+         }
+      }
    }
    
    .add-group-button {

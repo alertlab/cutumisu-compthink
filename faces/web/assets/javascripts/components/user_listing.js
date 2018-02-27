@@ -1,16 +1,15 @@
 ko.components.register('user-listing', {
-   template: ' <expander params="expandedText: \'Filters\', \
-                                 collapsedText: \'Filters\',\
-                                 defaultExpanded: true">\
+   template: ' <div class="controls">\
                   <div class="filter">\
+                     <header>Filter</header>\
                      <div class="simple-fields">\
                         <label>\
                            <span>Name</span>\
-                           <input type="text" name="name" data-bind="textInput: $parent.search.name"/>\
+                           <input type="text" name="name" data-bind="textInput: search.name"/>\
                         </label>\
                         <label>\
                            <span>Email</span>\
-                           <input type="text" name="email" data-bind="textInput: $parent.search.email"/>\
+                           <input type="text" name="email" data-bind="textInput: search.email"/>\
                         </label>\
                      </div>\
                      <fieldset class="roles">\
@@ -18,29 +17,25 @@ ko.components.register('user-listing', {
                            Role\
                         </legend>\
                         <label>\
-                           <input type="checkbox" data-bind="checked: $parent.isAnyRole, \
-                                                             enable: $parent.anyRoleEnabled, \
-                                                             click: $parent.selectAllRoles"  />\
+                           <input type="checkbox" data-bind="checked: isAnyRole, \
+                                                             enable: anyRoleEnabled, \
+                                                             click: selectAllRoles"  />\
                            <span>Any</span>\
                         </label>\
                         <label>\
-                           <input type="checkbox" value="admin" data-bind="checked: $parent.search.roles"/>\
+                           <input type="checkbox" value="admin" data-bind="checked: search.roles"/>\
                            <span>Admin</span>\
                         </label>\
                      </fieldset>\
                   </div>\
-               </expander>\
-               <label>\
-                  <span>Sort</span>\
-                  <select data-bind="value: sortBy, options: sortOptions, optionsText: \'name\', optionsValue: \'value\'"></select>\
-               </label>\
-               <a class="add-user-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ togglePersonCreator() }">\
-                  <div class="icon">\
-                     <img src="/assets/images/person.svg"/>\
-                     <span class="plus">+</span>\
-                  </div>\
-                  Add Person\
-               </a>\
+                  <a class="add-user-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ togglePersonCreator() }">\
+                     <div class="icon">\
+                        <img src="/assets/images/person.svg"/>\
+                        <span class="plus">+</span>\
+                     </div>\
+                     Add Person\
+                  </a>\
+               </div>\
                <div data-bind="visible: !createEditorVisible()">\
                   <p data-bind="visible: users.isLoaded() && users().length == 0">\
                      There are no people yet. \
@@ -52,15 +47,21 @@ ko.components.register('user-listing', {
                   <user-editor params="onSave: personCreated, \
                                        onAbort: togglePersonCreator"></user-editor>\
                </div>\
-               <div class="user-summaries" data-bind="foreach: {data: users, as: \'user\'}">\
-                  <user-summary params="user: user"></user-summary>\
-               </div>\
-               <paginator params="data: users, \
-                                  uri: \'/admin/search_users\',\
-                                  sortWith: sort,\
-                                  pageSizeOptions: [10],\
-                                  scrollTo: \'user-listing\', \
-                                  filter: search"></paginator>',
+               <div class="user-summaries">\
+                  <label class="sort">\
+                     <span>Sort</span>\
+                     <select data-bind="value: sortBy, options: sortOptions, optionsText: \'name\', optionsValue: \'value\'"></select>\
+                  </label>\
+                  <div data-bind="foreach: {data: users, as: \'user\'}">\
+                     <user-summary params="user: user"></user-summary>\
+                  </div>\
+                  <paginator params="data: users, \
+                                     uri: \'/admin/search_users\',\
+                                     sortWith: sort,\
+                                     pageSizeOptions: [10],\
+                                     scrollTo: \'user-listing\', \
+                                     filter: search"></paginator>\
+               </div>',
 
    /**
     */
