@@ -138,8 +138,8 @@ Then, in your SASS file, @include either v-menu or h-menu in the ul selector.
       list-style: none;
       
       // All menu item contents
-      a,
-      span {
+      & > a,
+      & > span {
          display: block;
          
          padding: 0.5em 1em;

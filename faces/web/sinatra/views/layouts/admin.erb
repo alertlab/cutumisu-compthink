@@ -22,18 +22,14 @@
 
       <span class="subtitle">Computational Thinking Experiments</span>
    </a>
+
    <nav class="main-nav">
-      <ul>
-         <li class="people">
-            <a href="/admin/people"><img src="/assets/images/person.svg" />People</a>
-         </li>
-         <li class="groups">
-            <a href="/admin/groups"><img src="/assets/images/people.svg" />Groups</a>
-         </li>
-         <li class="session">
-            <session></session>
-         </li>
-      </ul>
+      <navigation-menu params="options: {
+                                 People: {url: '/admin/people', icon: '/assets/images/person.svg'},
+                                 Groups: {url: '/admin/groups', icon: '/assets/images/people.svg'},
+                                 'session': {tag: '<session></session>'}
+                               }">
+      </navigation-menu>
    </nav>
 </header>
 

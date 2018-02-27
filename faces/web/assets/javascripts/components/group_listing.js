@@ -21,11 +21,11 @@ ko.components.register('group-listing', {
                   </p>\
                   <loading-spinner params="target: groups"></loading-spinner>\
                </div>\
-               <div class="add-group-controls" data-bind="visible: createEditorVisible">\
-                  <group-editor params="onSave: groupCreated, \
-                                        onAbort: toggleGroupCreator"></group-editor>\
-               </div>\
                <div class="group-summaries">\
+                  <div class="add-group-controls" data-bind="visible: createEditorVisible">\
+                     <group-editor params="onSave: groupCreated, \
+                                           onAbort: toggleGroupCreator"></group-editor>\
+                  </div>\
                   <div data-bind="foreach: {data: groups, as: \'group\'}">\
                      <group-summary params="group: group"></group-summary>\
                   </div>\

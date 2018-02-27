@@ -87,10 +87,10 @@ group-editor {
       
       text-align: right;
       
-      a {
+      & > a {
          @include back-link();
          
-         margin: 1em 0;
+         margin: 1em;
       }
       
       .delete {
@@ -105,6 +105,8 @@ group-editor {
          position: absolute;
          
          bottom: 2em;
+         
+         text-align: center;
          
          strong {
             display: block;

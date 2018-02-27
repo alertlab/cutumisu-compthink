@@ -42,12 +42,11 @@ ko.components.register('user-listing', {
                   </p>\
                   <loading-spinner params="target: users"></loading-spinner>\
                </div>\
-               <div class="add-user-controls" data-bind="visible: createEditorVisible">\
-                  <header>New Person</header>\
-                  <user-editor params="onSave: personCreated, \
-                                       onAbort: togglePersonCreator"></user-editor>\
-               </div>\
-               <div class="user-summaries">\
+               <div class="user-summaries">\n\
+                  <div class="add-user-controls" data-bind="visible: createEditorVisible">\
+                     <user-editor params="onSave: personCreated, \
+                                          onAbort: togglePersonCreator"></user-editor>\
+                  </div>\
                   <label class="sort">\
                      <span>Sort</span>\
                      <select data-bind="value: sortBy, options: sortOptions, optionsText: \'name\', optionsValue: \'value\'"></select>\
