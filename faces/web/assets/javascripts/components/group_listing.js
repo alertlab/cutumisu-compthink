@@ -1,8 +1,5 @@
 ko.components.register('group-listing', {
-   template: ' <a class="add-group-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ toggleGroupCreator() }">\
-                  Add Group\
-               </a>\
-               <div class="filter">\
+   template: ' <div class="filter">\
                   <div class="simple-fields">\
                      <label>\
                         <span>Filter by Name</span>\
@@ -10,6 +7,9 @@ ko.components.register('group-listing', {
                      </label>                        \
                   </div>\
                </div>\
+               <a class="add-group-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ toggleGroupCreator() }">\
+                  Add Group\
+               </a>\
                <div data-bind="visible: !createEditorVisible()">\
                   <p data-bind="visible: groups.isLoaded() && groups().length == 0">\
                      There are no groups yet. \

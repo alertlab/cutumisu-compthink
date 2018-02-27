@@ -14,6 +14,18 @@ When('anonymous visits {string}') do |uri|
    visit(uri)
 end
 
+When('{string} navigates to group editor for {string}') do |navigator, name|
+   step(%["#{ navigator }" navigates to "Groups"])
+
+   group = @persisters[:group].find(name: name)
+
+   within("#group-#{ group.id }") do
+      click_link('Edit')
+   end
+
+   wait_for_ajax
+end
+
 When('{string} navigates to user editor for {string}') do |navigator, user_name|
    step(%["#{ navigator }" navigates to "People"])
 

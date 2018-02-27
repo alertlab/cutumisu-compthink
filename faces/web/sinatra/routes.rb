@@ -146,6 +146,15 @@ post '/admin/search_groups' do
    SearchGroups.run(settings.container, app_params.deep_symbolize_keys).to_json
 end
 
+post '/admin/update_group' do
+   UpdateGroup.run(settings.container, app_params.deep_symbolize_keys).to_json
+end
+
+post '/admin/delete_group' do
+   DeleteGroup.run(settings.container, app_params.deep_symbolize_keys).to_json
+end
+
+
 #--------------------------#
 # Views                    #
 #--------------------------#

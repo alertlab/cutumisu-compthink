@@ -71,7 +71,8 @@ ko.components.register('group-editor', {
             self.group.id(group.id);
 
             self.group.name(group.name || '');
-            self.group.email(group.email || '');
+            self.group.start_date(group.start_date || '');
+            self.group.end_date(group.end_date || '');
          });
       };
 

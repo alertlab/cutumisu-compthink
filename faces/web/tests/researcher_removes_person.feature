@@ -1,7 +1,7 @@
 Feature: Researcher Removes Person
    As a Researcher
-   So that I can eliminate pets no longer in the building
-   I will remove a Pet
+   So that I can clean up old records
+   I will remove a Person
    
    Background:
       Given the following users:

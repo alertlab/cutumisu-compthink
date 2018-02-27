@@ -41,3 +41,21 @@ When('groups are searched starting at {int}') do |starting_number|
    @result = SearchGroups.run(@container,
                               starting: starting_number)
 end
+
+When('group {string} is updated with:') do |group_name, table|
+   row = symrow(table)
+
+   group = @persisters[:group].find(name: group_name)
+
+   row[:name]       = row[:name] || group.name
+   row[:start_date] = row[:start_date] || group.start_date.to_s
+   row[:end_date]   = row[:end_date] || group.end_date.to_s
+
+   @result = UpdateGroup.run(@container, row.merge(id: group.id))
+end
+
+When('group {string} is deleted') do |group_name|
+   group = @persisters[:group].find(name: group_name)
+
+   @result = DeleteGroup.run(@container, id: group ? group.id : -1)
+end

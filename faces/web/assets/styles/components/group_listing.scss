@@ -1,6 +1,6 @@
 @import 'mixins/all';
 
-html body user-listing {
+html body group-listing {
    display: block;
    
    position: relative;
@@ -70,17 +70,17 @@ html body user-listing {
       }
    }
    
-   .user-summaries {
+   .group-summaries {
       min-height: 20em;
    }
    
-   user-summary {
+   group-summary {
       display: block;
       
       box-shadow: 0.2em 0.2em 0.25em rgba(128, 128, 128, 0.5);
    }
    
-   .add-user-button {
+   .add-group-button {
       @include button();
       
       display: block;
@@ -128,7 +128,7 @@ html body user-listing {
       }
    }
    
-   .add-user-controls {
+   .add-group-controls {
       margin-bottom: 1.5em;
       
       & > header {

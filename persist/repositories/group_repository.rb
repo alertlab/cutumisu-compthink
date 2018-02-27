@@ -12,6 +12,10 @@ module CompThink
          find_all(attrs).first
       end
 
+      def any_other?(id, attrs)
+         groups.where(attrs).to_a.any? {|g| g.id != id}
+      end
+
       def groups_matching(attrs, count:, offset:, sort_by:, sort_direction:)
          results = groups
 
@@ -46,6 +50,10 @@ module CompThink
 
       def count
          groups.count
+      end
+
+      def exists?(id:)
+         groups.where(id: id).count > 0
       end
    end
 end
