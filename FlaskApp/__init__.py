@@ -65,6 +65,12 @@ class AdminModelView(ModelView):
         return redirect(url_for('adminlogin', next=request.url))
 
 
+def string_to_bool(str_value):
+       regex = re.compile('[ty]', re.IGNORECASE)
+                
+       return bool(regex.search(str_value))
+
+
 
 class AdminModelView_admin(AdminModelView):
     can_export = False
@@ -78,6 +84,8 @@ class AdminModelView_admin(AdminModelView):
         return self.session.query(self.model).filter(self.model.admin==True)
     def get_count_query(self):
         return self.session.query(func.count('*')).filter(self.model.admin==True)
+    def on_model_change(self, form, model, is_created):
+	model.admin = string_to_bool(model.admin)
 
 class AdminModelView_user(AdminModelView):
     column_export_exclude_list = ('password','admin')
