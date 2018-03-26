@@ -33,7 +33,7 @@ module Garden
 
             admin = user_persister.create_with_auth(first_name:           'Alert',
                                                     last_name:            'Lab',
-                                                    email:                admin_data[:email] || 'alertlab@exmaple.com',
+                                                    email:                admin_data[:email] || 'alertlab@example.com',
                                                     user_authentications: {
                                                           encrypted_password: auth_hash
                                                     })

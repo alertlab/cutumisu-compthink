@@ -2,27 +2,40 @@
 
 user-summary {
    display: block;
-
+   
    position: relative;
-
+   
    margin-bottom: 1em;
-
+   
    border: 1px solid fade-out($color1, 0.5);
    border-radius: 0.25em;
-
+   
    padding: 1em;
-
+   
    header {
       margin-bottom: 0.5em;
-
+      
       border: none;
-
+      
       padding: 0;
-
+      
       text-align: left;
       font-size: 1.25em;
    }
-
+   
+   .role {
+      display: inline-block;
+      
+      margin: 0 0.25em 0.25em 0;
+      
+      padding: 0.5em;
+   }
+   
+   .role-admin {
+      background: #7F0AA9;
+      color: white;
+   }
+   
    .user-summary > .controls {
       position: absolute;
       top: 1em;

@@ -1,5 +1,5 @@
 ko.components.register('sign-in', {
-   template: '<header>Hello</header>\
+   template: '<header data-bind="text: titleText"></header>\
               <form data-bind="submit: signIn">\
                  <ul data-bind="visible: isAdmin">\
                     <li>\
@@ -40,6 +40,10 @@ ko.components.register('sign-in', {
       self.username = ko.observable();
 
       self.isAdmin = !!(window.location.pathname.match(/^\/admin/) || window.location.search.match(/\?uri=\/admin/));
+
+      self.titleText = ko.pureComputed(function () {
+         return self.isAdmin ? 'Admin Sign In' : 'Hello';
+      });
 
       self.buttonText = ko.pureComputed(function () {
          return self.isAdmin ? 'Sign In' : 'Go!'
