@@ -6,13 +6,56 @@
 	<script type="text/javascript" src="static/js/phaser.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <style type="text/css">
-        body {
-						background-color: #000000;
-            margin: 0;
+	body {
+                color:white;
+                background-color: #000000;
+        	margin: 0;
+		overflow: auto !important;
         }
+
+        body > header{
+                padding: 0.5em;
+                font-family: sans-serif;
+                text-align: center;
+                background: dimgrey;
+                margin-bottom: 1em;
+        }
+
+        header .title{
+		margin-top: 0.5em;
+                font-size: 2em;
+        }
+
+        header  .instructions {
+                font-size: 1.25em;
+                color: white;
+                max-width: 30em;
+                margin: auto;
+		text-align: left;
+        }
+
+	header .instructions li {
+		margin: 0.5em 0;
+		font-size: 0.75em;
+	}
+
     </style>
 </head>
 <body>
+
+<header>
+        <div class="title">
+                Towers of Hanoi
+        </div>
+        <div class="instructions">
+		<ul>
+			<li>Only one disk can be moved at a time</li>
+			<li>Take the upper disk from one of the rods and place it on top of another rod 
+				(click on the upper disk on a stack, then click on the rod where you'd like to move it)</li>
+			<li>No disk can be placed on top of a smaller disk</li>
+        	</ul>
+        </div>
+</header>
 
 <script type="text/javascript">
 

@@ -7,12 +7,41 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <style type="text/css">
         body {
-						background-color: #000000;
-            margin: 0;
+		color:white;
+		background-color: #000000;
+		margin: 0;
+		overflow: auto !important;
         }
+
+	body > header{
+		padding: 2em;
+		font-family: sans-serif; 
+		text-align: center; 
+		background: dimgrey;
+		margin-bottom: 1em;
+	}
+
+	header .title{
+		font-size: 2em;
+	}
+
+	header 	.instructions {
+		font-size: 1.25em;
+		color: white; 
+		max-width: 30em; 
+		margin: auto;
+	}
     </style>
 </head>
 <body>
+<header>
+	<div class="title">
+		4-Lever Puzzle
+	</div> 
+	<div class="instructions">
+		Guess the correct sequence to click on the boxes so that they all turn green.
+	</div>
+</header>
 
 <script type="text/javascript">
 
