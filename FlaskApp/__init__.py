@@ -59,7 +59,7 @@ class AdminModelView(ModelView):
     can_export = True
     can_set_page_size = True
     def is_accessible(self):
-        return current_user.is_authenticated
+        return current_user.is_authenticated and current_user.admin
 
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('adminlogin', next=request.url))
