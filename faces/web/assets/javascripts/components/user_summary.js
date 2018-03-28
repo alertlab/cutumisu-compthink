@@ -5,10 +5,10 @@ ko.components.register('user-summary', {
                         <span data-bind="text: user.first_name"></span> <span data-bind="text: user.last_name"></span>\
                      </a>\
                   </header>\
-                  <div data-bind="foreach: user.roles">\
+                  <div class="roles" data-bind="foreach: user.roles">\
                      <span class="role" data-bind="text: $parent.formatRole($data), css: $parent.roleClass($data)"></span>\
                   </div>\
-                  <div>\
+                  <div class="email">\
                      <a data-bind="text: user.email, attr:{ href: \'mailto:\' + user.email}"></a>\
                   </div>\
                   <div class="controls">\

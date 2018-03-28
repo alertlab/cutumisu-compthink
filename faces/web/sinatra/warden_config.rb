@@ -46,15 +46,17 @@ module CompThink
 
          Warden::Strategies.add(:group_user) do
             def valid?
-               user = params['user']
+               user_params = params['user']
 
-               user && user['group'] && user['username']
+               user_params && user_params['group'] && user_params['username']
             end
 
             def authenticate!
                users_persister = Sinatra::Application.container.persisters[:user]
+               user_params     = params['user']
 
-               user = users_persister.find_participant(params['user'].symbolize_keys)
+               user = users_persister.find_participant(group_name: user_params['group'],
+                                                       user_name:  user_params['username'])
 
                if user
                   success!(user, "Hello!")

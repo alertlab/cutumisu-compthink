@@ -14,7 +14,7 @@ module CompThink
             properties[:start_date] = Date.parse(properties[:start_date])
             properties[:end_date]   = Date.parse(properties[:end_date])
 
-            group = group_persister.update(group_id, properties)
+            group = group_persister.update_with_participants(group_id, properties)
 
             {messages: ["Group #{ group.name } saved"]}
          end

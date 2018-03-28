@@ -7,6 +7,8 @@ module CompThink
                   has_one(:user_authentications)
 
                   many_to_many(:roles, through: :roles_users)
+
+                  many_to_many(:groups, through: :users_groups)
                end
             end
 

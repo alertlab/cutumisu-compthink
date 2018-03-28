@@ -45,6 +45,12 @@ module HelperMethods
       "1-#{ phone[0, 3] }-#{ phone[3, 3] }-#{ phone[6, 4] }"
    end
 
+   def search_select(field_name, value)
+      fill_in(field_name, with: value)
+      wait_for_ajax
+      find('search-select .results-section div:first-of-type', visible: false).trigger('click')
+   end
+
    def game_vm_js
       %[ko.dataFor(document.querySelector('.game-container'))]
    end

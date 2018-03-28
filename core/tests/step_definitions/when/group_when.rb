@@ -51,6 +51,14 @@ When('group {string} is updated with:') do |group_name, table|
    row[:start_date] = row[:start_date] || group.start_date.to_s
    row[:end_date]   = row[:end_date] || group.end_date.to_s
 
+   if row[:participants]
+      row[:participants] = extract_list(row[:participants]).collect do |name|
+         @persisters[:user].find(first_name: name).id
+      end
+   end
+
+   row[:participants] ||= group.participants.collect {|u| u.id}
+
    @result = UpdateGroup.run(@container, row.merge(id: group.id))
 end
 

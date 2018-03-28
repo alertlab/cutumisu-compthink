@@ -12,8 +12,8 @@ When("user {string} in group {string} views game list") do |user_name, group_nam
 end
 
 When("{string} plays {puzzle}") do |user_name, puzzle|
-   user  = @persisters[:user].find(first_name: user_name)
-   group = @persisters[:group].find(id: user.group_id)
+   # user  = @persisters[:user].find(first_name: user_name)
+   group = @persisters[:group].first
 
    unless current_path.match?('/game')
       step(%[user "#{user_name}" in group "#{group.name}" views game list])

@@ -9,20 +9,23 @@ Given("the following user(s):") do |table|
    symtable(table).hashes.each do |row|
       row[:roles] = extract_list(row.delete(:role) || row.delete(:roles)) if row[:role] || row[:roles]
 
-      unless row.key?(:email) || row.key?(:group)
-         row[:email] = "#{ row[:first_name] }@example.com"
-      end
-
       if row[:name]
          row[:first_name], row[:last_name] = row.delete(:name).split(/\s+/)
       end
 
-      if row[:group]
-         step(%[group "#{row[:group]}"])
-         row[:group_id] = group_persister.find(name: row[:group]).id
+      unless row.key?(:email) || row.key?(:group)
+         row[:email] = "#{ row[:first_name] }@example.com"
       end
 
+      group_name = row.delete(:group)
+
       user = user_persister.create(row)
+
+      if group_name
+         step(%[group "#{group_name}"])
+         group = group_persister.find(name: group_name)
+         group_persister.add_participants(group.id, [user.id])
+      end
 
       row[:roles].each do |role_name|
          step(%["#{ user.first_name }" has role "#{role_name}"])

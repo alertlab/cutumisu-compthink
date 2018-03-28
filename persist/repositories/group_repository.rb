@@ -5,11 +5,35 @@ module CompThink
       struct_namespace CompThink::Model
 
       def find_all(attrs)
-         groups.where(attrs).to_a
+         aggregate(:users)
+               .where(attrs).to_a
       end
 
       def find(attrs)
          find_all(attrs).first
+      end
+
+      def update_with_participants(group_id, properties)
+         participant_ids = properties.delete(:participants)
+
+         groups.transaction do
+            users_groups
+                  .where(group_id: group_id)
+                  .command(:delete)
+                  .call
+
+            add_participants(group_id, participant_ids)
+
+            groups.by_pk(group_id)
+                  .changeset(:update, properties)
+                  .commit
+         end
+      end
+
+      def add_participants(group_id, participant_ids)
+         participant_ids.each do |user_id|
+            users_groups.command(:create).call(user_id: user_id, group_id: group_id)
+         end
       end
 
       def any_other?(id, attrs)
@@ -17,7 +41,7 @@ module CompThink
       end
 
       def groups_matching(attrs, count:, offset:, sort_by:, sort_direction:)
-         results = groups
+         results = aggregate(:users)
 
          unless attrs.nil?
             if attrs[:id]
@@ -54,6 +78,16 @@ module CompThink
 
       def exists?(id:)
          groups.where(id: id).count > 0
+      end
+
+      # def participants_for(group)
+      #    users.join(:users_groups, id: :user_id)
+      #          .where(group_id: group.id)
+      #          .to_a
+      # end
+
+      def in_group?(user, group)
+         users_groups.where(user_id: user.id, group_id: group.id).count > 0
       end
    end
 end

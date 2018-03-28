@@ -36,3 +36,13 @@ Given('{int} groups') do |count|
       )
    end
 end
+
+Given("group {string} has participants {string}") do |group_name, user_list|
+   user_ids = extract_list(user_list).collect do |name|
+      @persisters[:user].find(first_name: name).id
+   end
+
+   group = @persisters[:group].find(name: group_name)
+
+   @persisters[:group].update_with_participants(group.id, participants: user_ids)
+end

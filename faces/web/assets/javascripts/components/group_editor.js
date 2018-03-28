@@ -2,18 +2,47 @@ ko.components.register('group-editor', {
    template: ' <header data-bind="text: headerText()"></header>\
                <form data-bind="submit: save, css: formClass" autocomplete="off">\
                   <div class="group">\
-                     <label>\
-                        <span>Name</span>\
-                        <input type="text" name="name" data-bind="value: group.name">\
-                     </label>\
-                     <label>\
-                        <span>Start Date</span>\
-                        <input type="text" name="start_date" data-bind="value: group.start_date">\
-                     </label>\
-                     <label>\
-                        <span>End Date</span>\
-                        <input type="text" name="end_date" data-bind="value: group.end_date">\
-                     </label>\
+                     <div class="basic-info">\
+                        <label>\
+                           <span>Name</span>\
+                           <input type="text" name="name" data-bind="value: group.name">\
+                        </label>\
+                        <label>\
+                           <span>Start Date</span>\
+                           <input type="text" name="start_date" data-bind="value: group.start_date">\
+                        </label>\
+                        <label>\
+                           <span>End Date</span>\
+                           <input type="text" name="end_date" data-bind="value: group.end_date">\
+                        </label>\
+                     </div>\
+                     <div class="participants">\
+                        <header>\
+                           Participants (<span data-bind="text: group.participants().length"></span>)\
+                        </header>\
+                        <div class="list" data-bind="foreach: {data: group.participants, as: \'userShell\'}">\
+                           <div>\
+                              <div class="new-participant" data-bind="visible: !userShell.user(), \
+                                                                      if: !userShell.user()">\
+                                 <search-select params="uri: \'/admin/search_users\', \
+                                                        selectedObservable: userShell.user,\
+                                                        labelWith: $parent.buildUserLabel, \
+                                                        name: \'participant-\'+ $index()"></search-select>\
+                              </div>\
+                              <div class="participant" data-bind="visible: userShell.user(), \
+                                                                  if: userShell.user()">\
+                                 <a href="#" data-bind="href: $parent.userLink(userShell.user())">\
+                                    <span data-bind="text: userShell.user().first_name"></span>\
+                                    <span data-bind="text: userShell.user().last_name"></span>\
+                                 </a>\
+                                 <!--<user-summary params="user: userShell.user"></user-summary>-->\
+                              </div>\
+                              <a href="#" class="delete" title="Remove Participant" data-bind="click: function() { $parent.removeParticipant(userShell) }">x</a>\
+                           </div>\
+                        </div>\
+                        <span class="placeholder" data-bind="visible: !group.participants().length">- nobody -</span>\
+                        <a href="#" class="add" data-bind="click: addParticipant">+</a>\
+                     </div>\
                   </div>\
                   <div class="controls">\
                      <input type="button" class="delete" value="Delete" data-bind="visible: !isNewRecord(), click: toggleDeleteConfirm"/>\
@@ -39,7 +68,8 @@ ko.components.register('group-editor', {
          id: ko.observable(window.deserializeSearch().id || null),
          name: ko.observable(''),
          start_date: ko.observable(''),
-         end_date: ko.observable('')
+         end_date: ko.observable(''),
+         participants: ko.observableArray()
       };
 
       self.formClass = ko.pureComputed(function () {
@@ -47,7 +77,7 @@ ko.components.register('group-editor', {
       });
 
       self.onSave = function () {
-         window.location = '/admin/people'
+         window.location = '/admin/groups'
       };
 
       self.deleteConfirmVisible = ko.observable(false);
@@ -82,7 +112,11 @@ ko.components.register('group-editor', {
       self.save = function () {
          var uri = self.isNewRecord() ? '/admin/create_group' : '/admin/update_group';
 
-         var payload = ko.mapping.toJS(self.group, {ignore: ['pets']});
+         var payload = ko.mapping.toJS(self.group, {ignore: ['participants']});
+
+         payload.participants = self.group.participants().map(function (userShell) {
+            return userShell.user().id;
+         });
 
          ajax('post', uri, ko.mapping.toJSON(payload), function (response) {
             if (response.messages) {
@@ -103,6 +137,14 @@ ko.components.register('group-editor', {
          });
       };
 
+      self.buildUserLabel = function (user) {
+         return user.first_name + ' ' + user.last_name;
+      };
+
+      self.userLink = function (user) {
+         return '/admin/edit_person?id=' + user.id;
+      };
+
       self.headerText = ko.pureComputed(function () {
          return self.isNewRecord() ? 'New Group' : 'Edit ' + self.group.name();
       });
@@ -110,5 +152,13 @@ ko.components.register('group-editor', {
       self.toggleDeleteConfirm = function () {
          self.deleteConfirmVisible(!self.deleteConfirmVisible());
       };
+
+      self.addParticipant = function () {
+         self.group.participants.push({user: ko.observable()});
+      };
+
+      self.removeParticipant = function (userShell) {
+         self.group.participants.remove(userShell);
+      }
    }
 });

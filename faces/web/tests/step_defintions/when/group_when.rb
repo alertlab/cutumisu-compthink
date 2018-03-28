@@ -95,3 +95,30 @@ When('{string} force removes group {string}') do |admin_name, group_name|
 
    page.driver.follow(:post, '/admin/remove_group')
 end
+
+When("{string} adds {string} to group {string}") do |admin_name, user_name, group_name|
+   step(%["#{ admin_name }" navigates to group editor for "#{ group_name }"])
+
+   within('group-editor') do
+      within('.participants') do
+         click_link('+')
+
+         within('.new-participant') do
+            search_select('participant-0', user_name)
+         end
+      end
+
+      within('form > .controls') do
+         click_button('Save')
+      end
+   end
+
+   wait_for_ajax
+end
+
+When("{string} batch creates {int} participants in group {string}") do |admin_name, number, group_name|
+   step(%["#{ admin_name }" navigates to group editor for "#{ group_name }"])
+
+
+   pending # Write code here that turns the phrase above into concrete actions
+end

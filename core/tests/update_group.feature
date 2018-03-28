@@ -41,7 +41,79 @@ Feature: Update Group
          | Wagner |
          | Facey  |
    
+   Scenario Outline: it should add group members
+      Given the following users:
+         | name            |
+         | Bob Mainframe   |
+         | Dot Matrix      |
+         | Enzo Matrix     |
+         | Phong Mainframe |
+      When group "Group A" is updated with:
+         | participants |
+         | <people>     |
+      Then there should be 1 group
+      And group "Group A" should have <n> participants
+      Examples:
+         | people                | n |
+         | Dot, Enzo             | 2 |
+         | Bob, Dot, Enzo, Phong | 4 |
    
+   Scenario Outline: it should NOT add others
+      Given the following users:
+         | name            |
+         | Bob Mainframe   |
+         | Dot Matrix      |
+         | Enzo Matrix     |
+         | Phong Mainframe |
+      When group "Group A" is updated with:
+         | participants     |
+         | <first>,<second> |
+      Then there should be 1 group
+      And group "Group A" should have 2 participants
+      And "<first>" should be in group "Group A"
+      And "<second>" should be in group "Group A"
+      Examples:
+         | first | second |
+         | Dot   | Enzo   |
+         | Bob   | Phong  |
+   
+   Scenario: it should remove group members
+      Given the following users:
+         | name            |
+         | Bob Mainframe   |
+         | Dot Matrix      |
+         | Enzo Matrix     |
+         | Phong Mainframe |
+      And group "Group A" has participants "Bob, Dot, Enzo, Phong"
+      When group "Group A" is updated with:
+         | participants |
+         |              |
+      Then there should be 1 group
+      And group "Group A" should have 0 participants
+      And "Bob" should not be in group "Group A"
+      And "Dot" should not be in group "Group A"
+      And "Enzo" should not be in group "Group A"
+      And "Phong" should not be in group "Group A"
+   
+   Scenario Outline: it should remove only some group members
+      Given the following users:
+         | name            |
+         | Bob Mainframe   |
+         | Dot Matrix      |
+         | Enzo Matrix     |
+         | Phong Mainframe |
+      And group "Group A" has participants "Bob, Dot, Enzo, Phong"
+      When group "Group A" is updated with:
+         | participants      |
+         | <first>, <second> |
+      Then there should be 1 group
+      And group "Group A" should have 2 participants
+      And "<first>" should be in group "Group A"
+      And "<second>" should be in group "Group A"
+      Examples:
+         | first | second |
+         | Bob   | Enzo   |
+         | Dot   | Phong  |
    
    # === Error Cases ===
    Scenario: it should complain if the name is blank

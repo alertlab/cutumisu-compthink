@@ -1,4 +1,4 @@
-ko.components.register('text-select', {
+ko.components.register('search-select', {
    template: ' <input type="text" \
                       autocomplete="off" \
                       placeholder="Type to search" \
@@ -41,7 +41,7 @@ ko.components.register('text-select', {
 
       self.highlighted = ko.observable();
       self.isHighlighted = function (data) {
-         return self.highlighted() == data;
+         return self.highlighted() === data;
       };
 
       self.inputName = params['name'];
@@ -49,8 +49,8 @@ ko.components.register('text-select', {
       self.searchUri = params['uri'] || explode('Must provide param "uri" to text-select component.');
       self.selectedOption = params['selectedObservable'] || explode('Must provide param "selectedObservable" to text-select component.');
       self.labeller = params['labelWith'] || function (data) {
-            return ko.mapping.toJSON(data);
-         };
+         return ko.mapping.toJSON(data);
+      };
 
       self.searchOptions = ko.observableArray([]);
       self.searchDisabled = false;
@@ -87,7 +87,7 @@ ko.components.register('text-select', {
          if (self.searchDisabled)
             return;
 
-         if (self.searchText().length == 0) {
+         if (self.searchText().length === 0) {
             self.clearOptions();
             return;
          }
@@ -106,9 +106,9 @@ ko.components.register('text-select', {
          var isEnterKey, isArrowDownKey, isArrowUpKey;
 
          // key is not supported of all browers, but keyCode is, so always fall back
-         isEnterKey = event.key == 'Enter' || event.keyCode == 13;
-         isArrowDownKey = event.key == 'ArrowDown' || event.keyCode == 40;
-         isArrowUpKey = event.key == 'ArrowUp' || event.keyCode == 38;
+         isEnterKey = event.key === 'Enter' || event.keyCode === 13;
+         isArrowDownKey = event.key === 'ArrowDown' || event.keyCode === 40;
+         isArrowUpKey = event.key === 'ArrowUp' || event.keyCode === 38;
 
          // returning false for uparrow and down to prevent cursor moving to end of line in some browsers
          // and for Enter to prevent form submission.

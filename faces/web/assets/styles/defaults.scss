@@ -85,7 +85,7 @@ html {
          &[type=submit] {
             @include button();
             
-            font-size: 1.25em;
+            font-size: 1em;
          }
          
          &[type="checkbox"] {
