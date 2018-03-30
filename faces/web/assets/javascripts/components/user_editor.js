@@ -24,13 +24,16 @@ ko.components.register('user-editor', {
                      <input type="button" class="delete" value="Delete" data-bind="visible: !isNewRecord(), click: toggleDeleteConfirm"/>\
                      <a href="/admin/people" class="cancel">Cancel</a>\
                      <input type="submit" value="Save" />\
-                     <div class="delete-confirm" data-bind="visible: deleteConfirmVisible">\
+                     <float-frame class="delete-confirm" params="visibility: deleteConfirmVisible">\
                         <header>Confirm Deletion</header>\
-                        <p>Are you sure you wish to delete <span data-bind="text: user.first_name"></span> <span data-bind="text: user.last_name"></span>? <strong>This action cannot be undone.</strong></p>\
-                        <a href="#" data-bind="click: toggleDeleteConfirm">Cancel</a>\
-                        <a href="#" data-bind="click: deleteUser">Delete Permanently</a>\
-                     </div>\
-                     <div class="overlay" data-bind="visible: deleteConfirmVisible, click: toggleDeleteConfirm"></div>\
+                        <p>\
+                           Are you sure you wish to delete <span data-bind="text: $parent.user.first_name"></span> \
+                           <span data-bind="text: $parent.user.last_name"></span>?\
+                           <strong>This action cannot be undone.</strong>\
+                        </p>\
+                        <a href="#" data-bind="click: $parent.toggleDeleteConfirm">Cancel</a>\
+                        <a href="#" data-bind="click: $parent.deleteUser">Delete Permanently</a>\
+                     </float-frame>\
                   </div>\
                </form>',
 

@@ -70,13 +70,15 @@ ko.components.register('group-editor', {
                      <input type="button" class="delete" value="Delete" data-bind="visible: !isNewRecord(), click: toggleDeleteConfirm"/>\
                      <a href="/admin/people" class="cancel">Cancel</a>\
                      <input type="submit" value="Save" />\
-                     <div class="delete-confirm" data-bind="visible: deleteConfirmVisible">\
+                     <float-frame class="delete-confirm" params="visibility: deleteConfirmVisible">\
                         <header>Confirm Deletion</header>\
-                        <p>Are you sure you wish to delete <span data-bind="text: group.name"></span>? <strong>This action cannot be undone.</strong></p>\
-                        <a href="#" data-bind="click: toggleDeleteConfirm">Cancel</a>\
-                        <a href="#" data-bind="click: deleteGroup">Delete Permanently</a>\
-                     </div>\
-                     <div class="overlay" data-bind="visible: deleteConfirmVisible, click: toggleDeleteConfirm"></div>\
+                        <p>\
+                           Are you sure you wish to delete <span data-bind="text: $parent.group.name"></span>?\
+                           <strong>This action cannot be undone.</strong>\
+                        </p>\
+                        <a href="#" data-bind="click: $parent.toggleDeleteConfirm">Cancel</a>\
+                        <a href="#" data-bind="click: $parent.deleteGroup">Delete Permanently</a>\
+                     </float-frame>\
                   </div>\
                </form>',
 
@@ -132,6 +134,27 @@ ko.components.register('group-editor', {
          }
       };
 
+      self.datePickers = {
+         start: new Pikaday({
+            field: document.querySelector('input[name="start_date"]'),
+            onSelect: function (date) {
+               var input = document.querySelector('input[name="start_date"]');
+
+               self.group.start_date(date.toISOString());
+               input.value = humanDate(date.getTime() / 1000);
+            }
+         }),
+         end: new Pikaday({
+            field: document.querySelector('input[name="end_date"]'),
+            onSelect: function (date) {
+               var input = document.querySelector('input[name="end_date"]');
+
+               self.group.end_date(date.toISOString());
+               input.value = humanDate(date.getTime() / 1000);
+            }
+         })
+      };
+
       self.formClass = ko.pureComputed(function () {
          return 'group-editor-' + (self.isNewRecord() ? 'new' : self.group.id());
       });
@@ -161,14 +184,16 @@ ko.components.register('group-editor', {
             self.group.id(group.id);
 
             self.group.name(group.name || '');
-            self.group.start_date(group.start_date || '');
-            self.group.end_date(group.end_date || '');
+            self.group.start_date(humanDate(group.start_date || ''));
+            self.group.end_date(humanDate(group.end_date || ''));
 
             self.group.participants(group.participants.map(function (p) {
                return {
                   user: ko.observable(p)
                }
             }));
+
+            console.log(self.group.start_date())
          });
       };
 
