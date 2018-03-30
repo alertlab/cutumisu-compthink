@@ -117,10 +117,18 @@ group-editor {
             }
             
             .bulk-participants {
-               @include float-panel();
-               
-               button {
-                  @include button();
+               .controls {
+                  display: flex;
+                  
+                  align-content: flex-end;
+                  
+                  .add {
+                     @include button();
+                  }
+                  
+                  .cancel {
+                     @include button(white, $color1);
+                  }
                }
             }
             

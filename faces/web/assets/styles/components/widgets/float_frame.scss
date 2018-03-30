@@ -1,0 +1,11 @@
+@import 'mixins/all';
+
+float-frame {
+   & > .frame {
+      @include float-panel();
+   }
+   
+   .overlay {
+      @include overlay();
+   }
+}

@@ -16,7 +16,7 @@ ko.components.register('group-editor', {
                            <input type="text" name="end_date" data-bind="value: group.end_date">\
                         </label>\
                      </div>\
-                     <div class="participants">\
+                     <div class="participants" data-bind="visible: !isNewRecord()">\
                         <header>\
                            Participants (<span data-bind="text: group.participants().length"></span>)\
                         </header>\
@@ -45,23 +45,25 @@ ko.components.register('group-editor', {
                            <a href="#" class="bulk-add" data-bind="click: bulk.toggleVisible">Bulk Create...</a>\
                            <a href="#" class="add" data-bind="click: addParticipant">+1</a>\
                         </div>\
-                        <div class="bulk-participants" data-bind="visible: bulk.isVisible">\
+                        <float-frame class="bulk-participants" params="visibility: bulk.isVisible">\
+                           <header>Add Multiple Participants</header>\
                            <label>\
                               <span>\
                                  Number\
                               </span>\
-                              <input name="number" type="number" min="1" data-bind="value: bulk.number"/>\
+                              <input name="number" type="number" min="1" data-bind="value: $parent.bulk.number"/>\
                            </label>\
                            <label>\
                               <span>\
                                  Prefix\
                               </span>\
-                              <input name="prefix" type="text" data-bind="value: bulk.prefix" />\
+                              <input name="prefix" type="text" data-bind="value: $parent.bulk.prefix" />\
                            </label>\
-                           <hr>\
-                           <button type="button" data-bind="click: bulk.createUsers">Add</button>\
-                        </div>\
-                        <div class="overlay" data-bind="visible: bulk.isVisible, click: bulk.toggleVisible"></div>\
+                           <div class="controls">\
+                              <button type="button" class="cancel" data-bind="click: $parent.bulk.toggleVisible">Cancel</button>\n\
+                              <button type="button" class="add" data-bind="click: $parent.bulk.createUsers">Add</button>\
+                           </div>\
+                        </float-frame>\
                      </div>\
                   </div>\
                   <div class="controls">\
