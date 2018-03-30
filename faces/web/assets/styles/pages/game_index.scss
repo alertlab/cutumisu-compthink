@@ -1,0 +1,23 @@
+@import 'layouts/common';
+
+html body {
+   #game-index-page {
+      margin: 3em auto;
+      
+      max-width: 60em;
+      
+      text-align: center;
+      
+      a {
+         @include button();
+         display: inline-block;
+         
+         margin: 5em;
+         
+         min-width: 10em;
+         min-height: 10em;
+         
+         background: $color2;
+      }
+   }
+}
