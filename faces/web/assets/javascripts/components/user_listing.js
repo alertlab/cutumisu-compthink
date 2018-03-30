@@ -28,7 +28,9 @@ ko.components.register('user-listing', {
                         </label>\
                      </fieldset>\
                   </div>\
-                  <a class="add-user-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ togglePersonCreator() }">\
+                  <a class="add-user-button" \
+                     href="#" \
+                     data-bind="visible: !createEditorVisible(), click: createEditorVisible.toggle">\
                      <div class="icon">\
                         <img src="/assets/images/person.svg"/>\
                         <span class="plus">+</span>\
@@ -45,7 +47,7 @@ ko.components.register('user-listing', {
                <div class="user-summaries">\n\
                   <div class="add-user-controls" data-bind="visible: createEditorVisible">\
                      <user-editor params="onSave: personCreated, \
-                                          onAbort: togglePersonCreator"></user-editor>\
+                                          onAbort: createEditorVisible.toggle"></user-editor>\
                   </div>\
                   <label class="sort">\
                      <span>Sort</span>\
@@ -68,7 +70,7 @@ ko.components.register('user-listing', {
       var self = this;
 
       self.users = ko.observableArray().extend({loadable: true});
-      self.createEditorVisible = ko.observable(false);
+      self.createEditorVisible = ko.observable(false).toggleable();
 
       var searchLimit = 500;
 
@@ -130,12 +132,8 @@ ko.components.register('user-listing', {
       };
 
       // BEHAVIOUR
-      self.togglePersonCreator = function () {
-         self.createEditorVisible(!self.createEditorVisible());
-      };
-
       self.personCreated = function () {
-         self.togglePersonCreator();
+         self.createEditorVisible.toggle();
          self.users.shouldReload(true);
       };
    }

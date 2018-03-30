@@ -42,7 +42,7 @@ ko.components.register('group-editor', {
                         </div>\
                         <span class="placeholder" data-bind="visible: !group.participants().length">- nobody -</span>\
                         <div class="controls">\
-                           <a href="#" class="bulk-add" data-bind="click: bulk.toggleVisible">Bulk Create...</a>\
+                           <a href="#" class="bulk-add" data-bind="click: bulk.isVisible.toggle">Bulk Create...</a>\
                            <a href="#" class="add" data-bind="click: addParticipant">+1</a>\
                         </div>\
                         <float-frame class="bulk-participants" params="visibility: bulk.isVisible">\
@@ -60,15 +60,19 @@ ko.components.register('group-editor', {
                               <input name="prefix" type="text" data-bind="value: $parent.bulk.prefix" />\
                            </label>\
                            <div class="controls">\
-                              <button type="button" class="cancel" data-bind="click: $parent.bulk.toggleVisible">Cancel</button>\n\
+                              <button type="button" class="cancel" data-bind="click: $parent.bulk.isVisible.toggle">Cancel</button>\n\
                               <button type="button" class="add" data-bind="click: $parent.bulk.createUsers">Add</button>\
                            </div>\
                         </float-frame>\
                      </div>\
                   </div>\
                   <div class="controls">\
-                     <input type="button" class="delete" value="Delete" data-bind="visible: !isNewRecord(), click: toggleDeleteConfirm"/>\
-                     <a href="/admin/people" class="cancel">Cancel</a>\
+                     <input type="button" \
+                            class="delete" \
+                            value="Delete" \
+                            data-bind="visible: !isNewRecord(), \
+                                       click: deleteConfirmVisible.toggle"/>\
+                     <a href="/admin/groups" class="cancel">Cancel</a>\
                      <input type="submit" value="Save" />\
                      <float-frame class="delete-confirm" params="visibility: deleteConfirmVisible">\
                         <header>Confirm Deletion</header>\
@@ -76,7 +80,7 @@ ko.components.register('group-editor', {
                            Are you sure you wish to delete <span data-bind="text: $parent.group.name"></span>?\
                            <strong>This action cannot be undone.</strong>\
                         </p>\
-                        <a href="#" data-bind="click: $parent.toggleDeleteConfirm">Cancel</a>\
+                        <a href="#" data-bind="click: $parent.deleteConfirmVisible.toggle">Cancel</a>\
                         <a href="#" data-bind="click: $parent.deleteGroup">Delete Permanently</a>\
                      </float-frame>\
                   </div>\
@@ -99,10 +103,7 @@ ko.components.register('group-editor', {
       self.bulk = {
          number: ko.observable(1),
          prefix: ko.observable('user'),
-         isVisible: ko.observable(false),
-         toggleVisible: function () {
-            self.bulk.isVisible(!self.bulk.isVisible());
-         },
+         isVisible: ko.observable(false).toggleable(),
          createUsers: function () {
             var maxNumber;
             var newUsers = [];
@@ -130,7 +131,7 @@ ko.components.register('group-editor', {
 
             self.group.participants(self.group.participants().concat(newUsers))
 
-            self.bulk.toggleVisible();
+            self.bulk.isVisible(false);
          }
       };
 
@@ -163,7 +164,7 @@ ko.components.register('group-editor', {
          window.location = '/admin/groups'
       };
 
-      self.deleteConfirmVisible = ko.observable(false);
+      self.deleteConfirmVisible = ko.observable(false).toggleable();
 
       self.isNewRecord = ko.pureComputed(function () {
          return !self.group.id();
@@ -233,7 +234,7 @@ ko.components.register('group-editor', {
             if (response.messages)
                window.flash('notice', response.messages);
 
-            self.toggleDeleteConfirm();
+            self.deleteConfirmVisible.toggle();
             self.onSave();
          });
       };
@@ -249,10 +250,6 @@ ko.components.register('group-editor', {
       self.headerText = ko.pureComputed(function () {
          return self.isNewRecord() ? 'New Group' : 'Edit ' + self.group.name();
       });
-
-      self.toggleDeleteConfirm = function () {
-         self.deleteConfirmVisible(!self.deleteConfirmVisible());
-      };
 
       self.addParticipant = function () {
          self.group.participants.push({user: ko.observable()});

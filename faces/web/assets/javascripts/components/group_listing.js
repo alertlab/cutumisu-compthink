@@ -7,7 +7,7 @@ ko.components.register('group-listing', {
                         <input type="text" name="name" data-bind="textInput: search.name"/>\
                      </label>                        \
                   </div>\
-                  <a class="add-group-button" href="#" data-bind="visible: !createEditorVisible(), click: function(){ toggleGroupCreator() }">\
+                  <a class="add-group-button" href="#" data-bind="visible: !createEditorVisible(), click: createEditorVisible">\
                      <div class="icon">\
                         <img src="/assets/images/people.svg"/>\
                         <span class="plus">+</span>\
@@ -24,7 +24,7 @@ ko.components.register('group-listing', {
                <div class="group-summaries">\
                   <div class="add-group-controls" data-bind="visible: createEditorVisible">\
                      <group-editor params="onSave: groupCreated, \
-                                           onAbort: toggleGroupCreator"></group-editor>\
+                                           onAbort: createEditorVisible.toggle"></group-editor>\
                   </div>\
                   <div data-bind="foreach: {data: groups, as: \'group\'}">\
                      <group-summary params="group: group"></group-summary>\
@@ -43,7 +43,7 @@ ko.components.register('group-listing', {
       var self = this;
 
       self.groups = ko.observableArray().extend({loadable: true});
-      self.createEditorVisible = ko.observable(false);
+      self.createEditorVisible = ko.observable(false).toggleable();
 
       var searchLimit = 500;
 
@@ -87,13 +87,9 @@ ko.components.register('group-listing', {
       };
 
       // BEHAVIOUR
-      self.toggleGroupCreator = function () {
-         self.createEditorVisible(!self.createEditorVisible());
-      };
-
       self.groupCreated = function () {
-         self.toggleGroupCreator();
          self.groups.shouldReload(true);
+         self.createEditorVisible.toggle();
       };
    }
 });

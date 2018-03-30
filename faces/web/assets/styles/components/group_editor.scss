@@ -23,14 +23,12 @@ group-editor {
          flex: 1 1 0;
          
          label {
-            display: block;
+            display: inline-block;
             
             min-width: 5em;
             
             span {
                display: inline-block;
-               
-               vertical-align: top;
                
                min-width: 4em;
                
@@ -59,7 +57,7 @@ group-editor {
             }
             
             label span {
-               min-width: 9em;
+               min-width: 5em;
             }
          }
          

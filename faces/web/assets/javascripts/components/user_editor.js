@@ -21,7 +21,10 @@ ko.components.register('user-editor', {
                      </fieldset>\
                   </div>\
                   <div class="controls">\
-                     <input type="button" class="delete" value="Delete" data-bind="visible: !isNewRecord(), click: toggleDeleteConfirm"/>\
+                     <input type="button" \
+                            class="delete" \
+                            value="Delete" \
+                            data-bind="visible: !isNewRecord(), click: deleteConfirmVisible.toggle"/>\
                      <a href="/admin/people" class="cancel">Cancel</a>\
                      <input type="submit" value="Save" />\
                      <float-frame class="delete-confirm" params="visibility: deleteConfirmVisible">\
@@ -31,7 +34,7 @@ ko.components.register('user-editor', {
                            <span data-bind="text: $parent.user.last_name"></span>?\
                            <strong>This action cannot be undone.</strong>\
                         </p>\
-                        <a href="#" data-bind="click: $parent.toggleDeleteConfirm">Cancel</a>\
+                        <a href="#" data-bind="click: $parent.deleteConfirmVisible.toggle">Cancel</a>\
                         <a href="#" data-bind="click: $parent.deleteUser">Delete Permanently</a>\
                      </float-frame>\
                   </div>\
@@ -58,7 +61,7 @@ ko.components.register('user-editor', {
          window.location = '/admin/people'
       };
 
-      self.deleteConfirmVisible = ko.observable(false);
+      self.deleteConfirmVisible = ko.observable(false).toggleable();
 
       self.isNewRecord = ko.pureComputed(function () {
          return !self.user.id();
@@ -103,11 +106,10 @@ ko.components.register('user-editor', {
 
       self.deleteUser = function () {
          ajax('post', '/admin/delete_user', ko.mapping.toJSON({id: self.user.id()}), function (response) {
-            if (response.messages) {
+            if (response.messages)
                window.flash('notice', response.messages);
-            }
 
-            self.toggleDeleteConfirm();
+            self.deleteConfirmVisible.toggle();
             self.onSave();
          });
       };
@@ -115,9 +117,5 @@ ko.components.register('user-editor', {
       self.headerText = ko.pureComputed(function () {
          return self.isNewRecord() ? 'New Person' : 'Edit ' + self.user.first_name() + ' ' + self.user.last_name();
       });
-
-      self.toggleDeleteConfirm = function () {
-         self.deleteConfirmVisible(!self.deleteConfirmVisible());
-      };
    }
 });
