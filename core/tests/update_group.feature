@@ -77,6 +77,17 @@ Feature: Update Group
          | Dot   | Enzo   |
          | Bob   | Phong  |
    
+   Scenario Outline: it should create and add bulk group members
+      When group "Group A" is updated with:
+         | batch participants |
+         | <people>           |
+      Then there should be 1 group
+      And group "Group A" should have <n> participants
+      Examples:
+         | people                     | n |
+         | user01, user02             | 2 |
+         | bev01, bev02, bev03, bev04 | 4 |
+   
    Scenario: it should remove group members
       Given the following users:
          | name            |

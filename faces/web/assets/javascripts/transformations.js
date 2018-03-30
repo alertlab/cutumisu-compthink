@@ -6,8 +6,8 @@
       return ('0' + string).slice(-2);
    };
 
-   window.padDigitLeft = function (numberToPad, n) {
-      return ((new Array(n)).join('0') + numberToPad).slice(-n);
+   window.padDigitLeft = function (numberToPad, nChars) {
+      return ((new Array(nChars)).join('0') + numberToPad).slice(-nChars);
    };
 
    window.humanDate = function (stamp) {

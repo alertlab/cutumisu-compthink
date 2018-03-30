@@ -55,6 +55,13 @@ When('group {string} is updated with:') do |group_name, table|
       row[:participants] = extract_list(row[:participants]).collect do |name|
          @persisters[:user].find(first_name: name).id
       end
+   elsif row[:batch_participants]
+      row[:create_participants] = extract_list(row.delete(:batch_participants)).collect do |name|
+         {
+               first_name: name,
+               email:      "#{name}@example.com"
+         }
+      end
    end
 
    row[:participants] ||= group.participants.collect {|u| u.id}

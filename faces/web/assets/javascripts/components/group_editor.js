@@ -41,7 +41,27 @@ ko.components.register('group-editor', {
                            </div>\
                         </div>\
                         <span class="placeholder" data-bind="visible: !group.participants().length">- nobody -</span>\
-                        <a href="#" class="add" data-bind="click: addParticipant">+</a>\
+                        <div class="controls">\
+                           <a href="#" class="bulk-add" data-bind="click: bulk.toggleVisible">Bulk Create...</a>\
+                           <a href="#" class="add" data-bind="click: addParticipant">+1</a>\
+                        </div>\
+                        <div class="bulk-participants" data-bind="visible: bulk.isVisible">\
+                           <label>\
+                              <span>\
+                                 Number\
+                              </span>\
+                              <input name="number" type="number" min="1" data-bind="value: bulk.number"/>\
+                           </label>\
+                           <label>\
+                              <span>\
+                                 Prefix\
+                              </span>\
+                              <input name="prefix" type="text" data-bind="value: bulk.prefix" />\
+                           </label>\
+                           <hr>\
+                           <button type="button" data-bind="click: bulk.createUsers">Add</button>\
+                        </div>\
+                        <div class="overlay" data-bind="visible: bulk.isVisible, click: bulk.toggleVisible"></div>\
                      </div>\
                   </div>\
                   <div class="controls">\
@@ -70,6 +90,44 @@ ko.components.register('group-editor', {
          start_date: ko.observable(''),
          end_date: ko.observable(''),
          participants: ko.observableArray()
+      };
+
+      self.bulk = {
+         number: ko.observable(1),
+         prefix: ko.observable('user'),
+         isVisible: ko.observable(false),
+         toggleVisible: function () {
+            self.bulk.isVisible(!self.bulk.isVisible());
+         },
+         createUsers: function () {
+            var maxNumber;
+            var newUsers = [];
+
+            if (self.group.participants().length > 0)
+               maxNumber = self.group.participants().map(function (userShell) {
+                  return parseInt(userShell.user().first_name.replace(self.bulk.prefix(), '')) || 0;
+               }).reduce(function (a, b) {
+                  return Math.max(a || 0, b || 0);
+               });
+            else
+               maxNumber = 0;
+
+            for (var i = 0; i < self.bulk.number(); i++) {
+               var name = self.bulk.prefix() + padDigitLeft(maxNumber + i + 1, 3);
+
+               newUsers.push({
+                  user: ko.observable({
+                     first_name: name,
+                     email: name + '-' + self.group.name() + '@example.com',
+                     isNewUser: true
+                  })
+               });
+            }
+
+            self.group.participants(self.group.participants().concat(newUsers))
+
+            self.bulk.toggleVisible();
+         }
       };
 
       self.formClass = ko.pureComputed(function () {
@@ -103,6 +161,12 @@ ko.components.register('group-editor', {
             self.group.name(group.name || '');
             self.group.start_date(group.start_date || '');
             self.group.end_date(group.end_date || '');
+
+            self.group.participants(group.participants.map(function (p) {
+               return {
+                  user: ko.observable(p)
+               }
+            }));
          });
       };
 
@@ -110,12 +174,22 @@ ko.components.register('group-editor', {
          self.getGroup();
 
       self.save = function () {
-         var uri = self.isNewRecord() ? '/admin/create_group' : '/admin/update_group';
+         var uri, payload;
 
-         var payload = ko.mapping.toJS(self.group, {ignore: ['participants']});
+         uri = self.isNewRecord() ? '/admin/create_group' : '/admin/update_group';
 
-         payload.participants = self.group.participants().map(function (userShell) {
-            return userShell.user().id;
+         payload = ko.mapping.toJS(self.group, {ignore: ['participants']});
+
+         payload.participants = [];
+         payload.create_participants = [];
+
+         self.group.participants().forEach(function (userShell) {
+            var userData = userShell.user();
+
+            if (userData.isNewUser)
+               payload.create_participants.push(userData)
+            else
+               payload.participants.push(userData.id);
          });
 
          ajax('post', uri, ko.mapping.toJSON(payload), function (response) {
@@ -159,6 +233,6 @@ ko.components.register('group-editor', {
 
       self.removeParticipant = function (userShell) {
          self.group.participants.remove(userShell);
-      }
+      };
    }
 });

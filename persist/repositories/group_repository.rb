@@ -14,15 +14,22 @@ module CompThink
       end
 
       def update_with_participants(group_id, properties)
-         participant_ids = properties.delete(:participants)
+         participant_ids  = properties.delete(:participants)
+         new_participants = properties.delete(:create_participants)
 
          groups.transaction do
+            new_ids = if new_participants
+                         users.command(:create, result: :many).call(new_participants).collect {|u| u.id}
+                      else
+                         []
+                      end
+
             users_groups
                   .where(group_id: group_id)
                   .command(:delete)
                   .call
 
-            add_participants(group_id, participant_ids)
+            add_participants(group_id, participant_ids + new_ids)
 
             groups.by_pk(group_id)
                   .changeset(:update, properties)
