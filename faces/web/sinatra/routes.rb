@@ -196,7 +196,7 @@ helpers do
       if request.path.match?(%r{^/admin})
          :'layouts/admin'
       else
-         :'layouts/user'
+         :'layouts/public'
       end
    end
 end

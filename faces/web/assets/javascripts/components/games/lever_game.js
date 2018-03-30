@@ -1,6 +1,7 @@
 ko.components.register('lever-game', {
-   template: '<div class="game-container"></div>\
-              <header>Lever Puzzle</header>',
+   template: '<div class="game-meta-container">\
+                  <div class="game-container"></div>\
+              </div>',
 
    /**
     */
@@ -39,7 +40,7 @@ ko.components.register('lever-game', {
          game.scale.pageAlignVertically = true;
          game.scale.refresh();
 
-         game.stage.backgroundColor = "#444444";
+         game.stage.backgroundColor = "#696969";
 
          self.buttonGroup = this.game.add.group();
 
@@ -62,6 +63,8 @@ ko.components.register('lever-game', {
                this.loadTexture('button', 0);
             };
             self.buttonGroup.add(button);
+
+            button.tint = '0xffffff';
          });
 
          self.text = game.add.text(game.world.centerX, 50, 'Moves: ', {fill: '#ffffff', fontSize: '18px'});

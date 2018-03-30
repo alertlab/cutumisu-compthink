@@ -1,6 +1,7 @@
 ko.components.register('hanoi-game', {
-   template: '<div class="game-container"></div>\
-              <header>Towers of Hanoi</header>',
+   template: '<div class="game-meta-container">\
+                 <div class="game-container"></div>\
+              </div>',
 
    /**
     */

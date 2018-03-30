@@ -1,0 +1,109 @@
+@import 'mixins/all';
+
+html body {
+   font-family: sans-serif;
+   
+   .overlay {
+      @include overlay();
+   }
+   
+   & > header,
+   .page-header {
+      position: relative;
+      
+      text-align: center;
+      
+      color: $color1;
+      
+      .banner {
+         display: inline-block;
+         
+         margin-top: 1em;
+         
+         padding: 1em 1em 0 1em;
+         
+         &,
+         &:hover,
+         &:visited {
+            color: $color1;
+         }
+         
+         .logo {
+            display: inline-block;
+            
+            vertical-align: bottom;
+            
+            border-radius: 0.25em;
+            
+            img {
+               margin-right: 1em;
+               
+               max-width: 10em;
+               
+               -moz-user-select: none;
+               -webkit-user-select: none;
+               -ms-user-select: none;
+               user-select: none;
+            }
+            
+            span {
+               font-size: 3em;
+               font-family: serif;
+            }
+            
+            &:hover {
+               text-decoration: none;
+            }
+         }
+         
+         .subtitle {
+            display: block;
+            
+            margin-bottom: 1em;
+            
+            font-family: "georgia", "times", "times new roman", serif;
+            font-style: italic;
+            
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            
+            font-size: 1.5em;
+         }
+      }
+      
+      nav {
+         session > a:hover {
+            opacity: 0.8;
+            background: $color1;
+            color: $color3;
+            
+            transition: 0.2s all;
+         }
+         
+         li.session {
+            float: right;
+         }
+         
+         session {
+            a,
+            span {
+               display: inline-block;
+               
+               padding: 0.5em 1em;
+            }
+            
+            span {
+               color: $color1;
+               
+               opacity: 0.5;
+            }
+            
+            a:hover {
+               text-decoration: none;
+            }
+         }
+      }
+   }
+}
