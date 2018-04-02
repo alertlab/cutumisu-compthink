@@ -25,7 +25,6 @@ When("{string} plays {puzzle}") do |user_name, puzzle|
       end
 
       wait_for_game_load
-      sleep 0.25
    end
 end
 

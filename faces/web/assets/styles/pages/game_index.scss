@@ -8,16 +8,38 @@ html body {
       
       text-align: center;
       
-      a {
+      .game {
          @include button();
          display: inline-block;
-         
-         margin: 5em;
          
          min-width: 10em;
          min-height: 10em;
          
+         margin: 3em;
+         
+         padding: 0.5em;
+         
          background: $color2;
+         
+         $shot-size: 10em;
+         
+         .shot-container {
+            height: $shot-size;
+            
+            margin: 0.25em;
+            
+            border-radius: 0.5em;
+            
+            overflow: hidden;
+            
+            img {
+               max-height: $shot-size;
+            }
+         }
+         
+         span {
+            font-size: 1.5em;
+         }
       }
    }
 }

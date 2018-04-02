@@ -36,9 +36,13 @@ module HelperMethods
    end
 
    def wait_for_game_load
+      sleep 0.35
+
       Timeout.timeout(Capybara.default_max_wait_time) do
          loop until (page.evaluate_script("#{game_vm_js}.game.isBooted") || false)
       end
+
+      sleep 0.35
    end
 
    def format_phone(phone)
