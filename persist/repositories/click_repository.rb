@@ -19,5 +19,11 @@ module CompThink
       def last
          clicks.last
       end
+
+      def done_puzzle?(user, puzzle_type)
+         clicks.where(user_id:  user.id,
+                      puzzle:   puzzle_type.to_s,
+                      complete: true).count > 0
+      end
    end
 end

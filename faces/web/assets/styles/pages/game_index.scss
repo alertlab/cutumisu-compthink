@@ -24,6 +24,8 @@ html body {
          $shot-size: 10em;
          
          .shot-container {
+            position: relative;
+            
             height: $shot-size;
             
             margin: 0.25em;
@@ -34,6 +36,17 @@ html body {
             
             img {
                max-height: $shot-size;
+            }
+            
+            .check {
+               position: absolute;
+               
+               top: 0;
+               left: 0.25em;
+               
+               font-size: 10em;
+               color: $color1;
+               text-shadow: 1px 1px 1px #fedb10;
             }
          }
          

@@ -1,12 +1,18 @@
 <div id="game-index-page">
    <a class="game" href="/games/leverproblem">
       <div class="shot-container">
+         <% if settings.container.persisters[:click].done_puzzle?(current_user, :levers) %>
+            <span class="check">&#10003;</span>
+         <% end %>
          <img src="<%= image_path('games/screenshots/levers_shot.png') %>" />
       </div>
       <span>Lever Puzzle</span>
    </a>
    <a class="game" href="/games/towers">
       <div class="shot-container">
+         <% if settings.container.persisters[:click].done_puzzle?(current_user, :hanoi) %>
+            <span class="check">&#10003;</span>
+         <% end %>
          <img src="<%= image_path('games/screenshots/hanoi_shot.png') %>" />
       </div>
       <span>Tower Puzzle</span>
