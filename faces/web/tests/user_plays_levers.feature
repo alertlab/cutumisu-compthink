@@ -45,7 +45,9 @@ Feature: User Plays Levers
          | C     | A      | C     | B      |
    
    @webkit
-   Scenario Outline: it should record when they complete the puzzle
+   Scenario: it should record when they complete the puzzle
+      When "Bob" completes the levers puzzle
+      Then the last click should be marked as complete
    
    @webkit
    Scenario Outline: it should not record clicks after they are done
@@ -57,6 +59,16 @@ Feature: User Plays Levers
          | A      |
          | B      |
          | C      |
+   
+   @webkit
+   Scenario: it should prompt them back to the index when they are done
+      When "Bob" completes the levers puzzle
+      Then they should see "Back to Game List"
+   
+   @webkit
+   Scenario: it should link back to the index in the return prompt
+      When "Bob" completes the levers puzzle and returns
+      Then they should be at /games
    
    # ==== Security ===
    Scenario: it should NOT allow people who are not signed in to view the puzzle

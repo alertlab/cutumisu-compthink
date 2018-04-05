@@ -78,14 +78,26 @@ When("{string} clicks peg {peg}") do |user_name, pegName|
    wait_for_ajax
 end
 
-When("{string} completes the puzzle") do |user_name|
-   step(%["#{user_name}" plays hanoi])
+When("{string} completes the {puzzle} puzzle") do |user_name, puzzle_type|
+   step(%[the lever order is "A,B,C"])
 
-   step(%["#{user_name}" moves a disc from A to B])
-   step(%["#{user_name}" moves a disc from A to C])
-   step(%["#{user_name}" moves a disc from B to C])
-   step(%["#{user_name}" moves a disc from A to B])
-   step(%["#{user_name}" moves a disc from C to A])
-   step(%["#{user_name}" moves a disc from C to B])
-   step(%["#{user_name}" moves a disc from A to B])
+   step(%["#{user_name}" plays #{puzzle_type}])
+
+   if puzzle_type == 'hanoi'
+      step(%["#{user_name}" moves a disc from A to B])
+      step(%["#{user_name}" moves a disc from A to C])
+      step(%["#{user_name}" moves a disc from B to C])
+      step(%["#{user_name}" moves a disc from A to B])
+      step(%["#{user_name}" moves a disc from C to A])
+      step(%["#{user_name}" moves a disc from C to B])
+      step(%["#{user_name}" moves a disc from A to B])
+   else
+      step(%["#{user_name}" flips levers "A, B, C"])
+   end
+end
+
+When("{string} completes the {puzzle} puzzle and returns") do |user_name, puzzle_type|
+   step(%["#{user_name}" completes the #{puzzle_type} puzzle])
+
+   click_link('Back To Game list')
 end

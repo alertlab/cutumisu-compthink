@@ -1,7 +1,11 @@
 ko.components.register('lever-game', {
    template: '<div class="game-meta-container">\
                   <div class="game-container"></div>\
-              </div>',
+              </div>\
+              <float-frame params="visibility: returnPrompt" class="return-prompt">\
+                  <header>Great Success!</header>\
+                  <p><a href="/games">Back To Game list</a></p>\
+                 </float-frame>',
 
    /**
     */
@@ -9,6 +13,8 @@ ko.components.register('lever-game', {
       var self = this;
 
       var expected, shuffleExpected;
+
+      self.returnPrompt = ko.observable(false);
 
       var gameWidth = params['width'] || explode('Must provide game width in params');
       var gameHeight = params['height'] || explode('Must provide game height in params');
@@ -92,8 +98,10 @@ ko.components.register('lever-game', {
          if (!prereqButton || prereqButton.switched) {
             button.switch();
 
-            if (button === finalButton)
+            if (button === finalButton) {
                self.text.text = "You finished in " + self.moves + " moves!";
+               self.returnPrompt(true);
+            }
          } else {
             self.buttonGroup.children.forEach(function (b) {
                b.reset();

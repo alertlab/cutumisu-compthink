@@ -53,6 +53,20 @@ html body {
             max-width: 800px;
          }
       }
+      
+      .return-prompt {
+         text-align: center;
+         
+         a {
+            @include button();
+            
+            &:before {
+               margin-right: 0.25em;
+               
+               content: '\21B6 ';
+            }
+         }
+      }
    }
    
 }

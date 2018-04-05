@@ -9,7 +9,7 @@ ko.components.register('float-frame', {
        * A widget that hides the content if the user does not have the provided role.
        *
        * @param params
-       *        - role: the name of the role that the user must have to display the interior widgets
+       *        - visibility: the observable to watch for visibility
        * @param content the content to expand and collapse
        * @param element the DOM node that will be bound to
        * @constructor

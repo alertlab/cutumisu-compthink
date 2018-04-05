@@ -1,12 +1,18 @@
 ko.components.register('hanoi-game', {
    template: '<div class="game-meta-container">\
                  <div class="game-container"></div>\
-              </div>',
+              </div>\
+              <float-frame params="visibility: returnPrompt" class="return-prompt">\
+                  <header>Great Success!</header>\
+                  <p><a href="/games">Back To Game list</a></p>\
+              </float-frame>',
 
    /**
     */
    viewModel: function (params) {
       var self = this;
+
+      self.returnPrompt = ko.observable(false);
 
       var gameWidth = params['width'] || explode('Must provide game width in params');
       var gameHeight = params['height'] || explode('Must provide game height in params');
@@ -134,9 +140,10 @@ ko.components.register('hanoi-game', {
             self.selectedDisc = null;
          }
 
-         if (self.isComplete())
+         if (self.isComplete()) {
             self.statusLabel.text = "You finished in " + self.moves + " moves!";
-         else
+            self.returnPrompt(true);
+         } else
             self.statusLabel.text = "Moves: " + self.moves;
 
          ajax('post', '/games/logging/record_click', ko.toJSON({
