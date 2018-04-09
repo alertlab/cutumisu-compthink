@@ -7,15 +7,6 @@ After '@no-js' do
    Capybara.default_driver = @normal_driver
 end
 
-Before '@webkit' do
-   @normal_driver          = Capybara.default_driver
-   Capybara.default_driver = :webkit
-end
-
-After '@webkit' do
-   Capybara.default_driver = @normal_driver
-end
-
 # Based on: http://collectiveidea.com/blog/archives/2014/01/21/mocking-html5-apis-using-phantomjs-extensions/
 Before '@stub_date' do
    # there is only a #extensions= method. I don't know why it isn't an accessor like normal things.
@@ -28,12 +19,4 @@ After '@stub_date' do
    ext = [File.expand_path('../../extensions/unstub_date.js', __dir__)]
 
    page.driver.browser.extensions = [ext]
-end
-
-Before '@expect-err' do
-   page.driver.browser.js_errors = false
-end
-
-After '@expect-err' do
-   page.driver.browser.js_errors = true
 end

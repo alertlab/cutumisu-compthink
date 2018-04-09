@@ -9,7 +9,6 @@ Feature: Researcher Finds Group
          | Kelly Meyers | kelly@example.com | admin |
       And "Kelly" has password "sekret"
    
-   @webkit
    Scenario Outline: it should filter by name
       Given the following groups:
          | name    |

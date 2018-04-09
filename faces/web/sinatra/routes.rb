@@ -13,6 +13,7 @@ rules do
    can(:get, '/assets/styles/*')
    can(:get, '/assets/images/*')
    can(:get, '/assets/images/games/*')
+   can(:get, '/assets/images/logos/*')
    can(:get, '/assets/fonts/*')
    can(:get, '/assets/logos/*')
 
@@ -92,6 +93,8 @@ end
 
 post '/auth/sign_in/?' do
    env['warden'].authenticate!
+   response.set_cookie('compthink.flash-notices', URI.escape(env['warden'].message || '').to_json)
+
    {notice: env['warden'].message, user: current_user.to_hash}.to_json
 end
 
@@ -104,7 +107,7 @@ get '/auth/unauthenticated/?' do
    opts = env['warden.options']
    # if opts[:redirect]
    #    if opts[:message]
-   #       response.set_cookie('flash', URI.escape({errors: [opts[:message]]}.to_json))
+   #       response.set_cookie('compthink.flash-errors', URI.escape(opts[:message].to_json))
    #    end
    #    redirect opts[:redirect]
    # else

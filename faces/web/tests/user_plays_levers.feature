@@ -6,7 +6,6 @@ Feature: User Plays Levers
          | Bob        | test.group |
    
    
-   @webkit
    Scenario Outline: it should reset the levers when they choose a wrong one
       Given the lever order is "<first>, <second>, <third>"
       When "Bob" flips levers "<first>, <third>"
@@ -19,7 +18,6 @@ Feature: User Plays Levers
          | B     | C      | A     |
          | C     | A      | B     |
    
-   @webkit
    Scenario Outline: it should keep the levers flipped when they choose the next right one
       Given the lever order is "<first>, <second>, <third>, <fourth>"
       When "Bob" flips levers "<first>, <second>"
@@ -32,7 +30,6 @@ Feature: User Plays Levers
          | B     | D      | C     | A      |
          | C     | A      | D     | B      |
    
-   @webkit
    Scenario Outline: it should record all clicks
       Given the lever order is "<first>, <second>, <third>, <fourth>"
       When "Bob" flips levers "<first>, <second>"
@@ -44,12 +41,10 @@ Feature: User Plays Levers
          | B     | D      | C     | A      |
          | C     | A      | C     | B      |
    
-   @webkit
    Scenario: it should record when they complete the puzzle
       When "Bob" completes the levers puzzle
       Then the last click should be marked as complete
    
-   @webkit
    Scenario Outline: it should not record clicks after they are done
       Given the lever order is "A,B,C"
       When "Bob" flips levers "A,B,C,<fourth>"
@@ -60,12 +55,10 @@ Feature: User Plays Levers
          | B      |
          | C      |
    
-   @webkit
    Scenario: it should prompt them back to the index when they are done
       When "Bob" completes the levers puzzle
       Then they should see "Back to Game List"
    
-   @webkit
    Scenario: it should link back to the index in the return prompt
       When "Bob" completes the levers puzzle and returns
       Then they should be at /games

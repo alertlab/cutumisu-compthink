@@ -4,17 +4,32 @@
 
 // flashes
 (function (window, undefined) {
-   var cookie = eatCookie('flash');
+   var DISPLAY_DURATION = 5 * 1000; // in ms.
 
-   var preloaded = cookie ? JSON.parse(decodeURIComponent(cookie)) : {};
-
-   window.notices = ko.observableArray();
-   window.warnings = ko.observableArray();
-   window.errors = ko.observableArray();
+   window.notices = ko.observableArray().extend({
+      temporaryValue: DISPLAY_DURATION,
+      cookie: {
+         key: 'compthink.flash_notices',
+         duration: DISPLAY_DURATION - 1
+      }
+   });
+   window.warnings = ko.observableArray().extend({
+      temporaryValue: DISPLAY_DURATION,
+      cookie: {
+         key: 'compthink.flash_warnings',
+         duration: DISPLAY_DURATION - 1
+      }
+   });
+   window.errors = ko.observableArray().extend({
+      temporaryValue: DISPLAY_DURATION,
+      cookie: {
+         key: 'compthink.flash_errors',
+         duration: DISPLAY_DURATION - 1
+      }
+   });
 
    // Top level should be killed after delay
    window.flash = function (listName, msgs) {
-      var displayDuration = 5 * 1000; // 5s.
       var list;
 
       if (!msgs)
@@ -39,20 +54,8 @@
          throw 'Unknown flash notification list name: ' + listName;
       }
 
-      for (var i = 0; i < msgs.length; i++) {
-         list.unshift(msgs[i]);
-
-         // TODO:  might be able to use CSS instead of timeout?
-         // http://www.sitepoint.com/css3-animation-javascript-event-handlers/
-
-         // destroy on a timer because otherwise it'll never go away.
-         window.setTimeout(function () {
-            list.pop();
-         }, displayDuration);
-      }
-   };
-
-   window.flash('notice', preloaded.notices);
-   window.flash('warning', preloaded.warnings);
-   window.flash('error', preloaded.errors);
+      msgs.forEach(function (msg) {
+         list.unshift(msg);
+      });
+   }
 }(window));

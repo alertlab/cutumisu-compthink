@@ -62,12 +62,11 @@ ko.components.register('sign-in', {
          };
 
          ajax('post', '/auth/sign_in', ko.mapping.toJSON(data), function (response) {
-            var homepage, cookie;
+            var homepage;
 
             self.user(ko.mapping.fromJS(response.user));
 
-            cookie = JSON.stringify({notices: [response.notice]});
-            document.cookie = 'flash=' + encodeURIComponent(cookie);
+            document.cookie = 'compthink.flash_notices=' + JSON.stringify([response.notice]);
 
             homepage = self.isAdmin ? '/admin' : '/games';
 

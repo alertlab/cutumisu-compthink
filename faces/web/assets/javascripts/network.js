@@ -8,24 +8,28 @@
 
       request.onreadystatechange = function () {
          if (request.readyState === 4) {
-            window.ajaxCount--;
+            if (request.status >= 400) {
+               window.ajaxCount--;
 
-            if (request.status < 400) {
-               var response = JSON.parse(request.response || '{}');
-
-               if (response.error || response.errors) {
-                  if (errorBlock) {
-                     errorBlock(response);
-                  } else {
-                     window.flash('error', response.error || response.errors);
-                  }
-               } else if (successBlock) {
-                  successBlock(response);
-               }
-            } else {
                // throw 4/5xx no matter what, so that the testing framework sees it.
                throw "ERROR: " + request.status + " (" + method.toUpperCase() + " " + uri + ")\n\"" + request.response + "\" ";
             }
+
+            var response = JSON.parse(request.response || '{}');
+
+            if (response.error || response.errors) {
+               if (errorBlock) {
+                  errorBlock(response);
+               } else {
+                  window.flash('error', response.error || response.errors);
+               }
+            } else if (successBlock) {
+               successBlock(response);
+            }
+
+            // this has to be after the success/error block runs,
+            // to avoid KO not yet loading response data before capybara checks for stuff
+            window.ajaxCount--;
          }
       };
 

@@ -14,9 +14,9 @@ ko.components.register('session', {
 
       self.signOut = function () {
          ajax('post', '/auth/sign_out', null, function (response) {
-            var cookie = JSON.stringify({notices: [response.notice]});
+            var value = JSON.stringify([response.notice]);
 
-            document.cookie = 'flash=' + cookie + ';path=/';
+            document.cookie = 'compthink.flash_notices=' + value + ';path=/';
 
             eatCookie('compthink.user_data');
 

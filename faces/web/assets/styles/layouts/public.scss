@@ -10,7 +10,7 @@ html body {
    }
    
    main {
-      header {
+      & > header {
          margin-bottom: 1em;
          padding: 2em;
          

@@ -12,7 +12,6 @@ Feature: Researcher Exports Data
          | Name    | start date | end date |
          | Group A | Jan 1      | Feb 1    |
    
-   @webkit
    Scenario: it should export user data as a CSV
       Given the following users:
          | Name          | Email                |
@@ -27,7 +26,6 @@ Feature: Researcher Exports Data
       And "Kelly" should see "user"
       And "Kelly" should see "test.001@example.com"
    
-   @webkit
    Scenario: it should export click data as a CSV
       Given the following clicks:
          | puzzle | target | time                | move_number | complete |

@@ -37,7 +37,6 @@ Feature: User Signs In
          | Dot  |
   
   # === Error Cases ===
-   @expect-err
    Scenario Outline: it should complain if their password is wrong
       When "<user>" signs in with the wrong password
       Then they should see "That email or password does not match our records."
@@ -47,7 +46,6 @@ Feature: User Signs In
          | Bob  |
          | Dot  |
    
-   @expect-err
    Scenario: it should complain if the account does not exist
       When "enzo" signs in with "enzo@example.com" and "sekret"
       Then they should see "That email or password does not match our records."

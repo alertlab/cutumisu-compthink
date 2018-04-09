@@ -50,7 +50,7 @@ Capybara.register_driver :poltergeist do |app|
    # extensions: ['faces/web/extensions/date.js'])
 end
 
-Capybara.default_driver = :poltergeist
+Capybara.default_driver = :webkit
 
 # so that it can click checkboxes that are styled pretty
 Capybara.automatic_label_click = true

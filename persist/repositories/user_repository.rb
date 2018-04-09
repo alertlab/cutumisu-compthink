@@ -87,10 +87,6 @@ module CompThink
          end
       end
 
-      def user_authentication_with(attributes)
-         user_authentications.where(attributes).one
-      end
-
       def exists?(attrs)
          users.where(attrs).count > 0
       end

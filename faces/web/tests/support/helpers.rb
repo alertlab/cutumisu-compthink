@@ -31,6 +31,7 @@ module HelperMethods
 
    def wait_for_ajax
       Timeout.timeout(Capybara.default_max_wait_time) do
+         sleep 0.05
          loop until (page.evaluate_script('window.ajaxCount') || 0) <= 0
       end
    end
