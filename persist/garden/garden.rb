@@ -14,7 +14,7 @@ module Garden
       def plant(name = :default)
          @seed_bag.fetch_seed(name).call(self)
 
-         puts "Seeded with set: #{ name }"
+         puts "Seeded with set: #{ name }" if ENV['ruby_garden_debug']
       end
 
       def replant(name = :default)
@@ -37,7 +37,7 @@ module Garden
 
          DatabaseCleaner.clean
 
-         puts 'Destroyed all records.'
+         puts 'Destroyed all records' if ENV['ruby_garden_debug']
       end
    end
 end

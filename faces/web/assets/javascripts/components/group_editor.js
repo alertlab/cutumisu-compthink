@@ -193,8 +193,6 @@ ko.components.register('group-editor', {
                   user: ko.observable(p)
                }
             }));
-
-            console.log(self.group.start_date())
          });
       };
 

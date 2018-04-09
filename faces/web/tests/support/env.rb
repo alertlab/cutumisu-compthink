@@ -39,8 +39,9 @@ include CompThink
 Capybara.app = Sinatra::Application
 
 Capybara::Webkit.configure do |config|
-   config.debug                   = false #true
+   config.debug                   = false
    config.raise_javascript_errors = true
+   config.allow_url('https://cdnjs.cloudflare.com/ajax/libs/pikaday/')
 end
 
 Capybara.register_driver :poltergeist do |app|
