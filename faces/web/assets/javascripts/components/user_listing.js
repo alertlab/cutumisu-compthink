@@ -37,6 +37,10 @@ ko.components.register('user-listing', {
                      </div>\
                      Add Person\
                   </a>\
+                  <hr>\
+                  <a class="download" href="/admin/export_data?type=users">\
+                     Download User Data\
+                  </a>\
                </div>\
                <div data-bind="visible: !createEditorVisible()">\
                   <p data-bind="visible: users.isLoaded() && users().length == 0">\

@@ -59,3 +59,10 @@ ParameterType(
       type:        String,
       transformer: lambda {|s| s}
 )
+
+ParameterType(
+      name:        'export data',
+      regexp:      /clicks|users/,
+      type:        String,
+      transformer: lambda {|s| s}
+)

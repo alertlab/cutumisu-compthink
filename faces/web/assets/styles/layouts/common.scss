@@ -7,6 +7,13 @@ html body {
       @include overlay();
    }
    
+   hr {
+      border: none;
+      border-top: 1px solid black;
+      opacity: 0.2;
+      margin: 1em 0;
+   }
+   
    & > header,
    .page-header {
       position: relative;

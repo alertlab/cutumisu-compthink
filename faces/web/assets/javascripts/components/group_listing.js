@@ -14,6 +14,10 @@ ko.components.register('group-listing', {
                      </div>\
                      Add Group\
                   </a>\
+                  <hr>\
+                  <a class="download" href="/admin/export_data?type=clicks">\
+                     Download Click Data\
+                  </a>\
                </div>\
                <div data-bind="visible: !createEditorVisible()">\
                   <p data-bind="visible: groups.isLoaded() && groups().length == 0">\

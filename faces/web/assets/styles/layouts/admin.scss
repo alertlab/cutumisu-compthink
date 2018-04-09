@@ -130,6 +130,31 @@ html body {
             @include button(white, $color1);
          }
       }
+      
+      .download {
+         @include button();
+         
+         display: block;
+         
+         margin: 0.25em auto;
+         
+         max-width: 13em;
+         
+         &:before {
+            display: inline-block;
+            vertical-align: top;
+            
+            opacity: 0.5;
+            
+            height: 1em;
+            border-bottom: 0.25em solid black;
+            font-size: 0.75em;
+            color: black;
+            
+            content: '\25BC';
+         }
+      }
+      
    }
    
    footer {

@@ -94,6 +94,8 @@ When("{string} completes the {puzzle} puzzle") do |user_name, puzzle_type|
    else
       step(%["#{user_name}" flips levers "A, B, C"])
    end
+
+   sleep 0.5
 end
 
 When("{string} completes the {puzzle} puzzle and returns") do |user_name, puzzle_type|

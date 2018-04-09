@@ -98,5 +98,9 @@ module CompThink
       def count
          users.count
       end
+
+      def first
+         users.first
+      end
    end
 end
