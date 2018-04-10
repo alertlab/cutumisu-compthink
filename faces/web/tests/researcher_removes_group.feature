@@ -16,6 +16,10 @@ Feature: Researcher Removes Group
       When "Kelly" removes group "Group A"
       Then there should be 0 groups
    
+   Scenario: it should redirect to the group listing after saving
+      When "Kelly" removes group "Group A"
+      Then "Kelly" should be at /admin/groups
+   
    #============
    # Security
    #============

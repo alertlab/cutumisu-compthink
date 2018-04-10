@@ -26,6 +26,10 @@ Feature: Researcher Updates Group
       When "Kelly" updates group "Group A" with no changes
       Then "Kelly" should see "Group Group A saved"
    
+   Scenario: it should redirect to the group listing after saving
+      When "Kelly" updates group "Group A" with no changes
+      Then "Kelly" should be at /admin/groups
+   
    Scenario: it should update the name
       When "Kelly" updates group "Group A" with:
          | Name    |

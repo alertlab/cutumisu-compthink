@@ -5,19 +5,25 @@ Feature: Researcher Removes Person
    
    Background:
       Given the following users:
-         | Name         | Email             | role  |
-         | Kelly Meyers | kelly@example.com | admin |
+         | Name          | Email             | role  |
+         | Kelly Meyers  | kelly@example.com | admin |
+         | Allan Daniels | allan@example.com |       |
       And "Kelly" has password "sekret"
    
    Scenario: it should remove a person
-      Given the following users:
-         | Name          | Email             |
-         | Allan Daniels | allan@example.com |
       When "Kelly" removes user "Allan"
       Then there should be 1 user
       And there should not be a user with:
          | name          |
          | Allan Daniels |
+   
+   Scenario: it should show a success message
+      When "Kelly" removes user "Allan"
+      Then "Kelly" should see "Allan Daniels deleted"
+   
+   Scenario: it should redirect to the group listing after saving
+      When "Kelly" removes user "Allan"
+      Then "Kelly" should be at /admin/people
    
    
    #============
@@ -32,7 +38,7 @@ Feature: Researcher Removes Person
       And "Hex" has password "sekret"
       When "<user>" force removes user "Kelly"
       Then they should see "You are not permitted to do that"
-      Then there should be 2 users
+      Then there should be 3 users
       And there should be a user with:
          | name      |
          | Hex Virus |

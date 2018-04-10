@@ -39,7 +39,7 @@ When('{string} signs in with {string} and {string}') do |first_name, email, pass
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
       step(%["#{ first_name }" signs out]) if @current_user
 
-      visit('/admin')
+      visit('/admin') unless page.current_url.match?('admin')
 
       close_flash
 
@@ -51,12 +51,6 @@ When('{string} signs in with {string} and {string}') do |first_name, email, pass
       end
 
       wait_for_ajax
-
-      # TODO: This awful hack is due to a race condition between the poltergeist driver
-      # TODO: and the test for javascript setting window.location = '/dashboard'.
-      # TODO: As yet, I haven't found a better way to lock until it's done changing the location,
-      # TODO: thus the sleep. -remiller
-      sleep(0.5)
 
       @current_user = @persisters[:user].find(first_name: first_name, email: email)
    end
@@ -85,11 +79,6 @@ When('{string} signs out') do |name|
 
    @current_user = nil
    click_link('Sign Out')
-
-   # TODO: This awful hack is due to a race condition between the poltergeist driver
-   # TODO: and the test for window.location = '/'.
-   # TODO: As yet, I haven't found a better way to lock against it, thus the sleep. -remiller
-   sleep(0.2)
 
    wait_for_ajax
 end

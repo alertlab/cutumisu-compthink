@@ -14,11 +14,18 @@ Feature: Researcher Updates Person
    
    Scenario: it should load existing properties
       When "Kelly" updates user "Allan" with no changes
-      Then "Kelly" should see "Allan Daniels saved"
-      And there should be 2 users
+      Then there should be 2 users
       And there should be a user with:
          | Name          | Email             |
          | Allan Daniels | allan@example.com |
+   
+   Scenario: it should show a success message
+      When "Kelly" updates user "Allan" with no changes
+      Then "Kelly" should see "Allan Daniels saved"
+   
+   Scenario: it should redirect to the group listing after saving
+      When "Kelly" updates user "Allan" with no changes
+      Then "Kelly" should be at /admin/people
    
    Scenario: it should update their name
       When "Kelly" updates user "Allan" with:

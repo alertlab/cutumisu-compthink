@@ -57,10 +57,6 @@ ko.components.register('user-editor', {
          return 'user-editor-' + (self.isNewRecord() ? 'new' : self.user.id());
       });
 
-      self.onSave = function () {
-         window.location = '/admin/people'
-      };
-
       self.deleteConfirmVisible = ko.observable(false).toggleable();
 
       self.isNewRecord = ko.pureComputed(function () {
@@ -96,21 +92,15 @@ ko.components.register('user-editor', {
          var payload = ko.mapping.toJS(self.user, {ignore: ['pets']});
 
          ajax('post', uri, ko.mapping.toJSON(payload), function (response) {
-            if (response.messages) {
-               window.flash('notice', response.messages);
-            }
-
-            self.onSave();
+            window.flash('notice', response.messages);
          });
       };
 
       self.deleteUser = function () {
          ajax('post', '/admin/delete_user', ko.mapping.toJSON({id: self.user.id()}), function (response) {
-            if (response.messages)
-               window.flash('notice', response.messages);
+            window.flash('notice', response.messages);
 
             self.deleteConfirmVisible.toggle();
-            self.onSave();
          });
       };
 

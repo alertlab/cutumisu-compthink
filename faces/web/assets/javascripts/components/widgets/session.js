@@ -14,16 +14,11 @@ ko.components.register('session', {
 
       self.signOut = function () {
          ajax('post', '/auth/sign_out', null, function (response) {
-            var value = JSON.stringify([response.notice]);
-
-            document.cookie = 'compthink.flash_notices=' + value + ';path=/';
-
             eatCookie('compthink.user_data');
 
-            //window.flash('notice', response.notice);
-            window.currentUser(null);
+            window.flash('notice', response.notice);
 
-            window.location = '/';
+            window.currentUser(null);
          });
       };
    }

@@ -62,15 +62,11 @@ ko.components.register('sign-in', {
          };
 
          ajax('post', '/auth/sign_in', ko.mapping.toJSON(data), function (response) {
-            var homepage;
-
             self.user(ko.mapping.fromJS(response.user));
 
             document.cookie = 'compthink.flash_notices=' + JSON.stringify([response.notice]);
 
-            homepage = self.isAdmin ? '/admin' : '/games';
-
-            window.location = window.deserializeSearch().uri || homepage;
+            response.redirect = window.deserializeSearch().uri || response.redirect
          });
 
          self.password(null);

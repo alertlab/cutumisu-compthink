@@ -21,8 +21,8 @@ Feature: User Signs In
          | Dot  |
    
    Scenario Outline: it should redirect to dashboard when given a follow uri
-      When "<user>" signs in with follow uri "/admin"
-      Then "<user>" should be at /admin
+      When "<user>" signs in with follow uri "/admin/groups"
+      Then "<user>" should be at /admin/groups
       Examples:
          | user |
          | Bob  |

@@ -160,10 +160,6 @@ ko.components.register('group-editor', {
          return 'group-editor-' + (self.isNewRecord() ? 'new' : self.group.id());
       });
 
-      self.onSave = function () {
-         window.location = '/admin/groups'
-      };
-
       self.deleteConfirmVisible = ko.observable(false).toggleable();
 
       self.isNewRecord = ko.pureComputed(function () {
@@ -213,7 +209,7 @@ ko.components.register('group-editor', {
             var userData = userShell.user();
 
             if (userData.isNewUser)
-               payload.create_participants.push(userData)
+               payload.create_participants.push(userData);
             else
                payload.participants.push(userData.id);
          });
@@ -222,8 +218,6 @@ ko.components.register('group-editor', {
             if (response.messages) {
                window.flash('notice', response.messages);
             }
-
-            self.onSave();
          });
       };
 
@@ -233,7 +227,6 @@ ko.components.register('group-editor', {
                window.flash('notice', response.messages);
 
             self.deleteConfirmVisible.toggle();
-            self.onSave();
          });
       };
 

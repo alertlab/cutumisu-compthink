@@ -95,12 +95,19 @@ post '/auth/sign_in/?' do
    env['warden'].authenticate!
    response.set_cookie('compthink.flash-notices', URI.escape(env['warden'].message || '').to_json)
 
-   {notice: env['warden'].message, user: current_user.to_hash}.to_json
+   homepage = current_user.has_role?(:admin) ? '/admin' : '/games'
+
+   flow_through = nil #window.deserializeSearch().uri
+
+   {notice:   env['warden'].message,
+    redirect: flow_through || homepage,
+    user:     current_user.to_hash}.to_json
 end
 
 post '/auth/sign_out/?' do
    env['warden'].logout
-   {notice: 'Signed out'}.to_json
+   {notice:   'Signed out',
+    redirect: '/'}.to_json
 end
 
 get '/auth/unauthenticated/?' do
@@ -130,11 +137,19 @@ post '/admin/create_user' do
 end
 
 post '/admin/update_user' do
-   UpdateUser.run(settings.container, app_params.deep_symbolize_keys).to_json
+   result = UpdateUser.run(settings.container, app_params.deep_symbolize_keys)
+
+   result[:redirect] = '/admin/people'
+
+   result.to_json
 end
 
 post '/admin/delete_user' do
-   DeleteUser.run(settings.container, app_params.deep_symbolize_keys).to_json
+   result = DeleteUser.run(settings.container, app_params.deep_symbolize_keys)
+
+   result[:redirect] = '/admin/people'
+
+   result.to_json
 end
 
 post '/games/logging/record_click' do
@@ -150,11 +165,19 @@ post '/admin/search_groups' do
 end
 
 post '/admin/update_group' do
-   UpdateGroup.run(settings.container, app_params.deep_symbolize_keys).to_json
+   result = UpdateGroup.run(settings.container, app_params.deep_symbolize_keys)
+
+   result[:redirect] = '/admin/groups'
+
+   result.to_json
 end
 
 post '/admin/delete_group' do
-   DeleteGroup.run(settings.container, app_params.deep_symbolize_keys).to_json
+   result = DeleteGroup.run(settings.container, app_params.deep_symbolize_keys)
+
+   result[:redirect] = '/admin/groups'
+
+   result.to_json
 end
 
 get '/admin/export_data' do

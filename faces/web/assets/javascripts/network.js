@@ -4,7 +4,9 @@
    window.ajaxCount = 0;
 
    window.ajax = function (method, uri, data, successBlock, errorBlock) {
-      var request = new XMLHttpRequest();
+      var request, response;
+
+      request = new XMLHttpRequest();
 
       request.onreadystatechange = function () {
          if (request.readyState === 4) {
@@ -15,21 +17,22 @@
                throw "ERROR: " + request.status + " (" + method.toUpperCase() + " " + uri + ")\n\"" + request.response + "\" ";
             }
 
-            var response = JSON.parse(request.response || '{}');
+            response = JSON.parse(request.response || '{}');
 
-            if (response.error || response.errors) {
-               if (errorBlock) {
+            if (response.error || response.errors)
+               if (errorBlock)
                   errorBlock(response);
-               } else {
+               else
                   window.flash('error', response.error || response.errors);
-               }
-            } else if (successBlock) {
+            else if (successBlock)
                successBlock(response);
-            }
 
             // this has to be after the success/error block runs,
             // to avoid KO not yet loading response data before capybara checks for stuff
             window.ajaxCount--;
+
+            if (response.redirect)
+               window.location = response.redirect
          }
       };
 
@@ -51,9 +54,8 @@
       var match;
 
       match = document.cookie.match(new RegExp(name + '=([^;]+)'));
-      if (match) {
+      if (match)
          return match[1];
-      }
    };
 
    /**
