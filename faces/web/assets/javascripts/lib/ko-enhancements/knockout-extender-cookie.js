@@ -32,10 +32,8 @@ ko.extenders.cookie = function (targetObs, options) {
 
    cookieRawValue = readCookie(options.key);
 
-   console.log('reading cookie', options.key, cookieRawValue)
-
    if (cookieRawValue) {
-      targetObs(JSON.parse(cookieRawValue));
+      targetObs(JSON.parse(decodeURIComponent(cookieRawValue).replace(/\+/g, ' ')));
    }
 
    targetObs.subscribe(function (newValue) {

@@ -31,11 +31,6 @@ rules do
       if current_user.has_role?(:admin)
          can(:get, :all)
 
-         # can(:post, '/admin/search_users')
-         # can(:post, '/admin/create_user')
-         # can(:post, '/admin/update_user')
-         # can(:post, '/admin/delete_user')
-
          can(:post, :all)
       end
    end
@@ -43,6 +38,12 @@ end
 
 bounce_with do
    if request.get?
+      # cookies['compthink.flash-notices'] = ['You must log in to view that page'].to_json
+
+      response.set_cookie('compthink.flash_notices',
+                          value: ['You must log in to view that page'].to_json,
+                          path:  '/')
+
       redirect URI.parse("/?uri=#{ URI.encode(request.fullpath, '?=') }").to_s
    else
       halt 403, 'You are not permitted to do that.'

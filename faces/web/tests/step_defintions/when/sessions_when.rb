@@ -64,8 +64,8 @@ When('{string} force signs in with {string} and {string}') do |first_name, email
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
       step(%["#{ first_name }" signs out]) if @current_user
 
-      page.driver.follow(:post, '/auth/sign_in', user: {email:    email,
-                                                        password: password})
+      page.driver.follow(:post, '/auth/sign_in', admin: {email:    email,
+                                                         password: password})
       expect(page.driver.status_code).to be < 400
 
       @current_user = @persisters[:user].find(first_name: first_name,

@@ -10,10 +10,6 @@ When('{string} navigates to {string}') do |user, location|
    wait_for_ajax
 end
 
-When('anonymous visits {string}') do |uri|
-   visit(uri)
-end
-
 When('{string} navigates to group editor for {string}') do |navigator, name|
    step(%["#{ navigator }" navigates to "Groups"])
 
@@ -38,7 +34,23 @@ When('{string} navigates to user editor for {string}') do |navigator, user_name|
    wait_for_ajax
 end
 
+When('{string} visits {path}') do |user_name, uri|
+   step(%["#{ user_name }" signs in])
+
+   visit(uri)
+end
+
+When('guest visits {path}') do |uri|
+   visit(uri)
+end
+
 When('guest force posts to {string}') do |uri|
+   page.driver.follow(:post, uri)
+end
+
+When('{string} force posts to {string}') do |user_name, uri|
+   step(%["#{ user_name }" force signs in])
+
    page.driver.follow(:post, uri)
 end
 

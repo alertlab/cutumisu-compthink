@@ -14,11 +14,15 @@ paginator {
    }
    
    .prev {
+      vertical-align: middle;
+   
       margin-right: 1em;
    }
    
    .numbers {
       display: inline-block;
+      
+      vertical-align: middle;
       
       .current {
          @include button();
@@ -26,6 +30,8 @@ paginator {
    }
    
    .next {
+      vertical-align: middle;
+   
       margin-left: 1em;
    }
    

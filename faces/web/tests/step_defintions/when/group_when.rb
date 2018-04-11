@@ -19,7 +19,7 @@ When("{string} creates a group with:") do |admin_name, table|
 end
 
 When("{string} force adds a group") do |user_name|
-   # step(%["#{user_name}" is signed in])
+   step(%["#{ user_name }" force signs in])
 
    page.driver.follow(:post, '/admin/create_group', filter: {
          name:       'test group',
@@ -41,7 +41,7 @@ When("{string} searches for groups with:") do |user_name, table|
 end
 
 When("{string} force searches for group(s) with:") do |user_name, table|
-   # step(%["#{user_name}" is signed in])
+   step(%["#{ user_name }" force signs in])
 
    page.driver.follow(:post, '/admin/search_groups', filter: symrow(table))
 end
@@ -74,8 +74,8 @@ When('{string} updates group {string} with:') do |admin_name, group_name, table|
    end
 end
 
-When('{string} force updates group {string} with:') do |admin_name, group_name, table|
-   step(%["#{ admin_name }" force signs in])
+When('{string} force updates group {string} with:') do |user_name, group_name, table|
+   step(%["#{ user_name }" force signs in])
 
    page.driver.follow(:post, '/admin/update_group')
 end
