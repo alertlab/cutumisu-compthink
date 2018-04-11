@@ -64,7 +64,7 @@ ko.components.register('sign-in', {
          ajax('post', '/auth/sign_in', ko.mapping.toJSON(data), function (response) {
             self.user(ko.mapping.fromJS(response.user));
 
-            document.cookie = 'compthink.flash_notices=' + JSON.stringify([response.notice]);
+            document.cookie = 'compthink.flash_notices=' + encodeURIComponent(JSON.stringify([response.notice]));
 
             response.redirect = window.deserializeSearch().uri || response.redirect
          });

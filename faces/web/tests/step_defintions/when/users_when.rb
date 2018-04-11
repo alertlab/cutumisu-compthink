@@ -83,6 +83,8 @@ When('{string} adds a person named {string}') do |admin_name, person_name|
 end
 
 When('{string} force adds a person named {string}') do |admin_name, person_name|
+   step(%["#{ admin_name }" force signs in])
+
    page.driver.follow(:post, '/admin/create_user', first_name: person_name)
 end
 

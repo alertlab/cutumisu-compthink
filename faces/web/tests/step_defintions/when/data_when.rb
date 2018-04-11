@@ -11,7 +11,7 @@ When("{string} exports clicks as CSV") do |admin_name|
 end
 
 When("{string} force exports {export data} as CSV") do |user_name, data_type|
-   # step(%["#{admin_name}" is signed in])
+   step(%["#{ user_name }" force signs in])
 
    page.driver.follow(:post, '/admin/export_data', type: data_type, filter: nil)
 end
