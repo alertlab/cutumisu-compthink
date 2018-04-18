@@ -15,4 +15,5 @@ SimpleCov.start do
 
    add_filter 'persist/seeds.rb'
    add_filter 'persist/rom/'
+   add_filter 'persist/garden/'
 end

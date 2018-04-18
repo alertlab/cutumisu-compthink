@@ -83,8 +83,8 @@ module CompThink
          groups.count
       end
 
-      def exists?(id:)
-         groups.where(id: id).count > 0
+      def exists?(attrs)
+         groups.where(attrs).count > 0
       end
 
       # def participants_for(group)

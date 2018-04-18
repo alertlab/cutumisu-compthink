@@ -13,6 +13,8 @@ Given("the following user(s):") do |table|
          row[:first_name], row[:last_name] = row.delete(:name).split(/\s+/)
       end
 
+      row[:last_name] ||= 'testUser'
+
       unless row.key?(:email) || row.key?(:group)
          row[:email] = "#{ row[:first_name] }@example.com"
       end

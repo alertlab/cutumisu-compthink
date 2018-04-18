@@ -45,8 +45,3 @@ Then("the download should include data for all clicks") do
       end.join(','))
    end
 end
-
-Then("the download should include lines:") do |lines|
-   expect(@result).to include lines
-end
-

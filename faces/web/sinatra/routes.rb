@@ -68,26 +68,6 @@ before do
    content_type 'application/json' if request.post?
 end
 
-#######################
-#  Errors & Logging   #
-#######################
-
-if production?
-   logs_dir = Pathname.new('log/')
-   FileUtils.mkdir_p(logs_dir) unless File.directory?(logs_dir)
-
-   # access_log = File.open(logs_dir + 'access.log', 'a+')
-   # access_log.sync     = true
-   # use Rack::CommonLogger, logger
-
-   error_log      = File.new(logs_dir + 'error.log', 'a+')
-   error_log.sync = true
-
-   before do
-      env['rack.errors'] = error_log
-   end
-end
-
 #--------------------------#
 # SESSIONS                 #
 #--------------------------#

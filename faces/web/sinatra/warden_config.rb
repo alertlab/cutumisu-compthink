@@ -23,6 +23,7 @@ module CompThink
             env['REQUEST_METHOD'] = 'GET'
          end
 
+         # === STRATEGIES ===
          Warden::Strategies.add(:password) do
             def valid?
                admin = params['admin']
@@ -39,7 +40,7 @@ module CompThink
                if user && user.authenticate(user_data['password'])
                   success!(user, "Welcome back, #{ user.first_name }")
                else
-                  throw(:warden, message: 'That email or password does not match our records.')
+                  throw(:warden, message: 'That email or password does not match our records')
                end
             end
          end
@@ -52,16 +53,21 @@ module CompThink
             end
 
             def authenticate!
-               users_persister = Sinatra::Application.container.persisters[:user]
+               user_persister  = Sinatra::Application.container.persisters[:user]
+               group_persister = Sinatra::Application.container.persisters[:group]
                user_params     = params['user']
 
-               user = users_persister.find_participant(group_name: user_params['group'],
-                                                       user_name:  user_params['username'])
+               user = user_persister.find_participant(group_name: user_params['group'],
+                                                      user_name:  user_params['username'])
+
+               unless group_persister.exists?(name: user_params['group'])
+                  throw(:warden, message: "There is no group #{user_params['group']}")
+               end
 
                if user
                   success!(user, "Hello!")
                else
-                  throw(:warden, message: 'That email or password does not match our records.')
+                  throw(:warden, message: "There is no user #{user_params['username']} in #{user_params['group']}")
                end
             end
          end

@@ -28,12 +28,12 @@ Then('{string} should see user summaries for {string} in that order') do |viewer
    end
 end
 
-Then('{string} should have password {string} ') do |user_name, pass|
-   user = @persisters[:user].find(first_name: user_name)
-
-   auth = @persisters[:user].user_authentication_with(user_id: user.id)
-
-   expect(auth).to_not be_nil
-
-   expect(auth.authenticate(pass)).to be true
-end
+# Then('{string} should have password {string} ') do |user_name, pass|
+#    user = @persisters[:user].find(first_name: user_name)
+#
+#    auth = @persisters[:user].user_authentication_with(user_id: user.id)
+#
+#    expect(auth).to_not be_nil
+#
+#    expect(auth.authenticate(pass)).to be true
+# end

@@ -11,7 +11,11 @@ Given("the following group(s):") do |table|
       row[:start_date] = row[:start_date] ? Date.parse(row[:start_date]) : Date.today
       row[:end_date]   = row[:end_date] ? Date.parse(row[:end_date]) : Date.today.next_day
 
+      participants = row.delete(:participants)
+
       @persisters[:group].create(row)
+
+      step(%[group "#{row[:name]}" has participants "#{participants}"])
    end
 end
 
@@ -37,7 +41,7 @@ Given('{int} groups') do |count|
    end
 end
 
-Given("group {string} has participants {string}") do |group_name, user_list|
+Given("group {string} has participant(s) {string}") do |group_name, user_list|
    user_ids = extract_list(user_list).collect do |name|
       @persisters[:user].find(first_name: name).id
    end

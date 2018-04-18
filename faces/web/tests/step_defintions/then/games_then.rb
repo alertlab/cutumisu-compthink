@@ -36,5 +36,7 @@ Then("the last click should be move number {int}") do |n|
 end
 
 Then("the last click should be marked as complete") do
+   sleep 0.5
+
    expect(@persisters[:click].last.complete).to be true
 end

@@ -54,19 +54,19 @@ Feature: Researcher Updates Group
    #============
    
    @no-js
-   Scenario Outline: it should not allow non-admins to update people
+   Scenario Outline: it should not allow non-admins to update groups
       Given the following users:
          | Name      | Email           | role   |
          | Hex Virus | hex@example.com | member |
       And "Hex" has password "sekret"
-      When "<user>" force updates user "Allan" with:
-         | Name          | email            |
-         | Allan Daniels | derp@example.com |
+      When "<user>" force updates group "Group A" with:
+         | Name    |
+         | NewName |
       Then they should see "You are not permitted to do that"
-      And there should be 3 users
-      And there should not be a user with:
-         | email            |
-         | derp@example.com |
+      And there should be 1 group
+      And there should be a group with:
+         | Name    |
+         | Group A |
       Examples:
          | user |
          | Hex  |

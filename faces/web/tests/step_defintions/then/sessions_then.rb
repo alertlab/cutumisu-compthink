@@ -11,3 +11,8 @@ Then('{string} {should} be signed in') do |first_name, should|
       # step %["" should not see "#{ user.email }" ] if user
    end
 end
+
+Then('they should not be signed in') do
+   step('they should see <sign-in>')
+   step('they should not see <session>')
+end
