@@ -21,7 +21,7 @@ Feature: User Signs In
          | groupA | user1        |
          | groupB | user2        |
       When they sign in to participate with user "<user>" and group "<group>"
-#      Then "user1" should be signed in
+      Then "<user>" should be signed in
       And "<user>" should see "Hello!"
       Examples:
          | group  | user  |
@@ -57,7 +57,7 @@ Feature: User Signs In
    
    Scenario: it should redirect admins to dashboard by default
       When "Bob" signs in
-      Then "Bob" should be at /admin
+      Then "Bob" should be at /admin/people
   
   # === Error Cases - password ===
    Scenario Outline: it should complain if their password is wrong

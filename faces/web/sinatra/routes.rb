@@ -77,12 +77,10 @@ post '/auth/sign_in/?' do
    env['warden'].authenticate!
    response.set_cookie('compthink.flash-notices', URI.escape(env['warden'].message || '').to_json)
 
-   homepage = current_user.has_role?(:admin) ? '/admin' : '/games'
-
-   flow_through = nil #window.deserializeSearch().uri
+   homepage = current_user.has_role?(:admin) ? '/admin/people' : '/games'
 
    {notice:   env['warden'].message,
-    redirect: flow_through || homepage,
+    redirect: homepage,
     user:     current_user.to_hash}.to_json
 end
 
@@ -176,6 +174,10 @@ end
 #--------------------------#
 # Views                    #
 #--------------------------#
+
+get '/admin/?' do
+   redirect '/admin/people'
+end
 
 # === Catchall ===
 get '/admin' do

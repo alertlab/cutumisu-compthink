@@ -4,9 +4,26 @@ html body {
    padding-bottom: 10em;
    
    & > header {
+      position: relative;
       margin-bottom: 0;
       
       box-shadow: 1px 0 1em rgba(0, 0, 0, 0.8);
+      
+      session {
+         position: absolute;
+         top: 1em;
+         right: 1em;
+         
+         span {
+            vertical-align: middle;
+         }
+         
+         a {
+            @include button(white, $color1);
+            
+            vertical-align: middle;
+         }
+      }
    }
    
    main {

@@ -1,15 +1,26 @@
 ko.components.register('session', {
-   template: '<span data-bind="text: currentEmail()"></span>\
-              <a href="#" data-bind="click: signOut">Sign Out</a>',
+   template: '<!-- ko if: signedIn -->\
+                 <span class="user-id" data-bind="text: currentEmail()"></span>\
+                 <a href="#" class="sign-out" data-bind="click: signOut">Sign Out</a>\
+              <!-- /ko -->',
 
    viewModel: function () {
       var self = this;
 
+      self.isAdmin = !!(window.location.pathname.match(/^\/admin/) || window.location.search.match(/\?uri=\/admin/));
+
+      self.signedIn = ko.pureComputed(function () {
+         return !!window.currentUser();
+      });
+
       self.currentEmail = function () {
-         if (window.currentUser())
+         if (!self.signedIn())
+            return '';
+
+         if (self.isAdmin)
             return window.currentUser().email;
          else
-            return '';
+            return window.currentUser().first_name;
       };
 
       self.signOut = function () {
