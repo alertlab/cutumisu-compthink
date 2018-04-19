@@ -77,6 +77,8 @@ When("{string} clicks peg {peg}") do |user_name, pegName|
                         #{game_vm_js}.pegClick(peg);
                        ])
 
+   sleep 1
+
    wait_for_ajax
 end
 
