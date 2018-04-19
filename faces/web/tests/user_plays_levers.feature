@@ -41,6 +41,7 @@ Feature: User Plays Levers
          | B     | D      | C     | A      |
          | C     | A      | C     | B      |
    
+      # TODO: this fails intermittently, likely as a race condition. Unknown cause at this point.
    Scenario: it should record when they complete the puzzle
       When "Bob" completes the levers puzzle
       Then the last click should be marked as complete

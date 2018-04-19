@@ -87,23 +87,55 @@ Feature: User Signs In
          | bogusGroup     |
          | otherFakeGroup |
    
-   Scenario Outline: it should complain if the user is wrong
+   Scenario Outline: it should complain if the group is not active yet
       Given the following users:
          | name  |
          | user1 |
-         | user2 |
       And the following groups:
-         | name   |
-         | groupA |
-         | groupB |
-         | groupC |
-      And group "groupA" has participant "user1"
+         | name    | start date | participants |
+         | <group> | <date>     | user1        |
+      And the date is "Jan 1 2018"
+      When they sign in to participate with user "user1" and group "<group>"
+      Then they should see "Group <group> does not start until <date>"
+      And they should not be signed in
+      Examples:
+         | group        | date       |
+         | group1       | 2018-01-02 |
+         | AnotherGroup | 2018-08-15 |
+   
+   Scenario Outline: it should complain if the group has expired
+      Given the following users:
+         | name  |
+         | user1 |
+      And the following groups:
+         | name    | end date | participants |
+         | <group> | <date>   | user1        |
+      And the date is "Aug 16 2018"
+      When they sign in to participate with user "user1" and group "<group>"
+      Then they should see "Group <group> expired on <date>"
+      And they should not be signed in
+      Examples:
+         | group        | date       |
+         | group1       | 2018-01-02 |
+         | AnotherGroup | 2018-08-15 |
+   
+      # TODO: remove underscores in name after May 1 2018
+   Scenario Outline: it should complain if the user is wrong
+      Given the following users:
+         | name      |
+         | _user.001 |
+         | _user.002 |
+      And the following groups:
+         | name   | participants |
+         | groupA | _user.001    |
+         | groupB |              |
+         | groupC |              |
       When they sign in to participate with user "<user>" and group "<group>"
       Then they should see "There is no user <user> in <group>"
       And they should not be signed in
       Examples:
-         | user      | group  |
-         | user1     | groupB |
-         | user2     | groupB |
-         | bogusUser | groupC |
+         | user       | group  |
+         | _user.001  | groupB |
+         | _user.002  | groupB |
+         | _bogusUser | groupC |
       

@@ -27,6 +27,14 @@ module CompThink
             @participants = users
          end
 
+         def started?
+            Time.now > @start_date
+         end
+
+         def ended?
+            Time.now > @end_date
+         end
+
          # def participants
          #    @persister.participants_for(self)
          # end

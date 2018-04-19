@@ -57,17 +57,31 @@ module CompThink
                group_persister = Sinatra::Application.container.persisters[:group]
                user_params     = params['user']
 
+               group = group_persister.find(name: user_params['group'])
+
+               throw(:warden, message: "There is no group #{user_params['group']}") unless group
+               throw(:warden, message: "Group #{group.name} does not start until #{group.start_date.to_date}") unless group.started?
+               throw(:warden, message: "Group #{group.name} expired on #{group.end_date.to_date}") if group.ended?
+
                user = user_persister.find_participant(group_name: user_params['group'],
                                                       user_name:  user_params['username'])
-
-               unless group_persister.exists?(name: user_params['group'])
-                  throw(:warden, message: "There is no group #{user_params['group']}")
-               end
-
                if user
                   success!(user, "Hello!")
                else
-                  throw(:warden, message: "There is no user #{user_params['username']} in #{user_params['group']}")
+                  # TODO: remove this case after May 1st 2018
+                  if user_params['username'].match?(/^[a-z]{1}[a-z0-9]{0,7}/) && Time.now < Time.new(2018, 05, 01)
+                     user = user_persister.create(first_name: user_params['username'],
+                                                  last_name:  '',
+                                                  email:      "#{user_params['username']}@example.com")
+                     group_persister.add_participants(group.id,
+                                                      [user.id])
+
+                     request.logger.warn("Accepted legacy login from id: #{user.id} - #{user.first_name}. Remove this legacy code after May 1 2018")
+
+                     success!(user, "Hello!")
+                  else
+                     throw(:warden, message: "There is no user #{user_params['username']} in #{user_params['group']}")
+                  end
                end
             end
          end

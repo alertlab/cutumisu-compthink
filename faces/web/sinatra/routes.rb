@@ -13,6 +13,7 @@ rules do
    can(:get, '/assets/styles/*')
    can(:get, '/assets/images/*')
    can(:get, '/assets/images/games/*')
+   can(:get, '/assets/images/games/screenshots/*')
    can(:get, '/assets/images/logos/*')
    can(:get, '/assets/fonts/*')
    can(:get, '/assets/logos/*')

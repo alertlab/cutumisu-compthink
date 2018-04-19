@@ -90,7 +90,7 @@ end
 #######################
 #  Errors & Logging   #
 #######################
-if production?
+if production? || development?
    logs_dir = Pathname.new('log/')
    FileUtils.mkdir_p(logs_dir) unless File.directory?(logs_dir)
 
