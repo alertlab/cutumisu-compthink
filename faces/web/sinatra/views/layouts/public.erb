@@ -9,6 +9,15 @@
    <!--<script type="text/javascript" src="<%= javascript_path('javascripts/lib/phaser.min') %>"></script>-->
 
    <link rel="stylesheet" href="<%= stylesheet_path('styles/public_manifest') %>">
+
+   <script>
+      window.imagePaths = {
+         disc_normal: '<%= image_path('images/games/disc_unselected.png') %>',
+         disc_selected: '<%= image_path('images/games/disc_selected.png') %>',
+         peg: '<%= image_path('images/games/peg.png') %>',
+         button: '<%= image_path('images/games/button.png') %>'
+      }
+   </script>
 </head>
 <body>
 <header class="page-header">
