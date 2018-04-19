@@ -2,8 +2,8 @@
  * To include a new directory, list it here using a require, require_directory, or require_tree directive.
  *
  *
- * = require defaults
- * = require ./layouts/admin
+ * = require styles/defaults
+ * = require styles/layouts/admin
  * = require_tree ./pages
  * = require_tree ./components
  * = require_tree ./lib

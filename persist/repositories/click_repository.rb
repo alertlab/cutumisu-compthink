@@ -17,7 +17,7 @@ module CompThink
       end
 
       def last
-         clicks.last
+         clicks.order(:time).last
       end
 
       def done_puzzle?(user, puzzle_type)

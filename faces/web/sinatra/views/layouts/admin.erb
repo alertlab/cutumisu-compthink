@@ -4,18 +4,25 @@
    <title>Alert Lab Computational Thinking | University of Alberta</title>
    <meta name="viewport" content="width=device-width, user-scalable=yes">
 
-   <script type="text/javascript" src="<%= javascript_path('main') %>"></script>
+   <script type="text/javascript" src="<%= javascript_path('javascripts/main') %>"></script>
 
-   <link rel="stylesheet" href="<%= stylesheet_path('admin_manifest') %>">
+   <link rel="stylesheet" href="<%= stylesheet_path('styles/admin_manifest') %>">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/css/pikaday.min.css">
    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/pikaday.min.js"></script>
+
+   <script>
+      window.imagePaths = {
+         person: '<%= image_path('images/person.svg') %>',
+         people: '<%= image_path('images/people.svg') %>'
+      }
+   </script>
 </head>
 <body>
 
 <header class="page-header">
    <a href="/admin/people" class="banner">
       <div class="logo">
-         <img src="/assets/images/logos/UA-COLOUR-440px.png" alt="U of A Logo" title="Admin Home">
+         <img src="<%= image_path('images/logos/UA-COLOUR-440px.png') %> " alt="U of A Logo" title="Admin Home">
          <span>Alert Lab</span>
       </div>
 
@@ -24,8 +31,8 @@
 
    <nav class="main-nav">
       <navigation-menu params="options: {
-                                 People: {url: '/admin/people', icon: '/assets/images/person.svg'},
-                                 Groups: {url: '/admin/groups', icon: '/assets/images/people.svg'},
+                                 People: {url: '/admin/people', icon: window.imagePaths.person},
+                                 Groups: {url: '/admin/groups', icon: window.imagePaths.people},
                                  'session': {tag: '<session></session>'}
                                }">
       </navigation-menu>

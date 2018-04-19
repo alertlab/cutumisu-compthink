@@ -36,7 +36,11 @@ Then("the last click should be move number {int}") do |n|
 end
 
 Then("the last click should be marked as complete") do
-   sleep 0.5
+   repo = @persisters[:click]
+
+   expect(repo.clicks.to_a.any? {|click| click.complete}).to be true
+
+   puts repo.clicks.to_a.collect {|click| "#{click.time.to_i} / #{click.complete}"}
 
    expect(@persisters[:click].last.complete).to be true
 end

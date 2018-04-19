@@ -35,6 +35,8 @@ When("{string} flips levers {string}") do |user_name, lever_list|
       # firing this handler directly because trying to invoke a click event (ie. MouseEvent with 'onpointerdown')
       # worked in browser, but not in testing.
       page.evaluate_script(%[#{game_vm_js}.buttonClick(#{game_vm_js}.buttonGroup.getByName("#{lever_name}"));])
+      sleep 0.25
+      wait_for_ajax
    end
 
    wait_for_ajax
@@ -95,7 +97,7 @@ When("{string} completes the {puzzle} puzzle") do |user_name, puzzle_type|
       step(%["#{user_name}" flips levers "A, B, C"])
    end
 
-   sleep 0.5
+   wait_for_ajax
 end
 
 When("{string} completes the {puzzle} puzzle and returns") do |user_name, puzzle_type|

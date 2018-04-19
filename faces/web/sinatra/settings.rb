@@ -67,12 +67,13 @@ configure do # |application|
    set :assets_js_compressor, :uglifier
    set :assets_css_compressor, :sass
    set :assets_protocol, :relative
-   set :assets_paths, %w[faces/web/assets faces/web/assets/javascripts faces/web/assets/styles faces/web/assets/fonts faces/web/assets/images]
+   set :assets_paths, %w[faces/web/assets]
    set :assets_prefix, '/assets'
 
-   set :assets_debug, true if development? || test?
+   set :assets_debug, (development? || test?)
 
    register Sinatra::AssetPipeline
+
 
    # === Security Settings ===
 
@@ -81,7 +82,7 @@ configure do # |application|
 
    set :protect_from_csrf, true
    set :sessions, true
-   set :session_secret, %q[I'm a secret teapot! Sh"ort and SfldIlINUyt*tstysr_)(RDTSCEAP@6MWv9]
+   set :session_secret, %q[yLoF@nv0E06Pxr'%oIrcIuzy3eXB9GSNUyt*tstysr_)(RDTSCEAP@6MWv9]
 
    register CompThink::WardenConfig
 end

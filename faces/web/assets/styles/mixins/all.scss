@@ -6,14 +6,14 @@
  * auto-import a whole directory. Similarly, we can't rely on sprockets to include shared mixin rules,
  * since it compiles each file separately, and therefore doesn't see mixins in other files.
  */
-@import 'mixins/widgets/button';
-@import 'mixins/widgets/menu';
-@import 'mixins/widgets/panel';
-@import 'mixins/widgets/back_link';
-@import 'mixins/widgets/sortable_table_header';
-@import 'mixins/widgets/alert';
-@import 'mixins/animations';
+@import 'styles/mixins/widgets/button';
+@import 'styles/mixins/widgets/menu';
+@import 'styles/mixins/widgets/panel';
+@import 'styles/mixins/widgets/back_link';
+@import 'styles/mixins/widgets/sortable_table_header';
+@import 'styles/mixins/widgets/alert';
+@import 'styles/mixins/animations';
 //@import 'mixins/sketch';
-@import 'mixins/colours';
+@import 'styles/mixins/colours';
 
 $main-column-width: 60em;

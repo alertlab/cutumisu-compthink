@@ -1,4 +1,4 @@
-@import 'mixins/all';
+@import 'styles/mixins/all';
 
 /*
  * Sane defaults for various basic HTML elements.
@@ -8,7 +8,7 @@ html {
    min-height: 100%;
    
    body {
-      margin: 0em;
+      margin: 0;
       height: 100%; // firefox needs this. It won't restrict height, I promise.
       
       // All elements should default to border-box instead of content-box as that's the most expected behaviour
