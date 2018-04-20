@@ -17,6 +17,7 @@ require 'sinatra/bouncer'
 
 # for parsing json input in POST
 require 'rack/parser'
+require 'rack/turnout'
 
 require 'bcrypt'
 
@@ -44,6 +45,7 @@ configure do # |application|
    also_reload __FILE__ if development?
 
    use Rack::Parser
+   use Rack::Turnout
 
    set :__container__, nil
    set(:container, (proc do

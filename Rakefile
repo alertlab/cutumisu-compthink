@@ -4,6 +4,7 @@ require 'rom/sql/rake_task'
 require 'yaml'
 require 'sinatra/asset_pipeline/task'
 require_relative './faces/web/sinatra/routes.rb'
+require 'turnout/rake_tasks'
 
 Sinatra::AssetPipeline::Task.define! Sinatra::Application
 

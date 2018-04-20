@@ -22,6 +22,8 @@ group :face_web do
    gem 'therubyracer'
    gem 'uglifier'
    gem 'warden'
+
+   gem 'turnout', '~>2.4.1'
 end
 
 # group :face_email do

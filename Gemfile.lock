@@ -111,6 +111,8 @@ GEM
     powerpack (0.1.1)
     public_suffix (3.0.1)
     rack (2.0.4)
+    rack-accept (0.4.5)
+      rack (>= 0.4)
     rack-parser (0.7.0)
       rack
     rack-protection (2.0.0)
@@ -223,6 +225,11 @@ GEM
     tilt (2.0.8)
     timecop (0.9.1)
     transproc (1.0.2)
+    turnout (2.4.1)
+      i18n (~> 0.7)
+      rack (>= 1.3, < 3)
+      rack-accept (~> 0.4)
+      tilt (>= 1.4, < 3)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uglifier (4.1.5)
@@ -276,6 +283,7 @@ DEPENDENCIES
   therubyracer
   tilt (~> 2.0.8)
   timecop
+  turnout (~> 2.4.1)
   uglifier
   warden
 
