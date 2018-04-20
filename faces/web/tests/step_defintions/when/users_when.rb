@@ -98,6 +98,8 @@ When('{string} searches for users with:') do |user_name, table|
 
       fill_in(:email, with: row[:email]) if row[:email]
 
+      select(row[:group], from: :group) if row[:group]
+
       (row[:role] || row[:roles] || '').split(',').each do |role_name|
          check(role_name.strip)
       end

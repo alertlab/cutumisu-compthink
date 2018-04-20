@@ -25,8 +25,10 @@ Then("the download should have {int} lines") do |n|
 end
 
 Then("the download should include data for users {string}") do |name_list|
+   user_persister = @container.persisters[:user]
+
    extract_list(name_list).each do |name|
-      user = @container.persisters[:user].find(first_name: name)
+      user = user_persister.find(first_name: name)
 
       expect(@result.lines.map(&:chomp)).to include [user.id,
                                                      user.first_name,

@@ -11,6 +11,12 @@ ko.components.register('user-listing', {
                            <span>Email</span>\
                            <input type="text" name="email" data-bind="textInput: search.email"/>\
                         </label>\
+                        <label>\
+                           <span>Group</span>\
+                           <select name="group" data-bind="optionsCaption: \'- Any -\', \
+                                                           options: groupNames, \
+                                                           value: search.group" ></select>\
+                        </label>\
                      </div>\
                      <fieldset class="roles">\
                         <legend>\
@@ -75,6 +81,8 @@ ko.components.register('user-listing', {
 
       self.users = ko.observableArray().extend({loadable: true});
       self.createEditorVisible = ko.observable(false).toggleable();
+      self.groupNames = JSON.parse(decodeURIComponent(params['groups'])) || [];
+
 
       var searchLimit = 500;
 
@@ -103,6 +111,7 @@ ko.components.register('user-listing', {
       self.search = {
          name: ko.observable().extend({rateLimit: searchLimit}),
          email: ko.observable().extend({rateLimit: searchLimit}),
+         group: ko.observable(),
          roles: ko.observableArray()
       };
 

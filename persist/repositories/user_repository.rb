@@ -21,10 +21,13 @@ module CompThink
 
       def users_matching(attrs, count:, offset:, sort_by:, sort_direction:)
          results    = users.combine(:roles)
-         role_names = nil
+         role_names = []
+         group_name = nil
+         attrs      = attrs.dup
 
          unless attrs.nil?
-            role_names = attrs.delete(:roles)
+            role_names = attrs.delete(:roles) || []
+            group_name = attrs.delete(:group)
 
             if attrs[:id]
                results = results.where(id: attrs[:id])
@@ -47,23 +50,28 @@ module CompThink
 
          results = results.order(Sequel.qualify('users', sort_by))
 
+         unless role_names.empty?
+            results = results.join(:roles_users, user_id: :id)
+                            .join(:roles, id: :role_id)
+                            .where(name: role_names)
+         end
+
+         if group_name && !group_name.empty?
+            results = results.join(:users_groups, user_id: :id)
+                            .join(:groups, id: :group_id)
+                            .where(name: group_name)
+         end
+
+         max = results.count
+
+         results = results.limit(count, offset).to_a
+
          unless sort_direction.nil? || sort_direction == 'asc'
             results = results.reverse
          end
 
-         results = results.limit(count, offset).to_a
-
-         unless role_names.nil? || role_names.empty?
-            requested_roles = roles.where(name: role_names).to_a
-
-            results = results.select do |user|
-               requested_roles.any? do |role|
-                  user_has_role?(user, role)
-               end
-            end
-         end
-
-         results
+         {results:     results,
+          max_results: max}
       end
 
       # TODO: move this into user itself.

@@ -1,1 +1,1 @@
-<user-listing></user-listing>
+<user-listing params="groups: '<%= URI.escape(settings.container.persisters[:group].groups.to_a.collect {|g| g.name}.to_s) %>'"></user-listing>

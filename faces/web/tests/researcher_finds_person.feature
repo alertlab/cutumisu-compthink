@@ -35,6 +35,20 @@ Feature: Researcher Finds Person
       Then "Kelly" should see "Kelly Meyers"
       And "Kelly" should not see "Allan Daniels"
    
+   Scenario: it should filter by group
+      Given the following users:
+         | Name     |
+         | user.001 |
+      And the following groups:
+         | name   | participants |
+         | GroupA | user.001     |
+      When "Kelly" searches for users with:
+         | group  |
+         | GroupA |
+      Then "Kelly" should not see "Allan Daniels"
+      And "Kelly" should not see "Kelly Meyers"
+      And "Kelly" should see "user.001"
+   
    Scenario Outline: it should return the number of matched elements
       Given 100 users
       And the following users:

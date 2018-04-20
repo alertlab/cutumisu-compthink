@@ -23,12 +23,10 @@ module CompThink
                                                    sort_direction: sort_direction)
 
             {
-                  results:        users.collect {|u| u.to_hash},
-                  all_data_count: users_persister.users_matching(filter,
-                                                                 count:          users_persister.count,
-                                                                 offset:         0,
-                                                                 sort_by:        sort_by,
-                                                                 sort_direction: sort_direction).size
+                  results:        users[:results].collect do |u|
+                     u.to_hash
+                  end,
+                  all_data_count: users[:max_results]
             }
          end
       end

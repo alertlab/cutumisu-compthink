@@ -72,7 +72,11 @@ module CompThink
 
          count = 1 if count < 1
 
-         results.limit(count, offset).to_a
+         max = results.count
+
+
+         {results:     results.limit(count, offset).to_a,
+          max_results: max}
       end
 
       def first

@@ -17,13 +17,10 @@ module CompThink
                                                      sort_by:        sort_by,
                                                      sort_direction: sort_direction)
 
+
             {
-                  results:        groups.collect {|u| u.to_hash},
-                  all_data_count: group_persister.groups_matching(filter,
-                                                                  count:          group_persister.count,
-                                                                  offset:         0,
-                                                                  sort_by:        sort_by,
-                                                                  sort_direction: sort_direction).size
+                  results:        groups[:results].collect {|u| u.to_hash},
+                  all_data_count: groups[:max_results]
             }
          end
       end

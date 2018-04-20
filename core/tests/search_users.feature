@@ -26,7 +26,7 @@ Feature: Search Users
          | first_name | ascending  | Allan, Jane, John, Kelly |
          | first_name | descending | Kelly, John, Jane, Allan |
          | last_name  | ascending  | Allan, John, Jane, Kelly |
-         | last_name  | descending | Kelly, John, Jane, Allan |
+         | last_name  | descending | Kelly, Jane, John, Allan |
    
    Scenario: it should sort results by first name if not specified
       When users are searched by:
@@ -158,11 +158,28 @@ Feature: Search Users
 #         | instructor       | Jane, John, Allan        |
 #         | admin, instructor    | Kelly, Jane, John, Allan |
    
+   Scenario Outline: it should return users in the given group
+      Given the following groups:
+         | name   | participants |
+         | GroupA | Jane         |
+         | GroupB | John         |
+      When users are searched by:
+         | group   |
+         | <group> |
+      Then it should return <n> user summaries
+      And it should return user summaries for "<expected users>"
+      Examples:
+         | group  | expected users           | n |
+         | GroupA | Jane                     | 1 |
+         | GroupB | John                     | 1 |
+         |        | Kelly, Jane, John, Allan | 4 |
+   
    Scenario Outline: it should return users who match all criteria
       When users are searched by:
          | Name   | Email   | roles  |
          | <name> | <email> | <role> |
-      Then it should return user summaries for "<expected users>"
+      Then it should return 1 user summary
+      And it should return user summaries for "<expected users>"
       Examples:
          | name     | email             | role  | expected users |
          | John Doe | jdoe1@example.com | guest | John           |
@@ -178,6 +195,16 @@ Feature: Search Users
          | example.com | 4 |
          | doe         | 2 |
          | kelly       | 1 |
+   
+   Scenario Outline: it should return the total number of users
+      When users are searched by:
+         | roles  |
+         | <role> |
+      Then it should return <n> total users
+      Examples:
+         | role       | n |
+         | instructor | 1 |
+         | guest      | 2 |
    
    # === Error Cases ===
    Scenario: it should complain if the given role does not exist
