@@ -36,7 +36,7 @@ ko.components.register('sign-in', {
       self.email = ko.observable();
       self.password = ko.observable();
 
-      self.group = ko.observable();
+      self.group = ko.observable(getParam('g') || getParam('group'));
       self.username = ko.observable();
 
       self.isAdmin = !!(window.location.pathname.match(/^\/admin/) || window.location.search.match(/\?uri=\/admin/));

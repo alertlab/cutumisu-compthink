@@ -7,6 +7,7 @@ require 'active_support/core_ext/hash/keys'
 
 rules do
    can(:get, '/')
+   can(:get, '/login') # legacy route
    can(:get, '/assets/*')
    can(:get, '/assets/javascripts/*')
    can(:get, '/assets/javascripts/lib/*')
@@ -174,9 +175,13 @@ end
 #--------------------------#
 # Views                    #
 #--------------------------#
-
 get '/admin/?' do
    redirect '/admin/people'
+end
+
+# legacy support
+get '/login/?' do
+   redirect '/?' + request.query_string
 end
 
 # === Catchall ===
