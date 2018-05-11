@@ -1,7 +1,7 @@
 # === Users ===
 Then('there {should} be a user with:') do |should, table|
    symtable(table).hashes.each do |row|
-      # role_names = extract_list(row.delete(:role) || row.delete(:roles))
+      role_names = extract_list(row.delete(:role) || row.delete(:roles))
 
       if row[:name]
          name             = row.delete(:name).split(/\s/)
@@ -13,15 +13,21 @@ Then('there {should} be a user with:') do |should, table|
 
       if should
          expect(user).to_not be_nil
-         # role_names.each do |role_name|
-         #    names = user.roles.collect {|r| r.name.downcase}
-         #
-         #    expect(names).to include(role_name.downcase)
-         # end
+         role_names.each do |role_name|
+            names = user.roles.collect {|r| r.name.downcase}
+
+            expect(names).to include(role_name.downcase)
+         end
       else
          expect(user).to be_nil
       end
    end
+end
+
+Then("user {string} should have {int} roles") do |user_name, n|
+   user = @persisters[:user].find(first_name: user_name)
+
+   expect(user.roles.count).to eq n
 end
 
 Then('it should return user summaries for {string}') do |user_list|

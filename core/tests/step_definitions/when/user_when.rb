@@ -45,6 +45,8 @@ When('user {string} is updated with:') do |user_name, table|
 
    user = @persisters[:user].find(first_name: user_name)
 
+   row[:roles] = extract_list(row[:roles])
+
    @result = UpdateUser.run(@container, row.merge(id: user.id))
 end
 

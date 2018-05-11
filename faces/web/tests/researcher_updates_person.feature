@@ -8,16 +8,16 @@ Feature: Researcher Updates Person
          | Name         | Email             | role  |
          | Kelly Meyers | kelly@example.com | admin |
       And the following users:
-         | Name          | Email             |
-         | Allan Daniels | allan@example.com |
+         | Name          | Email             | role       |
+         | Allan Daniels | allan@example.com | instructor |
       And "Kelly" has password "sekret"
    
    Scenario: it should load existing properties
       When "Kelly" updates user "Allan" with no changes
       Then there should be 2 users
       And there should be a user with:
-         | Name          | Email             |
-         | Allan Daniels | allan@example.com |
+         | Name          | Email             | role       |
+         | Allan Daniels | allan@example.com | instructor |
    
    Scenario: it should show a success message
       When "Kelly" updates user "Allan" with no changes
@@ -44,11 +44,19 @@ Feature: Researcher Updates Person
       When "Kelly" updates user "Allan" with:
          | Email                 |
          | different@example.com |
-      Then "Kelly" should see "Allan Daniels saved"
-      And there should be 2 users
+      Then there should be 2 users
       And there should be a user with:
          | Name          | Email                 |
          | Allan Daniels | different@example.com |
+   
+   Scenario: it should update their roles
+      When "Kelly" updates user "Allan" with:
+         | roles |
+         | Admin |
+      Then there should be 2 users
+      And there should be a user with:
+         | First Name | roles |
+         | Allan      | Admin |
    
    
    #============

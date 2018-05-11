@@ -1,12 +1,10 @@
 Feature: Update User
    
    
-   Background:
+   Scenario Outline: it should update their contact information
       Given the following users:
          | first name | last name | email             |
          | Allan      | Daniels   | allan@example.com |
-   
-   Scenario Outline: it should update their contact information
       When user "Allan" is updated with:
          | first name   | last name   | email   |
          | <first name> | <last name> | <email> |
@@ -19,7 +17,43 @@ Feature: Update User
          | John       | Doe       | john@example.com |
          | Jane       | Deo       | jane@example.com |
    
+   Scenario Outline: it should add roles
+      Given the following users:
+         | first name | last name | email             | roles |
+         | Allan      | Daniels   | allan@example.com |       |
+         | Jane       | Doe       | jane@example.com  |       |
+      When user "<user>" is updated with:
+         | roles   |
+         | <roles> |
+      Then there should be 2 users
+      And user "<user>" should have <n> roles
+      And there should be a user with:
+         | first name | roles   |
+         | <user>     | <roles> |
+      Examples:
+         | user  | roles             | n |
+         | Allan | admin, instructor | 2 |
+         | Jane  | instructor        | 1 |
+   
+   Scenario Outline: it should remove roles
+      Given the following users:
+         | first name | last name | email             | roles             |
+         | Kelly      | Myers     | kelly@example.com | admin             |
+         | John       | doe       | john@example.com  | admin, instructor |
+      When user "<user>" is updated with:
+         | roles |
+         |       |
+      Then there should be 2 users
+      And user "<user>" should have 0 roles
+      Examples:
+         | user  |
+         | Kelly |
+         | John  |
+   
    Scenario Outline: it should respond with a success message
+      Given the following users:
+         | first name | last name |
+         | Allan      | Daniels   |
       When user "Allan" is updated with:
          | first name   | last name   |
          | <first name> | <last name> |
@@ -30,8 +64,10 @@ Feature: Update User
          | John       | Cena      |
    
    # === Error Cases ===
-   
    Scenario Outline: it should complain if a name is blank
+      Given the following users:
+         | first name | last name | email             |
+         | Allan      | Daniels   | allan@example.com |
       When user "Allan" is updated with:
          | first name | last name |
          | <first>    | <last>    |

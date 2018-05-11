@@ -88,8 +88,18 @@ module CompThink
       end
 
       def update_with_auth(user_id, user_data)
+         role_names = user_data.delete(:roles)
+
          users.transaction do
             user = users.where(id: user_id).changeset(:update, user_data).commit
+
+            roles_users.where(user_id: user.id).command(:delete).call
+
+            role_names.each do |rname|
+               role = roles.where(name: rname.downcase).first
+
+               roles_users.command(:create).call(user_id: user.id, role_id: role.id)
+            end
 
             user
          end

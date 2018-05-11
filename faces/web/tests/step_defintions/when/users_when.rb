@@ -41,6 +41,10 @@ When('{string} updates user {string} with:') do |admin_name, user_name, table|
 
       fill_in :email, with: row[:email] if row[:email]
 
+      extract_list(row.delete(:roles)).each do |role_name|
+         check(role_name)
+      end
+
       click_button('Save')
 
       wait_for_ajax

@@ -1,3 +1,4 @@
+
 ko.components.register('group-editor', {
    template: ' <header data-bind="text: headerText()"></header>\
                <form data-bind="submit: save, css: formClass" autocomplete="off">\

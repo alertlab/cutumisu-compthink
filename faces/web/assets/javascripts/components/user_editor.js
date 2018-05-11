@@ -19,6 +19,15 @@ ko.components.register('user-editor', {
                            <input type="email" name="email" data-bind="value: user.email">\
                         </label>\
                      </fieldset>\
+                     <fieldset class="roles">\
+                        <legend>Roles</legend>\
+                        <div data-bind="foreach: allRoles">\
+                           <label>\
+                              <input type="checkbox" data-bind="value: $data.toLowerCase(), checked: $parent.user.roles">\
+                              <span data-bind="text: $data"></span>\
+                           </label>\
+                        </div>\
+                     </fieldset>\
                   </div>\
                   <div class="controls">\
                      <input type="button" \
@@ -50,7 +59,8 @@ ko.components.register('user-editor', {
          id: ko.observable(window.deserializeSearch().id || null),
          first_name: ko.observable(''),
          last_name: ko.observable(''),
-         email: ko.observable('')
+         email: ko.observable(''),
+         roles: ko.observableArray()
       };
 
       self.formClass = ko.pureComputed(function () {
@@ -62,6 +72,8 @@ ko.components.register('user-editor', {
       self.isNewRecord = ko.pureComputed(function () {
          return !self.user.id();
       });
+
+      self.allRoles = JSON.parse(decodeURIComponent(params['roles'] || '[]'));
 
       self.getUser = function () {
          var data;
@@ -80,6 +92,8 @@ ko.components.register('user-editor', {
             self.user.first_name(user.first_name || '');
             self.user.last_name(user.last_name || '');
             self.user.email(user.email || '');
+
+            self.user.roles(user.roles || '');
          });
       };
 

@@ -1,1 +1,1 @@
-<user-editor></user-editor>
+<user-editor params="roles: '<%= URI.escape(settings.container.persisters[:user].roles.to_a.collect {|r| r.name.titlecase}.to_s) %>'"></user-editor>
