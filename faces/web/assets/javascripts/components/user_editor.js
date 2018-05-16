@@ -35,6 +35,7 @@ ko.components.register('user-editor', {
                            <div data-bind="foreach: user.groups">\
                               <a data-bind="href: $parent.groupLink(id),text: name"></a>\
                            </div>\
+                           <span class="placeholder" data-bind="visible: !user.groups().length">- none -</span>\
                         </div>\
                         <div class="completed">\
                            <header>Completed Puzzles</header>\
@@ -44,6 +45,19 @@ ko.components.register('user-editor', {
                                  <span data-bind="text: titlecase($data)"></span>\
                               </label>\
                            </div>\
+                           <a href="#" class="reset-clicks" data-bind="click: showResetConfirm">Reset Clicks</a>\
+                           <float-frame class="reset-clicks-confirm" params="visibility: showResetConfirm">\
+                              <header>Reset Click Data?</header>\
+                              <p>\
+                                 Are you sure you wish to delete <strong>all clicks</strong> for \
+                                 <span data-bind="text: $parent.user.first_name"></span> <span data-bind="text: $parent.user.last_name"></span>?\
+                              </p>\
+                              <p>\
+                                 <strong>This action cannot be undone.</strong>\
+                              </p>\
+                              <a href="#" data-bind="click: $parent.showResetConfirm.toggle">Cancel</a>\
+                              <a href="#" data-bind="click: $parent.resetClicks">Delete Permanently</a>\
+                           </float-frame>\
                         </div>\
                      </div>\
                   </fieldset>\
@@ -59,6 +73,8 @@ ko.components.register('user-editor', {
                         <p>\
                            Are you sure you wish to delete <span data-bind="text: $parent.user.first_name"></span> \
                            <span data-bind="text: $parent.user.last_name"></span>?\
+                        </p>\
+                        <p>\
                            <strong>This action cannot be undone.</strong>\
                         </p>\
                         <a href="#" data-bind="click: $parent.deleteConfirmVisible.toggle">Cancel</a>\
@@ -83,6 +99,8 @@ ko.components.register('user-editor', {
          puzzles_completed: ko.observableArray()
       };
 
+      self.showResetConfirm = ko.observable(false).toggleable();
+
       self.allPuzzles = ['hanoi', 'levers'];
 
       self.formClass = ko.pureComputed(function () {
@@ -100,6 +118,16 @@ ko.components.register('user-editor', {
       });
 
       self.allRoles = JSON.parse(decodeURIComponent(params['roles'] || '[]'));
+
+      self.resetClicks = function () {
+         ajax('post', '/admin/reset_clicks', ko.toJSON({user_id: self.user.id}), function (response) {
+            window.flash('notice', response.messages);
+
+            self.showResetConfirm.toggle();
+
+            self.getUser();
+         });
+      };
 
       self.getUser = function () {
          var data;

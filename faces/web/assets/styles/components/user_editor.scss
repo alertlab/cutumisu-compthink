@@ -93,7 +93,7 @@ user-editor {
          
          flex-direction: row;
          
-         div {
+         & > div {
             margin-right: 3em;
             
             header {
@@ -101,7 +101,17 @@ user-editor {
                
                font-weight: bold;
             }
+            
+            &:last-of-type {
+               margin: auto;
+            }
          }
+      }
+      
+      .reset-clicks {
+         @include button();
+         
+         margin-top: 1em;
       }
    }
    
@@ -121,19 +131,16 @@ user-editor {
          
          left: 0;
       }
+   }
+   
+   .delete-confirm,
+   .reset-clicks-confirm {
+      text-align: center;
       
-      .delete-confirm {
-         text-align: center;
+      a {
+         @include button();
          
-         strong {
-            display: block;
-         }
-         
-         a {
-            @include button();
-            
-            margin: 0 0.5em;
-         }
+         margin: 0 0.5em;
       }
    }
 }

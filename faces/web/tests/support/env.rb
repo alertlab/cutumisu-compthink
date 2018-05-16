@@ -8,11 +8,13 @@ $LOAD_PATH.unshift(src_dir) unless $LOAD_PATH.include?(src_dir)
 
 require 'core/tests/support/types'
 
+require 'core/tests/step_definitions/given/games_given'
 require 'core/tests/step_definitions/given/time_given'
 require 'core/tests/step_definitions/given/groups_given'
 require 'core/tests/step_definitions/given/clicks_given'
 require 'core/tests/step_definitions/then/user_then'
 require 'core/tests/step_definitions/then/groups_then'
+require 'core/tests/step_definitions/then/games_then'
 require 'core/tests/step_definitions/then/message_then'
 
 require 'core/comp_think'

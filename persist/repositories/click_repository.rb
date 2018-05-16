@@ -34,5 +34,9 @@ module CompThink
                       puzzle:   puzzle_type.to_s,
                       complete: true).count > 0
       end
+
+      def delete_clicks_for(user_id:)
+         clicks.where(user_id: user_id).delete
+      end
    end
 end

@@ -7,6 +7,11 @@ html body {
       @include overlay();
    }
    
+   .placeholder {
+      font-style: italic;
+      opacity: 0.4;
+   }
+   
    hr {
       border: none;
       border-top: 1px solid black;
