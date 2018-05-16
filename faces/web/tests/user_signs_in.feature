@@ -28,6 +28,23 @@ Feature: User Signs In
          | groupA | user1 |
          | groupB | user2 |
    
+   Scenario Outline: it should preload participant group from URI
+      Given the following users:
+         | name  |
+         | user1 |
+         | user2 |
+      And the following groups:
+         | name   | participants |
+         | groupA | user1        |
+         | groupB | user2        |
+      When they sign in to participate with user "<user>" and preset group "<group>"
+      Then "<user>" should be signed in
+      And "<user>" should see "Hello!"
+      Examples:
+         | group  | user  |
+         | groupA | user1 |
+         | groupB | user2 |
+   
    Scenario: it should redirect participants to the games page
       Given the following users:
          | name  |
