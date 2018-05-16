@@ -11,6 +11,8 @@ module CompThink
                starting: 0)
             users_persister = container.persisters[:user]
             roles_persister = container.persisters[:role]
+            click_persister = container.persisters[:click]
+            group_persister = container.persisters[:group]
 
             role = filter ? filter[:role] : nil
 
@@ -24,7 +26,8 @@ module CompThink
 
             {
                   results:        users[:results].collect do |u|
-                     u.to_hash
+                     u.to_hash.merge(puzzles_completed: click_persister.puzzles_completed(u),
+                                     groups:            group_persister.groups_for(u))
                   end,
                   all_data_count: users[:max_results]
             }

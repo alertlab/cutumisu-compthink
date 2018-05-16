@@ -49,6 +49,25 @@ Feature: Researcher Updates Person
          | Name          | Email                 |
          | Allan Daniels | different@example.com |
    
+   Scenario Outline: it should display the games they have completed
+      Given "Allan" has completed <puzzle>
+      When "Kelly" navigates to user editor for "Allan"
+      Then "Kelly" should see they have completed <puzzle>
+      And "Kelly" should see they have not completed <unfinished>
+      Examples:
+         | puzzle | unfinished |
+         | hanoi  | levers     |
+         | levers | hanoi      |
+   
+   Scenario: it should display their groups
+      Given group "Group A"
+      And group "Group B"
+      And group "Group A" has participant "Allan"
+      And group "Group B" has participant "Allan"
+      When "Kelly" navigates to user editor for "Allan"
+      Then "Kelly" should see "Group A"
+      And "Kelly" should see "Group B"
+   
    Scenario: it should update their roles
       When "Kelly" updates user "Allan" with:
          | roles |

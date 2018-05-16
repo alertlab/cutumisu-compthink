@@ -21,6 +21,8 @@ user-editor {
    label {
       display: block;
       
+      margin-bottom: 0.75em;
+      
       min-width: 5em;
       
       span {
@@ -31,6 +33,10 @@ user-editor {
          min-width: 4em;
          
          padding: 0.5em 0.5em 0.5em 0;
+      }
+      
+      &:last-of-type {
+         margin-bottom: auto;
       }
    }
    
@@ -54,30 +60,47 @@ user-editor {
       }
    }
    
-   .personal {
+   .personal,
+   .participation {
       display: inline-block;
       
-      margin: 0 auto;
+      vertical-align: top;
       
-      .identity {
-         padding: 0 0.75em;
+      margin: 0 0.25em 0.25em 0;
+   }
+   
+   .personal {
+      //margin: 0 auto;
+      
+      //.identity {
+      //   padding: 0 0.75em;
+      //}
+      
+      span {
+         min-width: 5.5em;
       }
       
       .contact-info {
-         margin-top: 1.5em;
-         
-         textarea {
-            width: 15em;
-            max-width: 25em;
-            height: 7em;
-            
-            font-family: "Verdana", "Arial", sans-serif;
+         label {
+            margin: auto;
          }
       }
-      
-      .roles {
-         label {
-            margin-bottom: 0.75em;
+   }
+   
+   .participation {
+      & > div {
+         display: flex;
+         
+         flex-direction: row;
+         
+         div {
+            margin-right: 3em;
+            
+            header {
+               margin-bottom: 0.25em;
+               
+               font-weight: bold;
+            }
          }
       }
    }

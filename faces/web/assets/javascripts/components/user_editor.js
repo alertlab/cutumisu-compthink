@@ -2,7 +2,7 @@ ko.components.register('user-editor', {
    template: ' <header data-bind="text: headerText()"></header>\
                <form data-bind="submit: save, css: formClass" autocomplete="off">\
                   <div class="personal">\
-                     <div class="identity">\
+                     <fieldset class="contact-info">\
                         <label>\
                            <span>First Name</span>\
                            <input type="text" name="first_name" data-bind="value: user.first_name">\
@@ -11,8 +11,6 @@ ko.components.register('user-editor', {
                            <span>Last Name</span>\
                            <input type="text" name="last_name" data-bind="value: user.last_name">\
                         </label>\
-                     </div>\
-                     <fieldset class="contact-info">\
                         <legend>Contact Information</legend>\
                         <label>\
                            <span>Email</span>\
@@ -29,6 +27,26 @@ ko.components.register('user-editor', {
                         </div>\
                      </fieldset>\
                   </div>\
+                  <fieldset class="participation">\
+                     <legend>Participation</legend>\
+                     <div>\
+                        <div class="groups">\
+                           <header>Groups</header>\
+                           <div data-bind="foreach: user.groups">\
+                              <a data-bind="href: $parent.groupLink(id),text: name"></a>\
+                           </div>\
+                        </div>\
+                        <div class="completed">\
+                           <header>Completed Puzzles</header>\
+                           <div data-bind="foreach: allPuzzles">\
+                              <label class="puzzle" data-bind="css: $data">\
+                                 <input type="checkbox" disabled data-bind="value: $data, checked: $parent.user.puzzles_completed" />\
+                                 <span data-bind="text: titlecase($data)"></span>\
+                              </label>\
+                           </div>\
+                        </div>\
+                     </div>\
+                  </fieldset>\
                   <div class="controls">\
                      <input type="button" \
                             class="delete" \
@@ -60,12 +78,20 @@ ko.components.register('user-editor', {
          first_name: ko.observable(''),
          last_name: ko.observable(''),
          email: ko.observable(''),
-         roles: ko.observableArray()
+         roles: ko.observableArray(),
+         groups: ko.observableArray(),
+         puzzles_completed: ko.observableArray()
       };
+
+      self.allPuzzles = ['hanoi', 'levers'];
 
       self.formClass = ko.pureComputed(function () {
          return 'user-editor-' + (self.isNewRecord() ? 'new' : self.user.id());
       });
+
+      self.groupLink = function (id) {
+         return '/admin/edit_group?id=' + id
+      };
 
       self.deleteConfirmVisible = ko.observable(false).toggleable();
 
@@ -93,7 +119,10 @@ ko.components.register('user-editor', {
             self.user.last_name(user.last_name || '');
             self.user.email(user.email || '');
 
-            self.user.roles(user.roles || '');
+            self.user.roles(user.roles || []);
+            self.user.groups(user.groups || []);
+
+            self.user.puzzles_completed(user.puzzles_completed || []);
          });
       };
 

@@ -31,7 +31,9 @@ Then("user {string} should have {int} roles") do |user_name, n|
 end
 
 Then('it should return user summaries for {string}') do |user_list|
-   user_persister = @persisters[:user]
+   user_persister  = @persisters[:user]
+   click_persister = @persisters[:click]
+   group_persister = @persisters[:group]
 
    names = extract_list(user_list)
 
@@ -41,14 +43,20 @@ Then('it should return user summaries for {string}') do |user_list|
    names.each do |name|
       user = user_persister.find(first_name: name)
 
-      expect(user).to_not be_nil # sanity check
+      puzzles = click_persister.puzzles_completed(user)
+      groups  = group_persister.groups_for(user)
 
-      expect(@result[:results]).to include user.to_hash
+      expect(user).to_not be_nil # sanity check.completed
+
+      expect(@result[:results]).to include(user.to_hash.merge(puzzles_completed: puzzles,
+                                                              groups:            groups))
    end
 end
 
 Then('it should return user summaries for {string} in that order') do |user_list|
-   user_persister = @persisters[:user]
+   user_persister  = @persisters[:user]
+   click_persister = @persisters[:click]
+   group_persister = @persisters[:group]
 
    names = extract_list(user_list)
 
@@ -56,7 +64,13 @@ Then('it should return user summaries for {string} in that order') do |user_list
    expect(@result[:results].size).to eq names.size
 
    user_hashes = names.collect do |name|
-      user_persister.find(first_name: name).to_hash
+      user = user_persister.find(first_name: name)
+
+      puzzles = click_persister.puzzles_completed(user)
+      groups  = group_persister.groups_for(user)
+
+      user.to_hash.merge(puzzles_completed: puzzles,
+                         groups:            groups)
    end
 
    expect(@result[:results]).to eq user_hashes

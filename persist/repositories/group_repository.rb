@@ -100,5 +100,10 @@ module CompThink
       def in_group?(user, group)
          users_groups.where(user_id: user.id, group_id: group.id).count > 0
       end
+
+      def groups_for(user)
+         groups.join(:users_groups, group_id: :id)
+               .where(user_id: user.id).to_a
+      end
    end
 end
