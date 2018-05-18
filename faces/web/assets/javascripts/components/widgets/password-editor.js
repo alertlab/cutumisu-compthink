@@ -7,7 +7,8 @@ ko.components.register('password-editor', {
                           <header>New Password</header>\
                           <input name="password" type="password" data-bind="textInput: password, \
                                                                             attr: {type: inputType}, \
-                                                                            fontFamily: pwFont" \
+                                                                            fontFamily: pwFont,\
+                                                                            event: {focusout: loseFocus}"\
                              /><a href="#" class="show-pw" data-bind="click: showPassword.toggle,\
                                                                       attr: {title: showPassTitle}">\
                              <span class="icon" data-bind="css: showPassText"><img src="" data-bind="attr: {src: window.imagePaths.eyeGrey}"/></span>\
@@ -17,6 +18,8 @@ ko.components.register('password-editor', {
                              <span class="space-highlight" data-bind="style: {left: $data, \
                                                                               fontFamily: $parent.pwFont}">&nbsp;</span>\
                           <!-- /ko -->\
+                          <meter min=0 max=4 value=0 data-bind="value: pwStrengthScore"></meter>\
+                          <span data-bind="text: pwStrengthLabel"></span>\
                        </label>\
                     </li>\
                  </ul>\
@@ -48,7 +51,36 @@ ko.components.register('password-editor', {
 
       self.inputType = ko.pureComputed(function () {
          return self.showPassword() ? 'text' : 'password';
+      }).extend({throttle: 50});
+
+      self.pwStrength = ko.pureComputed(function () {
+         return zxcvbn(self.password());
       });
+
+      self.pwStrengthScore = ko.pureComputed(function () {
+         return self.pwStrength().score;
+      });
+
+      self.pwStrengthLabel = ko.pureComputed(function () {
+         var scoreLabels = [
+            "Very Weak",
+            "Weak",
+            "Meh",
+            "Strong",
+            "Very Strong"
+         ];
+
+         return scoreLabels[self.pwStrengthScore()];
+      });
+
+      self.loseFocus = function (vm, event) {
+         var related = event.relatedTarget;
+
+         if (event.target === (related ? related.previousSibling : null))
+            event.target.focus();
+         else
+            self.showPassword(false);
+      };
 
       // this assumes monospace for two reasons:
       // 1. It's far easier to calculate the location of the spaces; and,
@@ -64,11 +96,6 @@ ko.components.register('password-editor', {
             if (/\s/.test(char))
                spaces.push((i + 1) * charWidth + 'px');
          });
-
-         // drop the last one because we're looking for *between* items, and last one is off the end
-         // spaces.pop();
-
-         console.log(spaces)
 
          return spaces
       });
@@ -88,7 +115,7 @@ ko.components.register('password-editor', {
          context.font = font;
          var metrics = context.measureText(text);
          return metrics.width;
-      }
+      };
 
       self.setPassword = function () {
          // var data = {
