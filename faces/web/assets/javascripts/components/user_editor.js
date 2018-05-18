@@ -61,6 +61,7 @@ ko.components.register('user-editor', {
                         </div>\
                      </div>\
                   </fieldset>\
+                  <!--<password-editor></password-editor>-->\
                   <div class="controls">\
                      <input type="button" \
                             class="delete" \
