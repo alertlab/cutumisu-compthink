@@ -187,7 +187,9 @@ group-editor {
       padding-top: 1em;
       
       text-align: right;
-      
+   
+      border-top: 1px solid $color1;
+   
       & > a {
          @include back-link();
          

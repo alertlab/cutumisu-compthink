@@ -5,21 +5,31 @@ ko.components.register('password-editor', {
                     <li>\
                        <label>\
                           <header>New Password</header>\
-                          <input name="password" type="password" data-bind="textInput: password, \
-                                                                            attr: {type: inputType}, \
-                                                                            fontFamily: pwFont,\
-                                                                            event: {focusout: loseFocus}"\
-                             /><a href="#" class="show-pw" data-bind="click: showPassword.toggle,\
+                          <div class="input-wrapper">\
+                             <input name="password" type="password" data-bind="textInput: password, \
+                                                                               attr: {type: inputType}, \
+                                                                               fontFamily: pwFont,\
+                                                                               event: {focusout: loseFocus}"\
+                                />\
+                             <!-- ko foreach: spaces-->\
+                                <span class="space-highlight" data-bind="style: {left: $data, \
+                                                                                 fontFamily: $parent.pwFont}">&nbsp;</span>\
+                             <!-- /ko -->\
+                          </div><a href="#" class="show-pw" data-bind="click: showPassword.toggle,\
                                                                       attr: {title: showPassTitle}">\
                              <span class="icon" data-bind="css: showPassText"><img src="" data-bind="attr: {src: window.imagePaths.eyeGrey}"/></span>\
                              <span data-bind="text: showPassText"></span>\
                           </a>\
-                          <!-- ko foreach: spaces-->\
-                             <span class="space-highlight" data-bind="style: {left: $data, \
-                                                                              fontFamily: $parent.pwFont}">&nbsp;</span>\
-                          <!-- /ko -->\
-                          <meter min=0 max=4 value=0 data-bind="value: pwStrengthScore"></meter>\
-                          <span data-bind="text: pwStrengthLabel"></span>\
+                          <div class="strength">\
+                             <meter min=0 max=4 high=3 low=2 optimum=4 value=0 data-bind="value: pwStrengthScore"></meter>\
+                             <span class="score-label" data-bind="text: pwStrengthLabel"></span>\
+                             <div class="tips-wrapper">\
+                                <a href="#" data-bind="click: showTips.toggle, visible: pwStrengthTips().length > 0">Tips</a>\
+                                <ul class="tips" data-bind="foreach: pwStrengthTips, visible: showTips">\
+                                   <li data-bind="text: $data"></li>\
+                                </ul>\
+                             </div>\
+                          </div>\
                        </label>\
                     </li>\
                  </ul>\
@@ -28,6 +38,14 @@ ko.components.register('password-editor', {
 
    viewModel: function () {
       var self = this;
+
+      self.scoreLabels = [
+         "Very Weak",
+         "Weak",
+         "Meh",
+         "Strong",
+         "Very Strong"
+      ];
 
       self.pwFont = '13px monospace';
 
@@ -40,6 +58,7 @@ ko.components.register('password-editor', {
       self.username = ko.observable();
 
       self.showPassword = ko.observable(false).toggleable();
+      self.showTips = ko.observable(false).toggleable();
 
       self.showPassText = ko.pureComputed(function () {
          return self.showPassword() ? 'hide' : 'see';
@@ -62,23 +81,24 @@ ko.components.register('password-editor', {
       });
 
       self.pwStrengthLabel = ko.pureComputed(function () {
-         var scoreLabels = [
-            "Very Weak",
-            "Weak",
-            "Meh",
-            "Strong",
-            "Very Strong"
-         ];
+         return self.scoreLabels[self.pwStrengthScore()];
+      });
 
-         return scoreLabels[self.pwStrengthScore()];
+      self.pwStrengthTips = ko.pureComputed(function () {
+         var feedback = self.pwStrength().feedback;
+
+         if (feedback.warning)
+            return feedback.suggestions.concat([feedback.warning]);
+         else
+            return feedback.suggestions;
       });
 
       self.loseFocus = function (vm, event) {
          var related = event.relatedTarget;
 
-         if (event.target === (related ? related.previousSibling : null))
+         if (related && related.classList.contains('.show-pw') && event.target === related.previousSibling.querySelector('input')) {
             event.target.focus();
-         else
+         } else
             self.showPassword(false);
       };
 
