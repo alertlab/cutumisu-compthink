@@ -12,23 +12,23 @@ module CompThink
             @user_id = user_id
 
             @encrypted_password = if password
-                                     BCrypt::Password.create(password, cost: BCRYPT_COST)
+                                     UserAuthentication.encrypt(password)
                                   else
                                      BCrypt::Password.new(encrypted_password)
                                   end
          end
 
          def authenticate(attempted_password)
-            @encrypted_password.is_password? attempted_password
+            @encrypted_password.is_password?(attempted_password)
          end
 
          def self.encrypt(password)
             BCrypt::Password.create(password, cost: BCRYPT_COST)
          end
 
-         # def password=(password)
-         #   self.encrypted_password = BCrypt::Password.create(password)
-         # end
+         def password=(password)
+            @encrypted_password = UserAuthentication.encrypt(password)
+         end
 
          def to_hash
             {

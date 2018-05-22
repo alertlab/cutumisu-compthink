@@ -5,10 +5,9 @@ Feature: Researcher Finds Person
    
    Background:
       Given the following users:
-         | Name          | Email             | role       |
-         | Kelly Meyers  | kelly@example.com | admin      |
-         | Allan Daniels | allan@example.com | instructor |
-      And "Kelly" has password "sekret"
+         | Name          | Email             | role       | password |
+         | Kelly Meyers  | kelly@example.com | admin      | sekret   |
+         | Allan Daniels | allan@example.com | instructor |          |
    
    Scenario Outline: it should filter by name
       When "Kelly" searches for users with:
@@ -55,7 +54,6 @@ Feature: Researcher Finds Person
          | Name             | Email              | role  |
          | Kelly Meyers     | kelly@example.com  | admin |
          | Kellyette Second | kelly2@example.com |       |
-      And "Kelly" has password "sekret"
       When "Kelly" searches for users with:
          | email   |
          | <email> |
@@ -71,7 +69,6 @@ Feature: Researcher Finds Person
       And the following users:
          | Name         | Email             | role  |
          | Kelly Meyers | kelly@example.com | admin |
-      And "Kelly" has password "sekret"
       When "Kelly" navigates to "People"
       And "Kelly" views the pagination page <n>
       And "Kelly" searches for users with:
@@ -91,9 +88,8 @@ Feature: Researcher Finds Person
    @no-js
    Scenario Outline: it should not allow non-admins to search people
       Given the following users:
-         | Name      | Email           |
-         | Hex Virus | hex@example.com |
-      And "Hex" has password "sekret"
+         | Name      | Email           | password |
+         | Hex Virus | hex@example.com | sekret   |
       When "<user>" force searches for users with:
          | name |
          | John |

@@ -16,6 +16,41 @@ user-editor {
    
    form {
       position: relative;
+      
+      & > header {
+         margin: 0.75em 0 0.5em 0;
+         
+         border-bottom: 1px solid $color1;
+         
+         padding: 0.25em 0.25em;
+         
+         //background: $color1;
+         color: $color1;
+         
+         font-size: 1.25em;
+      }
+      
+      .controls {
+         display: flex;
+         flex-direction: row;
+         justify-content: space-between;
+         
+         position: relative;
+         
+         border-top: 1px solid $color1;
+         
+         padding: 1em 0;
+         
+         & > div > .cancel {
+            @include back-link();
+            
+            margin: 1em;
+         }
+         
+         .delete {
+            @include button(white, #c90000);
+         }
+      }
    }
    
    label {
@@ -60,27 +95,18 @@ user-editor {
       }
    }
    
-   .personal,
-   .participation {
-      display: inline-block;
-      
-      vertical-align: top;
-      
-      margin: 0 0.25em 0.25em 0;
-   }
-   
    .personal {
-      //margin: 0 auto;
+      display: flex;
       
-      //.identity {
-      //   padding: 0 0.75em;
-      //}
+      flex-direction: row;
       
       span {
          min-width: 5.5em;
       }
       
       .contact-info {
+         margin-right: 2em;
+         
          label {
             margin: auto;
          }
@@ -115,23 +141,20 @@ user-editor {
       }
    }
    
-   .controls {
-      position: relative;
+   .security {
+      display: flex;
+      flex-direction: row;
       
-      text-align: right;
+      margin-bottom: 2em;
       
-      border-top: 1px solid $color1;
-      
-      & > a {
-         @include back-link();
-         
-         margin: 1em;
+      & > * {
+         margin-right: 2em;
       }
       
-      .delete {
-         position: absolute;
-         
-         left: 0;
+      .roles {
+         header {
+            margin: 0.5em 0;
+         }
       }
    }
    
@@ -140,9 +163,15 @@ user-editor {
       text-align: center;
       
       a {
-         @include button();
-         
          margin: 0 0.5em;
+      }
+      
+      a.action {
+         @include button(white, #c90000);
+      }
+      
+      a.cancel {
+         @include button();
       }
    }
 }

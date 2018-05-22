@@ -5,10 +5,9 @@ Feature: Researcher Removes Person
    
    Background:
       Given the following users:
-         | Name          | Email             | role  |
-         | Kelly Meyers  | kelly@example.com | admin |
-         | Allan Daniels | allan@example.com |       |
-      And "Kelly" has password "sekret"
+         | Name          | Email             | role  | password |
+         | Kelly Meyers  | kelly@example.com | admin | sekret   |
+         | Allan Daniels | allan@example.com |       |          |
    
    Scenario: it should remove a person
       When "Kelly" removes user "Allan"
@@ -33,9 +32,8 @@ Feature: Researcher Removes Person
    @no-js
    Scenario Outline: it should not allow non-admins to remove people
       Given the following users:
-         | Name      | Email           |
-         | Hex Virus | hex@example.com |
-      And "Hex" has password "sekret"
+         | Name      | Email           | password |
+         | Hex Virus | hex@example.com | sekret   |
       When "<user>" force removes user "Kelly"
       Then they should see "You are not permitted to do that"
       Then there should be 3 users

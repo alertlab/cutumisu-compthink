@@ -5,9 +5,8 @@ Feature: Researcher Finds Group
    
    Background:
       Given the following users:
-         | Name         | Email             | role  |
-         | Kelly Meyers | kelly@example.com | admin |
-      And "Kelly" has password "sekret"
+         | Name         | Email             | role  | password |
+         | Kelly Meyers | kelly@example.com | admin | sekret   |
    
    Scenario Outline: it should filter by name
       Given the following groups:
@@ -60,9 +59,8 @@ Feature: Researcher Finds Group
          | name    |
          | Group A |
       And the following user:
-         | Name      | Email           |
-         | Hex Virus | hex@example.com |
-      And "Hex" has password "sekret"
+         | Name      | Email           | password |
+         | Hex Virus | hex@example.com | sekret   |
       When "<user>" force searches for groups with:
          | name  |
          | Group |

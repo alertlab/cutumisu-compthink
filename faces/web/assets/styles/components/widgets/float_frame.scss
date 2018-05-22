@@ -3,6 +3,8 @@
 float-frame {
    display: block;
    
+   position: absolute;
+   
    & > .frame {
       @include float-panel();
       

@@ -5,11 +5,10 @@ Feature: Researcher Views People
    
    Scenario: it should display all users
       Given the following users:
-         | First Name | Last Name | Email             | role       |
-         | Kelly      | Meyers    | kelly@example.com | admin      |
-         | Allan      | Daniels   | allan@example.com | instructor |
-         | John       | Doe       | john@example.com  | instructor |
-      And "Kelly" has password "sekret"
+         | First Name | Last Name | Email             | role       | password |
+         | Kelly      | Meyers    | kelly@example.com | admin      | sekret   |
+         | Allan      | Daniels   | allan@example.com | instructor |          |
+         | John       | Doe       | john@example.com  | instructor |          |
       When "Kelly" navigates to "People"
       And "Kelly" should see user summary for "Kelly"
       And "Kelly" should see user summary for "Allan"
@@ -21,7 +20,6 @@ Feature: Researcher Views People
          | Kelly      | Meyers    | kelly@example.com | admin      |
          | Allan      | Daniels   | allan@example.com | instructor |
          | John       | Doe       | john@example.com  | instructor |
-      And "Kelly" has password "sekret"
       When "Kelly" views users sorted by "<sorter>" <direction>
       Then "Kelly" should see user summaries for "<users>" in that order
       Examples:

@@ -21,7 +21,7 @@ When("{string} resets click data for {string}") do |admin_name, target_name|
 
    click_link('Reset Clicks')
 
-   click_link('Delete Permanently')
+   click_link('Reset Permanently')
 
    wait_for_ajax
 end

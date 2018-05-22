@@ -17,60 +17,63 @@ ko.components.register('user-editor', {
                            <input type="email" name="email" data-bind="value: user.email">\
                         </label>\
                      </fieldset>\
-                     <fieldset class="roles">\
-                        <legend>Roles</legend>\
+                     <fieldset class="participation">\
+                        <legend>Participation</legend>\
+                        <div>\
+                           <div class="groups">\
+                              <header>Groups</header>\
+                              <div data-bind="foreach: user.groups">\
+                                 <a data-bind="href: $parent.groupLink(id),text: name"></a>\
+                              </div>\
+                              <span class="placeholder" data-bind="visible: !user.groups().length">- none -</span>\
+                           </div>\
+                           <div class="completed">\
+                              <header>Completed Puzzles</header>\
+                              <div data-bind="foreach: allPuzzles">\
+                                 <label class="puzzle" data-bind="css: $data">\
+                                    <input type="checkbox" disabled data-bind="value: $data, checked: $parent.user.puzzles_completed" />\
+                                    <span data-bind="text: titlecase($data)"></span>\
+                                 </label>\
+                              </div>\
+                              <a href="#" class="reset-clicks" data-bind="click: showResetConfirm">Reset Clicks</a>\
+                              <float-frame class="reset-clicks-confirm" params="visibility: showResetConfirm">\
+                                 <header>Reset Click Data?</header>\
+                                 <p>\
+                                    Are you sure you wish to delete <strong>all clicks</strong> for \
+                                    <span data-bind="text: $parent.user.first_name"></span> <span data-bind="text: $parent.user.last_name"></span>?\
+                                 </p>\
+                                 <p>\
+                                    <strong>This action cannot be undone.</strong>\
+                                 </p>\
+                                 <a href="#" class="cancel" data-bind="click: $parent.showResetConfirm.toggle">Cancel</a>\
+                                 <a href="#" class="action" data-bind="click: $parent.resetClicks">Reset Permanently</a>\
+                              </float-frame>\
+                           </div>\
+                        </div>\
+                     </fieldset>\
+                  </div>\
+                  <header>Security</header>\
+                  <div class="security">\
+                     <password-editor params="password: user.password"></password-editor>\
+                     <div class="roles">\
+                        <header>Roles</header>\
                         <div data-bind="foreach: allRoles">\
                            <label>\
                               <input type="checkbox" data-bind="value: $data.toLowerCase(), checked: $parent.user.roles">\
                               <span data-bind="text: $data"></span>\
                            </label>\
                         </div>\
-                     </fieldset>\
-                  </div>\
-                  <fieldset class="participation">\
-                     <legend>Participation</legend>\
-                     <div>\
-                        <div class="groups">\
-                           <header>Groups</header>\
-                           <div data-bind="foreach: user.groups">\
-                              <a data-bind="href: $parent.groupLink(id),text: name"></a>\
-                           </div>\
-                           <span class="placeholder" data-bind="visible: !user.groups().length">- none -</span>\
-                        </div>\
-                        <div class="completed">\
-                           <header>Completed Puzzles</header>\
-                           <div data-bind="foreach: allPuzzles">\
-                              <label class="puzzle" data-bind="css: $data">\
-                                 <input type="checkbox" disabled data-bind="value: $data, checked: $parent.user.puzzles_completed" />\
-                                 <span data-bind="text: titlecase($data)"></span>\
-                              </label>\
-                           </div>\
-                           <a href="#" class="reset-clicks" data-bind="click: showResetConfirm">Reset Clicks</a>\
-                           <float-frame class="reset-clicks-confirm" params="visibility: showResetConfirm">\
-                              <header>Reset Click Data?</header>\
-                              <p>\
-                                 Are you sure you wish to delete <strong>all clicks</strong> for \
-                                 <span data-bind="text: $parent.user.first_name"></span> <span data-bind="text: $parent.user.last_name"></span>?\
-                              </p>\
-                              <p>\
-                                 <strong>This action cannot be undone.</strong>\
-                              </p>\
-                              <a href="#" data-bind="click: $parent.showResetConfirm.toggle">Cancel</a>\
-                              <a href="#" data-bind="click: $parent.resetClicks">Delete Permanently</a>\
-                           </float-frame>\
-                        </div>\
                      </div>\
-                  </fieldset>\
-                  <!--\
-                  <password-editor></password-editor>\
-                  -->\
+                  </div>\
                   <div class="controls">\
                      <input type="button" \
                             class="delete" \
                             value="Delete" \
                             data-bind="visible: !isNewRecord(), click: deleteConfirmVisible.toggle"/>\
-                     <a href="/admin/people" class="cancel">Cancel</a>\
-                     <input type="submit" value="Save" />\
+                     <div>\
+                        <a href="/admin/people" class="cancel">Cancel</a>\
+                        <input type="submit" value="Save" />\
+                     </div>\
                      <float-frame class="delete-confirm" params="visibility: deleteConfirmVisible">\
                         <header>Confirm Deletion</header>\
                         <p>\
@@ -80,8 +83,8 @@ ko.components.register('user-editor', {
                         <p>\
                            <strong>This action cannot be undone.</strong>\
                         </p>\
-                        <a href="#" data-bind="click: $parent.deleteConfirmVisible.toggle">Cancel</a>\
-                        <a href="#" data-bind="click: $parent.deleteUser">Delete Permanently</a>\
+                        <a href="#" class="cancel" data-bind="click: $parent.deleteConfirmVisible.toggle">Cancel</a>\
+                        <a href="#" class="action" data-bind="click: $parent.deleteUser">Delete Permanently</a>\
                      </float-frame>\
                   </div>\
                </form>',
@@ -97,6 +100,7 @@ ko.components.register('user-editor', {
          first_name: ko.observable(''),
          last_name: ko.observable(''),
          email: ko.observable(''),
+         password: ko.observable(''),
          roles: ko.observableArray(),
          groups: ko.observableArray(),
          puzzles_completed: ko.observableArray()

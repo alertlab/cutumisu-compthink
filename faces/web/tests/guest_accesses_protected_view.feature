@@ -33,9 +33,8 @@ Feature: Guest Access Protected View
    
    Scenario Outline: it should bounce non-admin users from admin views
       Given the following user:
-         | name          | email             |
-         | Allan Daniels | allan@example.com |
-      And "Allan" has password "sekret"
+         | name          | email             |  password |
+         | Allan Daniels | allan@example.com |  sekret   |
       When "Allan" visits <uri>
       Then they should see "You must log in to view that page"
       And they should be at /
@@ -61,9 +60,8 @@ Feature: Guest Access Protected View
    @no-js
    Scenario Outline: it should bounce non-admin users from admin actions
       Given the following user:
-         | name          |
-         | Allan Daniels |
-      And "Allan" has password "sekret"
+         | name          |        password |
+         | Allan Daniels |        sekret   |
       When "Allan" force posts to "<uri>"
       Then they should see 403 error "You are not permitted to do that"
       Examples:

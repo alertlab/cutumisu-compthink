@@ -5,11 +5,9 @@ Feature: User Signs Out
    
    Scenario Outline: it should sign out admins
       Given the following users:
-         | Name          | Email           | Roles |
-         | Bob Mainframe | bob@example.com | admin |
-         | Dot Matrix    | dot@example.com | admin |
-      And "Bob" has password "sekret"
-      And "Dot" has password "sekret"
+         | Name          | Email           | Roles | password |
+         | Bob Mainframe | bob@example.com | admin | sekret   |
+         | Dot Matrix    | dot@example.com | admin | sekret   |
       When "<user>" signs out
       Then "<user>" should not be signed in
       And they should see "Signed out"

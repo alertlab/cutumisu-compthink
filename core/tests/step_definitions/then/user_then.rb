@@ -98,3 +98,9 @@ Then('there should be a person with:') do |table|
       expect(@persisters[:user].find(row)).to_not be_nil
    end
 end
+
+Then('{string} should have password {string}') do |user_name, pass|
+   user = @persisters[:user].find(first_name: user_name)
+
+   expect(user.authenticate(pass)).to be true
+end

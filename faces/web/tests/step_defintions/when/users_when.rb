@@ -27,6 +27,9 @@ When('{string} updates user {string} with no changes') do |admin_name, user_name
    wait_for_ajax
 end
 
+When('{string} updates their user account with:') do |admin_name, table|
+   step(%["#{admin_name}" updates user "#{admin_name}" with:], table)
+end
 
 When('{string} updates user {string} with:') do |admin_name, user_name, table|
    step(%["#{ admin_name }" navigates to user editor for "#{ user_name }"])
@@ -40,6 +43,7 @@ When('{string} updates user {string} with:') do |admin_name, user_name, table|
       fill_in :last_name, with: row[:last_name] if row[:last_name]
 
       fill_in :email, with: row[:email] if row[:email]
+      fill_in :password, with: row[:password] if row[:password]
 
       extract_list(row.delete(:roles)).each do |role_name|
          check(role_name)
@@ -49,6 +53,10 @@ When('{string} updates user {string} with:') do |admin_name, user_name, table|
 
       wait_for_ajax
    end
+end
+
+When("{string} force updates their user account with:") do |user_name, table|
+   step(%["#{ user_name }" force updates user "#{user_name}" with:], table)
 end
 
 When('{string} force updates user {string} with:') do |admin_name, user_name, table|

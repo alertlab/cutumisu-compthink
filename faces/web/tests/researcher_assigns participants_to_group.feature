@@ -5,9 +5,8 @@ Feature: Researcher Assigns Participants to Group
    
    Background:
       Given the following users:
-         | first name | last name | Email             | role  |
-         | Kelly      | Meyers    | kelly@example.com | admin |
-      And "Kelly" has password "sekret"
+         | first name | last name | Email             | role  | password |
+         | Kelly      | Meyers    | kelly@example.com | admin | sekret   |
       And the following group:
          | Name    |
          | Group A |
@@ -72,14 +71,13 @@ Feature: Researcher Assigns Participants to Group
    #============
    @no-js
    Scenario Outline: it should not allow non-admins to add participants to groups
-#      Given the following users:
-#         | first name | last name | Email           |
-#         | Hex        | Virus     | hex@example.com |
-#      And "Hex" has password "sekret"
-#      When "<user>" force adds a group
-#      Then there should be 0 groups
-#      And they should see "You are not permitted to do that"
-#      Examples:
-#         | user |
-#         | Hex  |
-#         |      |
+      Given the following users:
+         | first name | last name | Email           | password |
+         | Hex        | Virus     | hex@example.com | sekret   |
+      When "<user>" force adds "Hex" to group "Group A"
+      Then "<user>" should not be in group "Group A"
+      And they should see "You are not permitted to do that"
+      Examples:
+         | user |
+         | Hex  |
+         |      |

@@ -9,6 +9,8 @@ Given("the following user(s):") do |table|
    symtable(table).hashes.each do |row|
       row[:roles] = extract_list(row.delete(:role) || row.delete(:roles)) if row[:role] || row[:roles]
 
+      password = row.delete(:password) || 'sekret'
+
       if row[:name]
          row[:first_name], row[:last_name] = row.delete(:name).split(/\s+/)
       end
@@ -21,7 +23,9 @@ Given("the following user(s):") do |table|
 
       group_name = row.delete(:group)
 
-      user = user_persister.create(row)
+      user = user_persister.create_with_auth(row.merge(user_authentications: {
+            encrypted_password: Model::UserAuthentication.encrypt(password)
+      }))
 
       if group_name
          step(%[group "#{group_name}"])

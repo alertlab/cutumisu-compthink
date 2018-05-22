@@ -83,15 +83,21 @@ module CompThink
          users.combine(:user_authentications).command(:create).call(data)
       end
 
-      def create_auth(data)
-         user_authentications.command(:create).call(data)
-      end
-
       def update_with_auth(user_id, user_data)
-         role_names = user_data.delete(:roles)
+         role_names = user_data.delete(:roles) || []
 
          users.transaction do
-            user = users.where(id: user_id).changeset(:update, user_data).commit
+            password = user_data.delete(:password)
+
+            user = users.where(id: user_id)
+                         .changeset(:update, user_data)
+                         .commit
+
+            unless !password || password.empty?
+               user_authentications.where(user_id: user_id)
+                     .changeset(:update, encrypted_password: CompThink::Model::UserAuthentication.encrypt(password))
+                     .commit
+            end
 
             roles_users.where(user_id: user.id).command(:delete).call
 

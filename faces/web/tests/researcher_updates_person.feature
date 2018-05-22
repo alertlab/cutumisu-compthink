@@ -5,12 +5,9 @@ Feature: Researcher Updates Person
    
    Background:
       Given the following users:
-         | Name         | Email             | role  |
-         | Kelly Meyers | kelly@example.com | admin |
-      And the following users:
-         | Name          | Email             | role       |
-         | Allan Daniels | allan@example.com | instructor |
-      And "Kelly" has password "sekret"
+         | Name          | Email             | role       | password |
+         | Kelly Meyers  | kelly@example.com | admin      | sekret   |
+         | Allan Daniels | allan@example.com | instructor |          |
    
    Scenario: it should load existing properties
       When "Kelly" updates user "Allan" with no changes
@@ -85,9 +82,8 @@ Feature: Researcher Updates Person
    @no-js
    Scenario Outline: it should not allow non-admins to update people
       Given the following users:
-         | Name      | Email           | role   |
-         | Hex Virus | hex@example.com | member |
-      And "Hex" has password "sekret"
+         | Name      | Email           | role   | password |
+         | Hex Virus | hex@example.com | member | sekret   |
       When "<user>" force updates user "Allan" with:
          | Name          | email            |
          | Allan Daniels | derp@example.com |

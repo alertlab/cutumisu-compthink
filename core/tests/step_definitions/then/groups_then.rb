@@ -60,5 +60,5 @@ Then("{string} {should} be in group {string}") do |user_name, should, group_name
    group = group_persister.find(name: group_name)
    user  = user_persister.find(first_name: user_name)
 
-   expect(group_persister.in_group?(user, group)).to be should
+   expect(group_persister.in_group?(user, group)).to be should if user
 end

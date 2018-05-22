@@ -5,9 +5,8 @@ Feature: Researcher Removes Group
    
    Background:
       Given the following users:
-         | Name         | Email             | role  |
-         | Kelly Meyers | kelly@example.com | admin |
-      And "Kelly" has password "sekret"
+         | Name         | Email             | role  | password |
+         | Kelly Meyers | kelly@example.com | admin | sekret   |
       And the following group:
          | Name    |
          | Group A |
@@ -26,9 +25,8 @@ Feature: Researcher Removes Group
    @no-js
    Scenario Outline: it should not allow non-admins to remove groups
       Given the following users:
-         | Name      | Email           |
-         | Hex Virus | hex@example.com |
-      And "Hex" has password "sekret"
+         | Name      | Email           | password |
+         | Hex Virus | hex@example.com | sekret   |
       When "<user>" force removes group "Group A"
       Then they should see "You are not permitted to do that"
       Then there should be 1 group

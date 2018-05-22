@@ -5,11 +5,9 @@ Feature: User Signs In
    
    Background:
       Given the following users:
-         | first name | last name | Email           | roles |
-         | Bob        | Mainframe | bob@example.com | admin |
-         | Dot        | Matrix    | dot@example.com | admin |
-      And "Bob" has password "sekret"
-      And "Dot" has password "sekret"
+         | first name | last name | Email           | roles | password |
+         | Bob        | Mainframe | bob@example.com | admin | sekret   |
+         | Dot        | Matrix    | dot@example.com | admin | sekret   |
    
    Scenario Outline: it should sign in participants with group and user
       Given the following users:

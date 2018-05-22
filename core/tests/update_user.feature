@@ -17,6 +17,30 @@ Feature: Update User
          | John       | Doe       | john@example.com |
          | Jane       | Deo       | jane@example.com |
    
+   Scenario Outline: it should update their password
+      Given the following users:
+         | first name | last name | email             | password |
+         | Allan      | Daniels   | allan@example.com | sekret   |
+      When user "Allan" is updated with:
+         | password |
+         | <pass>   |
+      Then there should be 1 users
+      And "Allan" should have password "<pass>"
+      Examples:
+         | pass         |
+         | another pass |
+         | s0ch@nged    |
+   
+   Scenario: it should ignore blank passwords
+      Given the following users:
+         | first name | last name | email             | password |
+         | Allan      | Daniels   | allan@example.com | sekret   |
+      When user "Allan" is updated with:
+         | password |
+         |          |
+      Then there should be 1 users
+      And "Allan" should have password "sekret"
+   
    Scenario Outline: it should add roles
       Given the following users:
          | first name | last name | email             | roles |

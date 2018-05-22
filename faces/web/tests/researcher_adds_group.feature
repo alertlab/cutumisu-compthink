@@ -5,10 +5,8 @@ Feature: Researcher Adds Group
    
    Background:
       Given the following users:
-         | first name | last name | Email             | role  |
-         | Kelly      | Meyers    | kelly@example.com | admin |
-      And "Kelly" has password "sekret"
-   
+         | first name | last name | Email             | role  | password |
+         | Kelly      | Meyers    | kelly@example.com | admin | sekret   |
    
    Scenario: it should add a group
       When "Kelly" creates a group with:
@@ -26,9 +24,8 @@ Feature: Researcher Adds Group
    @no-js
    Scenario Outline: it should not allow non-admins to add people
       Given the following users:
-         | first name | last name | Email           |
-         | Hex        | Virus     | hex@example.com |
-      And "Hex" has password "sekret"
+         | first name | last name | Email           | password |
+         | Hex        | Virus     | hex@example.com | sekret   |
       When "<user>" force adds a group
       Then there should be 0 groups
       And they should see "You are not permitted to do that"

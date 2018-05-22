@@ -7,8 +7,7 @@ ko.components.register('sign-in', {
                        <input type="email" name="email" placeholder="eg. jdoe@example.com" data-bind="value: email" />\
                     </li>\
                     <li>\
-                       <label for="password">Password</label>\
-                       <input name="password" type="password" data-bind="value: password" />\
+                       <password-input params="password: password"></password-input>\
                     </li>\
                  </ul>\
                  <ul data-bind="visible: !isAdmin">\

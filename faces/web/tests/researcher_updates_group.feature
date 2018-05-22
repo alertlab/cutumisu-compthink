@@ -5,12 +5,9 @@ Feature: Researcher Updates Group
    
    Background:
       Given the following users:
-         | Name         | Email             | role  |
-         | Kelly Meyers | kelly@example.com | admin |
-      And the following users:
-         | Name          | Email             |
-         | Allan Daniels | allan@example.com |
-      And "Kelly" has password "sekret"
+         | Name          | Email             | role  | password |
+         | Kelly Meyers  | kelly@example.com | admin | sekret   |
+         | Allan Daniels | allan@example.com |       |          |
       And the following group:
          | Name    | start date | end date |
          | Group A | Jan 1      | Feb 1    |
@@ -56,9 +53,8 @@ Feature: Researcher Updates Group
    @no-js
    Scenario Outline: it should not allow non-admins to update groups
       Given the following users:
-         | Name      | Email           | role   |
-         | Hex Virus | hex@example.com | member |
-      And "Hex" has password "sekret"
+         | Name      | Email           | role   | password |
+         | Hex Virus | hex@example.com | member | sekret   |
       When "<user>" force updates group "Group A" with:
          | Name    |
          | NewName |

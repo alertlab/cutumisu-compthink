@@ -5,9 +5,8 @@ Feature: Researcher Exports Data
    
    Background:
       Given the following users:
-         | Name         | Email             | role  |
-         | Kelly Meyers | kelly@example.com | admin |
-      And "Kelly" has password "sekret"
+         | Name         | Email             | role  | password |
+         | Kelly Meyers | kelly@example.com | admin | sekret   |
       And the following group:
          | Name    | start date | end date |
          | Group A | Jan 1      | Feb 1    |
@@ -45,13 +44,12 @@ Feature: Researcher Exports Data
    @no-js
    Scenario Outline: it should not allow non-admins to export clicks
       Given the following users:
-         | Name      | Email           | role   |
-         | Hex Virus | hex@example.com | member |
+         | Name      | Email           | role   | password |
+         | Hex Virus | hex@example.com | member | sekret   |
       Given the following clicks:
          | puzzle | time             |
          | lever  | Jan 1 2019 12:00 |
          | hanoi  | Jan 2 2019 09:00 |
-      And "Hex" has password "sekret"
       When "<user>" force exports clicks as CSV
       Then they should see "You are not permitted to do that"
       And they should not see "lever"
@@ -66,9 +64,8 @@ Feature: Researcher Exports Data
    @no-js
    Scenario Outline: it should not allow non-admins to export users
       Given the following users:
-         | Name      | Email           | role   |
-         | Hex Virus | hex@example.com | member |
-      And "Hex" has password "sekret"
+         | Name      | Email           | role   | password |
+         | Hex Virus | hex@example.com | member | sekret   |
       When "<user>" force exports users as CSV
       Then they should see "You are not permitted to do that"
       And they should not see "Kelly"
