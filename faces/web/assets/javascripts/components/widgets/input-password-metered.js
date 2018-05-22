@@ -1,4 +1,4 @@
-ko.components.register('password-editor', {
+ko.components.register('input-password-metered', {
    template: '<div class="overlay" data-bind="click: showTips.toggle, visible: showTips"></div>\
               <label class="password-edit">\
                  <span>New Password</span>\
@@ -53,28 +53,5 @@ ko.components.register('password-editor', {
          else
             return feedback.suggestions;
       });
-
-      self.setPassword = function () {
-         // var data = {
-         //    admin: {
-         //       email: self.email(),
-         //       password: self.password()
-         //    },
-         //    user: {
-         //       group: self.group(),
-         //       username: self.username()
-         //    }
-         // };
-         //
-         // ajax('post', '/auth/sign_in', ko.mapping.toJSON(data), function (response) {
-         //    self.user(ko.mapping.fromJS(response.user));
-         //
-         //    document.cookie = 'compthink.flash_notices=' + encodeURIComponent(JSON.stringify([response.notice]));
-         //
-         //    response.redirect = window.deserializeSearch().uri || response.redirect
-         // });
-         //
-         // self.password(null);
-      };
    }
 });

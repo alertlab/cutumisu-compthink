@@ -54,7 +54,7 @@ ko.components.register('user-editor', {
                   </div>\
                   <header>Security</header>\
                   <div class="security">\
-                     <password-editor params="password: user.password"></password-editor>\
+                     <input-password-metered params="password: user.password"></input-password-metered>\
                      <div class="roles">\
                         <header>Roles</header>\
                         <div data-bind="foreach: allRoles">\
