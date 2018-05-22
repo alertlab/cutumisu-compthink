@@ -2,7 +2,7 @@ ko.components.register('password-editor', {
    template: '<div class="overlay" data-bind="click: showTips.toggle, visible: showTips"></div>\
               <label class="password-edit">\
                  <span>New Password</span>\
-                 <password-input params="password: password"></password-input>\
+                 <input-password params="password: password"></input-password>\
                  <div class="strength">\
                     <meter min=0 max=4 high=3 low=2 optimum=4 value=0 data-bind="value: pwStrengthScore"></meter>\
                     <span>Strength:</span>\

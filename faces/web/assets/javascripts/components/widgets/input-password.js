@@ -1,4 +1,4 @@
-ko.components.register('password-input', {
+ko.components.register('input-password', {
    template: '<div class="input-wrapper">\
                  <input name="password" \
                         type="password" \

@@ -100,17 +100,18 @@ html {
                
                -webkit-user-select: none;
                -moz-user-select: none;
+               -ms-user-select: none;
                user-select: none;
                
                cursor: pointer;
                
                &:before {
                   // This is the actual rectangle
+                  content: '';
+                  
                   position: absolute;
-                  
                   left: 0;
-                  
-                  top: 0.1em;
+                  top: -0.1em;
                   
                   width: 1em;
                   height: 1em;
@@ -121,27 +122,24 @@ html {
                   border-radius: 3px;
                   
                   background: #f8f8f8;
-                  
-                  content: '';
                }
                
                &:after {
                   // This is just the checkmark. They are layered because of font size limitations
-                  position: absolute;
-                  
-                  top: 0.15em;
-                  left: 0.15em;
+                  content: '✔';
                   
                   opacity: 0;
+                  
+                  position: absolute;
+                  top: -0.2em;
+                  left: 0.1em;
+                  
+                  font-size: 24px;
+                  line-height: 1em;
+                  color: #007c41;
+                  
                   transform: scale(0);
-                  
-                  font-size: 18px;
-                  line-height: 0.8;
-                  color: $color1;
-                  
                   transition: all .2s;
-                  
-                  content: '✔';
                }
                
                &:hover {
@@ -151,11 +149,9 @@ html {
                }
             }
             
-            &:checked + span {
-               &:after {
-                  opacity: 1;
-                  transform: scale(1);
-               }
+            &:checked + span:after {
+               opacity: 1;
+               transform: scale(1);
             }
             
             &:disabled + span {
@@ -166,14 +162,13 @@ html {
                &:before {
                   background: lightgrey;
                }
+               
                &:after {
                   color: grey;
                }
                
-               &:hover {
-                  &:before {
-                     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-                  }
+               &:hover:before {
+                  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
                }
             }
          }
@@ -216,8 +211,9 @@ html {
       }
       
       footer {
-         margin: 3em 0em 1em 0em;
          vertical-align: bottom;
+         
+         margin: 3em 0em 1em 0em;
          
          text-align: center;
          font-size: 75%;
