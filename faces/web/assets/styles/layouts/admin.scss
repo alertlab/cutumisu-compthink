@@ -140,6 +140,8 @@ html body {
          
          max-width: 13em;
          
+         white-space: nowrap;
+         
          &:before {
             display: inline-block;
             vertical-align: top;

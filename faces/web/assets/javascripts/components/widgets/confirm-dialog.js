@@ -28,7 +28,7 @@ ko.components.register('confirm-dialog', {
           * @param content the nodes to place within the main area of the dialog
           * @constructor
           */
-         var FloatFrameModel = function (params, content) {
+         var ConfirmDialogModel = function (params, content) {
             var self = this;
 
             self.content = content;
@@ -52,7 +52,7 @@ ko.components.register('confirm-dialog', {
             }
          };
 
-         return new FloatFrameModel(params, componentInfo.templateNodes, componentInfo.element);
+         return new ConfirmDialogModel(params, componentInfo.templateNodes, componentInfo.element);
       }
    }
 });

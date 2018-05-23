@@ -50,7 +50,7 @@ ko.components.register('basic-form', {
           * @param content the content of the form (inputs, etc.)
           * @constructor
           */
-         var ExpanderModel = function (params, content) {
+         var BasicFormModel = function (params, content) {
             var self = this;
 
             self.content = content;
@@ -76,7 +76,7 @@ ko.components.register('basic-form', {
             self.deleteConfirmVisible = ko.observable(false).toggleable();
          };
 
-         return new ExpanderModel(params, componentInfo.templateNodes);
+         return new BasicFormModel(params, componentInfo.templateNodes);
       }
    }
 });

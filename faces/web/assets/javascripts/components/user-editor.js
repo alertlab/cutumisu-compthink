@@ -114,8 +114,6 @@ ko.components.register('user-editor', {
          ajax('post', '/admin/reset_clicks', ko.toJSON({user_id: self.user.id}), function (response) {
             window.flash('notice', response.messages);
 
-            self.showResetConfirm.toggle();
-
             self.getUser();
          });
       };

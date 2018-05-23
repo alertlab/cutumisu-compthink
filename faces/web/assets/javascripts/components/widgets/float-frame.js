@@ -23,8 +23,6 @@ ko.components.register('float-frame', {
             self.content = content;
             self.context = params['context'];
 
-            self.delete = function(){}
-
             self.isVisible = params['visibility'] || ko.observable(false);
 
             self.toggleVisibility = function () {
