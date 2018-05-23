@@ -1,7 +1,11 @@
-
 ko.components.register('group-editor', {
-   template: ' <header data-bind="text: headerText()"></header>\
-               <form data-bind="submit: save, css: formClass" autocomplete="off">\
+   template: ' <basic-form params="header: headerText, \
+                                   formClass: formClass,\
+                                   onSave: save,\
+                                   onDelete: deleteGroup, \
+                                   canDelete: !isNewRecord(), \
+                                   deleteConfirm: deleteConfirm,\
+                                   cancelHref: \'/admin/groups\' ">\
                   <div class="group">\
                      <div class="basic-info">\
                         <label>\
@@ -67,25 +71,7 @@ ko.components.register('group-editor', {
                         </float-frame>\
                      </div>\
                   </div>\
-                  <div class="controls">\
-                     <input type="button" \
-                            class="delete" \
-                            value="Delete" \
-                            data-bind="visible: !isNewRecord(), \
-                                       click: deleteConfirmVisible.toggle"/>\
-                     <a href="/admin/groups" class="cancel">Cancel</a>\
-                     <input type="submit" value="Save" />\
-                     <float-frame class="delete-confirm" params="visibility: deleteConfirmVisible">\
-                        <header>Confirm Deletion</header>\
-                        <p>\
-                           Are you sure you wish to delete <span data-bind="text: $parent.group.name"></span>?\
-                           <strong>This action cannot be undone.</strong>\
-                        </p>\
-                        <a href="#" data-bind="click: $parent.deleteConfirmVisible.toggle">Cancel</a>\
-                        <a href="#" data-bind="click: $parent.deleteGroup">Delete Permanently</a>\
-                     </float-frame>\
-                  </div>\
-               </form>',
+               </basic-form>',
 
    /**
     */
@@ -161,8 +147,6 @@ ko.components.register('group-editor', {
          return 'group-editor-' + (self.isNewRecord() ? 'new' : self.group.id());
       });
 
-      self.deleteConfirmVisible = ko.observable(false).toggleable();
-
       self.isNewRecord = ko.pureComputed(function () {
          return !self.group.id();
       });
@@ -226,10 +210,12 @@ ko.components.register('group-editor', {
          ajax('post', '/admin/delete_group', ko.mapping.toJSON({id: self.group.id()}), function (response) {
             if (response.messages)
                window.flash('notice', response.messages);
-
-            self.deleteConfirmVisible.toggle();
          });
       };
+
+      self.deleteConfirm = ko.pureComputed(function () {
+         return 'Are you sure you wish to delete ' + self.group.name() + '?';
+      });
 
       self.buildUserLabel = function (user) {
          return user.first_name + ' ' + user.last_name;

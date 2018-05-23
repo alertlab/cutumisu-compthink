@@ -16,6 +16,8 @@ basic-form {
    
    form {
       .form-content {
+         margin-bottom: 2em;
+         
          & > header {
             margin: 0.75em 0 0.5em 0;
             
@@ -61,8 +63,7 @@ basic-form {
             @include button(white, #c90000);
          }
          
-         .delete-confirm,
-         .reset-clicks-confirm {
+         .delete-confirm {
             text-align: center;
             
             a {

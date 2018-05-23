@@ -3,216 +3,161 @@
 group-editor {
    display: block;
    
-   & > header {
-      margin-bottom: 1em;
+   .group {
+      display: flex;
+      flex-direction: row;
+      flex: 1 1 0;
       
-      padding: 1em 0.25em;
-      
-      background: $color1;
-      color: $color3;
-      
-      font-size: 1.25em;
-   }
-   
-   form {
-      position: relative;
-      
-      .group {
-         display: flex;
-         flex-direction: row;
-         flex: 1 1 0;
+      label {
+         display: inline-block;
          
-         label {
+         min-width: 5em;
+         
+         span {
             display: inline-block;
             
-            min-width: 5em;
+            min-width: 4em;
             
-            span {
-               display: inline-block;
-               
-               min-width: 4em;
-               
-               padding: 0.5em 0.5em 0.5em 0;
-            }
+            padding: 0.5em 0.5em 0.5em 0;
+         }
+      }
+      
+      select {
+         @include button(white, $color1);
+         
+         padding: 0.5em;
+         
+         vertical-align: baseline;
+      }
+      
+      & > div {
+         width: 100%;
+         
+         //border: 1px dotted grey;
+         border: none;
+         
+         header {
+            //font-style: italic;
+            font-size: 1.1em;
+            font-weight: bold;
          }
          
-         select {
-            @include button(white, $color1);
-            
-            padding: 0.5em;
-            
-            vertical-align: baseline;
+         label span {
+            min-width: 6em;
+         }
+      }
+      
+      .participants {
+         display: flex;
+         flex-direction: column-reverse;
+         justify-content: space-between;
+         
+         header {
+            order: 1;
          }
          
-         & > div {
-            width: 100%;
-            
-            //border: 1px dotted grey;
-            border: none;
-            
-            header {
-               //font-style: italic;
-               font-size: 1.1em;
-               font-weight: bold;
-            }
-            
-            label span {
-               min-width: 6em;
-            }
-         }
-         
-         .participants {
+         .list {
             display: flex;
-            flex-direction: column-reverse;
+            flex-wrap: wrap-reverse;
             justify-content: space-between;
             
-            header {
-               order: 1;
-            }
+            flex-grow: 1;
             
-            .list {
+            & > div {
                display: flex;
-               flex-wrap: wrap-reverse;
                justify-content: space-between;
+               align-items: flex-start;
+               flex-basis: 50%;
+            }
+            
+            .new-participant,
+            .participant {
+               display: inline-block;
                
-               flex-grow: 1;
-               
-               & > div {
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: flex-start;
-                  flex-basis: 50%;
+               header {
+                  margin: 0;
                }
                
-               .new-participant,
-               .participant {
-                  display: inline-block;
-                  
-                  header {
-                     margin: 0;
-                  }
-                  
-                  .email,
-                  .controls,
-                  .roles {
-                     display: none;
-                  }
-               }
-               
-               .participant {
-                  vertical-align: middle;
-                  
-                  width: 100%;
-                  
-                  margin: 0.5em 0;
-                  
-                  border: 1px solid $color1;
-                  border-radius: 0.5em;
-                  padding: 0.25em 0.5em;
-                  
-                  background: transparentize($color1, 0.9);
+               .email,
+               .controls,
+               .roles {
+                  display: none;
                }
             }
             
-            .bulk-participants {
-               .controls {
-                  display: flex;
-                  
-                  align-content: flex-end;
-                  
-                  .add {
-                     @include button();
-                  }
-                  
-                  .cancel {
-                     @include button(white, $color1);
-                  }
-               }
+            .participant {
+               vertical-align: middle;
+               
+               width: 100%;
+               
+               margin: 0.5em 0;
+               
+               border: 1px solid $color1;
+               border-radius: 0.5em;
+               padding: 0.25em 0.5em;
+               
+               background: transparentize($color1, 0.9);
             }
-            
+         }
+         
+         .bulk-participants {
             .controls {
                display: flex;
                
-               flex-direction: row;
-               justify-content: space-between;
-               
-               padding: 1em 0;
-               
-               .bulk-add {
-                  @include button();
-                  
-                  flex-basis: 80%;
-                  
-                  justify-self: flex-end;
-               }
+               align-content: flex-end;
                
                .add {
                   @include button();
-                  
-                  flex-basis: 17%;
-                  justify-self: flex-end;
+               }
+               
+               .cancel {
+                  @include button(white, $color1);
                }
             }
+         }
+         
+         .controls {
+            display: flex;
             
-            .delete {
+            flex-direction: row;
+            justify-content: space-between;
+            
+            padding: 1em 0;
+            
+            .bulk-add {
                @include button();
-               vertical-align: middle;
                
-               margin: 0.5em;
+               flex-basis: 80%;
                
-               padding: 0.25em 0.5em;
+               justify-self: flex-end;
             }
             
-            .placeholder {
-               display: block;
-               flex-grow: 1;
-               opacity: 0.7;
+            .add {
+               @include button();
                
-               user-select: none;
-               
-               padding: 1em;
-               text-align: center;
+               flex-basis: 17%;
+               justify-self: flex-end;
             }
          }
-      }
-   }
-   
-   form > .controls {
-      position: relative;
-      
-      margin-top: 2em;
-      
-      border-top: 1px solid $color4;
-      
-      padding-top: 1em;
-      
-      text-align: right;
-   
-      border-top: 1px solid $color1;
-   
-      & > a {
-         @include back-link();
          
-         margin: 1em;
-      }
-      
-      .delete {
-         position: absolute;
-         
-         left: 0;
-      }
-      
-      .delete-confirm {
-         text-align: center;
-         
-         strong {
-            display: block;
-         }
-         
-         a {
+         .delete {
             @include button();
+            vertical-align: middle;
             
-            margin: 0 0.5em;
+            margin: 0.5em;
+            
+            padding: 0.25em 0.5em;
+         }
+         
+         .placeholder {
+            display: block;
+            flex-grow: 1;
+            opacity: 0.7;
+            
+            user-select: none;
+            
+            padding: 1em;
+            text-align: center;
          }
       }
    }

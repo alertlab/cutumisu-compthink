@@ -80,13 +80,27 @@ user-editor {
             
             margin-top: 1em;
          }
+         
+         .reset-clicks-confirm {
+            text-align: center;
+            
+            a {
+               margin: 0 0.5em;
+            }
+            
+            a.action {
+               @include button(white, #c90000);
+            }
+            
+            a.cancel {
+               @include button();
+            }
+         }
       }
       
       .security {
          display: flex;
          flex-direction: row;
-         
-         margin-bottom: 2em;
          
          & > * {
             margin-right: 2em;

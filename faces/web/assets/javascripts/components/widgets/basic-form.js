@@ -5,9 +5,9 @@ ko.components.register('basic-form', {
                   </div>\
                   <div class="controls">\
                      <div class="special-buttons">\
+                        <input type="button" class="delete" value="Delete" \
+                               data-bind="visible: canDelete, click: deleteConfirmVisible.toggle"/>\
                      </div>\
-                     <input type="button" class="delete" value="Delete" \
-                            data-bind="visible: canDelete, click: deleteConfirmVisible.toggle"/>\
                      <div class="standard-buttons">\
                         <a href="#" class="cancel" data-bind="href: cancelHref">Cancel</a>\
                         <input type="submit" value="Save" />\
@@ -60,7 +60,9 @@ ko.components.register('basic-form', {
             self.formClass = params['formClass'];
             self.autocomplete = params['autocomplete'] || 'on';
 
-            self.save = params['onSave'];
+            self.save = params['onSave'] || function () {
+               console.warn('Pass onSave parameter to basic-form');
+            };
 
             self.delete = function () {
                params['onDelete']();
@@ -69,8 +71,7 @@ ko.components.register('basic-form', {
             };
             self.canDelete = params['canDelete'];
             self.deleteConfirmText = params['deleteConfirm'] || 'Are you sure you wish to delete this?';
-            self.cancelHref = params['cancelHref'] || 'Are you sure you wish to delete this?';
-
+            self.cancelHref = params['cancelHref'] || '#';
 
             self.deleteConfirmVisible = ko.observable(false).toggleable();
          };
