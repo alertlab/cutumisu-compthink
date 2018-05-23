@@ -18,9 +18,9 @@ ko.components.register('hanoi-game', {
       var gameHeight = params['height'] || explode('Must provide game height in params');
 
       self.preload = function () {
-         self.game.load.image('disc_normal', window.imagePaths.disc_normal);
-         self.game.load.image('disc_selected', window.imagePaths.disc_selected);
-         self.game.load.image('peg', window.imagePaths.peg);
+         self.game.load.image('disc_normal', window.appData.imagePaths.disc_normal);
+         self.game.load.image('disc_selected', window.appData.imagePaths.disc_selected);
+         self.game.load.image('peg', window.appData.imagePaths.peg);
       };
 
       var numDiscs = params['discs'] || 3;

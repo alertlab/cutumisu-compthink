@@ -15,11 +15,16 @@
            crossorigin="anonymous"></script>
 
    <script>
-      window.imagePaths = {
+      window.appData = {};
+      window.appData.imagePaths = {
          person: '<%= image_path('images/person.svg') %>',
          people: '<%= image_path('images/people.svg') %>',
          eyeGrey: '<%= image_path('images/eye-grey.svg') %>'
-      }
+      };
+
+      window.appData.roles = '<%= URI.escape(settings.container.persisters[:user].roles.to_a.collect do |r|
+         r.name.titlecase
+      end.to_s) %>';
    </script>
 </head>
 <body>
@@ -36,8 +41,8 @@
 
    <nav class="main-nav">
       <navigation-menu params="options: {
-                                 People: {url: '/admin/people', icon: window.imagePaths.person},
-                                 Groups: {url: '/admin/groups', icon: window.imagePaths.people},
+                                 People: {url: '/admin/people', icon: window.appData.imagePaths.person},
+                                 Groups: {url: '/admin/groups', icon: window.appData.imagePaths.people},
                                  'session': {tag: '<session></session>'}
                                }">
       </navigation-menu>

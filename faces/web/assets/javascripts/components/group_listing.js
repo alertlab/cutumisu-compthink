@@ -9,7 +9,7 @@ ko.components.register('group-listing', {
                   </div>\
                   <a class="add-group-button" href="#" data-bind="visible: !createEditorVisible(), click: createEditorVisible">\
                      <div class="icon">\
-                        <img src="" data-bind="attr: {src: window.imagePaths.people}"/>\
+                        <img src="" data-bind="attr: {src: window.appData.imagePaths.people}"/>\
                         <span class="plus">+</span>\
                      </div>\
                      Add Group\

@@ -17,7 +17,7 @@ ko.components.register('input-password', {
                                      attr: {title: showPassTitle}">\
                  <span class="icon" \
                        data-bind="css: showPassText"><img src="" \
-                                                          data-bind="attr: {src: window.imagePaths.eyeGrey}"/></span>\
+                                                          data-bind="attr: {src: window.appData.imagePaths.eyeGrey}"/></span>\
                  <span data-bind="text: showPassText"></span>\
               </a>',
 

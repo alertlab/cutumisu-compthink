@@ -1,6 +1,11 @@
 ko.components.register('user-editor', {
-   template: ' <header data-bind="text: headerText()"></header>\
-               <form data-bind="submit: save, css: formClass" autocomplete="off">\
+   template: ' <basic-form params="header: headerText, \
+                                   formClass: formClass,\
+                                   onSave: save,\
+                                   onDelete: deleteUser, \
+                                   canDelete: !isNewRecord(), \
+                                   deleteConfirm: deleteConfirm,\
+                                   cancelHref: \'/admin/people\' ">\
                   <div class="personal">\
                      <fieldset class="contact-info">\
                         <label>\
@@ -23,7 +28,7 @@ ko.components.register('user-editor', {
                            <div class="groups">\
                               <header>Groups</header>\
                               <div data-bind="foreach: user.groups">\
-                                 <a data-bind="href: $parent.groupLink(id),text: name"></a>\
+                                 <a data-bind="href: $parent.groupLink(id), text: name"></a>\
                               </div>\
                               <span class="placeholder" data-bind="visible: !user.groups().length">- none -</span>\
                            </div>\
@@ -65,29 +70,7 @@ ko.components.register('user-editor', {
                         </div>\
                      </div>\
                   </div>\
-                  <div class="controls">\
-                     <input type="button" \
-                            class="delete" \
-                            value="Delete" \
-                            data-bind="visible: !isNewRecord(), click: deleteConfirmVisible.toggle"/>\
-                     <div>\
-                        <a href="/admin/people" class="cancel">Cancel</a>\
-                        <input type="submit" value="Save" />\
-                     </div>\
-                     <float-frame class="delete-confirm" params="visibility: deleteConfirmVisible">\
-                        <header>Confirm Deletion</header>\
-                        <p>\
-                           Are you sure you wish to delete <span data-bind="text: $parent.user.first_name"></span> \
-                           <span data-bind="text: $parent.user.last_name"></span>?\
-                        </p>\
-                        <p>\
-                           <strong>This action cannot be undone.</strong>\
-                        </p>\
-                        <a href="#" class="cancel" data-bind="click: $parent.deleteConfirmVisible.toggle">Cancel</a>\
-                        <a href="#" class="action" data-bind="click: $parent.deleteUser">Delete Permanently</a>\
-                     </float-frame>\
-                  </div>\
-               </form>',
+               </basic-form>',
 
    /**
     */
@@ -106,25 +89,26 @@ ko.components.register('user-editor', {
          puzzles_completed: ko.observableArray()
       };
 
-      self.showResetConfirm = ko.observable(false).toggleable();
-
       self.allPuzzles = ['hanoi', 'levers'];
+      self.allRoles = JSON.parse(decodeURIComponent(window.appData.roles));
+
+      self.showResetConfirm = ko.observable(false).toggleable();
 
       self.formClass = ko.pureComputed(function () {
          return 'user-editor-' + (self.isNewRecord() ? 'new' : self.user.id());
+      });
+
+      self.deleteConfirm = ko.pureComputed(function () {
+         return 'Are you sure you wish to delete ' + self.user.first_name() + ' ' + self.user.last_name() + '?';
       });
 
       self.groupLink = function (id) {
          return '/admin/edit_group?id=' + id
       };
 
-      self.deleteConfirmVisible = ko.observable(false).toggleable();
-
       self.isNewRecord = ko.pureComputed(function () {
          return !self.user.id();
       });
-
-      self.allRoles = JSON.parse(decodeURIComponent(params['roles'] || '[]'));
 
       self.resetClicks = function () {
          ajax('post', '/admin/reset_clicks', ko.toJSON({user_id: self.user.id}), function (response) {
@@ -177,8 +161,6 @@ ko.components.register('user-editor', {
       self.deleteUser = function () {
          ajax('post', '/admin/delete_user', ko.mapping.toJSON({id: self.user.id()}), function (response) {
             window.flash('notice', response.messages);
-
-            self.deleteConfirmVisible.toggle();
          });
       };
 

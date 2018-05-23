@@ -38,7 +38,7 @@ ko.components.register('user-listing', {
                      href="#" \
                      data-bind="visible: !createEditorVisible(), click: createEditorVisible.toggle">\
                      <div class="icon">\
-                        <img src="" data-bind="attr: {src: window.imagePaths.person}"/>\
+                        <img src="" data-bind="attr: {src: window.appData.imagePaths.person}"/>\
                         <span class="plus">+</span>\
                      </div>\
                      Add Person\

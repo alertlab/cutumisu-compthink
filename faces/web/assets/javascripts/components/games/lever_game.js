@@ -33,7 +33,7 @@ ko.components.register('lever-game', {
          expected = ['A', 'B', 'C', 'D'];
 
       self.preload = function () {
-         self.game.load.spritesheet('button', window.imagePaths.button, buttonSize, buttonSize, 2);
+         self.game.load.spritesheet('button', window.appData.imagePaths.button, buttonSize, buttonSize, 2);
       };
 
       self.create = function () {
