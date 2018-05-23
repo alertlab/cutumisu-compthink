@@ -84,16 +84,8 @@ user-editor {
          .reset-clicks-confirm {
             text-align: center;
             
-            a {
-               margin: 0 0.5em;
-            }
-            
-            a.action {
+            .confirm {
                @include button(white, #c90000);
-            }
-            
-            a.cancel {
-               @include button();
             }
          }
       }

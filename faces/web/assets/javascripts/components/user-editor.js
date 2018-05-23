@@ -41,18 +41,18 @@ ko.components.register('user-editor', {
                                  </label>\
                               </div>\
                               <a href="#" class="reset-clicks" data-bind="click: showResetConfirm">Reset Clicks</a>\
-                              <float-frame class="reset-clicks-confirm" params="visibility: showResetConfirm">\
-                                 <header>Reset Click Data?</header>\
+                              <confirm-dialog class="reset-clicks-confirm" params="visibility: showResetConfirm, \
+                                                                                   header: \'Reset Click Data\',\
+                                                                                   onConfirm: resetClicks, \
+                                                                                   confirm: \'Reset Permanently\'">\
                                  <p>\
                                     Are you sure you wish to delete <strong>all clicks</strong> for \
-                                    <span data-bind="text: $parent.user.first_name"></span> <span data-bind="text: $parent.user.last_name"></span>?\
+                                    <span data-bind="text: user.first_name"></span> <span data-bind="text: user.last_name"></span>?\
                                  </p>\
                                  <p>\
                                     <strong>This action cannot be undone.</strong>\
                                  </p>\
-                                 <a href="#" class="cancel" data-bind="click: $parent.showResetConfirm.toggle">Cancel</a>\
-                                 <a href="#" class="action" data-bind="click: $parent.resetClicks">Reset Permanently</a>\
-                              </float-frame>\
+                              </confirm-dialog>\
                            </div>\
                         </div>\
                      </fieldset>\

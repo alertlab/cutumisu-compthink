@@ -134,7 +134,7 @@ When("{string} batch creates {int} participants in group {string}") do |admin_na
 
             fill_in('Number', with: number)
 
-            click_button('Add')
+            click_link('Add')
          end
       end
 

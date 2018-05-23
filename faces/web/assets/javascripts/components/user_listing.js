@@ -54,7 +54,7 @@ ko.components.register('user-listing', {
                   </p>\
                   <loading-spinner params="target: users"></loading-spinner>\
                </div>\
-               <div class="user-summaries">\n\
+               <div class="user-summaries">\
                   <div class="add-user-controls" data-bind="visible: createEditorVisible">\
                      <user-editor params="onSave: personCreated, \
                                           onAbort: createEditorVisible.toggle"></user-editor>\
@@ -137,12 +137,6 @@ ko.components.register('user-listing', {
          {name: 'Last Name A-Z', value: 'last_name__asc'},
          {name: 'Last Name Z-A', value: 'last_name__desc'}
       ];
-
-      self.formatRoles = function (roleList) {
-         return roleList.map(function (roleName) {
-            return roleName[0].toUpperCase() + roleName.substr(1);
-         }).join(', ');
-      };
 
       // BEHAVIOUR
       self.personCreated = function () {

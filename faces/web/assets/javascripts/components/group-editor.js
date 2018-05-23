@@ -50,25 +50,20 @@ ko.components.register('group-editor', {
                            <a href="#" class="bulk-add" data-bind="click: bulk.isVisible.toggle">Bulk Create...</a>\
                            <a href="#" class="add" data-bind="click: addParticipant">+1</a>\
                         </div>\
-                        <float-frame class="bulk-participants" params="visibility: bulk.isVisible">\
-                           <header>Add Multiple Participants</header>\
+                        <confirm-dialog class="bulk-participants" \
+                                        params="header: \'Add Multiple Participants\',\
+                                                visibility: bulk.isVisible,\
+                                                onConfirm: bulk.createUsers,\
+                                                confirm: \'Add\'">\
                            <label>\
-                              <span>\
-                                 Number\
-                              </span>\
-                              <input name="number" type="number" min="1" data-bind="value: $parent.bulk.number"/>\
+                              <span>Number</span>\
+                              <input name="number" type="number" min="1" data-bind="value: bulk.number"/>\
                            </label>\
                            <label>\
-                              <span>\
-                                 Prefix\
-                              </span>\
-                              <input name="prefix" type="text" data-bind="value: $parent.bulk.prefix" />\
+                              <span>Prefix</span>\
+                              <input name="prefix" type="text" data-bind="value: bulk.prefix" />\
                            </label>\
-                           <div class="controls">\
-                              <button type="button" class="cancel" data-bind="click: $parent.bulk.isVisible.toggle">Cancel</button>\n\
-                              <button type="button" class="add" data-bind="click: $parent.bulk.createUsers">Add</button>\
-                           </div>\
-                        </float-frame>\
+                        </confirm-dialog>\
                      </div>\
                   </div>\
                </basic-form>',
@@ -117,8 +112,6 @@ ko.components.register('group-editor', {
             }
 
             self.group.participants(self.group.participants().concat(newUsers))
-
-            self.bulk.isVisible(false);
          }
       };
 

@@ -100,23 +100,7 @@ group-editor {
             }
          }
          
-         .bulk-participants {
-            .controls {
-               display: flex;
-               
-               align-content: flex-end;
-               
-               .add {
-                  @include button();
-               }
-               
-               .cancel {
-                  @include button(white, $color1);
-               }
-            }
-         }
-         
-         .controls {
+         & > .controls {
             display: flex;
             
             flex-direction: row;

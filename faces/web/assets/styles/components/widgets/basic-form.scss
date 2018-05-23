@@ -42,7 +42,7 @@ basic-form {
          }
       }
       
-      .controls {
+      & > .controls {
          display: flex;
          flex-direction: row;
          justify-content: space-between;
@@ -63,19 +63,11 @@ basic-form {
             @include button(white, #c90000);
          }
          
-         .delete-confirm {
+         & > .delete-confirm {
             text-align: center;
             
-            a {
-               margin: 0 0.5em;
-            }
-            
-            a.action {
+            .confirm {
                @include button(white, #c90000);
-            }
-            
-            a.cancel {
-               @include button();
             }
          }
       }

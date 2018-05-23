@@ -12,16 +12,16 @@ ko.components.register('basic-form', {
                         <a href="#" class="cancel" data-bind="href: cancelHref">Cancel</a>\
                         <input type="submit" value="Save" />\
                      </div>\
-                     <float-frame class="delete-confirm" params="visibility: deleteConfirmVisible">\
-                        <header>Confirm Deletion</header>\
-                        <p data-bind="html: $parent.deleteConfirmText">\
+                     <confirm-dialog class="delete-confirm" params="visibility: deleteConfirmVisible, \
+                                                                    header: \'Confirm Deletion\', \
+                                                                    confirm: \'Delete Permanently\', \
+                                                                    onConfirm: doDelete">\
+                        <p data-bind="html: deleteConfirmText">\
                         </p>\
                         <p>\
                            <strong>This action cannot be undone.</strong>\
                         </p>\
-                        <a href="#" class="cancel" data-bind="click: $parent.deleteConfirmVisible.toggle">Cancel</a>\
-                        <a href="#" class="action" data-bind="click: $parent.delete">Delete Permanently</a>\
-                     </float-frame>\
+                     </confirm-dialog>\
                   </div>\
                </form>',
 
@@ -64,7 +64,7 @@ ko.components.register('basic-form', {
                console.warn('Pass onSave parameter to basic-form');
             };
 
-            self.delete = function () {
+            self.doDelete = function () {
                params['onDelete']();
 
                self.deleteConfirmVisible.toggle();
