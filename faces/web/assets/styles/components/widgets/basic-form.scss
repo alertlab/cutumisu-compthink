@@ -1,0 +1,75 @@
+@import 'styles/mixins/all';
+
+basic-form {
+   display: block;
+   
+   & > header {
+      margin-bottom: 1em;
+      
+      padding: 1em 0.25em;
+      
+      background: $color1;
+      color: $color3;
+      
+      font-size: 1.25em;
+   }
+   
+   form {
+      .form-content {
+         margin-bottom: 2em;
+         
+         & > header {
+            margin: 0.75em 0 0.5em 0;
+            
+            border-bottom: 1px solid $color1;
+            
+            padding: 0.25em 0.25em;
+            
+            //background: $color1;
+            color: $color1;
+            
+            font-size: 1.25em;
+         }
+         
+         fieldset {
+            legend {
+               font-style: italic;
+            }
+            
+            label span {
+               min-width: 9em;
+            }
+         }
+      }
+      
+      & > .controls {
+         display: flex;
+         flex-direction: row;
+         justify-content: space-between;
+         
+         position: relative;
+         
+         border-top: 1px solid $color1;
+         
+         padding: 1em 0;
+         
+         & > div > .cancel {
+            @include back-link();
+            
+            margin: 1em;
+         }
+         
+         .delete {
+            @include button(white, #c90000);
+         }
+         
+         & > .delete-confirm {
+            text-align: center;
+            
+            .confirm {
+               @include button(white, #c90000);
+            }
+         }
+      }
+   }
+}

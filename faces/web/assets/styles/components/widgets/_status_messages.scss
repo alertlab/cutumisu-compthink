@@ -1,0 +1,118 @@
+@import 'styles/mixins/all';
+
+status-messages {
+   & > div {
+      position: fixed;
+      
+      bottom: 5%;
+      right: 5%;
+      width: 15em;
+      z-index: 110; // ten above float panel
+      
+      margin: 0em auto;
+      
+      max-width: 80%;
+      
+      & > section {
+         margin: 0 auto;
+         
+         max-width: 50em;
+      }
+      
+      .notices,
+      .errors {
+         overflow: visible;
+         
+         ul {
+            list-style: none;
+            padding: 0em;
+            margin: 0em;
+            
+            li {
+               @include float-panel();
+               
+               // needed to provide a new origin for the relative positioned close button.
+               position: relative;
+               
+               border: 1px solid black;
+               padding: 0.5em;
+               
+               overflow: visible;
+               
+               background: lavender;
+               
+               color: #333;
+               
+               ul {
+                  margin: 0em;
+               }
+               
+               &:before {
+                  font-weight: bold;
+                  content: 'Notice';
+                  display: block;
+               }
+               
+               &:hover {
+                  a {
+                     @include fade-in();
+                     
+                     visibility: visible;
+                  }
+               }
+            }
+         }
+         
+         a {
+            visibility: hidden;
+            
+            position: absolute;
+            
+            top: -0.75em;
+            right: -0.75em;
+            width: 1.5em;
+            height: 1.5em;
+            
+            border-radius: 100%;
+            border: inherit;
+            
+            padding: 0.2em;
+            
+            background: inherit;
+            
+            color: black;
+            line-height: 1em;
+            text-align: center;
+            font-size: 0.75em;
+            
+            &:hover {
+               background: lighten(lavender, 30%);
+               
+               text-decoration: none;
+            }
+         }
+      }
+      
+      .errors {
+         ul li {
+            border-color: red;
+            background: lightcoral;
+            
+            &:before {
+               content: 'Error';
+            }
+         }
+         
+         a {
+            background: crimson;
+            
+            color: white;
+            
+            &:hover {
+               background: red;
+            }
+         }
+      }
+      
+   }
+}

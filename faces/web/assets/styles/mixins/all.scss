@@ -1,0 +1,19 @@
+/**
+ * Add any additional files containing mixins or other rules you want shared to the mixin directory, and
+ * then list that file in an import statement below.
+ *
+ * Imports are done this way because SASS does not support globbing (for technical reasons), so we can't just
+ * auto-import a whole directory. Similarly, we can't rely on sprockets to include shared mixin rules,
+ * since it compiles each file separately, and therefore doesn't see mixins in other files.
+ */
+@import 'styles/mixins/widgets/button';
+@import 'styles/mixins/widgets/menu';
+@import 'styles/mixins/widgets/panel';
+@import 'styles/mixins/widgets/back_link';
+@import 'styles/mixins/widgets/sortable_table_header';
+@import 'styles/mixins/widgets/alert';
+@import 'styles/mixins/animations';
+//@import 'mixins/sketch';
+@import 'styles/mixins/colours';
+
+$main-column-width: 60em;

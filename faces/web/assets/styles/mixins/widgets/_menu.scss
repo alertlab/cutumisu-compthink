@@ -1,0 +1,170 @@
+@import '../colours';
+
+/*
+Simple SASS-only navbar implementation. Use this to get the basic functionality,
+and style separately as necessary for beauty purposes.
+
+Create your menu structure as a series of nested unordered lists (<ul>).
+To render correctly, list item content must be wrapped in anchor tags or span
+tags (for regular text). To create a submenu, nest a list inside of a list item
+tag after some content that will become the menu header.
+
+Give the outermost list tag the class of "h-nav" or "v-nav" to have it render
+as a horizontal or vertical navbar. Give the current location the "current"
+class to have it hightlight permanently.
+
+Example:
+
+<ul>
+    <li class="current"><a href="#">Regular link</a></li>
+    <li><span>Menu</span>
+        <ul>
+            <li><a href="#">Sub link 1</a></li>
+            <li><a href="#">Sub menu 1</a>
+                <ul>
+                    <li><a href="#">Sub link 2</a></li>
+                    <li><a href="#">Sub menu 2</a>
+                        <ul>
+                            <li><span>Sub item 1</span></li>
+                            <li><span>Sub item 2</span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><span>Span header</span>
+                <ul>
+                    <li><a href="#">Sub link 3</a></li>
+                    <li><a href="#">Sub link 4</a></li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+Then, in your SASS file, @include either v-menu or h-menu in the ul selector.
+
+*/
+
+@mixin v-menu() {
+   @include menu();
+   
+   width: 10em;
+}
+
+@mixin h-menu() {
+   @include menu();
+   
+   text-align: left;
+   
+   // Top menu headers only
+   & > li {
+      display: inline-block;
+   }
+   
+   // sub-menus
+   ul {
+      top: 1.15em;
+      left: -1px;
+      z-index: 1;
+      
+      // sub-sub menus and further
+      ul {
+         left: 10em; // You likely want this to equal the width of the parent menu.
+         top: -1px; // You likely want this to be negative border width, so things align nicely.
+         z-index: 1;
+      }
+   }
+   
+   // Menu header contents only
+   & > li > span,
+   & > li > a {
+      //padding: 0.5em;
+      vertical-align: middle;
+      
+      color: $color1;
+      display: block;
+   }
+   
+   /* "clearfix" stuff. Forces the container to actually respect the size of
+   its floated DOM children.
+ 
+   Adds the empty string as a new line, due to the 'display: block' and 'clear:both'.
+   Forces layout to acknowledge the size of the children, including the floated
+   ones. */
+   &:after {
+      content: "";
+      display: block;
+      clear: both;
+   }
+}
+
+// Common attributes.
+@mixin menu {
+   padding-left: 0; // Remove the space left for bullets.
+   
+   // Dropdown Menus
+   ul {
+      visibility: hidden; // Normal state is to be hidden and transparent
+      opacity: 0;
+      position: absolute; // Set to absolute so we can get the dropdown to be offset from the navbars.
+      background: #000;
+      border: 1px solid #fff;
+      
+      white-space: nowrap;
+      
+      box-shadow: 5px 5px 5px #333;
+      
+      text-align: left;
+      padding-left: 0; // kill space for bullets
+      
+      -moz-transition: visibility 0s linear 0s, opacity 0.1s ease-in-out;
+      -webkit-transition: visibility 0s linear 0s, opacity 0.1s ease-in-out;
+      -o-transition: visibility 0s linear 0s, opacity 0.1s ease-in-out;
+      transition: visibility 0s linear 0s, opacity 0.1s ease-in-out;
+      
+      // only the submenu items
+      ul {
+         li {
+            a, span {
+               padding: 0.1em 1em 0.1em 0.5em;
+            }
+         }
+      }
+   }
+   
+   // Every menu item, including the menu headers
+   li {
+      position: relative; // only here so that the 'absolute' in the lists works.
+      list-style: none;
+      
+      // All menu item contents
+      & > a,
+      & > span {
+         display: block;
+         
+         padding: 0.5em 1em;
+         
+         font-family: Helvetica, Tahoma, sans-serif;
+         color: #fff;
+      }
+      
+      // Show the immediate dropdown menu iff the parent item is hovered over
+      &:hover > ul {
+         opacity: 1;
+         visibility: visible;
+      }
+      
+      // main level link hover, for usability
+      &.current,
+      &:hover > span,
+      &:hover > a {
+         background: #fff;
+         
+         color: #333;
+         
+         text-decoration: none;
+         
+         transition: all 0.2s ease-in;
+      }
+   }
+}

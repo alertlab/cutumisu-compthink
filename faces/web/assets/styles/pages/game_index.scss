@@ -1,0 +1,58 @@
+@import 'styles/layouts/common';
+
+html body {
+   #game-index-page {
+      margin: 3em auto;
+      
+      max-width: 60em;
+      
+      text-align: center;
+      
+      .game {
+         @include button();
+         display: inline-block;
+         
+         min-width: 10em;
+         min-height: 10em;
+         
+         margin: 3em;
+         
+         padding: 0.5em;
+         
+         background: $color2;
+         
+         $shot-size: 10em;
+         
+         .shot-container {
+            position: relative;
+            
+            height: $shot-size;
+            
+            margin: 0.25em;
+            
+            border-radius: 0.5em;
+            
+            overflow: hidden;
+            
+            img {
+               max-height: $shot-size;
+            }
+            
+            .check {
+               position: absolute;
+               
+               top: 0;
+               left: 0.25em;
+               
+               font-size: 10em;
+               color: $color1;
+               text-shadow: 1px 1px 1px #fedb10;
+            }
+         }
+         
+         span {
+            font-size: 1.5em;
+         }
+      }
+   }
+}

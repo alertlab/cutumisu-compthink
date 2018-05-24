@@ -1,0 +1,108 @@
+@import 'styles/mixins/all';
+
+user-editor {
+   display: block;
+   
+   position: relative;
+   
+   label {
+      display: block;
+      
+      margin-bottom: 0.75em;
+      
+      min-width: 5em;
+      
+      span {
+         display: inline-block;
+         
+         vertical-align: top;
+         
+         min-width: 4em;
+         
+         padding: 0.5em 0.5em 0.5em 0;
+      }
+      
+      &:last-of-type {
+         margin-bottom: auto;
+      }
+   }
+   
+   select {
+      @include button(white, $color1);
+      
+      padding: 0.5em;
+      
+      vertical-align: baseline;
+   }
+   
+   basic-form form .form-content {
+      .personal {
+         display: flex;
+         
+         flex-direction: row;
+         
+         span {
+            min-width: 6em;
+         }
+         
+         .contact-info {
+            margin-right: 2em;
+            
+            label {
+               margin: auto;
+            }
+         }
+      }
+      
+      .participation {
+         & > div {
+            display: flex;
+            
+            flex-direction: row;
+            
+            & > div {
+               margin-right: 3em;
+               
+               header {
+                  margin-bottom: 0.25em;
+                  
+                  font-weight: bold;
+               }
+               
+               &:last-of-type {
+                  margin: auto;
+               }
+            }
+         }
+         
+         .reset-clicks {
+            @include button();
+            
+            margin-top: 1em;
+         }
+         
+         .reset-clicks-confirm {
+            text-align: center;
+            
+            .confirm {
+               @include button(white, #c90000);
+            }
+         }
+      }
+      
+      .security {
+         display: flex;
+         flex-direction: row;
+         
+         & > * {
+            margin-right: 2em;
+         }
+         
+         .roles {
+            header {
+               margin: 0.5em 0;
+            }
+         }
+      }
+   }
+}

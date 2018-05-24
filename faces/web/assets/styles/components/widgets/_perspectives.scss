@@ -1,0 +1,26 @@
+@import 'styles/mixins/all';
+
+perspectives {
+  & > div {
+    left: 0em;
+    right: 0em;
+
+    margin: 0em auto;
+
+    max-width: 35em;
+
+    & > nav {
+      margin-bottom: 1em;
+
+      a {
+        @include button();
+
+        margin-right: 0.25em;
+      }
+    }
+
+    & > section {
+      overflow: visible;
+    }
+  }
+}

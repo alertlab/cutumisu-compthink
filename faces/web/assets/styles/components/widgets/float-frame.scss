@@ -1,0 +1,18 @@
+@import 'styles/mixins/all';
+
+float-frame {
+   display: block;
+   
+   position: absolute;
+   
+   & > .frame {
+      @include float-panel();
+      
+      position: fixed;
+      top: 33%;
+   }
+   
+   .overlay {
+      @include overlay();
+   }
+}

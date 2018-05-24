@@ -1,0 +1,45 @@
+@import 'styles/mixins/all';
+
+navigation-menu {
+   & > ul {
+      @include h-menu();
+      
+      margin: 0 auto;
+      
+      max-width: $main-column-width;
+      
+      li a {
+         background: $color1;
+         color: $color3;
+      }
+      
+      .current-page a {
+         box-shadow: 0 0 0.75em #0000006E inset;
+         box-shadow: 0 0 0.1em 0.1em $color2 inset;
+      }
+      
+      li > a:hover {
+         opacity: 0.8;
+         background: $color1;
+         color: $color3;
+         
+         transition: 0.2s all;
+      }
+      
+      li {
+         img {
+            margin-right: 0.25em;
+            
+            max-height: 1em;
+            
+            filter: invert(100%);
+            display: inline-block;
+            vertical-align: top;
+         }
+         
+         span {
+            display: inline-block;
+         }
+      }
+   }
+}

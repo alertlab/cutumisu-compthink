@@ -1,0 +1,228 @@
+@import 'styles/mixins/all';
+
+/*
+ * Sane defaults for various basic HTML elements.
+ * No custom element defaults should directly appear in this file - import them instead.
+ */
+html {
+   min-height: 100%;
+   
+   body {
+      margin: 0;
+      height: 100%; // firefox needs this. It won't restrict height, I promise.
+      
+      // All elements should default to border-box instead of content-box as that's the most expected behaviour
+      * {
+         box-sizing: border-box;
+      }
+      
+      & > header {
+         margin-top: 0em;
+         margin-bottom: 1em;
+      }
+      
+      main {
+         min-height: 66%;
+      }
+      
+      input,
+      input[type=text],
+      input[type=search],
+      input[type=url],
+      input[type=tel],
+      input[type=email],
+      input[type=password],
+      textarea {
+         &:focus {
+            &::-webkit-input-placeholder {
+               color: transparent;
+            }
+            
+            // Firefox 18-
+            &:-moz-placeholder {
+               color: transparent;
+            }
+            
+            // Firefox 19+
+            &::-moz-placeholder {
+               color: transparent;
+            }
+            
+            &:-ms-input-placeholder {
+               color: transparent;
+            }
+            
+            // Generics for later
+            &:input-placeholder,
+            &:placeholder {
+               color: transparent;
+            }
+         }
+      }
+      
+      textarea {
+         padding: 0.5em;
+         max-width: 100%;
+      }
+      
+      input {
+         margin: 0.5em 0;
+         
+         padding: 0.5em;
+         
+         border-radius: 0.5em;
+         
+         &[type=text],
+         &[type=password],
+         &[type=email] {
+            width: 15em;
+            
+            border-radius: 0.25em;
+            border: 1px solid grey;
+         }
+         
+         &[type=button],
+         &[type=submit] {
+            @include button();
+            
+            vertical-align: top;
+            
+            font-size: 1em;
+         }
+         
+         &[type="checkbox"] {
+            display: none;
+            
+            & + span {
+               position: relative;
+               
+               padding: 0 0 0 1.5em;
+               
+               -webkit-user-select: none;
+               -moz-user-select: none;
+               -ms-user-select: none;
+               user-select: none;
+               
+               cursor: pointer;
+               
+               &:before {
+                  // This is the actual rectangle
+                  content: '';
+                  
+                  position: absolute;
+                  left: 0;
+                  top: -0.1em;
+                  
+                  width: 1em;
+                  height: 1em;
+                  
+                  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+                  
+                  border: 1px solid #aaa;
+                  border-radius: 3px;
+                  
+                  background: #f8f8f8;
+               }
+               
+               &:after {
+                  // This is just the checkmark. They are layered because of font size limitations
+                  content: '✔';
+                  
+                  opacity: 0;
+                  
+                  position: absolute;
+                  top: -0.2em;
+                  left: 0.1em;
+                  
+                  font-size: 24px;
+                  line-height: 1em;
+                  color: #007c41;
+                  
+                  transform: scale(0);
+                  transition: all .2s;
+               }
+               
+               &:hover {
+                  &:before {
+                     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
+                  }
+               }
+            }
+            
+            &:checked + span:after {
+               opacity: 1;
+               transform: scale(1);
+            }
+            
+            &:disabled + span {
+               color: grey;
+               
+               cursor: auto;
+               
+               &:before {
+                  background: lightgrey;
+               }
+               
+               &:after {
+                  color: grey;
+               }
+               
+               &:hover:before {
+                  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+               }
+            }
+         }
+      }
+      
+      fieldset {
+         margin: 0 0 0.5em 0;
+         
+         & > ul {
+            margin: 0.5em;
+            
+            padding: 0.25em;
+            
+            & > li {
+               list-style: none;
+            }
+         }
+      }
+      
+      label {
+         span {
+            display: inline-block;
+            
+            vertical-align: middle;
+            
+            min-width: 5em;
+         }
+      }
+      
+      a {
+         text-decoration: none;
+         
+         &:hover {
+            text-decoration: underline;
+         }
+      }
+      
+      section {
+         overflow: auto;
+      }
+      
+      footer {
+         vertical-align: bottom;
+         
+         margin: 3em 0em 1em 0em;
+         
+         text-align: center;
+         font-size: 75%;
+         
+         color: black;
+      }
+   }
+   
+   img {
+      display: inline-block;
+   }
+}
