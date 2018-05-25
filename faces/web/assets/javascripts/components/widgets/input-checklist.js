@@ -1,5 +1,5 @@
 ko.components.register('input-checklist', {
-   template: ' <label data-bind="if: allLabel">\
+   template: ' <label data-bind="if: allLabelVisible">\
                   <input type="checkbox" \
                          data-bind="checked: isAllChecked,\
                                     enable: isAllEnabled,\
@@ -21,7 +21,8 @@ ko.components.register('input-checklist', {
     *          - values: Observable list or array of all possible items.
     *          - valueText: Object field name to read for the display label if the values list contains complex objects.
     *          - allLabel: The label to use for an "all" option. Checking this option will uncheck all other options
-    *                      and clear the checkedItems list. Provide true to get a default label. Default: false.
+    *                      and clear the checkedItems list. Provide true to get a default label. This label will not
+    *                      display if there is only one option in `values`. Default: false.
     */
    viewModel: function (params) {
       var self = this;
@@ -46,13 +47,17 @@ ko.components.register('input-checklist', {
       });
 
       self.selectAll = function (viewModel, event) {
-         if (self.allLabel)
+         if (self.allLabelVisible())
          // Needs timeout to delay the eval of whether it is checked
          // Preventing default, returning false, etc don't fix it
             window.setTimeout(function () {
                self.checkedItems.removeAll();
             }, 0);
       };
+
+      self.allLabelVisible = ko.pureComputed(function () {
+         return ko.unwrap(self.values).length > 1;
+      });
 
       self.isAllChecked = ko.pureComputed(function () {
          return self.checkedItems().length === 0
