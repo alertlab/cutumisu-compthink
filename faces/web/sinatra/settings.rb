@@ -84,7 +84,12 @@ configure do # |application|
 
    set :protect_from_csrf, true
    set :sessions, true
-   set :session_secret, %q[yLoF@nv0E06Pxr'%oIrcIuzy3eXB9GSNUyt*tstysr_)(RDTSCEAP@6MWv9]
+   if production?
+      set :session_secret, ENV.fetch('app_session_secret')
+   else
+      set :session_secret, 'adummysecret'
+   end
+
 
    register CompThink::WardenConfig
 end
