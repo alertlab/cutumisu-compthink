@@ -3,11 +3,16 @@ ko.components.register('sign-in', {
               <form data-bind="submit: signIn">\
                  <ul data-bind="visible: isAdmin">\
                     <li>\
-                       <label for="email">Email</label>\
-                       <input type="email" name="email" placeholder="eg. jdoe@example.com" data-bind="value: email" />\
+                       <label>\
+                          <span>Email</span>\
+                          <input type="email" name="email" placeholder="eg. jdoe@example.com" data-bind="value: email" />\
+                       </label>\
                     </li>\
                     <li>\
-                       <input-password params="password: password"></input-password>\
+                       <label>\
+                          <span>Password</span>\
+                          <input-password params="password: password"></input-password>\
+                       </label>\
                     </li>\
                  </ul>\
                  <ul data-bind="visible: !isAdmin">\

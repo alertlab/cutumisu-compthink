@@ -64,13 +64,17 @@ sign-in {
             input[type=password] {
                width: 100%;
             }
+            
+            input-password {
+               margin: 0.5em 0;
+            }
          }
       }
       
       input[type=submit] {
          @include button();
          
-         margin-top: 0.5em;
+         margin-top: 1.5em;
          
          width: 100%;
       }
