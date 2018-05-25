@@ -23,7 +23,7 @@
       };
 
       window.appData.roles = '<%= URI.escape(settings.container.persisters[:user].roles.to_a.collect do |r|
-         r.name.titlecase
+         r.name.downcase
       end.to_s) %>';
    </script>
 </head>
@@ -43,7 +43,7 @@
       <navigation-menu params="options: {
                                  People: {url: '/admin/people', icon: window.appData.imagePaths.person},
                                  Groups: {url: '/admin/groups', icon: window.appData.imagePaths.people},
-                                 'session': {tag: '<session></session>'}
+                                 'session': {tag: '<current-session></current-session>'}
                                }">
       </navigation-menu>
    </nav>

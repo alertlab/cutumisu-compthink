@@ -86,7 +86,7 @@ html body {
       }
       
       nav {
-         session > a:hover {
+         current-session > a:hover {
             opacity: 0.8;
             background: $color1;
             color: $color3;
@@ -97,8 +97,8 @@ html body {
          li.session {
             float: right;
          }
-         
-         session {
+   
+         current-session {
             a,
             span {
                display: inline-block;

@@ -62,12 +62,7 @@ ko.components.register('user-editor', {
                      <input-password-metered params="password: user.password"></input-password-metered>\
                      <div class="roles">\
                         <header>Roles</header>\
-                        <div data-bind="foreach: allRoles">\
-                           <label>\
-                              <input type="checkbox" data-bind="value: $data.toLowerCase(), checked: $parent.user.roles">\
-                              <span data-bind="text: $data"></span>\
-                           </label>\
-                        </div>\
+                        <input-checklist params="values: allRoles, checkedItems: user.roles"></input-checklist>\
                      </div>\
                   </div>\
                </basic-form>',

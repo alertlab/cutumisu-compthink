@@ -88,10 +88,8 @@ html body user-listing {
          .roles {
             display: block;
             
-            label {
-               margin-bottom: 0.1em;
-               
-               cursor: pointer;
+            label span {
+               text-transform: capitalize;
             }
          }
       }

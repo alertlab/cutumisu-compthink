@@ -1,4 +1,4 @@
-ko.components.register('expander', {
+ko.components.register('block-expander', {
    template: '<a href="#" data-bind="click: function(){ isVisible(!isVisible()) }">\
                     <span data-bind="html: labelText"></span>\
                     <span data-bind="html: labelArrow"></span>\

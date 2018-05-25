@@ -22,16 +22,9 @@ ko.components.register('user-listing', {
                         <legend>\
                            Role\
                         </legend>\
-                        <label>\
-                           <input type="checkbox" data-bind="checked: isAnyRole, \
-                                                             enable: anyRoleEnabled, \
-                                                             click: selectAllRoles"  />\
-                           <span>Any</span>\
-                        </label>\
-                        <label>\
-                           <input type="checkbox" value="admin" data-bind="checked: search.roles"/>\
-                           <span>Admin</span>\
-                        </label>\
+                        <input-checklist params="values: allRoles,\
+                                                 checkedItems: search.roles,\
+                                                 allLabel: \'Any\'"></input-checklist>\
                      </fieldset>\
                   </div>\
                   <a class="add-user-button" \
@@ -48,12 +41,6 @@ ko.components.register('user-listing', {
                      Download User Data\
                   </a>\
                </div>\
-               <div data-bind="visible: !createEditorVisible()">\
-                  <p data-bind="visible: users.isLoaded() && users().length == 0">\
-                     There are no people yet. \
-                  </p>\
-                  <loading-spinner params="target: users"></loading-spinner>\
-               </div>\
                <div class="user-summaries">\
                   <div class="add-user-controls" data-bind="visible: createEditorVisible">\
                      <user-editor params="onSave: personCreated, \
@@ -65,6 +52,12 @@ ko.components.register('user-listing', {
                   </label>\
                   <div data-bind="foreach: {data: users, as: \'user\'}">\
                      <user-summary params="user: user"></user-summary>\
+                  </div>\
+                  <div data-bind="visible: !createEditorVisible()">\
+                     <p data-bind="visible: users.isLoaded() && users().length == 0">\
+                        There are no people yet. \
+                     </p>\
+                     <loading-spinner params="target: users"></loading-spinner>\
                   </div>\
                   <paginator params="data: users, \
                                      uri: \'/admin/search_users\',\
@@ -81,8 +74,9 @@ ko.components.register('user-listing', {
 
       self.users = ko.observableArray().extend({loadable: true});
       self.createEditorVisible = ko.observable(false).toggleable();
-      self.groupNames = JSON.parse(decodeURIComponent(params['groups'])) || [];
 
+      self.groupNames = JSON.parse(decodeURIComponent(params['groups'])) || [];
+      self.allRoles = JSON.parse(decodeURIComponent(window.appData.roles));
 
       var searchLimit = 500;
 
@@ -114,22 +108,6 @@ ko.components.register('user-listing', {
          group: ko.observable(),
          roles: ko.observableArray()
       };
-
-      self.selectAllRoles = function (viewModel, event) {
-         // Needs timeout to delay the eval of whether it is checked
-         // Preventing default, returning false, etc don't fix it
-         window.setTimeout(function () {
-            self.search.roles.removeAll();
-         }, 0);
-      };
-
-      self.isAnyRole = ko.pureComputed(function () {
-         return self.search.roles().length === 0
-      });
-
-      self.anyRoleEnabled = ko.pureComputed(function () {
-         return self.search.roles().length > 0
-      });
 
       self.sortOptions = [
          {name: 'First Name A-Z', value: 'first_name__asc'},

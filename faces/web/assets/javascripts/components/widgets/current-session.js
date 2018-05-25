@@ -1,4 +1,4 @@
-ko.components.register('session', {
+ko.components.register('current-session', {
    template: '<!-- ko if: signedIn -->\
                  <span class="user-id" data-bind="text: currentEmail()"></span>\
                  <a href="#" class="sign-out" data-bind="click: signOut">Sign Out</a>\
