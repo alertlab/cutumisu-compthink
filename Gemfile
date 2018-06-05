@@ -32,16 +32,15 @@ end
 
 group :core do
    gem 'activesupport' # Gross
-   gem 'filesize'
    # gem 'procrastinator', '~>0.6.1'
 end
 
 group :persist do
-   gem 'mysql2'
+   gem 'mysql2', '~>0.4.10'
 
-   gem 'rom', '~>4.1.3'
-   gem 'rom-mapper', '~>1.1.0'
-   gem 'rom-sql', '~>2.3.0'
+   gem 'rom', '~>4.2.1'
+   gem 'rom-mapper', '~>1.2.1'
+   gem 'rom-sql', '~>2.4.0'
 end
 
 group :development do

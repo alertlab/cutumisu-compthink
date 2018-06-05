@@ -46,7 +46,7 @@ When('{string} updates user {string} with:') do |admin_name, user_name, table|
       fill_in :password, with: row[:password] if row[:password]
 
       extract_list(row.delete(:roles)).each do |role_name|
-         check(role_name)
+         check(role_name.downcase)
       end
 
       click_button('Save')
@@ -113,7 +113,7 @@ When('{string} searches for users with:') do |user_name, table|
       select(row[:group], from: :group) if row[:group]
 
       (row[:role] || row[:roles] || '').split(',').each do |role_name|
-         check(role_name.strip)
+         check(role_name.strip.downcase)
       end
    end
 

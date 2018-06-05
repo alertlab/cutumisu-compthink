@@ -6,12 +6,12 @@ ko.components.register('input-checklist', {
                                     click: selectAll" />\
                   <span data-bind="text: allLabel"></span>\
                </label>\
-               <div data-bind="foreach: values">\
+               <!-- ko foreach: values -->\
                   <label>\
                      <input type="checkbox" data-bind="checkedValue: $data, checked: $parent.checkedItems">\
                      <span data-bind="text: $parent.checkboxLabel($data)"></span>\
                   </label>\
-               </div>',
+               <!-- /ko -->',
 
    /**
     * An input widget that provides a list of checkboxes
@@ -56,7 +56,7 @@ ko.components.register('input-checklist', {
       };
 
       self.allLabelVisible = ko.pureComputed(function () {
-         return ko.unwrap(self.values).length > 1;
+         return ko.unwrap(self.values).length > 1 && self.allLabel;
       });
 
       self.isAllChecked = ko.pureComputed(function () {
