@@ -19,7 +19,7 @@ group :face_web do
    # TODO: This is set to a specific bugfix branch due to a dependency conflict
    # TODO: likely 2.0.3 will be the official release of the fix. See https://github.com/sinatra/sinatra/issues/1441
    # gem 'sinatra-contrib', '~>2.0.2'
-   gem 'sinatra-contrib', github: 'sinatra/sinatra', branch: 'fix-1441'
+   gem 'sinatra-contrib', git: 'https://github.com/sinatra/sinatra', branch: 'fix-1441'
    gem 'sinatra-partial', '~>1.0.1'
    gem 'therubyracer', '~>0.12.3'
    gem 'uglifier', '~>4.1.5'
