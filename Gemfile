@@ -13,10 +13,13 @@ group :face_web do
 
    gem 'sass', '~>3.5.5', require: 'sass'
    gem 'sprockets', '~>3.7.1'
-   gem 'sinatra', '~>2.0.1'
+   gem 'sinatra', '~>2.0.2'
    gem 'sinatra-asset-pipeline', '~>2.0.0'
    gem 'sinatra-bouncer', '~>1.2'
-   gem 'sinatra-contrib', '~>2.0.1'
+   # TODO: This is set to a specific bugfix branch due to a dependency conflict
+   # TODO: likely 2.0.3 will be the official release of the fix. See https://github.com/sinatra/sinatra/issues/1441
+   # gem 'sinatra-contrib', '~>2.0.2'
+   gem 'sinatra-contrib', github: 'sinatra/sinatra', branch: 'fix-1441'
    gem 'sinatra-partial', '~>1.0.1'
    gem 'therubyracer', '~>0.12.3'
    gem 'uglifier', '~>4.1.5'
