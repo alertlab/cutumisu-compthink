@@ -90,7 +90,6 @@ configure do # |application|
       set :session_secret, 'adummysecret'
    end
 
-
    register CompThink::WardenConfig
 end
 

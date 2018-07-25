@@ -29,10 +29,15 @@ module HelperMethods
       execute_script(script)
    end
 
-   def wait_for_ajax
-      Timeout.timeout(Capybara.default_max_wait_time) do
+   def wait_for_ajax(timeout = nil)
+      Timeout.timeout(timeout || Capybara.default_max_wait_time) do
          sleep 0.05
-         loop until (page.evaluate_script('window.ajaxCount') || 0) <= 0
+
+         begin
+            loop until page.evaluate_script('window.__bindingsDone__ && !window.ajaxCount')
+         rescue Capybara::NotSupportedByDriverError
+            # puts 'ignoring wait for Ajax'
+         end
       end
    end
 

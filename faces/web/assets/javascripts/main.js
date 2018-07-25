@@ -21,7 +21,9 @@ function compthink() {
       window.currentUser(ko.mapping.fromJS(data));
    }
 
+   window.__bindingsDone__ = false;
    ko.applyBindings();
+   window.__bindingsDone__ = true;
 }
 
 /**
