@@ -123,8 +123,8 @@ Feature: User Signs In
          | name  |
          | user1 |
       And the following groups:
-         | name    | end date | participants |
-         | <group> | <date>   | user1        |
+         | name    | start date  | end date | participants |
+         | <group> | jan 01 2018 | <date>   | user1        |
       And the date is "Aug 16 2018"
       When they sign in to participate with user "user1" and group "<group>"
       Then they should see "Group <group> expired on <date>"
@@ -137,20 +137,20 @@ Feature: User Signs In
       # TODO: remove underscores in name after May 1 2018
    Scenario Outline: it should complain if the user is wrong
       Given the following users:
-         | name      |
-         | _user.001 |
-         | _user.002 |
+         | name     |
+         | user.001 |
+         | user.002 |
       And the following groups:
          | name   | participants |
-         | groupA | _user.001    |
+         | groupA | user.001     |
          | groupB |              |
          | groupC |              |
       When they sign in to participate with user "<user>" and group "<group>"
       Then they should see "There is no user <user> in <group>"
       And they should not be signed in
       Examples:
-         | user       | group  |
-         | _user.001  | groupB |
-         | _user.002  | groupB |
-         | _bogusUser | groupC |
+         | user      | group  |
+         | user.001  | groupB |
+         | user.002  | groupB |
+         | bogusUser | groupC |
       
