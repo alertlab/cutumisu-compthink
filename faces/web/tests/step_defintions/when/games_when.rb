@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When("user {string} in group {string} views game list") do |user_name, group_name|
    visit('/games')
 

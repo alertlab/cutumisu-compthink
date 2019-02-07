@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 gem 'rake'
@@ -61,7 +63,7 @@ group :test do
    gem 'capybara-webkit', '~>1.15'
    gem 'launchy'
 
-   gem 'parallel_tests', '~>2.27.1'
+   gem 'parallel_tests', '~>2.28.0'
    gem 'simplecov'
 
    gem 'timecop'

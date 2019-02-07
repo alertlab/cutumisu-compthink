@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'persist/setup'
 require 'persist/seeds'
 

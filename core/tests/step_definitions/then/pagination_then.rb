@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then('it should return {int} group summary/summaries') do |n|
    expect(@result[:results]).to be_a Array
    expect(@result[:results].size).to eq n

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # === Users ===
 Then('there {should} be a user with:') do |should, table|
    symtable(table).hashes.each do |row|

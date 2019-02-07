@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When("{string} exports users as CSV") do |admin_name|
    step(%["#{admin_name}" navigates to "People"])
 

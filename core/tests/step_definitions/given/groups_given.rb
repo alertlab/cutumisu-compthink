@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given("group {string}") do |name|
    step("the following groups:", table(%[|  name  |
                                          |#{name} |]))

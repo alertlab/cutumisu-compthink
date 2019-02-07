@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given(/^the (?:date|time) is "(.*?)"$/) do |date_string|
    time = Time.parse(date_string)
 

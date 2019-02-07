@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given("the following click(s):") do |table|
    symtable(table).hashes.each do |row|
       # row[:name]       = 'TestGroup' unless row[:name]

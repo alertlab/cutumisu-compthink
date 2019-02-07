@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CompThink
    class RoleRepository < ROM::Repository[:roles]
       commands :create, update: :by_pk, delete: :by_pk

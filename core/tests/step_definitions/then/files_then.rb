@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Then(/^there should be (\d+) files? in "(.*?)"$/) do |n, path|
 #    files = Dir.glob(path + '/*').select { |f| File.file?(f) }
 #

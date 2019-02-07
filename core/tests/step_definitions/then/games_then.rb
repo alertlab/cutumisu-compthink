@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then("there should be {int} click(s)") do |n|
    expect(@persisters[:click].count).to eq(n)
 end

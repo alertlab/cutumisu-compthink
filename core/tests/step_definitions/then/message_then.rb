@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then('it should say {error level} {string}') do |level, txt|
    lvl = level.pluralize.to_sym
 

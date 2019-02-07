@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then('they {should} see {string}') do |should, msg|
    step(%["" #{ should ? 'should' : 'should not' } see "#{ msg }"])
 end

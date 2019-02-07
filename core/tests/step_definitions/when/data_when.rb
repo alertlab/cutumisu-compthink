@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When("{export data} are exported to CSV") do |data_type|
    @result = ExportData.run(@container, type: data_type)
 end

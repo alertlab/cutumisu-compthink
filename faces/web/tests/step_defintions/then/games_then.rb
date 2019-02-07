@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then("lever {lever} {should} be flipped") do |lever, should|
    is_flipped = page.evaluate_script(%[
                                      #{game_vm_js}.buttonGroup.getByName("#{lever}").switched;

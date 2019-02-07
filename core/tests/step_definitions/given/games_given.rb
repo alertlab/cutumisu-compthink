@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given("{string} has completed {puzzle}") do |participant_name, puzzle|
    user = @persisters[:user].find(first_name: participant_name)
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 src_dir = File.expand_path('..', __dir__)
 $LOAD_PATH.unshift(src_dir) unless $LOAD_PATH.include?(src_dir)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pathname'
 src_dir = Pathname.new(__FILE__).parent.parent.parent.parent
 $LOAD_PATH.unshift(src_dir) unless $LOAD_PATH.include?(src_dir)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Before '@no-js' do
    @normal_driver          = Capybara.default_driver
    Capybara.default_driver = :rack_test

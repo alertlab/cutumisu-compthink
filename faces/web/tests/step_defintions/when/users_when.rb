@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When('{string} views more users') do |user_name|
    step(%["#{ user_name }" navigates to "People"])
 

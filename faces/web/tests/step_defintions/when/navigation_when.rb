@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ==== General Navigation ====
 
 When('{string} navigates to {string}') do |user, location|

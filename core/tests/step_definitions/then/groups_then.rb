@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then('there should be a group with:') do |table|
    symtable(table).hashes.each do |row|
       row[:start_date] = Date.parse(row[:start_date]) if row[:start_date]

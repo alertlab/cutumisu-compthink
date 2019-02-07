@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given("the following role(s):") do |table|
    @persisters[:role].create(symrow(table))
 end

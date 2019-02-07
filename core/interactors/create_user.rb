@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CompThink
    module Interactor
       class CreateUser

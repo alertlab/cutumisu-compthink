@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Then('{string} {should} be signed in') do |first_name, should|
    user = @persisters[:user].find(first_name: first_name)
 

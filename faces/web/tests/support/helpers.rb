@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'core/tests/support/helpers'
 
 # TODO: wrap these in a module

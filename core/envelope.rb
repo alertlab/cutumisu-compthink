@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # TODO: extract to a gem, and TDD it
 class MissingEnv < StandardError
 end

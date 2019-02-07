@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Given("the lever order is {string}") do |lever_list|
    levers = extract_list(lever_list).join(',')
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CompThink
    class UserRepository < ROM::Repository[:users]
       commands :create, update: :by_pk, delete: :by_pk

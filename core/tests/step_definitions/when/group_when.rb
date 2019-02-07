@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When("a group is created with:") do |table|
    row              = symrow(table)
 

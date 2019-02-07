@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CompThink
    class GroupRepository < ROM::Repository[:groups]
       commands :create, update: :by_pk, delete: :by_pk

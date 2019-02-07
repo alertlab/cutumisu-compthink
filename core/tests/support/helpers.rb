@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HelperMethods
    def extract_list(list_string)
       (list_string || '').split(',').map(&:strip)

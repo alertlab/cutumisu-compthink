@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ============= Users ===============
 Then('{string} {should} see user summary for {string}') do |viewer_name, should, user_name|
    step(%["#{ viewer_name }" is signed in])

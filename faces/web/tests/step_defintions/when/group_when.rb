@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When("{string} creates a group with:") do |admin_name, table|
    step(%["#{admin_name}" is signed in])
 

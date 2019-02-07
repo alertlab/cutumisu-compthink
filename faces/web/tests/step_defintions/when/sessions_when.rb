@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 When('{string} signs in') do |first_name|
    unless first_name.blank?
       email    = @persisters[:user].find(first_name: first_name).email

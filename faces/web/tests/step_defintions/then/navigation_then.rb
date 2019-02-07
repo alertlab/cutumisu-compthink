@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ============= Navigation ===============
 Then('{string} should be at {path}') do |user_name, path|
    expect(current_path).to eq path.to_s

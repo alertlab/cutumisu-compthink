@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ==== Users ===
 When('a user is created with:') do |table|
    row              = symrow(table)
