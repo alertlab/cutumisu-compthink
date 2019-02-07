@@ -21,7 +21,6 @@ require 'core/comp_think'
 
 require 'capybara/cucumber'
 require 'rspec/expectations'
-require 'capybara/poltergeist'
 require 'timecop'
 require 'capybara-webkit'
 
@@ -45,12 +44,6 @@ Capybara::Webkit.configure do |config|
    config.debug                   = false
    config.raise_javascript_errors = true
    config.allow_url('https://cdnjs.cloudflare.com/ajax/libs/pikaday/')
-end
-
-Capybara.register_driver :poltergeist do |app|
-   Capybara::Poltergeist::Driver.new(app,
-                                     extensions: [])
-   # extensions: ['faces/web/extensions/date.js'])
 end
 
 Capybara.default_driver = :webkit

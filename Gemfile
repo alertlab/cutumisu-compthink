@@ -11,18 +11,18 @@ group :face_web do
    gem 'rack-parser', require: 'rack/parser'
    gem 'rack-protection' # to prevent cross-site scripting and other attacks
 
-   gem 'sass', '~>3.5.5', require: 'sass'
+   gem 'sass', '~>3.7.3', require: 'sass'
    gem 'sprockets', '~>3.7.1'
-   gem 'sinatra', '~>2.0.3'
-   gem 'sinatra-asset-pipeline', '~>2.0.0'
+   gem 'sinatra', '~>2.0.5'
+   gem 'sinatra-asset-pipeline', '~>2.2.0'
    gem 'sinatra-bouncer', '~>1.2'
    gem 'sinatra-contrib', '~>2.0.3'
    gem 'sinatra-partial', '~>1.0.1'
    gem 'therubyracer', '~>0.12.3'
-   gem 'uglifier', '~>4.1.5'
-   gem 'warden', '~>1.2.7'
+   gem 'uglifier', '~>4.1.20'
+   gem 'warden', '~>1.2.8'
 
-   gem 'turnout', '~>2.4.1'
+   gem 'turnout', '~>2.5'
 end
 
 # group :face_email do
@@ -31,7 +31,7 @@ end
 # end
 
 group :core do
-   gem 'activesupport' # Gross
+   gem 'activesupport', '~>5.2' # Gross
    # gem 'procrastinator', '~>0.6.1'
 end
 
@@ -40,29 +40,28 @@ group :persist do
 
    gem 'rom', '~>4.2.1'
    gem 'rom-mapper', '~>1.2.1'
-   gem 'rom-sql', '~>2.4.0'
+   gem 'rom-sql', '~>2.5.0'
 end
 
 group :development do
-   gem 'rubocop', '~>0.52.1', require: false
+   gem 'rubocop', '~>0.63.1', require: false
    gem 'ruby-prof'
 
-   gem 'dotenv'
+   gem 'dotenv', '~>2.6.0'
 end
 
 group :test do
-   gem 'cucumber', '~>3.1.0'
-   gem 'rspec', '~>3.4'
+   gem 'cucumber', '~>3.1.2'
+   gem 'rspec', '~>3.8'
 
    gem 'database_cleaner'
-   gem 'fakefs', '~>0.11'
+   gem 'fakefs', '~>0.18'
 
    gem 'capybara', '~>2.17.0'
-   gem 'poltergeist'
    gem 'capybara-webkit', '~>1.15'
    gem 'launchy'
 
-   gem 'parallel_tests'
+   gem 'parallel_tests', '~>2.27.1'
    gem 'simplecov'
 
    gem 'timecop'
