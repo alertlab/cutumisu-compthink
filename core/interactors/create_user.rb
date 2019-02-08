@@ -9,7 +9,9 @@ module CompThink
             # TODO: use proper validator gem
             return {errors: ['First name cannot be blank']} if properties[:first_name].blank?
             return {errors: ['Last name cannot be blank']} if properties[:last_name].blank?
-            return {errors: ["Email #{properties[:email]} is already used"]} if user_persister.find(email: properties[:email])
+            if user_persister.find(email: properties[:email])
+               return {errors: ["Email #{ properties[:email] } is already used"]}
+            end
 
             user = user_persister.create(properties)
 

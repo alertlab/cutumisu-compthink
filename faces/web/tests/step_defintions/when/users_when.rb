@@ -11,7 +11,7 @@ end
 When('{string} views users sorted by {string} {direction}') do |user_name, sort_field, direction|
    step(%["#{ user_name }" navigates to "People"])
 
-   if direction =~ /asc/
+   if direction.match?(/asc/)
       select("#{ sort_field } A-Z", from: 'Sort')
    else
       select("#{ sort_field } Z-A", from: 'Sort')
@@ -19,7 +19,6 @@ When('{string} views users sorted by {string} {direction}') do |user_name, sort_
 
    wait_for_ajax
 end
-
 
 When('{string} updates user {string} with no changes') do |admin_name, user_name|
    step(%["#{ admin_name }" navigates to user editor for "#{ user_name }"])
@@ -30,7 +29,7 @@ When('{string} updates user {string} with no changes') do |admin_name, user_name
 end
 
 When('{string} updates their user account with:') do |admin_name, table|
-   step(%["#{admin_name}" updates user "#{admin_name}" with:], table)
+   step(%["#{ admin_name }" updates user "#{ admin_name }" with:], table)
 end
 
 When('{string} updates user {string} with:') do |admin_name, user_name, table|
@@ -57,8 +56,8 @@ When('{string} updates user {string} with:') do |admin_name, user_name, table|
    end
 end
 
-When("{string} force updates their user account with:") do |user_name, table|
-   step(%["#{ user_name }" force updates user "#{user_name}" with:], table)
+When('{string} force updates their user account with:') do |user_name, table|
+   step(%["#{ user_name }" force updates user "#{ user_name }" with:], table)
 end
 
 When('{string} force updates user {string} with:') do |admin_name, user_name, table|
@@ -66,7 +65,6 @@ When('{string} force updates user {string} with:') do |admin_name, user_name, ta
 
    page.driver.follow(:post, '/admin/update_user')
 end
-
 
 # this one is for internal use
 When('{string} fills in a new person named {string}') do |user_name, person_name|
@@ -127,7 +125,6 @@ When('{string} force searches for users with:') do |user_name, table|
 
    page.driver.follow(:post, '/admin/search_users', filter: symrow(table))
 end
-
 
 When('{string} removes user {string}') do |admin_name, user_name|
    step(%["#{ admin_name }" navigates to "People"])

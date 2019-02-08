@@ -11,7 +11,7 @@ module CompThink
       end
 
       def exists?(attributes)
-         roles.where(attributes).count > 0
+         roles.where(attributes).count.positive?
       end
 
       def assign_role(user:, role:)

@@ -50,7 +50,7 @@ module CompThink
                   start_date:   @start_date,
                   end_date:     @end_date,
 
-                  participants: @participants,
+                  participants: @participants
             }
 
             hash

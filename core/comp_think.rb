@@ -26,7 +26,7 @@ module CompThink
    app_dir = Pathname.new(__FILE__).dirname
 
    # require ALL the files!
-   Dir["#{ app_dir }/**/*.rb"].reject {|f| f.include?('/tests/')}.each do |file|
+   Dir["#{ app_dir }/**/*.rb"].reject { |f| f.include?('/tests/') }.each do |file|
       require file
    end
 

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-When("a group is created with:") do |table|
+When('a group is created with:') do |table|
    row              = symrow(table)
-
 
    row[:start_date] = Date.today.to_s if row[:start_date].nil?
    row[:end_date]   = Date.today.next_day.to_s if row[:end_date].nil?
@@ -61,12 +60,12 @@ When('group {string} is updated with:') do |group_name, table|
       row[:create_participants] = extract_list(row.delete(:batch_participants)).collect do |name|
          {
                first_name: name,
-               email:      "#{name}@example.com"
+               email:      "#{ name }@example.com"
          }
       end
    end
 
-   row[:participants] ||= group.participants.collect {|u| u.id}
+   row[:participants] ||= group.participants.collect(&:id)
 
    @result = UpdateGroup.run(@container, row.merge(id: group.id))
 end

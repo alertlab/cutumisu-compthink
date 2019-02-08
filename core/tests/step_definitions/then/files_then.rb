@@ -18,15 +18,15 @@
 #    end
 # end
 
-Then("the download should include headers {string}") do |headers|
-   expect(@result.lines.first).to eq "#{headers}\n"
+Then('the download should include headers {string}') do |headers|
+   expect(@result.lines.first).to eq "#{ headers }\n"
 end
 
-Then("the download should have {int} lines") do |n|
+Then('the download should have {int} lines') do |n|
    expect(@result.lines.size).to eq n
 end
 
-Then("the download should include data for users {string}") do |name_list|
+Then('the download should include data for users {string}') do |name_list|
    user_persister = @container.persisters[:user]
 
    extract_list(name_list).each do |name|
@@ -40,7 +40,7 @@ Then("the download should include data for users {string}") do |name_list|
    end
 end
 
-Then("the download should include data for all clicks") do
+Then('the download should include data for all clicks') do
    clicks = @container.persisters[:click].clicks.to_a
 
    clicks.each do |click|

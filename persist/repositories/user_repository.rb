@@ -10,7 +10,7 @@ module CompThink
          users.combine(:user_authentications).combine(:roles)
                .where(attributes).one!
       rescue ROM::TupleCountMismatchError
-         return nil
+         nil
       end
 
       def find_participant(group_name: nil, user_name: nil)
@@ -68,9 +68,7 @@ module CompThink
 
          results = results.limit(count, offset).to_a
 
-         unless sort_direction.nil? || sort_direction == 'asc'
-            results = results.reverse
-         end
+         results = results.reverse unless sort_direction.nil? || sort_direction == 'asc'
 
          {results:     results,
           max_results: max}
@@ -114,7 +112,7 @@ module CompThink
       end
 
       def exists?(attrs)
-         users.where(attrs).count > 0
+         users.where(attrs).count.positive?
       end
 
       def count

@@ -19,9 +19,8 @@ module CompThink
                                                      sort_by:        sort_by,
                                                      sort_direction: sort_direction)
 
-
             {
-                  results:        groups[:results].collect {|u| u.to_hash},
+                  results:        groups[:results].collect(&:to_hash),
                   all_data_count: groups[:max_results]
             }
          end

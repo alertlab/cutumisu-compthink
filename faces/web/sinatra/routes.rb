@@ -64,7 +64,7 @@ before do
    end
 
    settings.container.test_cookies.each do |key, value|
-      response.set_cookie("compthink.#{key}",
+      response.set_cookie("compthink.#{ key }",
                           path:  '/',
                           value: value)
    end
@@ -169,14 +169,13 @@ end
 
 get '/admin/export_data' do
    content_type 'text/csv'
-   attachment "#{app_params['type']}.csv"
+   attachment "#{ app_params['type'] }.csv"
 
    # response.headers['Content-Type']        = 'text/csv'
    # response.headers['Content-Disposition'] = %[attachment; filename="#{app_params['type']}.csv"]
 
    ExportData.run(settings.container, app_params.deep_symbolize_keys)
 end
-
 
 #--------------------------#
 # Views                    #

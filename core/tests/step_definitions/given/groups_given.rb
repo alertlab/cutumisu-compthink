@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-Given("group {string}") do |name|
-   step("the following groups:", table(%[|  name  |
-                                         |#{name} |]))
+Given('group {string}') do |name|
+   step('the following groups:', table(%[|  name  |
+                                         |#{ name } |]))
 end
 
-Given("the following group(s):") do |table|
+Given('the following group(s):') do |table|
    symtable(table).hashes.each do |row|
-
       row[:name]       = 'TestGroup' unless row[:name]
       row[:created_at] = row[:created_at] ? Time.parse(row[:created_at]) : Time.now
       row[:start_date] = row[:start_date] ? Date.parse(row[:start_date]) : Date.today
@@ -17,7 +16,7 @@ Given("the following group(s):") do |table|
 
       @persisters[:group].create(row)
 
-      step(%[group "#{row[:name]}" has participants "#{participants}"])
+      step(%[group "#{ row[:name] }" has participants "#{ participants }"])
    end
 end
 
@@ -38,12 +37,11 @@ Given('{int} groups') do |count|
       @persisters[:group].create(name:       "Group#{ n }",
                                  start_date: Date.today,
                                  end_date:   Date.today.next_day,
-                                 regex:      '' # TODO: remove regex
-      )
+                                 regex:      '') # TODO: remove regex
    end
 end
 
-Given("group {string} has participant(s) {string}") do |group_name, user_list|
+Given('group {string} has participant(s) {string}') do |group_name, user_list|
    user_ids = extract_list(user_list).collect do |name|
       @persisters[:user].find(first_name: name).id
    end

@@ -11,7 +11,7 @@ module CompThink
 
             click_persister.delete_clicks_for(user_id: user_id)
 
-            {messages: ["Click data cleared for #{user_persister.find(id: user_id).name}"]}
+            {messages: ["Click data cleared for #{ user_persister.find(id: user_id).name }"]}
          end
       end
    end

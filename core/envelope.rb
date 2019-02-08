@@ -11,7 +11,7 @@ def expect_env(key)
 
    return if ENV[key]
 
-   $stderr.puts "WARNING: Missing expected ENV variable #{ key }. Program may fail if running in full operation."
+   warn "WARNING: Missing expected ENV variable #{ key }. Program may fail if running in full operation."
 end
 
 def require_env(key)

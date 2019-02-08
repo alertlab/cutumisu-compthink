@@ -3,7 +3,7 @@
 module Garden
    class SeedBag
       def initialize
-         @seeds ||= {}
+         @seeds = {}
 
          yield self
       end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Given("the following click(s):") do |table|
+Given('the following click(s):') do |table|
    symtable(table).hashes.each do |row|
       # row[:name]       = 'TestGroup' unless row[:name]
       # row[:created_at] = row[:created_at] ? Time.parse(row[:created_at]) : Time.now

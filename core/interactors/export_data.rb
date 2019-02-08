@@ -5,8 +5,8 @@ require 'csv'
 module CompThink
    module Interactor
       class ExportData
-         CLICK_COLUMNS = ['user_id', 'puzzle', 'target', 'time', 'move_number', 'complete']
-         USER_COLUMNS  = ['id', 'first_name', 'last_name', 'email', 'creation_time']
+         CLICK_COLUMNS = %w[user_id puzzle target time move_number complete].freeze
+         USER_COLUMNS  = %w[id first_name last_name email creation_time].freeze
 
          def self.run(container, type:, filter: nil)
             user_persister  = container.persisters[:user]
@@ -24,7 +24,7 @@ module CompThink
                          write_headers: true) do |csv|
                data.each do |row|
                   # csv << row.to_h.values
-                  csv << row.to_h.fetch_values(*headers.collect {|h| h.to_sym})
+                  csv << row.to_h.fetch_values(*headers.collect(&:to_sym))
                end
             end
          end

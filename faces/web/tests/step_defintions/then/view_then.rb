@@ -34,18 +34,18 @@ Then('they should see {int} error {string}') do |number, msg|
    expect(page.driver.response.body).to include(msg)
 end
 
-Then("{string} should see they have completed {puzzle}") do |admin_name, puzzle|
+Then('{string} should see they have completed {puzzle}') do |admin_name, puzzle|
    step(%["#{ admin_name }" is signed in])
 
-   within(".participation .completed .#{puzzle}") do
+   within(".participation .completed .#{ puzzle }") do
       expect(find('input[type="checkbox"]', visible: false)).to be_checked
    end
 end
 
-Then("{string} should see they have not completed {puzzle}") do |admin_name, puzzle|
+Then('{string} should see they have not completed {puzzle}') do |admin_name, puzzle|
    step(%["#{ admin_name }" is signed in])
 
-   within(".participation .completed .#{puzzle}") do
+   within(".participation .completed .#{ puzzle }") do
       expect(find('input[type="checkbox"]', visible: false)).to_not be_checked
    end
 end

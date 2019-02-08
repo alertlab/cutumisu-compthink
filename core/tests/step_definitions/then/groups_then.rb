@@ -47,7 +47,7 @@ Then('it should return group summaries for {string} in that order') do |group_li
    expect(@result[:results]).to eq group_hashes
 end
 
-Then("group {string} should have {int} participants") do |group_name, n|
+Then('group {string} should have {int} participants') do |group_name, n|
    group_persister = @persisters[:group]
 
    group = group_persister.find(name: group_name)
@@ -55,7 +55,7 @@ Then("group {string} should have {int} participants") do |group_name, n|
    expect(group.participants.size).to eq n
 end
 
-Then("{string} {should} be in group {string}") do |user_name, should, group_name|
+Then('{string} {should} be in group {string}') do |user_name, should, group_name|
    group_persister = @persisters[:group]
    user_persister  = @persisters[:user]
 

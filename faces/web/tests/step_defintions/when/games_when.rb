@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-When("user {string} in group {string} views game list") do |user_name, group_name|
+When('user {string} in group {string} views game list') do |user_name, group_name|
    visit('/games')
 
    within('sign-in') do
@@ -13,12 +13,12 @@ When("user {string} in group {string} views game list") do |user_name, group_nam
    wait_for_ajax
 end
 
-When("{string} plays {puzzle}") do |user_name, puzzle|
+When('{string} plays {puzzle}') do |user_name, puzzle|
    # user  = @persisters[:user].find(first_name: user_name)
    group = @persisters[:group].first
 
    unless current_path.match?('/game')
-      step(%[user "#{user_name}" in group "#{group.name}" views game list])
+      step(%[user "#{ user_name }" in group "#{ group.name }" views game list])
 
       if puzzle.match?('hanoi')
          click_link('Tower Puzzle')
@@ -30,13 +30,13 @@ When("{string} plays {puzzle}") do |user_name, puzzle|
    end
 end
 
-When("{string} flips levers {string}") do |user_name, lever_list|
-   step(%["#{user_name}" plays levers])
+When('{string} flips levers {string}') do |user_name, lever_list|
+   step(%["#{ user_name }" plays levers])
 
    extract_list(lever_list).each do |lever_name|
       # firing this handler directly because trying to invoke a click event (ie. MouseEvent with 'onpointerdown')
       # worked in browser, but not in testing.
-      page.evaluate_script(%[#{game_vm_js}.buttonClick(#{game_vm_js}.buttonGroup.getByName("#{lever_name}"));])
+      page.evaluate_script(%[#{ game_vm_js }.buttonClick(#{ game_vm_js }.buttonGroup.getByName("#{ lever_name }"));])
       sleep 0.25
       wait_for_ajax
    end
@@ -44,7 +44,7 @@ When("{string} flips levers {string}") do |user_name, lever_list|
    wait_for_ajax
 end
 
-When("a guest visits the {puzzle} puzzle") do |puzzle|
+When('a guest visits the {puzzle} puzzle') do |puzzle|
    if puzzle.match?('hanoi')
       visit('/games/towers')
    else
@@ -52,31 +52,31 @@ When("a guest visits the {puzzle} puzzle") do |puzzle|
    end
 end
 
-When("{string} moves a disc from {peg} to {peg}") do |user_name, sourcePeg, targetPeg|
-   step(%["#{user_name}" plays hanoi])
+When('{string} moves a disc from {peg} to {peg}') do |user_name, source_peg, target_peg|
+   step(%["#{ user_name }" plays hanoi])
 
-   step(%["#{user_name}" clicks peg #{sourcePeg}])
-   step(%["#{user_name}" clicks peg #{targetPeg}])
+   step(%["#{ user_name }" clicks peg #{ source_peg }])
+   step(%["#{ user_name }" clicks peg #{ target_peg }])
 end
 
-When("{string} moves a disc from {peg} to {peg} twice") do |user_name, sourcePeg, targetPeg|
-   step(%["#{user_name}" plays hanoi])
+When('{string} moves a disc from {peg} to {peg} twice') do |user_name, source_peg, target_peg|
+   step(%["#{ user_name }" plays hanoi])
 
-   step(%["#{user_name}" moves a disc from #{sourcePeg} to #{targetPeg}])
-   step(%["#{user_name}" moves a disc from #{sourcePeg} to #{targetPeg}])
+   step(%["#{ user_name }" moves a disc from #{ source_peg } to #{ target_peg }])
+   step(%["#{ user_name }" moves a disc from #{ source_peg } to #{ target_peg }])
 end
 
-When("{string} moves 2 discs") do |user_name|
-   step(%["#{user_name}" plays hanoi])
+When('{string} moves 2 discs') do |user_name|
+   step(%["#{ user_name }" plays hanoi])
 
-   step(%["#{user_name}" moves a disc from A to B])
-   step(%["#{user_name}" moves a disc from A to C])
+   step(%["#{ user_name }" moves a disc from A to B])
+   step(%["#{ user_name }" moves a disc from A to C])
 end
 
-When("{string} clicks peg {peg}") do |user_name, pegName|
+When('{string} clicks peg {peg}') do |_user_name, peg_name|
    page.evaluate_script(%[
-                        var peg = #{game_vm_js}.pegs.find(function(p){return p.name === "#{pegName}"});
-                        #{game_vm_js}.pegClick(peg);
+                        var peg = #{ game_vm_js }.pegs.find(function(p){return p.name === "#{ peg_name }"});
+                        #{ game_vm_js }.pegClick(peg);
                        ])
 
    sleep 1
@@ -84,28 +84,28 @@ When("{string} clicks peg {peg}") do |user_name, pegName|
    wait_for_ajax
 end
 
-When("{string} completes the {puzzle} puzzle") do |user_name, puzzle_type|
+When('{string} completes the {puzzle} puzzle') do |user_name, puzzle_type|
    step(%[the lever order is "A,B,C"])
 
-   step(%["#{user_name}" plays #{puzzle_type}])
+   step(%["#{ user_name }" plays #{ puzzle_type }])
 
    if puzzle_type == 'hanoi'
-      step(%["#{user_name}" moves a disc from A to B])
-      step(%["#{user_name}" moves a disc from A to C])
-      step(%["#{user_name}" moves a disc from B to C])
-      step(%["#{user_name}" moves a disc from A to B])
-      step(%["#{user_name}" moves a disc from C to A])
-      step(%["#{user_name}" moves a disc from C to B])
-      step(%["#{user_name}" moves a disc from A to B])
+      step(%["#{ user_name }" moves a disc from A to B])
+      step(%["#{ user_name }" moves a disc from A to C])
+      step(%["#{ user_name }" moves a disc from B to C])
+      step(%["#{ user_name }" moves a disc from A to B])
+      step(%["#{ user_name }" moves a disc from C to A])
+      step(%["#{ user_name }" moves a disc from C to B])
+      step(%["#{ user_name }" moves a disc from A to B])
    else
-      step(%["#{user_name}" flips levers "A, B, C"])
+      step(%["#{ user_name }" flips levers "A, B, C"])
    end
 
    wait_for_ajax
 end
 
-When("{string} completes the {puzzle} puzzle and returns") do |user_name, puzzle_type|
-   step(%["#{user_name}" completes the #{puzzle_type} puzzle])
+When('{string} completes the {puzzle} puzzle and returns') do |user_name, puzzle_type|
+   step(%["#{ user_name }" completes the #{ puzzle_type } puzzle])
 
    click_link('Back To Game list')
 end

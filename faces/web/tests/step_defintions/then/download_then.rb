@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Then("{string} should get a file with {int} lines") do |user_name, n|
+Then('{string} should get a file with {int} lines') do |user_name, n|
    step(%["#{ user_name }" is signed in])
 
    content = page.body.strip

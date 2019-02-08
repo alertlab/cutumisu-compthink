@@ -26,15 +26,14 @@ module CompThink
          clicks.where(user_id:  user.id,
                       complete: true)
                .to_a
-               .collect do |click|
-            click.puzzle
-         end.uniq
+               .collect(&:puzzle)
+               .uniq
       end
 
       def done_puzzle?(user, puzzle_type)
          clicks.where(user_id:  user.id,
                       puzzle:   puzzle_type.to_s,
-                      complete: true).count > 0
+                      complete: true).count.positive?
       end
 
       def delete_clicks_for(user_id:)

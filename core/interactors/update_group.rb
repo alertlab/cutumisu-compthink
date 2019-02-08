@@ -9,7 +9,9 @@ module CompThink
             group_id = properties.delete(:id)
 
             return {errors: ['Name cannot be blank']} if properties[:name].blank?
-            return {errors: ["Group name #{properties[:name]} is already used"]} if group_persister.any_other?(group_id, name: properties[:name])
+            if group_persister.any_other?(group_id, name: properties[:name])
+               return {errors: ["Group name #{ properties[:name] } is already used"]}
+            end
             return {errors: ['Start date cannot be blank']} if properties[:start_date].blank?
             return {errors: ['End date cannot be blank']} if properties[:end_date].blank?
 

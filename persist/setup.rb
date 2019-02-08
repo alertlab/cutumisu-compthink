@@ -5,7 +5,7 @@ require 'rom-sql'
 require 'rom-repository'
 
 # require ALL the repositories!
-Dir["#{ Pathname.new(__dir__) }/repositories/**/*.rb"].each {|file| require file}
+Dir["#{ Pathname.new(__dir__) }/repositories/**/*.rb"].each { |file| require file }
 
 module CompThink
    def self.build_persistence_environment

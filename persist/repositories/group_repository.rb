@@ -21,7 +21,7 @@ module CompThink
 
          groups.transaction do
             new_ids = if new_participants
-                         users.command(:create, result: :many).call(new_participants).collect {|u| u.id}
+                         users.command(:create, result: :many).call(new_participants).collect(&:id)
                       else
                          []
                       end
@@ -46,7 +46,7 @@ module CompThink
       end
 
       def any_other?(id, attrs)
-         groups.where(attrs).to_a.any? {|g| g.id != id}
+         groups.where(attrs).to_a.any? { |g| g.id != id }
       end
 
       def groups_matching(attrs, count:, offset:, sort_by:, sort_direction:)
@@ -68,14 +68,11 @@ module CompThink
 
          results = results.order(Sequel.qualify('groups', sort_by))
 
-         unless sort_direction.nil? || sort_direction == 'asc'
-            results = results.reverse
-         end
+         results = results.reverse unless sort_direction.nil? || sort_direction == 'asc'
 
-         count = 1 if count < 1
+         count   = 1 if count < 1
 
          max = results.count
-
 
          {results:     results.limit(count, offset).to_a,
           max_results: max}
@@ -90,7 +87,7 @@ module CompThink
       end
 
       def exists?(attrs)
-         groups.where(attrs).count > 0
+         groups.where(attrs).count.positive?
       end
 
       # def participants_for(group)
@@ -100,7 +97,7 @@ module CompThink
       # end
 
       def in_group?(user, group)
-         users_groups.where(user_id: user.id, group_id: group.id).count > 0
+         users_groups.where(user_id: user.id, group_id: group.id).count.positive?
       end
 
       def groups_for(user)

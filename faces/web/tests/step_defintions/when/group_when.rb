@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-When("{string} creates a group with:") do |admin_name, table|
-   step(%["#{admin_name}" is signed in])
+When('{string} creates a group with:') do |admin_name, table|
+   step(%["#{ admin_name }" is signed in])
 
    row = symrow(table)
 
-   step(%["#{admin_name}" navigates to "Groups"])
+   step(%["#{ admin_name }" navigates to "Groups"])
 
    click_link('Add Group')
 
@@ -20,7 +20,7 @@ When("{string} creates a group with:") do |admin_name, table|
    wait_for_ajax
 end
 
-When("{string} force adds a group") do |user_name|
+When('{string} force adds a group') do |user_name|
    step(%["#{ user_name }" force signs in])
 
    page.driver.follow(:post, '/admin/create_group', filter: {
@@ -30,7 +30,7 @@ When("{string} force adds a group") do |user_name|
    })
 end
 
-When("{string} searches for groups with:") do |user_name, table|
+When('{string} searches for groups with:') do |user_name, table|
    step(%["#{ user_name }" navigates to "Groups"])
 
    row = symrow(table)
@@ -42,12 +42,11 @@ When("{string} searches for groups with:") do |user_name, table|
    wait_for_ajax
 end
 
-When("{string} force searches for group(s) with:") do |user_name, table|
+When('{string} force searches for group(s) with:') do |user_name, table|
    step(%["#{ user_name }" force signs in])
 
    page.driver.follow(:post, '/admin/search_groups', filter: symrow(table))
 end
-
 
 When('{string} updates group {string} with no changes') do |admin_name, user_name|
    step(%["#{ admin_name }" navigates to group editor for "#{ user_name }"])
@@ -98,7 +97,7 @@ When('{string} force removes group {string}') do |admin_name, group_name|
    page.driver.follow(:post, '/admin/remove_group')
 end
 
-When("{string} adds {string} to group {string}") do |admin_name, user_name, group_name|
+When('{string} adds {string} to group {string}') do |admin_name, user_name, group_name|
    step(%["#{ admin_name }" navigates to group editor for "#{ group_name }"])
 
    within('group-editor') do
@@ -118,13 +117,13 @@ When("{string} adds {string} to group {string}") do |admin_name, user_name, grou
    wait_for_ajax
 end
 
-When("{string} force adds {string} to group {string}") do |user_name, target_name, group_name|
+When('{string} force adds {string} to group {string}') do |user_name, target_name, group_name|
    step(%["#{ user_name }" force signs in])
 
    page.driver.follow(:post, '/admin/update_group')
 end
 
-When("{string} batch creates {int} participants in group {string}") do |admin_name, number, group_name|
+When('{string} batch creates {int} participants in group {string}') do |admin_name, number, group_name|
    step(%["#{ admin_name }" navigates to group editor for "#{ group_name }"])
 
    within('group-editor') do

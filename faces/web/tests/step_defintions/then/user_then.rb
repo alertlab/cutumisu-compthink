@@ -11,7 +11,9 @@ Then('{string} {should} see user summary for {string}') do |viewer_name, should,
       step(%["#{ viewer_name }" #{ should ? 'should' : 'should not' } see "#{ user.email }"])
 
       unless user.roles.empty?
-         step(%["#{ viewer_name }" #{ should ? 'should' : 'should not' } see "#{ user.roles.collect(&:name).join(', ') }"])
+         role_names = user.roles.collect(&:name).join(', ')
+
+         step(%["#{ viewer_name }" #{ should ? 'should' : 'should not' } see "#{ role_names }"])
       end
    end
 end

@@ -31,7 +31,9 @@ end
 When('users are searched and sorted by {string} {direction}') do |sort_column, direction|
    sort_column = sort_column.gsub(/\s/, '_').to_sym
 
-   @result = SearchUsers.run(@container, sort_by: sort_column, sort_direction: direction == 'ascending' ? 'asc' : 'desc')
+   @result = SearchUsers.run(@container,
+                             sort_by:        sort_column,
+                             sort_direction: direction == 'ascending' ? 'asc' : 'desc')
 end
 
 When('{int} users are searched') do |count|

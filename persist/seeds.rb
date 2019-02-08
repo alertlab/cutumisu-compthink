@@ -64,26 +64,27 @@ module Garden
 
             auth_hash = CompThink::Model::UserAuthentication.encrypt('sekret')
 
-            userA = user_persister.create_with_auth(first_name:           'Kelly',
-                                                    last_name:            'Myers',
-                                                    email:                'kelly@example.com',
-                                                    user_authentications: {
-                                                          encrypted_password: auth_hash
-                                                    })
-            userB = user_persister.create_with_auth(first_name:           'Allan',
-                                                    last_name:            'Daniels',
-                                                    email:                'allan@example.com',
-                                                    user_authentications: {
-                                                          encrypted_password: auth_hash
-                                                    })
+            user_a = user_persister.create_with_auth(first_name:           'Kelly',
+                                                     last_name:            'Myers',
+                                                     email:                'kelly@example.com',
+                                                     user_authentications: {
+                                                           encrypted_password: auth_hash
+                                                     })
+            # user_b = user_persister.create_with_auth(first_name:           'Allan',
+            #                                         last_name:            'Daniels',
+            #                                         email:                'allan@example.com',
+            #                                         user_authentications: {
+            #                                               encrypted_password: auth_hash
+            #                                         })
 
             group = group_persister.first
 
-            participant = user_persister.create(first_name: 'test.user',
-                                                group_id:   group.id)
+            # participant
+            user_persister.create(first_name: 'test.user',
+                                  group_id:   group.id)
 
-            role_persister.assign_role(user: userA, role: admin_role)
-            # role_persister.assign_role(user: userB, role: guest_role)
+            role_persister.assign_role(user: user_a, role: admin_role)
+            # role_persister.assign_role(user: user_b, role: guest_role)
          end
 
          seed_bag.define_seed(:demo) do |garden|

@@ -1,21 +1,19 @@
 # frozen_string_literal: true
 
-Given("the following role(s):") do |table|
+Given('the following role(s):') do |table|
    @persisters[:role].create(symrow(table))
 end
 
-Given("the following user(s):") do |table|
+Given('the following user(s):') do |table|
    user_persister  = @persisters[:user]
    group_persister = @persisters[:group]
 
    symtable(table).hashes.each do |row|
       row[:roles] = extract_list(row.delete(:role) || row.delete(:roles)) if row[:role] || row[:roles]
 
-      password = row.delete(:password) || 'sekret'
+      password                          = row.delete(:password) || 'sekret'
 
-      if row[:name]
-         row[:first_name], row[:last_name] = row.delete(:name).split(/\s+/)
-      end
+      row[:first_name], row[:last_name] = row.delete(:name).split(/\s+/) if row[:name]
 
       row[:last_name] ||= 'testUser'
 
@@ -30,14 +28,16 @@ Given("the following user(s):") do |table|
       }))
 
       if group_name
-         step(%[group "#{group_name}"])
+         step(%[group "#{ group_name }"])
          group = group_persister.find(name: group_name)
          group_persister.add_participants(group.id, [user.id])
       end
 
+      next unless row[:roles]
+
       row[:roles].each do |role_name|
-         step(%["#{ user.first_name }" has role "#{role_name}"])
-      end if row[:roles]
+         step(%["#{ user.first_name }" has role "#{ role_name }"])
+      end
    end
 end
 

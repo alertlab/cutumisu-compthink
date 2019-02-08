@@ -7,7 +7,9 @@ module CompThink
             group_persister = container.persisters[:group]
 
             return {errors: ['Name cannot be blank']} if properties[:name].blank?
-            return {errors: ["Group name #{properties[:name]} is already used"]} if group_persister.find(name: properties[:name])
+            if group_persister.find(name: properties[:name])
+               return {errors: ["Group name #{ properties[:name] } is already used"]}
+            end
             return {errors: ['Start date cannot be blank']} if properties[:start_date].blank?
             return {errors: ['End date cannot be blank']} if properties[:end_date].blank?
 

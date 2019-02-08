@@ -15,11 +15,11 @@ module CompThink
             end
 
             def user_has_role?(user, role)
-               assoc(:roles).where(user_id: user.id, role_id: role.id).count > 0
+               assoc(:roles).where(user_id: user.id, role_id: role.id).count.positive?
             end
 
             def user_in_group?(user, role)
-               assoc(:groups).where(user_id: user.id, group_id: role.id).count > 0
+               assoc(:groups).where(user_id: user.id, group_id: role.id).count.positive?
             end
          end
       end

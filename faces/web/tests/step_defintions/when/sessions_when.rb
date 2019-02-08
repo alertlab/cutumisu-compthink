@@ -75,7 +75,7 @@ When('{string} force signs in with {string} and {string}') do |first_name, email
    end
 end
 
-When("they sign in to participate with user {string} and preset group {string}") do |user_name, group_name|
+When('they sign in to participate with user {string} and preset group {string}') do |user_name, group_name|
    user = @persisters[:user].find(first_name: user_name)
 
    # Don't bother signing in again if we're already the desired user
@@ -83,7 +83,7 @@ When("they sign in to participate with user {string} and preset group {string}")
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
       step(%["#{ user_name }" signs out]) if @current_user
 
-      visit("/?group=#{group_name}")
+      visit("/?group=#{ group_name }")
 
       close_flash
 
@@ -99,7 +99,7 @@ When("they sign in to participate with user {string} and preset group {string}")
    end
 end
 
-When("they sign in to participate with user {string} and group {string}") do |user_name, group_name|
+When('they sign in to participate with user {string} and group {string}') do |user_name, group_name|
    user = @persisters[:user].find(first_name: user_name)
 
    # Don't bother signing in again if we're already the desired user
@@ -123,7 +123,6 @@ When("they sign in to participate with user {string} and group {string}") do |us
       @current_user = user
    end
 end
-
 
 When('{string} signs out') do |name|
    step(%["#{ name }" is signed in])

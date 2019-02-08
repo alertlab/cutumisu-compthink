@@ -39,8 +39,8 @@ config_file 'settings.yml'
 configure do # |application|
    set :app_file, __FILE__
    set :root, src_dir
-   set :views, (proc {root + 'faces/web/sinatra/views'})
-   set :public_folder, (proc {root + 'faces/web/public'})
+   set :views, (proc { root + 'faces/web/sinatra/views' })
+   set :public_folder, (proc { root + 'faces/web/public' })
 
    set :partial_template_engine, :erb
 
@@ -77,7 +77,6 @@ configure do # |application|
    set :assets_debug, (development? || test?)
 
    register Sinatra::AssetPipeline
-
 
    # === Security Settings ===
 

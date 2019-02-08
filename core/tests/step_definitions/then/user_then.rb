@@ -16,7 +16,7 @@ Then('there {should} be a user with:') do |should, table|
       if should
          expect(user).to_not be_nil
          role_names.each do |role_name|
-            names = user.roles.collect {|r| r.name.downcase}
+            names = user.roles.collect { |r| r.name.downcase }
 
             expect(names).to include(role_name.downcase)
          end
@@ -26,7 +26,7 @@ Then('there {should} be a user with:') do |should, table|
    end
 end
 
-Then("user {string} should have {int} roles") do |user_name, n|
+Then('user {string} should have {int} roles') do |user_name, n|
    user = @persisters[:user].find(first_name: user_name)
 
    expect(user.roles.count).to eq n

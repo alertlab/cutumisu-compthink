@@ -31,3 +31,6 @@ inherit_from: ../.rubocop.yml
 
 #Style/Documentation:
 #  Enabled: false
+
+Layout/AlignParameters:
+  Enabled: false

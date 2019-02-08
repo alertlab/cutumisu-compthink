@@ -58,7 +58,7 @@ module CompThink
                   email:      @email,
                   first_name: @first_name,
                   last_name:  @last_name,
-                  roles:      @roles.collect {|r| r.name.downcase.gsub(/\s/, '_')}
+                  roles:      @roles.collect { |r| r.name.downcase.gsub(/\s/, '_') }
             }
 
             hash

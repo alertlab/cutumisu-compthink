@@ -38,7 +38,7 @@ module HelperMethods
          begin
             loop until page.evaluate_script('window.__bindingsDone__ && !window.ajaxCount')
          rescue Capybara::NotSupportedByDriverError
-            # puts 'ignoring wait for Ajax'
+            warn 'ignoring wait for Ajax'
          end
       end
    end
@@ -47,7 +47,7 @@ module HelperMethods
       sleep 0.35
 
       Timeout.timeout(Capybara.default_max_wait_time) do
-         loop until (page.evaluate_script("#{game_vm_js}.game.isBooted") || false)
+         loop until (page.evaluate_script("#{ game_vm_js }.game.isBooted") || false)
       end
 
       sleep 0.35
