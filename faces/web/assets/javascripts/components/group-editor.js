@@ -55,14 +55,41 @@ ko.components.register('group-editor', {
                                                 visibility: bulk.isVisible,\
                                                 onConfirm: bulk.createUsers,\
                                                 confirm: \'Add\'">\
-                           <label>\
-                              <span>Number</span>\
-                              <input name="number" type="number" min="1" data-bind="value: bulk.number"/>\
-                           </label>\
-                           <label>\
-                              <span>Prefix</span>\
-                              <input name="prefix" type="text" data-bind="value: bulk.prefix" />\
-                           </label>\
+                           <div class="mode">\
+                              <label>\
+                                 <input type="radio" name="mode" data-bind="checked: bulk.mode" value="generating" />\
+                                 <span>Generate</span>\
+                              </label>\
+                              <label>\
+                                 <input type="radio" name="mode" data-bind="checked: bulk.mode" value="list" />\
+                                 <span>Enter List</span>\
+                              </label>\
+                           </div>\
+                           <div class="mode-generating" data-bind="visible: bulk.isGenerating">\
+                              <label>\
+                                 <span>How Many?</span>\
+                                 <input name="number" type="number" min="1" data-bind="value: bulk.number"/>\
+                              </label>\
+                              <label>\
+                                 <span>Prefix</span>\
+                                 <input name="prefix" type="text" data-bind="textInput: bulk.prefix" />\
+                              </label>\
+                              <label class="example">\
+                                 <span>eg.</span>\
+                                 <span data-bind="text: bulk.exampleUserLast"></span>\
+                              </label>\
+                           </div>\
+                           <div class="mode-list" data-bind="visible: bulk.isList">\
+                              <textarea name="list" class="width" data-bind="value: bulk.list"></textarea>\
+                              <p class="example">\
+                                Enter a list of IDs, each on their own line. eg:\
+                              </p>\
+                              <p class="example">\
+                                janeway<br>\
+                                picard<br>\
+                                sisko\
+                              </p>\
+                           </div>\
                         </confirm-dialog>\
                      </div>\
                   </div>\
@@ -86,33 +113,56 @@ ko.components.register('group-editor', {
          number: ko.observable(1),
          prefix: ko.observable('user'),
          isVisible: ko.observable(false).toggleable(),
-         createUsers: function () {
-            var maxNumber;
-            var newUsers = [];
+         list: ko.observable(''),
+         mode: ko.observable('generating'),
+         isGenerating: ko.pureComputed(function () {
+            return self.bulk.mode() === 'generating';
+         }),
+         isList: ko.pureComputed(function () {
+            return self.bulk.mode() === 'list';
+         }),
+         maxNumber: ko.pureComputed(function () {
+            var maxNumber = 0;
 
-            if (self.group.participants().length > 0)
+            if (self.group.participants().length > 0) {
                maxNumber = self.group.participants().map(function (userShell) {
                   return parseInt(userShell.user().first_name.replace(self.bulk.prefix(), '')) || 0;
                }).reduce(function (a, b) {
                   return Math.max(a || 0, b || 0);
                });
-            else
-               maxNumber = 0;
+            }
 
-            for (var i = 0; i < self.bulk.number(); i++) {
-               var name = self.bulk.prefix() + padDigitLeft(maxNumber + i + 1, 3);
+            return maxNumber;
+         }),
+         createUsers: function () {
+            var newUsers;
+            var ids = [];
 
-               newUsers.push({
+            if (self.bulk.isGenerating()) {
+               for (var i = 0; i < self.bulk.number(); i++) {
+                  var name = self.bulk.prefix() + padDigitLeft(self.bulk.maxNumber() + i + 1, 3);
+
+                  ids.push(name);
+               }
+            } else { // then is list
+               ids = self.bulk.list().split("\n");
+            }
+
+            newUsers = ids.map(function (name) {
+               return {
                   user: ko.observable({
                      first_name: name,
                      email: name + '-' + self.group.name() + '@example.com',
                      isNewUser: true
                   })
-               });
-            }
+               };
+            });
 
             self.group.participants(self.group.participants().concat(newUsers))
-         }
+         },
+         exampleUserLast: ko.pureComputed(function () {
+            return self.bulk.prefix() + '15';
+         })
       };
 
       self.datePickers = {

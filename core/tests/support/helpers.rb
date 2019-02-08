@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module HelperMethods
-   def extract_list(list_string)
-      (list_string || '').split(',').map(&:strip)
+   def extract_list(list_string, separator: ',')
+      (list_string || '').split(separator).map(&:strip)
    end
 
    def symrow(table)

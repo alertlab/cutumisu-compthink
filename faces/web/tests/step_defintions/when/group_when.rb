@@ -126,22 +126,42 @@ end
 When('{string} batch creates {int} participants in group {string}') do |admin_name, number, group_name|
    step(%["#{ admin_name }" navigates to group editor for "#{ group_name }"])
 
-   within('group-editor') do
-      within('.participants') do
-         click_link('Bulk Create...')
+   within('group-editor .participants') do
+      click_link('Bulk Create...')
 
-         within('.bulk-participants') do
-            fill_in('Prefix', with: 'testuser')
+      within('.bulk-participants') do
+         fill_in('Prefix', with: 'testuser')
 
-            fill_in('Number', with: number)
+         fill_in('How Many?', with: number)
 
-            click_link('Add')
-         end
+         click_link('Add')
       end
+   end
+end
 
-      within('form > .controls') do
-         click_button('Save')
+When("{string} batch creates participants from list:") do |admin_name, id_list|
+   step(%["#{ admin_name }" is signed in])
+
+   # names = extract_list(id_list, separator: "\n")
+
+   within('group-editor .participants') do
+      click_link('Bulk Create...')
+
+      within('.bulk-participants') do
+         choose('List')
+
+         fill_in(:list, with: id_list)
+
+         click_link('Add')
       end
+   end
+end
+
+When("{string} saves the form") do |admin_name|
+   step(%["#{ admin_name }" is signed in])
+
+   within('form > .controls') do
+      click_button('Save')
    end
 
    wait_for_ajax
