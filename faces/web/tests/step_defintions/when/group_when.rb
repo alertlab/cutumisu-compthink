@@ -49,16 +49,12 @@ When('{string} force searches for group(s) with:') do |user_name, table|
 end
 
 When('{string} updates group {string} with no changes') do |admin_name, user_name|
-   step(%["#{ admin_name }" navigates to group editor for "#{ user_name }"])
-
    click_button('Save')
 
    wait_for_ajax
 end
 
 When('{string} updates group {string} with:') do |admin_name, group_name, table|
-   step(%["#{ admin_name }" navigates to group editor for "#{ group_name }"])
-
    group = @persisters[:group].find(name: group_name)
 
    row = symrow(table)
@@ -68,6 +64,15 @@ When('{string} updates group {string} with:') do |admin_name, group_name, table|
 
       fill_in :start_date, with: row[:start_date] if row[:start_date]
       fill_in :end_date, with: row[:end_date] if row[:end_date]
+
+      if row[:regex]
+         choose 'Custom'
+         fill_in :regex, with: row[:regex]
+      end
+
+      if row[:open]
+         parse_bool(row[:open]) ? choose('Open') : choose('Closed')
+      end
 
       click_button('Save')
 

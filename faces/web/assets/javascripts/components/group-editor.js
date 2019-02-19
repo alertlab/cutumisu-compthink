@@ -21,81 +21,119 @@ ko.components.register('group-editor', {
                            <input type="text" name="end_date" data-bind="value: group.end_date">\
                         </label>\
                      </div>\
-                     <div class="participants" data-bind="visible: !isNewRecord()">\
+                     <div class="participation-type" data-bind="visible: !isNewRecord()">\
                         <header>\
-                           Participants (<span data-bind="text: group.participants().length"></span>)\
+                           Participation Type\
                         </header>\
-                        <div class="list" data-bind="foreach: {data: group.participants, as: \'userShell\'}">\
-                           <div>\
-                              <div class="new-participant" data-bind="visible: !userShell.user(), \
-                                                                      if: !userShell.user()">\
-                                 <search-select params="uri: \'/admin/search_users\', \
-                                                        selectedObservable: userShell.user,\
-                                                        labelWith: $parent.buildUserLabel, \
-                                                        name: \'participant-\'+ $index()"></search-select>\
-                              </div>\
-                              <div class="participant" data-bind="visible: userShell.user(), \
-                                                                  if: userShell.user()">\
-                                 <a href="#" data-bind="href: $parent.userLink(userShell.user())">\
-                                    <span data-bind="text: userShell.user().first_name"></span>\
-                                    <span data-bind="text: userShell.user().last_name"></span>\
-                                 </a>\
-                                 <!--<user-summary params="user: userShell.user"></user-summary>-->\
-                              </div>\
-                              <a href="#" class="delete" title="Remove Participant" data-bind="click: function() { $parent.removeParticipant(userShell) }">x</a>\
-                           </div>\
+                        <div>\
+                           <label>\
+                              <input type="radio" name="participation-type" data-bind="checked: group.participationType" value="closed" />\
+                              <span>Closed</span>\
+                           </label>\
+                           <label>\
+                              <input type="radio" name="participation-type" data-bind="checked: group.participationType" value="open"/>\
+                              <span>Open</span>\
+                           </label>\
+                           <label>\
+                              <input type="radio" name="participation-type" data-bind="checked: group.participationType" value="custom" />\
+                              <span>Custom</span>\
+                           </label>\
                         </div>\
-                        <span class="placeholder" data-bind="visible: !group.participants().length">- nobody -</span>\
-                        <div class="controls">\
-                           <a href="#" class="bulk-add" data-bind="click: bulk.isVisible.toggle">Bulk Create...</a>\
-                           <a href="#" class="add" data-bind="click: addParticipant">+1</a>\
+                        <div class="open" data-bind="visible: group.participationType() === \'custom\'">\
+                           <p>\
+                              Like Open, but you can be more restrictive on the allowed characters. \
+                              <a href="https://rubular.com/" target="_blank">See here</a> for a list of regex codes.\
+                           </p>\
+                           <label>\
+                              <span>Restricting Regular Expression</span>\
+                              <input type="text" name="regex" data-bind="value: group.regex" />\
+                           </label>\
                         </div>\
-                        <confirm-dialog class="bulk-participants" \
-                                        params="header: \'Add Multiple Participants\',\
-                                                visibility: bulk.isVisible,\
-                                                onConfirm: bulk.createUsers,\
-                                                confirm: \'Add\'">\
-                           <div class="mode">\
-                              <label>\
-                                 <input type="radio" name="mode" data-bind="checked: bulk.mode" value="generating" />\
-                                 <span>Generate</span>\
-                              </label>\
-                              <label>\
-                                 <input type="radio" name="mode" data-bind="checked: bulk.mode" value="list" />\
-                                 <span>Enter List</span>\
-                              </label>\
+                        <div class="open" data-bind="visible: group.participationType() === \'open\'">\
+                           <p>\
+                              Open means any non-whitespace character will be accepted as user IDs.\
+                           </p>\
+                           <p>\
+                              These users will be recorded and registered at the time of testing, not beforehand.\
+                           </p>\
+                        </div>\
+                        <div class="participants" data-bind="visible: group.participationType() === \'closed\'">\
+                           <header>\
+                              Participants (<span data-bind="text: group.participants().length"></span>)\
+                           </header>\
+                           <div class="list" data-bind="foreach: {data: group.participants, as: \'userShell\'}">\
+                              <div>\
+                                 <div class="new-participant" data-bind="visible: !userShell.user(), \
+                                                                         if: !userShell.user()">\
+                                    <search-select params="uri: \'/admin/search_users\', \
+                                                           selectedObservable: userShell.user,\
+                                                           labelWith: $parent.buildUserLabel, \
+                                                           name: \'participant-\'+ $index()"></search-select>\
+                                 </div>\
+                                 <div class="participant" data-bind="visible: userShell.user(), \
+                                                                     if: userShell.user()">\
+                                    <a href="#" data-bind="href: $parent.userLink(userShell.user())">\
+                                       <span data-bind="text: userShell.user().first_name"></span>\
+                                       <span data-bind="text: userShell.user().last_name"></span>\
+                                    </a>\
+                                    <!--<user-summary params="user: userShell.user"></user-summary>-->\
+                                 </div>\
+                                 <a href="#" class="delete" title="Remove Participant" data-bind="click: function() { $parent.removeParticipant(userShell) }">x</a>\
+                              </div>\
                            </div>\
-                           <div class="mode-generating" data-bind="visible: bulk.isGenerating">\
-                              <label>\
-                                 <span>How Many?</span>\
-                                 <input name="number" type="number" min="1" data-bind="value: bulk.number"/>\
-                              </label>\
-                              <label>\
-                                 <span>Prefix</span>\
-                                 <input name="prefix" type="text" data-bind="textInput: bulk.prefix" />\
-                              </label>\
-                              <label class="example">\
-                                 <span>eg.</span>\
-                                 <span data-bind="text: bulk.exampleUserLast"></span>\
-                              </label>\
+                           <span class="placeholder" data-bind="visible: !group.participants().length">- nobody -</span>\
+                           <div class="controls">\
+                              <a href="#" class="bulk-add" data-bind="click: bulk.isVisible.toggle">Bulk Create...</a>\
+                              <a href="#" class="add" data-bind="click: addParticipant">+1</a>\
                            </div>\
-                           <div class="mode-list" data-bind="visible: bulk.isList">\
-                              <textarea name="list" class="width" data-bind="value: bulk.list"></textarea>\
-                              <p class="example">\
-                                Enter a list of IDs, each on their own line. eg:\
-                              </p>\
-                              <p class="example">\
-                                janeway<br>\
-                                picard<br>\
-                                sisko\
-                              </p>\
-                           </div>\
-                        </confirm-dialog>\
+                           <confirm-dialog class="bulk-participants" \
+                                           params="header: \'Add Multiple Participants\',\
+                                                   visibility: bulk.isVisible,\
+                                                   onConfirm: bulk.createUsers,\
+                                                   confirm: \'Add\'">\
+                              <div class="mode">\
+                                 <label>\
+                                    <input type="radio" name="mode" data-bind="checked: bulk.mode" value="generating" />\
+                                    <span>Generate</span>\
+                                 </label>\
+                                 <label>\
+                                    <input type="radio" name="mode" data-bind="checked: bulk.mode" value="list" />\
+                                    <span>Enter List</span>\
+                                 </label>\
+                              </div>\
+                              <div class="mode-generating" data-bind="visible: bulk.isGenerating">\
+                                 <label>\
+                                    <span>How Many?</span>\
+                                    <input name="number" type="number" min="1" data-bind="value: bulk.number"/>\
+                                 </label>\
+                                 <label>\
+                                    <span>Prefix</span>\
+                                    <input name="prefix" type="text" data-bind="textInput: bulk.prefix" />\
+                                 </label>\
+                                 <label class="example">\
+                                    <span>eg.</span>\
+                                    <span data-bind="text: bulk.exampleUserLast"></span>\
+                                 </label>\
+                              </div>\
+                              <div class="mode-list" data-bind="visible: bulk.isList">\
+                                 <textarea name="list" class="width" data-bind="value: bulk.list"></textarea>\
+                                 <p class="example">\
+                                   Enter a list of IDs, each on their own line. eg:\
+                                 </p>\
+                                 <p class="example">\
+                                   janeway<br>\
+                                   picard<br>\
+                                   sisko\
+                                 </p>\
+                              </div>\
+                           </confirm-dialog>\
+                        </div>\
                      </div>\
                   </div>\
                </basic-form>',
 
    /**
+    *
     */
    viewModel: function (params) {
       var self = this;
@@ -106,8 +144,14 @@ ko.components.register('group-editor', {
          name: ko.observable(''),
          start_date: ko.observable(''),
          end_date: ko.observable(''),
-         participants: ko.observableArray()
+         participants: ko.observableArray(),
+         participationType: ko.observable('closed'),
+         regex: ko.observable(''),
+         open: ko.observable(false)
       };
+
+      // regular expression shortcut for open groups
+      self.openRegex = "\\S+";
 
       self.bulk = {
          number: ko.observable(1),
@@ -212,6 +256,15 @@ ko.components.register('group-editor', {
             self.group.start_date(humanDate(group.start_date || ''));
             self.group.end_date(humanDate(group.end_date || ''));
 
+            self.group.regex(group.regex);
+
+            if (self.group.regex() === self.openRegex)
+               self.group.participationType('open');
+            else if (self.group.regex() === '' || self.group.regex() === null || self.group.regex() === undefined)
+               self.group.participationType('closed');
+            else
+               self.group.participationType('custom');
+
             self.group.participants(group.participants.map(function (p) {
                return {
                   user: ko.observable(p)
@@ -224,11 +277,18 @@ ko.components.register('group-editor', {
          self.getGroup();
 
       self.save = function () {
-         var uri, payload;
+         var uri, payload, pType;
 
          uri = self.isNewRecord() ? '/admin/create_group' : '/admin/update_group';
 
-         payload = ko.mapping.toJS(self.group, {ignore: ['participants']});
+         payload = ko.mapping.toJS(self.group, {ignore: ['participants', 'open']});
+
+         pType = self.group.participationType();
+
+         if (pType === 'open')
+            payload.regex = self.openRegex;
+         else if (pType === 'closed')
+            payload.regex = '';
 
          payload.participants = [];
          payload.create_participants = [];

@@ -1,17 +1,39 @@
 Feature: Create Group
    
-   Scenario Outline: it should create a group with name and dates
+   Scenario Outline: it should create a group with a name
       When a group is created with:
-         | name   | start date | end date |
-         | <name> | <start>    | <end>    |
+         | name   |
+         | <name> |
       Then there should be 1 groups
       And there should be a group with:
-         | name   | start date | end date |
-         | <name> | <start>    | <end>    |
+         | name   |
+         | <name> |
       Examples:
-         | name          | start         | end         |
-         | Wagner.2018   | April 21 2018 | May 11 2018 |
-         | BevFacey-2019 | Jan 11 2019   | Feb 14 2019 |
+         | name          |
+         | Wagner.2018   |
+         | BevFacey-2019 |
+   
+   Scenario Outline: it should create a group with start and end dates
+      When a group is created with:
+         | name        | start date | end date |
+         | Wagner.2018 | <start>    | <end>    |
+      Then there should be 1 groups
+      And there should be a group with:
+         | name        | start date | end date |
+         | Wagner.2018 | <start>    | <end>    |
+      Examples:
+         | start         | end         |
+         | April 21 2018 | May 11 2018 |
+         | Jan 11 2019   | Feb 14 2019 |
+   
+   Scenario: it should create a group with open participation
+      When a group is created with:
+         | name        | regex |
+         | Wagner.2018 | .*    |
+      Then there should be 1 groups
+      And there should be a group with:
+         | name        | regex |
+         | Wagner.2018 | .*    |
    
    Scenario Outline: it should respond with a success message
       When a group is created with:

@@ -6,6 +6,8 @@ When('a group is created with:') do |table|
    row[:start_date] = Date.today.to_s if row[:start_date].nil?
    row[:end_date]   = Date.today.next_day.to_s if row[:end_date].nil?
 
+   row[:open]       = parse_bool(row[:open]) if row[:open]
+
    row[:regex]      = '//' unless row[:regex]
 
    @result = CreateGroup.run(@container, row)
@@ -51,6 +53,8 @@ When('group {string} is updated with:') do |group_name, table|
    row[:name]       = row[:name] || group.name
    row[:start_date] = row[:start_date] || group.start_date.to_s
    row[:end_date]   = row[:end_date] || group.end_date.to_s
+
+   row[:open]       = parse_bool(row[:open]) if row.key?(:open)
 
    if row[:participants]
       row[:participants] = extract_list(row[:participants]).collect do |name|

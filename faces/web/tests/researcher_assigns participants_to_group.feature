@@ -17,7 +17,8 @@ Feature: Researcher Assigns Participants to Group
          | Bob Mainframe |
          | Dot Matrix    |
       And group "Group A" has participants "Bob, Dot"
-      When "Kelly" updates group "Group A" with no changes
+      When "Kelly" navigates to group editor for "Group A"
+      And "Kelly" updates group "Group A" with no changes
       Then there should be 1 group
       And group "Group A" should have 2 participants
       And "Bob" should be in group "Group A"

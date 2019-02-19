@@ -31,6 +31,22 @@ Feature: Update Group
          | Jan 2  | Feb 2 |
          | Aug 15 | Sep 3 |
    
+   Scenario Outline: it should update the regex
+      When group "Group A" is updated with:
+         | name   | regex   |
+         | GroupA | <regex> |
+      Then there should be 1 group
+      And there should be a group with:
+         | name   | regex   |
+         | GroupA | <regex> |
+      Examples:
+         | regex    |
+         | .*       |
+         | \d+      |
+         | [a-zA-Z] |
+         | \S+      |
+         | <hr>     |
+   
    Scenario Outline: it should respond with a success message
       When group "Group A" is updated with:
          | name   |
