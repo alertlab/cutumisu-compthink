@@ -55,7 +55,6 @@ module CompThink
             end
 
             def authenticate!
-               user_persister  = Sinatra::Application.container.persisters[:user]
                group_persister = Sinatra::Application.container.persisters[:group]
                user_params     = params['user']
 
@@ -67,8 +66,10 @@ module CompThink
                end
                throw(:warden, message: "Group #{ group.name } expired on #{ group.end_date.to_date }") if group.ended?
 
-               user = user_persister.find_participant(group_name: user_params['group'],
-                                                      user_name:  user_params['username'])
+               user = group_persister.find_participant(group_name:     user_params['group'],
+                                                       user_name:      user_params['username'],
+                                                       create_missing: group.open?)
+
                if user
                   success!(user, 'Hello!')
                else

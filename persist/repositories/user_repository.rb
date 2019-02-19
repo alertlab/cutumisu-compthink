@@ -13,14 +13,6 @@ module CompThink
          nil
       end
 
-      def find_participant(group_name: nil, user_name: nil)
-         users.where(first_name: user_name)
-               .join(:users_groups, user_id: Sequel[:users][:id])
-               .join(:groups, Sequel[:groups][:id] => :group_id)
-               .where(name: group_name)
-               .one
-      end
-
       def users_matching(attrs, count:, offset:, sort_by:, sort_direction:)
          results    = users.combine(:roles)
          role_names = []

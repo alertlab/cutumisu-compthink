@@ -120,7 +120,8 @@ When('they sign in to participate with user {string} and group {string}') do |us
 
       wait_for_ajax
 
-      @current_user = user
+      # sometimes the user is created in the login process
+      @current_user = user || @persisters[:user].find(first_name: user_name)
    end
 end
 

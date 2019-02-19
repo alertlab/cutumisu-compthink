@@ -39,6 +39,23 @@ module CompThink
          end
       end
 
+      def find_participant(group_name: nil, user_name: nil, create_missing: false)
+         user = users.where(first_name: user_name)
+                      .join(:users_groups, user_id: Sequel[:users][:id])
+                      .join(:groups, Sequel[:groups][:id] => :group_id)
+                      .where(name: group_name)
+                      .one
+
+         if user.nil? && create_missing
+            user  = users.command(:create).call(first_name: user_name, email: "#{ user_name }@example.com")
+            group = groups.where(name: group_name).one
+
+            add_participants(group.id, [user.id])
+         end
+
+         user
+      end
+
       def add_participants(group_id, participant_ids)
          participant_ids.each do |user_id|
             users_groups.command(:create).call(user_id: user_id, group_id: group_id)

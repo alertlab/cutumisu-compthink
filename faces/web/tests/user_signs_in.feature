@@ -26,6 +26,24 @@ Feature: User Signs In
          | groupA | user1 |
          | groupB | user2 |
    
+   Scenario Outline: it should sign in open group participants and create a record for them
+      Given the following group:
+         | name   | regex   |
+         | GroupA | <regex> |
+      When they sign in to participate with user "<user>" and group "GroupA"
+      Then "<user>" should be signed in
+      And "<user>" should see "Hello!"
+      And there should be 1 group
+      And group "GroupA" should have 1 participant
+      Examples:
+         | user                      | regex       |
+         | user1                     | .*          |
+         | user2                     | \S+         |
+         | user3                     | [a-zA-Z0-9] |
+         | user.guardian@example.com | \S+         |
+         | user.test                 | \S+         |
+         | user_bob-test             | \S+         |
+   
    Scenario Outline: it should preload participant group from URI
       Given the following users:
          | name  |
@@ -134,7 +152,6 @@ Feature: User Signs In
          | group1       | 2018-01-02 |
          | AnotherGroup | 2018-08-15 |
    
-      # TODO: remove underscores in name after May 1 2018
    Scenario Outline: it should complain if the user is wrong
       Given the following users:
          | name     |
@@ -144,13 +161,13 @@ Feature: User Signs In
          | name   | participants |
          | groupA | user.001     |
          | groupB |              |
-         | groupC |              |
-      When they sign in to participate with user "<user>" and group "<group>"
-      Then they should see "There is no user <user> in <group>"
+      When they sign in to participate with user "<user>" and group "groupB"
+      Then group "groupB" should have 0 participants
+      And they should see "There is no user <user> in groupB"
       And they should not be signed in
       Examples:
-         | user      | group  |
-         | user.001  | groupB |
-         | user.002  | groupB |
-         | bogusUser | groupC |
+         | user      |
+         | user.001  |
+         | user.002  |
+         | bogusUser |
       

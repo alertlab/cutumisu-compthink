@@ -53,7 +53,7 @@ module CompThink
          end
 
          def open?
-            !!@open
+            !@regex.nil? && !@regex.empty?
          end
 
          # def participants
