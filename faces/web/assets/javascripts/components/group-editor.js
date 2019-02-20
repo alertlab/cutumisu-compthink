@@ -25,7 +25,7 @@ ko.components.register('group-editor', {
                         <header>\
                            Participation Type\
                         </header>\
-                        <div>\
+                        <div class="participation-type-selector">\
                            <label>\
                               <input type="radio" name="participation-type" data-bind="checked: group.participationType" value="closed" />\
                               <span>Closed</span>\
@@ -57,7 +57,12 @@ ko.components.register('group-editor', {
                               These users will be recorded and registered at the time of testing, not beforehand.\
                            </p>\
                         </div>\
-                        <div class="participants" data-bind="visible: group.participationType() === \'closed\'">\
+                        <div class="closed" data-bind="visible: group.participationType() === \'closed\'">\
+                           <p>\
+                              Closed participation requires that the participants are pre-registered by an admin.\
+                           </p>\
+                        </div>\
+                        <div class="participants">\
                            <header>\
                               Participants (<span data-bind="text: group.participants().length"></span>)\
                            </header>\

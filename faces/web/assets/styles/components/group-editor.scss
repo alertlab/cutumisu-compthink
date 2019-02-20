@@ -81,10 +81,36 @@ group-editor {
          }
       }
       
+      .participation-type-selector {
+         display: flex;
+         
+         flex-direction: row;
+         justify-content: center;
+         
+         user-select: none;
+         
+         label {
+            span {
+               min-width: auto;
+               padding: 0;
+            }
+            
+            cursor: pointer;
+         }
+      }
+      
+      .closed,
+      .open,
+      .custom {
+         min-height: 5.5em;
+      }
+      
       .participants {
          display: flex;
          flex-direction: column-reverse;
          justify-content: space-between;
+         
+         margin-top: 2em;
          
          header {
             order: 1;
