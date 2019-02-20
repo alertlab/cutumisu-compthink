@@ -47,6 +47,11 @@ group-editor {
          }
       }
       
+      .basic-info {
+         display: flex;
+         flex-direction: column;
+      }
+      
       .bulk-participants {
          .mode {
             display: flex;

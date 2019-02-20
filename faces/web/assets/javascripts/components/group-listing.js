@@ -92,6 +92,8 @@ ko.components.register('group-listing', {
 
       // BEHAVIOUR
       self.groupCreated = function () {
+         console.log('derp')
+
          self.groups.shouldReload(true);
          self.createEditorVisible.toggle();
       };

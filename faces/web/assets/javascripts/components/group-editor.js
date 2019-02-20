@@ -14,14 +14,14 @@ ko.components.register('group-editor', {
                         </label>\
                         <label>\
                            <span>Start Date</span>\
-                           <input type="text" name="start_date" data-bind="value: group.start_date">\
+                           <input type="text" name="start_date" data-bind="value: group.start_date" autocomplete="off">\
                         </label>\
                         <label>\
                            <span>End Date</span>\
-                           <input type="text" name="end_date" data-bind="value: group.end_date">\
+                           <input type="text" name="end_date" data-bind="value: group.end_date" autocomplete="off">\
                         </label>\
                      </div>\
-                     <div class="participation-type" data-bind="visible: !isNewRecord()">\
+                     <div class="participation-type">\
                         <header>\
                            Participation Type\
                         </header>\
@@ -41,11 +41,11 @@ ko.components.register('group-editor', {
                         </div>\
                         <div class="open" data-bind="visible: group.participationType() === \'custom\'">\
                            <p>\
-                              Like Open, but you can be more restrictive on the allowed characters. \
+                              Like Open, but you can be more restrictive on the allowed characters using Regular Expressions. \
                               <a href="https://rubular.com/" target="_blank">See here</a> for a list of regex codes.\
                            </p>\
                            <label>\
-                              <span>Restricting Regular Expression</span>\
+                              <span>Restricting Regex</span>\
                               <input type="text" name="regex" data-bind="value: group.regex" />\
                            </label>\
                         </div>\
@@ -214,26 +214,29 @@ ko.components.register('group-editor', {
          })
       };
 
-      self.datePickers = {
-         start: new Pikaday({
-            field: document.querySelector('input[name="start_date"]'),
-            onSelect: function (date) {
-               var input = document.querySelector('input[name="start_date"]');
+      // put into timeout because basic-form re-parents the input and breaks the binding
+      window.setTimeout(function () {
+         self.datePickers = {
+            start: new Pikaday({
+               field: document.querySelector('input[name="start_date"]'),
+               onSelect: function (date) {
+                  var input = document.querySelector('input[name="start_date"]');
 
-               self.group.start_date(date.toISOString());
-               input.value = humanDate(date.getTime() / 1000);
-            }
-         }),
-         end: new Pikaday({
-            field: document.querySelector('input[name="end_date"]'),
-            onSelect: function (date) {
-               var input = document.querySelector('input[name="end_date"]');
+                  self.group.start_date(date.toISOString());
+                  input.value = humanDate(date.getTime() / 1000);
+               }
+            }),
+            end: new Pikaday({
+               field: document.querySelector('input[name="end_date"]'),
+               onSelect: function (date) {
+                  var input = document.querySelector('input[name="end_date"]');
 
-               self.group.end_date(date.toISOString());
-               input.value = humanDate(date.getTime() / 1000);
-            }
-         })
-      };
+                  self.group.end_date(date.toISOString());
+                  input.value = humanDate(date.getTime() / 1000);
+               }
+            })
+         };
+      });
 
       self.formClass = ko.pureComputed(function () {
          return 'group-editor-' + (self.isNewRecord() ? 'new' : self.group.id());
@@ -312,6 +315,9 @@ ko.components.register('group-editor', {
                window.flash('notice', response.messages);
             }
          });
+
+         if (params['onSave'])
+            params['onSave']();
       };
 
       self.deleteGroup = function () {
