@@ -30,7 +30,7 @@ Given('the following user(s):') do |table|
       if group_name
          step(%[group "#{ group_name }"])
          group = group_persister.find(name: group_name)
-         group_persister.add_participants(group.id, [user.id])
+         group_persister.add_participants(group, [user.id])
       end
 
       next unless row[:roles]

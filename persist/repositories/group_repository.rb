@@ -15,8 +15,8 @@ module CompThink
          find_all(attrs).first
       end
 
-      def update_with_participants(group_id, properties)
-         participant_ids  = properties.delete(:participants)
+      def upsert_with_participants(group_id, properties)
+         participant_ids  = properties.delete(:participants) || []
          new_participants = properties.delete(:create_participants)
 
          groups.transaction do
@@ -26,16 +26,22 @@ module CompThink
                          []
                       end
 
+            group = if group_id
+                       groups.by_pk(group_id)
+                             .changeset(:update, properties)
+                             .commit
+                    else
+                       groups.changeset(:create, properties).commit
+                    end
+
             users_groups
-                  .where(group_id: group_id)
+                  .where(group_id: group.id)
                   .command(:delete)
                   .call
 
-            add_participants(group_id, participant_ids + new_ids)
+            add_participants(group, participant_ids + new_ids)
 
-            groups.by_pk(group_id)
-                  .changeset(:update, properties)
-                  .commit
+            group
          end
       end
 
@@ -50,15 +56,15 @@ module CompThink
             user  = users.command(:create).call(first_name: user_name, email: "#{ user_name }@example.com")
             group = groups.where(name: group_name).one
 
-            add_participants(group.id, [user.id])
+            add_participants(group, [user.id])
          end
 
          user
       end
 
-      def add_participants(group_id, participant_ids)
+      def add_participants(group, participant_ids)
          participant_ids.each do |user_id|
-            users_groups.command(:create).call(user_id: user_id, group_id: group_id)
+            users_groups.command(:create).call(user_id: user_id, group_id: group.id)
          end
       end
 

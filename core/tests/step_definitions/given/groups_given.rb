@@ -51,5 +51,5 @@ Given('group {string} has participant(s) {string}') do |group_name, user_list|
 
    group = @persisters[:group].find(name: group_name)
 
-   @persisters[:group].update_with_participants(group.id, participants: user_ids)
+   @persisters[:group].upsert_with_participants(group.id, participants: user_ids)
 end

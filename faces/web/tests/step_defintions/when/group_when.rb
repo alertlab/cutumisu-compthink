@@ -83,7 +83,7 @@ end
 When('{string} force updates group {string} with:') do |user_name, group_name, table|
    step(%["#{ user_name }" force signs in])
 
-   page.driver.follow(:post, '/admin/update_group')
+   page.driver.follow(:post, '/admin/save_group')
 end
 
 When('{string} removes group {string}') do |admin_name, group_name|
@@ -125,7 +125,7 @@ end
 When('{string} force adds {string} to group {string}') do |user_name, target_name, group_name|
    step(%["#{ user_name }" force signs in])
 
-   page.driver.follow(:post, '/admin/update_group')
+   page.driver.follow(:post, '/admin/save_group')
 end
 
 When('{string} batch creates {int} participants in group {string}') do |admin_name, number, group_name|

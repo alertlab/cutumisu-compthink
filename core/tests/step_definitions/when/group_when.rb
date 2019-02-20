@@ -1,18 +1,5 @@
 # frozen_string_literal: true
 
-When('a group is created with:') do |table|
-   row              = symrow(table)
-
-   row[:start_date] = Date.today.to_s if row[:start_date].nil?
-   row[:end_date]   = Date.today.next_day.to_s if row[:end_date].nil?
-
-   row[:open]       = parse_bool(row[:open]) if row[:open]
-
-   row[:regex]      = '//' unless row[:regex]
-
-   @result = CreateGroup.run(@container, row)
-end
-
 When('groups are searched') do
    @result = SearchGroups.run(@container, filter: nil)
 end
@@ -45,7 +32,30 @@ When('groups are searched starting at {int}') do |starting_number|
                               starting: starting_number)
 end
 
-When('group {string} is updated with:') do |group_name, table|
+When('a group is created with:') do |table|
+   row = symrow(table)
+
+   row[:name]       = row[:name] || 'test_group'
+   row[:start_date] = row[:start_date] || Date.today.to_s
+   row[:end_date]   = row[:end_date] || Date.today.to_s
+
+   if row[:participants]
+      row[:participants] = extract_list(row[:participants]).collect do |name|
+         @persisters[:user].find(first_name: name).id
+      end
+   elsif row[:batch_participants]
+      row[:create_participants] = extract_list(row.delete(:batch_participants)).collect do |name|
+         {
+               first_name: name,
+               email:      "#{ name }@example.com"
+         }
+      end
+   end
+
+   @result = SaveGroup.run(@container, row)
+end
+
+When('group {string} is saved with:') do |group_name, table|
    row = symrow(table)
 
    group = @persisters[:group].find(name: group_name)
@@ -71,7 +81,7 @@ When('group {string} is updated with:') do |group_name, table|
 
    row[:participants] ||= group.participants.collect(&:id)
 
-   @result = UpdateGroup.run(@container, row.merge(id: group.id))
+   @result = SaveGroup.run(@container, row.merge(id: group.id))
 end
 
 When('group {string} is deleted') do |group_name|

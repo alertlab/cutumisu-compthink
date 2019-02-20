@@ -143,16 +143,12 @@ post '/admin/reset_clicks' do
    ResetClicks.run(settings.container, app_params.deep_symbolize_keys).to_json
 end
 
-post '/admin/create_group' do
-   CreateGroup.run(settings.container, app_params.deep_symbolize_keys).to_json
-end
-
 post '/admin/search_groups' do
    SearchGroups.run(settings.container, app_params.deep_symbolize_keys).to_json
 end
 
-post '/admin/update_group' do
-   result = UpdateGroup.run(settings.container, app_params.deep_symbolize_keys)
+post '/admin/save_group' do
+   result = SaveGroup.run(settings.container, app_params.deep_symbolize_keys)
 
    result[:redirect] = '/admin/groups'
 

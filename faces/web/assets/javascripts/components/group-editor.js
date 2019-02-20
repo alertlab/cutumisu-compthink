@@ -285,9 +285,7 @@ ko.components.register('group-editor', {
          self.getGroup();
 
       self.save = function () {
-         var uri, payload, pType;
-
-         uri = self.isNewRecord() ? '/admin/create_group' : '/admin/update_group';
+         var payload, pType;
 
          payload = ko.mapping.toJS(self.group, {ignore: ['participants', 'open']});
 
@@ -310,10 +308,9 @@ ko.components.register('group-editor', {
                payload.participants.push(userData.id);
          });
 
-         ajax('post', uri, ko.mapping.toJSON(payload), function (response) {
-            if (response.messages) {
+         ajax('post', '/admin/save_group', ko.mapping.toJSON(payload), function (response) {
+            if (response.messages)
                window.flash('notice', response.messages);
-            }
          });
 
          if (params['onSave'])
