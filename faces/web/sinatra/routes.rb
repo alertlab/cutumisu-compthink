@@ -201,7 +201,13 @@ get '/*/?' do |name|
    parts = name.split('/')
    file  = parts.pop
 
-   erb((parts << "_#{ file }").join('/').to_sym, layout: layout)
+   begin
+      erb((parts << "_#{ file }").join('/').to_sym, layout: layout)
+   rescue Errno::NOENT => e
+      raise e unless production?
+
+      redirect '/'
+   end
 end
 
 #######################
