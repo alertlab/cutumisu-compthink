@@ -5,19 +5,19 @@ source 'https://rubygems.org'
 gem 'rake'
 
 group :face_web do
-   gem 'bcrypt', '~>3.1.11'
+   gem 'bcrypt', '~>3.1.13'
    gem 'erubis', '~>2.7.0' # To be able to render ERB
-   gem 'tilt', '~>2.0.8'
+   gem 'tilt', '~>2.0'
 
    gem 'rack', '~>2.0.4'
-   gem 'rack-parser', require: 'rack/parser'
-   gem 'rack-protection' # to prevent cross-site scripting and other attacks
+   gem 'rack-parser', '~>0.7.0', require: 'rack/parser'
+   gem 'rack-protection', '~>2.0.7' # to prevent cross-site scripting and other attacks
 
    gem 'sass', '~>3.7.3', require: 'sass'
-   gem 'sinatra', '~>2.0.5'
+   gem 'sinatra', '~>2.0.7'
    gem 'sinatra-asset-pipeline', '~>2.2.0'
    gem 'sinatra-bouncer', '~>1.2'
-   gem 'sinatra-contrib', '~>2.0.3'
+   gem 'sinatra-contrib', '~>2.0.7'
    gem 'sinatra-partial', '~>1.0.1'
    gem 'sprockets', '~>3.7.1'
    gem 'therubyracer', '~>0.12.3'
@@ -38,7 +38,7 @@ group :core do
 end
 
 group :persist do
-   gem 'mysql2', '~>0.4.10'
+   gem 'mysql2', '~>0.5.2'
 
    gem 'rom', '~>4.2.1'
    gem 'rom-mapper', '~>1.2.1'
@@ -46,25 +46,25 @@ group :persist do
 end
 
 group :development do
-   gem 'rubocop', '~>0.63.1', require: false
-   gem 'ruby-prof'
+   gem 'rubocop', '~>0.74', require: false
+   gem 'ruby-prof', '~>1.0.0'
 
-   gem 'dotenv', '~>2.6.0'
+   gem 'dotenv', '~>2.7.5'
 end
 
 group :test do
    gem 'cucumber', '~>3.1.2'
    gem 'rspec', '~>3.8'
 
-   gem 'database_cleaner'
-   gem 'fakefs', '~>0.18'
+   gem 'database_cleaner', '~>1.7'
+   gem 'fakefs', '~>0.20'
 
    gem 'capybara', '~>2.17.0'
    gem 'capybara-webkit', '~>1.15'
-   gem 'launchy'
+   # gem 'launchy'
 
-   gem 'parallel_tests', '~>2.28.0'
-   gem 'simplecov'
+   # gem 'parallel_tests', '~>2.29'
+   gem 'simplecov', '~>0.17'
 
-   gem 'timecop'
+   gem 'timecop', '~>0.9'
 end
