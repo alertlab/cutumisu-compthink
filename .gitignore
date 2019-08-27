@@ -30,3 +30,5 @@ faces/web/tmp/restart.txt
 # old python implementation files
 python/venv/
 *.pyc
+
+.screenshots

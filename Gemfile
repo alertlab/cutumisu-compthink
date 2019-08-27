@@ -53,15 +53,17 @@ group :development do
 end
 
 group :test do
-   gem 'cucumber', '~>3.1.2'
+   gem 'cucumber', '~>3.1'
    gem 'rspec', '~>3.8'
 
    gem 'database_cleaner', '~>1.7'
    gem 'fakefs', '~>0.20'
 
-   gem 'capybara', '~>2.17.0'
+   gem 'capybara', '~>3.28'
    gem 'capybara-webkit', '~>1.15'
    # gem 'launchy'
+
+   gem 'puma', '~>4.1'
 
    # gem 'parallel_tests', '~>2.29'
    gem 'simplecov', '~>0.17'

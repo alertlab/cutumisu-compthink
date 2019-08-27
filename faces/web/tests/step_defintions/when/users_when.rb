@@ -47,7 +47,10 @@ When('{string} updates user {string} with:') do |admin_name, user_name, table|
       fill_in :password, with: row[:password] if row[:password]
 
       extract_list(row.delete(:roles)).each do |role_name|
-         check(role_name.downcase)
+         page.find(:label, role_name.strip.downcase).click
+
+         # TODO: for some reason it can't find the label even though Capybara.automatic_label_click is enabled in env.rb
+         # check(role_name.strip.downcase)
       end
 
       click_button('Save')
@@ -112,8 +115,13 @@ When('{string} searches for users with:') do |user_name, table|
 
       select(row[:group], from: :group) if row[:group]
 
-      (row[:role] || row[:roles] || '').split(',').each do |role_name|
-         check(role_name.strip.downcase)
+      within('.roles') do
+         (row[:role] || row[:roles] || '').split(',').each do |role_name|
+            page.find(:label, role_name.strip.downcase).click
+
+            # TODO: for some reason it can't find the label even though Capybara.automatic_label_click is enabled in env.rb
+            # check(role_name.strip.downcase)
+         end
       end
    end
 
