@@ -8,9 +8,9 @@ Then('{string} {should} see {string}') do |user_name, should, msg|
    step(%["#{ user_name }" is signed in])
 
    if should
-      expect(page).to have_content(/#{ msg }/i)
+      expect(page).to have_content(/#{ msg }/i, normalize_ws: true)
    else
-      expect(page).to_not have_content(/#{ msg }/i)
+      expect(page).to_not have_content(/#{ msg }/i, normalize_ws: true)
    end
 end
 
@@ -55,6 +55,6 @@ Then('{string} should be on pagination page {int}') do |user_name, n|
    step(%["#{ user_name }" is signed in])
 
    within('paginator .current') do
-      expect(page).to have_content(n)
+      expect(page).to have_content(n, normalize_ws: true)
    end
 end
