@@ -60,7 +60,9 @@ group :test do
    gem 'fakefs', '~>0.20'
 
    gem 'capybara', '~>3.28'
-   gem 'capybara-webkit', '~>1.15'
+   # TODO: remove this HEAD reference once capybara-webkit is fully compliant with capybara 3,
+   # TODO: see: https://github.com/thoughtbot/capybara-webkit/issues/1065
+   gem 'capybara-webkit', '~>1.15', git: 'https://github.com/thoughtbot/capybara-webkit.git'
    # gem 'launchy'
 
    gem 'puma', '~>4.1'
