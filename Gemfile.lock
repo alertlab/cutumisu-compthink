@@ -109,7 +109,7 @@ GEM
     public_suffix (3.1.1)
     puma (4.1.0)
       nio4r (~> 2.0)
-    rack (2.0.7)
+    rack (2.0.8)
     rack-accept (0.4.5)
       rack (>= 0.4)
     rack-parser (0.7.0)
@@ -256,7 +256,7 @@ DEPENDENCIES
   fakefs (~> 0.20)
   mysql2 (~> 0.5.2)
   puma (~> 4.1)
-  rack (~> 2.0.4)
+  rack (~> 2.0.8)
   rack-parser (~> 0.7.0)
   rack-protection (~> 2.0.7)
   rake
