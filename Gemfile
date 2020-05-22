@@ -65,7 +65,7 @@ group :test do
    gem 'capybara-webkit', '~>1.15', git: 'https://github.com/thoughtbot/capybara-webkit.git'
    # gem 'launchy'
 
-   gem 'puma', '~>4.1'
+   gem 'puma', '~>4.3'
 
    # gem 'parallel_tests', '~>2.29'
    gem 'simplecov', '~>0.17'
