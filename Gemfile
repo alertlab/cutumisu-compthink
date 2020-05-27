@@ -38,7 +38,10 @@ group :core do
 end
 
 group :persist do
-   gem 'mysql2', '~>0.5.2'
+   # used in testing and seeding
+   gem 'database_cleaner', '~>1.8'
+
+   gem 'mysql2', '~>0.5.3'
 
    gem 'rom', '~>4.2.1'
    gem 'rom-mapper', '~>1.2.1'
@@ -46,8 +49,8 @@ group :persist do
 end
 
 group :development do
-   gem 'rubocop', '~>0.74', require: false
-   gem 'ruby-prof', '~>1.0.0'
+   gem 'rubocop', '~>0.84', require: false
+   gem 'ruby-prof', '~>1.4'
 
    #gem 'dotenv', '~>2.7.5'
 end
@@ -56,7 +59,6 @@ group :test do
    gem 'cucumber', '~>3.1'
    gem 'rspec', '~>3.8'
 
-   gem 'database_cleaner', '~>1.7'
    gem 'fakefs', '~>0.20'
 
    gem 'capybara', '~>3.28'
@@ -68,7 +70,7 @@ group :test do
    gem 'puma', '~>4.3'
 
    # gem 'parallel_tests', '~>2.29'
-   gem 'simplecov', '~>0.17'
+   gem 'simplecov', '~>0.18'
 
    gem 'timecop', '~>0.9'
 end
