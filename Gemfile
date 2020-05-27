@@ -11,13 +11,13 @@ group :face_web do
 
    gem 'rack', '~>2.2.2'
    gem 'rack-parser', '~>0.7.0', require: 'rack/parser'
-   gem 'rack-protection', '~>2.0.7' # to prevent cross-site scripting and other attacks
+   gem 'rack-protection', '~>2.0.8' # to prevent cross-site scripting and other attacks
 
    gem 'sass', '~>3.7.3', require: 'sass'
-   gem 'sinatra', '~>2.0.7'
+   gem 'sinatra', '~>2.0.8'
    gem 'sinatra-asset-pipeline', '~>2.2.0'
    gem 'sinatra-bouncer', '~>1.2'
-   gem 'sinatra-contrib', '~>2.0.7'
+   gem 'sinatra-contrib', '~>2.0.8'
    gem 'sinatra-partial', '~>1.0.1'
    gem 'sprockets', '~>3.7.1'
    gem 'therubyracer', '~>0.12.3'
