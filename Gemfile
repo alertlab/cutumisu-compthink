@@ -49,7 +49,7 @@ group :development do
    gem 'rubocop', '~>0.74', require: false
    gem 'ruby-prof', '~>1.0.0'
 
-   gem 'dotenv', '~>2.7.5'
+   #gem 'dotenv', '~>2.7.5'
 end
 
 group :test do
