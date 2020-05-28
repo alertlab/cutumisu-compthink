@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rake'
+gem 'rake', '~>12.3'
 
 group :face_web do
    gem 'bcrypt', '~>3.1.13'
