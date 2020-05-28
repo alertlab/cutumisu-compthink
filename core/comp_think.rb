@@ -7,7 +7,6 @@ require 'active_support/core_ext'
 
 require 'erb'
 require 'tilt'
-require 'nokogiri'
 
 require 'rom/struct' # TODO: remove dependency on persistenece
 require 'core/envelope'
