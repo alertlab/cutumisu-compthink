@@ -48,7 +48,7 @@ bounce_with do
                           value: ['You must log in to view that page'].to_json,
                           path:  '/')
 
-      redirect URI.parse("/?uri=#{ URI.encode(request.fullpath, '?=') }").to_s
+      redirect URI.parse("/?uri=#{ Addressable::URI.escape(request.fullpath) }").to_s
    else
       halt 403, 'You are not permitted to do that.'
    end
@@ -78,7 +78,7 @@ end
 
 post '/auth/sign_in/?' do
    env['warden'].authenticate!
-   response.set_cookie('compthink.flash-notices', URI.escape(env['warden'].message || '').to_json)
+   response.set_cookie('compthink.flash-notices', Addressable::URI::escape(env['warden'].message || '').to_json)
 
    homepage = current_user.has_role?(:admin) ? '/admin/people' : '/games'
 

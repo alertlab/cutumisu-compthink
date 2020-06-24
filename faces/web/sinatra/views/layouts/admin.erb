@@ -22,7 +22,7 @@
          eyeGrey: '<%= image_path('images/eye-grey.svg') %>'
       };
 
-      window.appData.roles = '<%= URI.escape(settings.container.persisters[:user].roles.to_a.collect do |r|
+      window.appData.roles = '<%= Addressable::URI::escape(settings.container.persisters[:user].roles.to_a.collect do |r|
          r.name.downcase
       end.to_s) %>';
    </script>

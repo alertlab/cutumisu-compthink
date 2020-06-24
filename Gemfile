@@ -5,11 +5,13 @@ source 'https://rubygems.org'
 gem 'rake', '~>12.3'
 
 group :face_web do
+   gem 'addressable', '~>2.7.0'
+
    gem 'bcrypt', '~>3.1.13'
    gem 'erubis', '~>2.7.0' # To be able to render ERB
    gem 'tilt', '~>2.0'
 
-   gem 'rack', '~>2.2.2'
+   gem 'rack', '~>2.2.3'
    gem 'rack-parser', '~>0.7.0', require: 'rack/parser'
    gem 'rack-protection', '~>2.0.8' # to prevent cross-site scripting and other attacks
 
@@ -59,9 +61,9 @@ group :test do
    gem 'cucumber', '~>3.1'
    gem 'rspec', '~>3.8'
 
-   gem 'fakefs', '~>0.20'
+   gem 'fakefs', '~>1.2'
 
-   gem 'capybara', '~>3.28'
+   gem 'capybara', '~>3.33'
    # TODO: remove this HEAD reference once capybara-webkit is fully compliant with capybara 3,
    # TODO: see: https://github.com/thoughtbot/capybara-webkit/issues/1065
    gem 'capybara-webkit', '~>1.15', git: 'https://github.com/thoughtbot/capybara-webkit.git'
