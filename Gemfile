@@ -23,7 +23,7 @@ group :face_web do
    gem 'sinatra-partial', '~>1.0.1'
    gem 'sprockets', '~>3.7.1'
    gem 'therubyracer', '~>0.12.3'
-   gem 'uglifier', '~>4.1.20'
+   gem 'uglifier', '~>4.2'
    gem 'warden', '~>1.2.8'
 
    gem 'turnout', '~>2.5'
@@ -51,7 +51,7 @@ group :persist do
 end
 
 group :development do
-   gem 'rubocop', '~>0.86', require: false
+   gem 'rubocop', '~>0.87', require: false
    gem 'ruby-prof', '~>1.4'
 
    #gem 'dotenv', '~>2.7.5'
@@ -67,7 +67,7 @@ group :test do
 
    gem 'puma', '~>4.3'
 
-   gem 'rspec', '~>3.8'
+   gem 'rspec', '~>3.9'
    # gem 'parallel_tests', '~>2.29'
    gem 'simplecov', '~>0.18'
 
