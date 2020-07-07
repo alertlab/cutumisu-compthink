@@ -50,6 +50,14 @@ Then('{string} should see they have not completed {puzzle}') do |admin_name, puz
    end
 end
 
+Then('{string} should see group {string} is {string}') do |user_name, field_name,msg|
+   step(%["#{ user_name }" is signed in])
+
+   within('.group .basic-info') do
+      expect(find_field(field_name).value).to eq(msg)
+   end
+end
+
 # ============= Pagination ===============
 Then('{string} should be on pagination page {int}') do |user_name, n|
    step(%["#{ user_name }" is signed in])

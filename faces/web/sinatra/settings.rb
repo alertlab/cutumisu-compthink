@@ -9,6 +9,7 @@ require_relative 'warden_config'
 
 require 'sass'
 require 'uglifier'
+require 'addressable'
 
 require 'sinatra/asset_pipeline'
 require 'sinatra'

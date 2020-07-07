@@ -9,10 +9,13 @@ Then('lever {lever} {should} be flipped') do |lever, should|
 end
 
 Then('there should be {int} disc(s) on {peg}') do |n, peg_name|
+   # for some reason this needs to be wrapped in a JS function or else headless chrome complains
    peg_discs = page.evaluate_script(%[
+                     function() {
                         var vm = #{ game_vm_js };
                         var peg = vm.pegs.find(function(p){return p.name === "#{ peg_name }"});
-                        vm.getDiscs(peg).length;
+                        return vm.getDiscs(peg).length;
+                     }();
                        ])
 
    expect(peg_discs).to eq(n)

@@ -17,13 +17,10 @@ Feature: Researcher Exports Data
          | Allan Daniels | allan@example.com    |
          | Test user     | test.001@example.com |
       When "Kelly" exports users as CSV
-      Then "Kelly" should get a file with 4 lines
-      And "Kelly" should see "Allan"
-      And "Kelly" should see "Daniels"
-      And "Kelly" should see "allan@example.com"
-      And "Kelly" should see "Test"
-      And "Kelly" should see "user"
-      And "Kelly" should see "test.001@example.com"
+      Then "Kelly" should get a CSV file "users.csv" with this data:
+         | first name | last name | email                |
+         | Allan      | Daniels   | allan@example.com    |
+         | Test       | user      | test.001@example.com |
    
    Scenario: it should export click data as a CSV
       Given the following clicks:
@@ -32,9 +29,10 @@ Feature: Researcher Exports Data
          | lever  | B      | Jan 1 2018 12:00:01 | 2           | Yes      |
          | hanoi  | A      | Jan 2 2018 12:00:00 | 1           | No       |
       When "Kelly" exports clicks as CSV
-      Then "Kelly" should get a file with 4 lines
-      And "Kelly" should see "lever"
-      And "Kelly" should see "hanoi"
+      Then "Kelly" should get a CSV file "clicks.csv" with this data:
+         | game  |
+         | lever |
+         | hanoi |
       
    
    

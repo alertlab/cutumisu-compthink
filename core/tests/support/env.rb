@@ -15,6 +15,7 @@ require 'fakefs/safe'
 require 'ostruct'
 
 # require_relative './transformations'
+require_relative './hooks'
 require_relative './helpers'
 require_relative './mocks'
 
@@ -24,15 +25,6 @@ include CompThink::Interactor
 persistence_env = CompThink.build_persistence_environment
 persisters      = CompThink.build_persisters(persistence_env)
 
-Before('@fakefs') do
-   begin
-      FakeFS.activate!
-      FakeFS::FileSystem.clear
-   rescue StandardError => e
-      Kernel.abort(([e.message] + e.backtrace).join("\n"))
-   end
-end
-
 Before do
    begin
       @container = OpenStruct.new
@@ -40,9 +32,7 @@ Before do
       @container.persistence_env = persistence_env
       @container.persisters      = @persisters = persisters
 
-      @seeder = Garden.build_seeder(persistence_env, @persisters)
-
-      @seeder.replant
+      Garden.build_seeder(persistence_env, @persisters).replant
    rescue StandardError => e
       Kernel.abort(([e.message] + e.backtrace).join("\n"))
    end
@@ -52,5 +42,4 @@ World(HelperMethods)
 
 After do
    Timecop.return
-   FakeFS.deactivate!
 end

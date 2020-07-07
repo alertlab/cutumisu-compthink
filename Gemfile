@@ -58,21 +58,20 @@ group :development do
 end
 
 group :test do
+   gem 'capybara', '~>3.33'
+   gem 'capybara-selenium', '~> 0.0.6'
+
    gem 'cucumber', '~>3.1'
-   gem 'rspec', '~>3.8'
 
    gem 'fakefs', '~>1.2'
 
-   gem 'capybara', '~>3.33'
-   # TODO: remove this HEAD reference once capybara-webkit is fully compliant with capybara 3,
-   # TODO: see: https://github.com/thoughtbot/capybara-webkit/issues/1065
-   gem 'capybara-webkit', '~>1.15', git: 'https://github.com/thoughtbot/capybara-webkit.git'
-   # gem 'launchy'
-
    gem 'puma', '~>4.3'
 
+   gem 'rspec', '~>3.8'
    # gem 'parallel_tests', '~>2.29'
    gem 'simplecov', '~>0.18'
 
    gem 'timecop', '~>0.9'
+
+   gem 'webdrivers', '~> 4.4'
 end

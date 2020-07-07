@@ -44,10 +44,8 @@ Feature: Researcher Updates Group
       And "Kelly" updates group "Group A" with:
          | Name    |
          | NewName |
-      Then there should be 1 group
-      And there should be a group with:
-         | Name    |
-         | NewName |
+      And "Kelly" navigates to group editor for "NewName"
+      Then "Kelly" should see group "Name" is "NewName"
    
    Scenario: it should update their start and end dates
       Given the following group:
@@ -55,12 +53,11 @@ Feature: Researcher Updates Group
          | Group A | Jan 1      | Feb 1    |
       When "Kelly" navigates to group editor for "Group A"
       And "Kelly" updates group "Group A" with:
-         | start date | end date |
-         | Jan 15     | Feb 15   |
-      Then there should be 1 group
-      And there should be a group with:
-         | start date | end date |
-         | Jan 15     | Feb 15   |
+         | start date  | end date    |
+         | Jan 15 2001 | Feb 15 2001 |
+      And "Kelly" navigates to group editor for "Group A"
+      Then "Kelly" should see group "Start Date" is "Mon Jan 15 2001"
+      And "Kelly" should see group "End Date" is "Thu Feb 15 2001"
    
    Scenario Outline: it should update open participation matching rules
       Given the following group:

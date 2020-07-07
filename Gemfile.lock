@@ -1,11 +1,3 @@
-GIT
-  remote: https://github.com/thoughtbot/capybara-webkit.git
-  revision: 77fdac424cd6fdb5aa266b229a888cc58da8e95e
-  specs:
-    capybara-webkit (1.15.1)
-      capybara (>= 2.3, < 4.0)
-      json
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -28,6 +20,10 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
+    capybara-selenium (0.0.6)
+      capybara
+      selenium-webdriver
+    childprocess (3.0.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -89,7 +85,6 @@ GEM
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     inflecto (0.0.2)
-    json (2.3.0)
     libv8 (3.16.14.19)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
@@ -185,11 +180,15 @@ GEM
     ruby-prof (1.4.1)
     ruby-progressbar (1.10.1)
     ruby2_keywords (0.0.2)
+    rubyzip (2.3.0)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
+    selenium-webdriver (3.142.7)
+      childprocess (>= 0.5, < 4.0)
+      rubyzip (>= 1.2.2)
     sequel (5.23.0)
     simplecov (0.18.5)
       docile (~> 1.1)
@@ -242,6 +241,10 @@ GEM
     unicode-display_width (1.7.0)
     warden (1.2.8)
       rack (>= 2.0.6)
+    webdrivers (4.4.1)
+      nokogiri (~> 1.6)
+      rubyzip (>= 1.3.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -253,7 +256,7 @@ DEPENDENCIES
   addressable (~> 2.7.0)
   bcrypt (~> 3.1.13)
   capybara (~> 3.33)
-  capybara-webkit (~> 1.15)!
+  capybara-selenium (~> 0.0.6)
   cucumber (~> 3.1)
   database_cleaner (~> 1.8)
   erubis (~> 2.7.0)
@@ -284,6 +287,7 @@ DEPENDENCIES
   turnout (~> 2.5)
   uglifier (~> 4.1.20)
   warden (~> 1.2.8)
+  webdrivers (~> 4.4)
 
 BUNDLED WITH
    1.17.2

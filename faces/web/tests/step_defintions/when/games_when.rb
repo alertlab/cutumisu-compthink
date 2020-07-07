@@ -37,7 +37,7 @@ When('{string} flips levers {string}') do |user_name, lever_list|
       # firing this handler directly because trying to invoke a click event (ie. MouseEvent with 'onpointerdown')
       # worked in browser, but not in testing.
       page.evaluate_script(%[#{ game_vm_js }.buttonClick(#{ game_vm_js }.buttonGroup.getByName("#{ lever_name }"));])
-      sleep 0.25
+      sleep 0.1
       wait_for_ajax
    end
 
@@ -75,8 +75,10 @@ end
 
 When('{string} clicks peg {peg}') do |_user_name, peg_name|
    page.evaluate_script(%[
+                  function() {
                         var peg = #{ game_vm_js }.pegs.find(function(p){return p.name === "#{ peg_name }"});
                         #{ game_vm_js }.pegClick(peg);
+                  }();
                        ])
 
    # sleep 1

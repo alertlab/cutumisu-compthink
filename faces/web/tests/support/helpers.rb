@@ -33,7 +33,7 @@ module HelperMethods
 
    def wait_for_ajax(timeout = nil)
       Timeout.timeout(timeout || Capybara.default_max_wait_time) do
-         sleep 0.05
+         # sleep 0.05
 
          begin
             loop until page.evaluate_script('window.__bindingsDone__ && !window.ajaxCount')
@@ -50,17 +50,19 @@ module HelperMethods
          loop until (page.evaluate_script("#{ game_vm_js }.game.isBooted") || false)
       end
 
-      sleep 0.35
+      sleep 0.1
    end
 
    def format_phone(phone)
       "1-#{ phone[0, 3] }-#{ phone[3, 3] }-#{ phone[6, 4] }"
    end
 
+   # selects an option from the complex search-select widget
    def search_select(field_name, value)
       fill_in(field_name, with: value)
       wait_for_ajax
-      find('search-select .results-section div:first-of-type', visible: false).trigger('click')
+      option_div = find('search-select .results-section div:first-of-type')
+      option_div.click
    end
 
    def game_vm_js
