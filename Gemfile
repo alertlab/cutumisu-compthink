@@ -60,7 +60,7 @@ group :test do
    gem 'capybara', '~>3.33'
    gem 'capybara-selenium', '~> 0.0.6'
 
-   gem 'cucumber', '~>3.1'
+   gem 'cucumber', '~>3.2'
 
    gem 'fakefs', '~>1.2'
 
