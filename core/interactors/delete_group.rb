@@ -10,7 +10,7 @@ module CompThink
 
             group = persister.delete(id)
 
-            {messages: ["Group #{ group[:name] } deleted"]}
+            {messages: ["Group #{ group.name } deleted"]}
          end
       end
    end

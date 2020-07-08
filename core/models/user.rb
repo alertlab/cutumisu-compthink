@@ -9,6 +9,8 @@ module CompThink
          attr_accessor :last_name
 
          attr_accessor :email
+         attr_reader :creation_time
+         attr_reader :roles
 
          def initialize(id: nil,
                         first_name: '',

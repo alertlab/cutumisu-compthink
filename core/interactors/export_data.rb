@@ -22,9 +22,16 @@ module CompThink
 
             CSV.generate(headers:       headers,
                          write_headers: true) do |csv|
-               data.each do |row|
-                  # csv << row.to_h.values
-                  csv << row.to_h.fetch_values(*headers.collect(&:to_sym))
+               data.each do |datum|
+                  # TODO: had to replace because ROM was throwing a nil pointer
+                  #csv << row.to_h.fetch_values(*headers.collect(&:to_sym))
+
+                  row_hash = headers.inject({}) do |row_hash, header|
+                     row_hash[header] = datum.send(header.to_sym)
+                     row_hash
+                  end
+
+                  csv << row_hash
                end
             end
          end

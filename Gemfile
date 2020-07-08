@@ -45,9 +45,8 @@ group :persist do
 
    gem 'mysql2', '~>0.5.3'
 
-   gem 'rom', '~>4.2.1'
-   gem 'rom-mapper', '~>1.2.1'
-   gem 'rom-sql', '~>2.5.0'
+   gem 'rom', '~>5.2'
+   gem 'rom-sql', '~>3.2'
 end
 
 group :development do

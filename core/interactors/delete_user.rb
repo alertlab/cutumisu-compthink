@@ -10,7 +10,7 @@ module CompThink
 
             user = user_persister.delete(id)
 
-            {messages: ["#{ user[:first_name] } #{ user[:last_name] } deleted"]}
+            {messages: ["#{ user.first_name } #{ user.last_name } deleted"]}
          end
       end
    end

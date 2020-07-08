@@ -112,15 +112,15 @@ end
 include CompThink::Interactor
 
 post '/admin/search_users' do
-   SearchUsers.run(settings.container, app_params.deep_symbolize_keys).to_json
+   SearchUsers.run(settings.container, **app_params.deep_symbolize_keys).to_json
 end
 
 post '/admin/create_user' do
-   CreateUser.run(settings.container, app_params.deep_symbolize_keys).to_json
+   CreateUser.run(settings.container, **app_params.deep_symbolize_keys).to_json
 end
 
 post '/admin/update_user' do
-   result = UpdateUser.run(settings.container, app_params.deep_symbolize_keys)
+   result = UpdateUser.run(settings.container, **app_params.deep_symbolize_keys)
 
    result[:redirect] = '/admin/people'
 
@@ -128,7 +128,7 @@ post '/admin/update_user' do
 end
 
 post '/admin/delete_user' do
-   result = DeleteUser.run(settings.container, app_params.deep_symbolize_keys)
+   result = DeleteUser.run(settings.container, **app_params.deep_symbolize_keys)
 
    result[:redirect] = '/admin/people'
 
@@ -136,19 +136,19 @@ post '/admin/delete_user' do
 end
 
 post '/games/logging/record_click' do
-   RecordClick.run(settings.container, app_params.deep_symbolize_keys.merge(user: current_user)).to_json
+   RecordClick.run(settings.container, **app_params.deep_symbolize_keys.merge(user: current_user)).to_json
 end
 
 post '/admin/reset_clicks' do
-   ResetClicks.run(settings.container, app_params.deep_symbolize_keys).to_json
+   ResetClicks.run(settings.container, **app_params.deep_symbolize_keys).to_json
 end
 
 post '/admin/search_groups' do
-   SearchGroups.run(settings.container, app_params.deep_symbolize_keys).to_json
+   SearchGroups.run(settings.container, **app_params.deep_symbolize_keys).to_json
 end
 
 post '/admin/save_group' do
-   result = SaveGroup.run(settings.container, app_params.deep_symbolize_keys)
+   result = SaveGroup.run(settings.container, **app_params.deep_symbolize_keys)
 
    result[:redirect] = '/admin/groups'
 
@@ -156,7 +156,7 @@ post '/admin/save_group' do
 end
 
 post '/admin/delete_group' do
-   result = DeleteGroup.run(settings.container, app_params.deep_symbolize_keys)
+   result = DeleteGroup.run(settings.container, **app_params.deep_symbolize_keys)
 
    result[:redirect] = '/admin/groups'
 
@@ -170,7 +170,7 @@ get '/admin/export_data' do
    # response.headers['Content-Type']        = 'text/csv'
    # response.headers['Content-Disposition'] = %[attachment; filename="#{app_params['type']}.csv"]
 
-   ExportData.run(settings.container, app_params.deep_symbolize_keys)
+   ExportData.run(settings.container, **app_params.deep_symbolize_keys)
 end
 
 #--------------------------#

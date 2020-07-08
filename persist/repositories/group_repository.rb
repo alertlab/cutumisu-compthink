@@ -7,7 +7,7 @@ module CompThink
       struct_namespace CompThink::Model
 
       def find_all(attrs)
-         aggregate(:users)
+         groups.combine(:users)
                .where(attrs).to_a
       end
 
@@ -73,7 +73,7 @@ module CompThink
       end
 
       def groups_matching(attrs, count:, offset:, sort_by:, sort_direction:)
-         results = aggregate(:users)
+         results = groups.combine(:users)
 
          unless attrs.nil?
             if attrs[:id]
