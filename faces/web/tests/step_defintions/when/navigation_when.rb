@@ -58,7 +58,7 @@ end
 
 When('{string} views the pagination page {int}') do |user_name, n|
    within('paginator .numbers') do
-      click_link(n)
+      click_link(n.to_s)
    end
 
    wait_for_ajax
