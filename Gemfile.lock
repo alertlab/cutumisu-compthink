@@ -118,7 +118,7 @@ GEM
       ffi (~> 1.0)
     ref (2.0.0)
     regexp_parser (1.7.1)
-    rexml (3.2.4)
+    rexml (3.2.5)
     rom (5.2.4)
       rom-changeset (~> 5.2, >= 5.2.3)
       rom-core (~> 5.2, >= 5.2.3)
