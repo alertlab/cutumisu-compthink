@@ -13,13 +13,13 @@ group :face_web do
 
    gem 'rack', '~>2.2.3'
    gem 'rack-parser', '~>0.7.0', require: 'rack/parser'
-   gem 'rack-protection', '~>2.0.8' # to prevent cross-site scripting and other attacks
+   gem 'rack-protection', '~>2.1.0' # to prevent cross-site scripting and other attacks
 
    gem 'sass', '~>3.7.3', require: 'sass'
-   gem 'sinatra', '~>2.0.8'
-   gem 'sinatra-asset-pipeline', '~>2.2.0'
+   gem 'sinatra', '~>2.1.0'
+   gem 'sinatra-asset-pipeline', '~>2.2.1'
    gem 'sinatra-bouncer', '~>1.2'
-   gem 'sinatra-contrib', '~>2.0.8'
+   gem 'sinatra-contrib', '~>2.1.0'
    gem 'sinatra-partial', '~>1.0.1'
    gem 'sprockets', '~>3.7.1'
    gem 'therubyracer', '~>0.12.3'
@@ -35,7 +35,7 @@ end
 # end
 
 group :core do
-   gem 'activesupport', '~>5.2' # Gross
+   gem 'activesupport', '~>6.1' # Gross
    # gem 'procrastinator', '~>0.6.1'
 end
 
@@ -46,11 +46,11 @@ group :persist do
    gem 'mysql2', '~>0.5.3'
 
    gem 'rom', '~>5.2'
-   gem 'rom-sql', '~>3.2'
+   gem 'rom-sql', '~>3.5'
 end
 
 group :development do
-   gem 'rubocop', '~>0.87', require: false
+   gem 'rubocop', '~>1.14', require: false
    gem 'ruby-prof', '~>1.4'
 
    #gem 'dotenv', '~>2.7.5'
@@ -60,11 +60,11 @@ group :test do
    gem 'capybara', '~>3.33'
    gem 'capybara-selenium', '~> 0.0.6'
 
-   gem 'cucumber', '~>3.2'
+   gem 'cucumber', '~>6.0'
 
-   gem 'fakefs', '~>1.2'
+   gem 'fakefs', '~>1.3'
 
-   gem 'puma', '~>4.3'
+   gem 'puma', '~>5.2'
 
    gem 'rspec', '~>3.9'
    # gem 'parallel_tests', '~>2.29'
