@@ -32,3 +32,6 @@ python/venv/
 *.pyc
 
 .screenshots
+
+# installed gems
+vendor/
