@@ -64,7 +64,7 @@ group :test do
 
    gem 'fakefs', '~>1.3'
 
-   gem 'puma', '~>5.2'
+   gem 'puma', '~>5.3'
 
    gem 'rspec', '~>3.9'
    # gem 'parallel_tests', '~>2.29'
