@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'rake', '~>12.3'
 
 group :face_web do
-   gem 'addressable', '~>2.7.0'
+   gem 'addressable', '~>2.8.0'
 
    gem 'bcrypt', '~>3.1.13'
    gem 'erubis', '~>2.7.0' # To be able to render ERB
