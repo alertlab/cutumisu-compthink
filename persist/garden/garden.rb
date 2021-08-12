@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'database_cleaner'
+require 'database_cleaner/sequel'
 require_relative './seed_bag'
 
 module Garden
@@ -33,7 +33,7 @@ module Garden
          #    persister.clear
          # end
 
-         DatabaseCleaner[:sequel, {connection: @persist_env.gateways[:default].connection}]
+         DatabaseCleaner[:sequel].db = @persist_env.gateways[:default].connection
 
          DatabaseCleaner.strategy = :deletion
 

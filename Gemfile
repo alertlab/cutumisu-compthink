@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 gem 'rake', '~>12.3'
 
 group :face_web do
-   gem 'addressable', '~>2.7.0'
+   gem 'addressable', '~>2.8'
 
    gem 'bcrypt', '~>3.1.13'
    gem 'erubis', '~>2.7.0' # To be able to render ERB
@@ -41,7 +41,7 @@ end
 
 group :persist do
    # used in testing and seeding
-   gem 'database_cleaner', '~>1.8'
+   gem 'database_cleaner-sequel', '~>2.0'
 
    gem 'mysql2', '~>0.5.3'
 
@@ -50,7 +50,7 @@ group :persist do
 end
 
 group :development do
-   gem 'rubocop', '~>1.14', require: false
+   gem 'rubocop', '~>1.19', require: false
    gem 'ruby-prof', '~>1.4'
 
    #gem 'dotenv', '~>2.7.5'
@@ -60,11 +60,11 @@ group :test do
    gem 'capybara', '~>3.33'
    gem 'capybara-selenium', '~> 0.0.6'
 
-   gem 'cucumber', '~>6.0'
+   gem 'cucumber', '~>7.0'
 
    gem 'fakefs', '~>1.3'
 
-   gem 'puma', '~>5.2'
+   gem 'puma', '~>5.4'
 
    gem 'rspec', '~>3.9'
    # gem 'parallel_tests', '~>2.29'
