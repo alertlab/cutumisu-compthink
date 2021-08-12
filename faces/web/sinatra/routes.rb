@@ -63,7 +63,7 @@ before do
       response.delete_cookie('compthink.user_data')
    end
 
-   settings.container.test_cookies.each do |key, value|
+   (settings.container.test_cookies||{}).each do |key, value|
       response.set_cookie("compthink.#{ key }",
                           path:  '/',
                           value: value)

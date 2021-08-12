@@ -10,7 +10,7 @@ Dir["#{ Pathname.new(__dir__) }/repositories/**/*.rb"].each { |file| require fil
 module CompThink
    def self.build_persistence_environment
       user = ENV['app_db_user']
-      pass = ENV['app_db_pass']
+      pass = ENV['app_db_password']
       host = ENV['app_db_host']
       db   = ENV['app_db_name']
 
