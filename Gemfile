@@ -50,21 +50,21 @@ group :persist do
 end
 
 group :development do
-   gem 'rubocop', '~>1.19', require: false
+   gem 'rubocop', '~>1.22', require: false
    gem 'ruby-prof', '~>1.4'
 
    #gem 'dotenv', '~>2.7.5'
 end
 
 group :test do
-   gem 'capybara', '~>3.33'
+   gem 'capybara', '~>3.36'
    gem 'capybara-selenium', '~> 0.0.6'
 
-   gem 'cucumber', '~>7.0'
+   gem 'cucumber', '~>7.1'
 
-   gem 'fakefs', '~>1.3'
+   gem 'fakefs', '~>1.4'
 
-   gem 'puma', '~>5.4'
+   gem 'puma', '~>5.5'
 
    gem 'rspec', '~>3.9'
    # gem 'parallel_tests', '~>2.29'
@@ -72,5 +72,5 @@ group :test do
 
    gem 'timecop', '~>0.9'
 
-   gem 'webdrivers', '~> 4.4'
+   gem 'webdrivers', '~> 5.0'
 end
