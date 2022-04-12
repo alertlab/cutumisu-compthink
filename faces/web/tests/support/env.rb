@@ -19,6 +19,8 @@ require 'core/tests/step_definitions/then/groups_then'
 require 'core/tests/step_definitions/then/games_then'
 require 'core/tests/step_definitions/then/message_then'
 
+require 'core/tests/support/shim'
+
 require 'core/comp_think'
 
 require 'capybara/cucumber'

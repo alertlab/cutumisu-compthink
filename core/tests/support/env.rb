@@ -18,6 +18,7 @@ require 'ostruct'
 require_relative './hooks'
 require_relative './helpers'
 require_relative './mocks'
+require_relative './shim'
 
 include CompThink
 include CompThink::Interactor
