@@ -15,6 +15,8 @@ group :face_web do
    gem 'rack-parser', '~>0.7.0', require: 'rack/parser'
    gem 'rack-protection', '~>2.2.0' # to prevent cross-site scripting and other attacks
 
+   # TODO: remove and update to most recent. When attempting to do so, it fails to find a js runtime.
+   gem 'execjs', '=2.7.0'
    gem 'sass', '~>3.7.3', require: 'sass'
    gem 'sinatra', '~>2.2.0'
    gem 'sinatra-asset-pipeline', '~>2.2.1'
@@ -50,27 +52,27 @@ group :persist do
 end
 
 group :development do
-   gem 'rubocop', '~>1.22', require: false
+   gem 'rubocop', '~>1.37', require: false
    gem 'ruby-prof', '~>1.4'
 
    #gem 'dotenv', '~>2.7.5'
 end
 
 group :test do
-   gem 'capybara', '~>3.36'
+   gem 'capybara', '~> 3.36'
    gem 'capybara-selenium', '~> 0.0.6'
 
-   gem 'cucumber', '~>8.0'
+   gem 'cucumber', '~> 8.0'
 
-   gem 'fakefs', '~>1.4'
+   gem 'fakefs', '~> 1.8'
 
-   gem 'puma', '~>5.5'
+   gem 'puma', '~> 5.6'
 
-   gem 'rspec', '~>3.9'
-   # gem 'parallel_tests', '~>2.29'
-   gem 'simplecov', '~>0.18'
+   gem 'rspec', '~> 3.9'
+   # gem 'parallel_tests', '~> 2.29'
+   gem 'simplecov', '~> 0.18'
 
-   gem 'timecop', '~>0.9'
+   gem 'timecop', '~> 0.9'
 
-   gem 'webdrivers', '~> 5.0'
+   gem 'webdrivers', '~> 5.2'
 end
