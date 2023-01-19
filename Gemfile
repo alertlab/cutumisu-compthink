@@ -11,7 +11,7 @@ group :face_web do
    gem 'erubis', '~>2.7.0' # To be able to render ERB
    gem 'tilt', '~>2.0'
 
-   gem 'rack', '~>2.2.3'
+   gem 'rack', '~>2.2.6'
    gem 'rack-parser', '~>0.7.0', require: 'rack/parser'
    gem 'rack-protection', '~>2.2.3' # to prevent cross-site scripting and other attacks
 
