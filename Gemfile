@@ -52,7 +52,7 @@ group :persist do
 end
 
 group :development do
-   gem 'rubocop', '~>1.40', require: false
+   gem 'rubocop', '~>1.48', require: false
    gem 'ruby-prof', '~>1.4'
 
    #gem 'dotenv', '~>2.7.5'
