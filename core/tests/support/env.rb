@@ -15,12 +15,11 @@ require 'fakefs/safe'
 require 'ostruct'
 
 # require_relative './transformations'
-require_relative './hooks'
-require_relative './helpers'
-require_relative './mocks'
-require_relative './shim'
+require_relative 'hooks'
+require_relative 'helpers'
+require_relative 'mocks'
 
 include CompThink
 include CompThink::Interactor
 
-World(HelperMethods)
+World HelperMethods
