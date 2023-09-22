@@ -3,17 +3,23 @@
 module CompThink
    module Interactor
       class CreateUser
-         def self.run(container, properties)
-            user_persister = container.persisters[:user]
+         include Command
 
+         def run(first_name:, last_name:, email: '', password: nil, groups: nil, roles: nil)
             # TODO: use proper validator gem
-            return {errors: ['First name cannot be blank']} if properties[:first_name].blank?
-            return {errors: ['Last name cannot be blank']} if properties[:last_name].blank?
-            if user_persister.find(email: properties[:email])
-               return {errors: ["Email #{ properties[:email] } is already used"]}
+            return {errors: ['First name cannot be blank']} if first_name.blank?
+            return {errors: ['Last name cannot be blank']} if last_name.blank?
+
+            if users_persister.find(email: email)
+               return {errors: ["Email #{ email } is already used"]}
             end
 
-            user = user_persister.create(properties)
+            user = Model::User.new(**users_persister.create(first_name: first_name,
+                                                            last_name:  last_name,
+                                                            email:      email,
+                                                            password:   password,
+                                                            groups:     groups,
+                                                            roles:      roles))
 
             {messages: ["#{ user.name } saved"]}
          end

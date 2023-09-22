@@ -3,7 +3,7 @@ ko.components.register('user-editor', {
                                    formClass: formClass,\
                                    onSave: save,\
                                    onDelete: deleteUser, \
-                                   canDelete: !isNewRecord(), \
+                                   deletable: !isNewRecord(), \
                                    deleteConfirm: deleteConfirm,\
                                    cancelHref: \'/admin/people\' ">\
                   <div class="personal">\
@@ -27,10 +27,10 @@ ko.components.register('user-editor', {
                         <div>\
                            <div class="groups">\
                               <header>Groups</header>\
+                              <span class="placeholder" data-bind="hidden: user.groups().length">- none -</span>\
                               <div data-bind="foreach: user.groups">\
                                  <a data-bind="href: $parent.groupLink(id), text: name"></a>\
                               </div>\
-                              <span class="placeholder" data-bind="visible: !user.groups().length">- none -</span>\
                            </div>\
                            <div class="completed">\
                               <header>Completed Puzzles</header>\
@@ -40,11 +40,10 @@ ko.components.register('user-editor', {
                                     <span data-bind="text: titlecase($data)"></span>\
                                  </label>\
                               </div>\
-                              <a href="#" class="reset-clicks" data-bind="click: showResetConfirm">Reset Clicks</a>\
-                              <confirm-dialog class="reset-clicks-confirm" params="visibility: showResetConfirm, \
-                                                                                   header: \'Reset Click Data\',\
-                                                                                   onConfirm: resetClicks, \
-                                                                                   confirm: \'Reset Permanently\'">\
+                              <button type="button" class="reset-clicks" data-bind="click: reset.visible.toggle">Reset Clicks</button>\
+                              <dialog-confirm class="reset-clicks-confirm" params="visible: reset.visible, \
+                                                                                   title: \'Reset Click Data\',\
+                                                                                   actions: reset.actions">\
                                  <p>\
                                     Are you sure you wish to delete <strong>all clicks</strong> for \
                                     <span data-bind="text: user.first_name"></span> <span data-bind="text: user.last_name"></span>?\
@@ -52,18 +51,15 @@ ko.components.register('user-editor', {
                                  <p>\
                                     <strong>This action cannot be undone.</strong>\
                                  </p>\
-                              </confirm-dialog>\
+                              </dialog-confirm>\
                            </div>\
                         </div>\
                      </fieldset>\
                   </div>\
-                  <header>Security</header>\
+                  <h3>Security</h3>\
                   <div class="security">\
                      <input-password-metered params="password: user.password"></input-password-metered>\
-                     <div class="roles">\
-                        <header>Roles</header>\
-                        <input-checklist params="values: allRoles, checkedItems: user.roles"></input-checklist>\
-                     </div>\
+                     <input-checklist params="name: \'Roles\', options: allRoles, checked: user.roles"></input-checklist>\
                   </div>\
                </basic-form>',
 
@@ -87,7 +83,20 @@ ko.components.register('user-editor', {
       self.allPuzzles = ['hanoi', 'levers'];
       self.allRoles = JSON.parse(decodeURIComponent(window.appData.roles));
 
-      self.showResetConfirm = ko.observable(false).toggleable();
+      self.reset = {
+         visible: ko.observable(false).toggleable(),
+         actions: {
+            'Cancel': false,
+            'Reset Permanently': function () {
+               TenjinComms.ajax('/admin/reset-clicks', {
+                  data: {user_id: self.user.id()},
+                  onSuccess: function (response) {
+                     self.getUser();
+                  }
+               });
+            }
+         }
+      }
 
       self.formClass = ko.pureComputed(function () {
          return 'user-editor-' + (self.isNewRecord() ? 'new' : self.user.id());
@@ -98,20 +107,12 @@ ko.components.register('user-editor', {
       });
 
       self.groupLink = function (id) {
-         return '/admin/edit_group?id=' + id
+         return '/admin/edit-group?id=' + id
       };
 
       self.isNewRecord = ko.pureComputed(function () {
          return !self.user.id();
       });
-
-      self.resetClicks = function () {
-         ajax('post', '/admin/reset_clicks', ko.toJSON({user_id: self.user.id}), function (response) {
-            window.flash('notice', response.messages);
-
-            self.getUser();
-         });
-      };
 
       self.getUser = function () {
          var data;
@@ -121,20 +122,24 @@ ko.components.register('user-editor', {
             filter: {id: self.user.id()}
          };
 
-         ajax('post', '/admin/search_users', ko.toJSON(data), function (response) {
-            var user = response.results[0] || {};
+         TenjinComms.ajax('/admin/search-users', {
+            data: data,
+            onSuccess: function (response) {
+               var user = response.results[0] || {};
 
-            // id is only defined on edit, not create
-            self.user.id(user.id);
+               // id is only defined on edit, not create
+               self.user.id(user.id);
 
-            self.user.first_name(user.first_name || '');
-            self.user.last_name(user.last_name || '');
-            self.user.email(user.email || '');
+               self.user.first_name(user.first_name || '');
+               self.user.last_name(user.last_name || '');
+               self.user.email(user.email || '');
 
-            self.user.roles(user.roles || []);
-            self.user.groups(user.groups || []);
+               self.user.roles(user.roles || []);
+               self.user.groups(user.groups || []);
 
-            self.user.puzzles_completed(user.puzzles_completed || []);
+
+               self.user.puzzles_completed(user.puzzles_completed || []);
+            }
          });
       };
 
@@ -142,18 +147,27 @@ ko.components.register('user-editor', {
          self.getUser();
 
       self.save = function () {
-         var uri = self.isNewRecord() ? '/admin/create_user' : '/admin/update_user';
+         var uri, ignore;
 
-         var payload = ko.mapping.toJS(self.user, {ignore: ['pets']});
+         ignore = ['puzzles_completed'];
 
-         ajax('post', uri, ko.mapping.toJSON(payload), function (response) {
-            window.flash('notice', response.messages);
+         if (self.isNewRecord()) {
+            uri = '/admin/create-user';
+            ignore.push('id');
+         } else {
+            uri = '/admin/update-user';
+         }
+
+         var payload = ko.mapping.toJS(self.user, {ignore: ignore});
+
+         TenjinComms.ajax(uri, {
+            data: payload
          });
       };
 
       self.deleteUser = function () {
-         ajax('post', '/admin/delete_user', ko.mapping.toJSON({id: self.user.id()}), function (response) {
-            window.flash('notice', response.messages);
+         TenjinComms.ajax('/admin/delete-user', {
+            data: {id: self.user.id()}
          });
       };
 

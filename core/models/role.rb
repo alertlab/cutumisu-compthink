@@ -2,7 +2,7 @@
 
 module CompThink
    module Model
-      class Role < ROM::Struct
+      class Role
          attr_reader :id
          attr_reader :name
 

@@ -6,11 +6,11 @@ module CompThink
          class Users < ROM::Relation[:sql]
             schema(:users, infer: true) do
                associations do
-                  has_one(:user_authentications)
+                  has_one :user_authentications
 
-                  many_to_many(:roles, through: :roles_users)
+                  many_to_many :roles, through: :roles_users
 
-                  many_to_many(:groups, through: :users_groups)
+                  many_to_many :groups, through: :users_groups
                end
             end
 

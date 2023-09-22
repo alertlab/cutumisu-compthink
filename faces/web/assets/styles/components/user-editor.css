@@ -1,0 +1,85 @@
+user-editor {
+   display: block;
+
+   position: relative;
+}
+
+user-editor label {
+   display: block;
+
+   margin-bottom: 0.75em;
+
+   min-width: 5em;
+}
+
+user-editor label span {
+   display: inline-block;
+
+   vertical-align: top;
+
+   min-width: 4em;
+
+   padding: 0.5em 0.5em 0.5em 0;
+}
+
+user-editor label:last-of-type {
+   margin-bottom: auto;
+}
+
+user-editor select {
+   padding: 0.5em;
+
+   vertical-align: baseline;
+}
+
+user-editor basic-form form .form-content .personal {
+   flex-direction: row;
+   justify-content: space-between;
+   gap: 1rem;
+}
+
+user-editor basic-form form .form-content .personal span {
+   min-width: 6em;
+}
+
+user-editor .participation,
+user-editor .contact-info {
+   flex-basis: 50%;
+}
+
+user-editor basic-form form .form-content .participation > div {
+   display: flex;
+
+   flex-direction: row;
+}
+
+user-editor basic-form form .form-content .participation > div {
+   gap: 1rem 3rem;
+}
+
+user-editor .participation .groups,
+user-editor .participation .completed {
+   gap: 0.5rem;
+}
+
+user-editor basic-form form .form-content .participation > div > div header {
+   font-weight: bold;
+}
+
+user-editor basic-form form .form-content .participation .reset-clicks-confirm {
+   text-align: center;
+}
+
+user-editor basic-form form .form-content .security {
+   display: flex;
+   flex-direction: row;
+   gap: 2rem;
+}
+
+user-editor basic-form form .form-content .security .roles header {
+   margin: 0.5em 0;
+}
+
+user-editor basic-form form .form-content .security .roles label span {
+   text-transform: capitalize;
+}

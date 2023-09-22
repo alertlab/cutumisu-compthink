@@ -1,0 +1,53 @@
+navigation-menu > ul {
+   display: flex;
+   flex-direction: row;
+
+   margin: 0 auto;
+
+   padding: 0;
+   gap: 0.25rem;
+
+   max-width: var(--main-column-width);
+}
+
+navigation-menu li {
+   display: flex;
+   list-style: none;
+   justify-content: center;
+   align-items: stretch;
+}
+
+navigation-menu .session {
+   margin-left: auto;
+}
+
+navigation-menu li :is(span, a) {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 0.5rem;
+}
+
+navigation-menu > ul li a {
+   background: var(--brand2);
+   color: var(--neutral2);
+}
+
+navigation-menu .current-page a {
+   box-shadow: 0 0 2px 0.1rem var(--brand3) inset;
+}
+
+navigation-menu > ul li > a:hover {
+   opacity: 0.8;
+   background: var(--brand2);
+   color: var(--neutral2);
+
+   transition: 0.2s all;
+}
+
+navigation-menu > ul li img {
+   max-height: 1em;
+
+   filter: invert(100%);
+   display: inline-block;
+}

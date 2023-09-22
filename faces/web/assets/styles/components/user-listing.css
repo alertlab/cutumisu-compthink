@@ -1,0 +1,121 @@
+user-listing {
+   display: flex;
+
+   position: relative;
+   gap: 2rem;
+}
+
+group-listing h2 {
+   margin-top: 0;
+}
+
+user-listing .user-summaries {
+   flex-grow: 1;
+
+   min-height: 20em;
+}
+
+user-listing .user-summaries .sort {
+   display: block;
+
+   margin-bottom: 1em;
+}
+
+user-listing .user-summaries .sort span {
+   min-width: auto;
+}
+
+user-listing .user-summaries .sort select {
+   vertical-align: middle;
+
+   padding: 0.25em;
+
+   background: none;
+}
+
+user-listing .user-summaries > div {
+   gap: 1rem;
+}
+
+user-listing user-summary {
+   display: block;
+
+   box-shadow: 0.2em 0.2em 0.25em rgba(128, 128, 128, 0.5);
+}
+
+user-listing > .controls {
+   gap: 1rem;
+   order: 1;
+}
+
+user-listing > .controls header {
+   text-align: center;
+
+   font-size: 1.25em;
+}
+
+user-listing > .controls .filter {
+   padding: 1rem;
+
+   background-color: hsl(var(--neutral1-h), var(--neutral1-s), calc(var(--neutral1-l) * 13));
+}
+
+user-listing > .controls .filter label {
+   text-transform: capitalize;
+}
+
+user-listing .add-user-button {
+   margin: 0.5rem auto;
+
+   max-width: 10rem;
+}
+
+user-listing .add-user-button .icon {
+   position: relative;
+
+   display: inline-block;
+}
+
+user-listing .add-user-button .icon img {
+   display: inline-block;
+   vertical-align: text-bottom;
+
+   max-width: 1.5em;
+
+   opacity: 0.5;
+}
+
+user-listing .add-user-button .icon .plus {
+   position: absolute;
+
+   left: 1em;
+   top: 1em;
+
+   font-weight: bold;
+
+   color: var(--brand2);
+
+   width: 1.1em;
+   height: 1.1em;
+
+   border: 2px solid green;
+   border-radius: 2em;
+
+   background: white;
+
+   line-height: 0.9em;
+
+   font-size: 11px;
+}
+
+user-listing .add-user-controls {
+   margin-bottom: 1.5em;
+}
+
+user-listing .add-user-controls > header {
+   margin-bottom: 0.5em;
+
+   text-align: center;
+
+   font-size: 1.25em;
+}

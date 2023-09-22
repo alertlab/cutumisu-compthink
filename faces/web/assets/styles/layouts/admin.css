@@ -1,0 +1,93 @@
+body > header {
+   box-shadow: 1px 0 1em rgba(0, 0, 0, 0.25);
+}
+
+main {
+   margin: 0 auto;
+
+   max-width: var(--main-column-width);
+   width: 100%;
+   padding: 2rem 0;
+}
+
+main > header {
+   font-size: 2em;
+   color: var(--brand2);
+}
+
+/* All generic top-level sections */
+main > div > section,
+main > section {
+   background: none;
+
+   max-width: 50em;
+   margin-top: 3%;
+
+   padding: 0.1em;
+}
+
+main > div > section > header,
+main > section > header {
+   margin-bottom: 0.5em;
+
+   font-size: 2em;
+   color: var(--brand2);
+}
+
+main > div > section section header,
+main > section section header {
+   margin-top: 1em;
+
+   text-align: left;
+
+   font-size: 1.1em;
+   font-weight: bold;
+}
+
+main p {
+   margin: 0.5em 0;
+
+   font-size: 1em;
+
+   color: var(--neutral1);
+}
+
+main a {
+   color: var(--brand2);
+
+   text-decoration: none;
+}
+
+main a:hover {
+   text-decoration: underline;
+}
+
+main fieldset {
+   border: 1px solid grey;
+   border-radius: 0.25em;
+}
+
+main .download {
+   margin: 0 auto;
+}
+
+/* icon */
+main .download:before {
+   display: inline-block;
+   vertical-align: top;
+
+   opacity: 0.5;
+
+   height: 1em;
+   border-bottom: 0.25em solid black;
+   font-size: 0.75em;
+   color: black;
+
+   content: '\25BC';
+}
+
+footer {
+   margin-bottom: 10em;
+
+   text-align: center;
+}

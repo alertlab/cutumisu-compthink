@@ -2,7 +2,7 @@
 
 module CompThink
    module Model
-      class User < ROM::Struct
+      class User
          attr_accessor :id
 
          attr_accessor :first_name

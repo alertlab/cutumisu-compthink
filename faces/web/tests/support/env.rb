@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require 'simplecov'
-
-SimpleCov.command_name 'face:web'
-
 require 'pathname'
 src_dir = Pathname.new(__FILE__).parent.parent.parent.parent.parent
 $LOAD_PATH.unshift(src_dir) unless $LOAD_PATH.include?(src_dir)
@@ -23,12 +19,11 @@ require 'core/tests/support/shim'
 
 require 'core/comp_think'
 
-require 'capybara/cucumber'
-require 'webdrivers'
-require 'rspec/expectations'
-require 'timecop'
+Bundler.require :test_core, :test_face_web
 
-require 'fakefs/safe'
+SimpleCov.command_name 'face:web'
+
+ENV['APP_ENV'] ||= 'test'
 
 require 'core/tests/support/hooks'
 
@@ -38,68 +33,58 @@ require 'core/tests/support/hooks'
 # DatabaseCleaner[:sequel, {:connection => get_rom_connection_from_gateway}]
 # DatabaseCleaner.strategy = :truncation
 
-ENV['RACK_ENV'] ||= 'test'
-require 'faces/web/sinatra/routes'
+require 'faces/web/sinatra/server'
 
 include CompThink
 
-# == CAPYBARA ==
-Capybara.app = Sinatra::Application
+Capybara.configure do |config|
+   config.app, _opts = Rack::Builder.parse_file('faces/web/config.ru')
 
-# Capybara::Selenium.configure do |config|
-#    config.debug                   = false
-#    config.raise_javascript_errors = true
-#    config.allow_url('https://cdnjs.cloudflare.com/ajax/libs/pikaday/')
-# end
+   # config.default_driver = :selenium_headless # FireFox
+   config.default_driver = :selenium_chrome_headless # Chrome is faster headless for now
 
-# Capybara.default_driver = :selenium_headless # FireFox
-Capybara.default_driver = :selenium_chrome_headless # Chrome
+   # so that it can click checkboxes that are styled pretty
+   config.automatic_label_click = true
 
-# so that it can click checkboxes that are styled pretty
-Capybara.automatic_label_click = true
+   # The 'host' keyword must be capitalized to match capybara/registrations/servers.rb:39
+   # The 'ssl://' quazi-scheme is how Puma determines to enable and use SSL with the 'localhost' gem
+   # Host must be set to localhost (not 127.0.0.1) to allow the ssl cert to match
+   config.server_host  = 'compthink.localhost'
+   config.default_host = "https://#{ config.server_host }" # used by no-js
+   puma_options        = {Host: "ssl://#{ config.server_host }.localhost"}
+   config.server       = :puma, puma_options
 
-# Set this to whatever the server's normal port is for you.
-# Sinatra is 4567 and Rack is 9292 by default.
-# Also note: the server has to actually be running to return assets
-Capybara.asset_host = 'http://localhost:4567'
-
-module HelperMethods
+   # Set this to whatever the server's normal port is for you.
+   # Sinatra is 4567 and Rack is 9292 by default.
+   # Also note: the server has to actually be running to return assets
+   # config.asset_host = 'http://localhost:4567'
 end
 
-DOWNLOAD_PATH = Pathname.new('./tmp/test/downloads').freeze
+Capybara.register_driver :selenium_chrome_headless do |app|
+   browser_options = ::Selenium::WebDriver::Chrome::Options.new
 
-World(RSpec::Matchers, HelperMethods)
+   browser_options.args << "--window-size=#{ HelperMethods::Web::BROWSER_SIZE.join(',') }"
+   browser_options.args << '--headless' # twice as fast; no frame opened
+   browser_options.args << '--disable-gpu' # 38s
 
-# == REGULAR SETTINGS ==
-Before do
-   begin
-      page.driver.browser.manage.window.resize_to(1024, 768)
+   # try these
+   browser_options.args << '--wm-window-animations-disabled'
+   browser_options.args << '--disable-smooth-scrolling'
+   browser_options.args << '--webrtc-max-cpu-consumption-percentage=80' # default is 50%
+   browser_options.args << '--no-default-browser-check'
+   browser_options.args << '--disable-extensions'
+   # browser_options.args << '--blink-settings=imagesEnabled=false' # images are needed for the games to load
 
-      @persister_env = Capybara.app.container.persister_env
-      @persisters    = Capybara.app.container.persisters
+   # required to use localhost gem testing TLS certificate
+   browser_options.accept_insecure_certs = true
 
-      # Procrastinator.test_mode = true
+   browser_options.add_preference(:download, {
+         prompt_for_download:        false,
+         credentials_enable_service: false,
+         default_directory:          HelperMethods::Web::TEST_TMP_DOWNLOADS.to_s
+   })
 
-      Garden.build_seeder(@persister_env, @persisters).replant
-
-      @procrastinator = Capybara.app.container.procrastinator
-
-      @current_user = nil
-
-      # ideally this would be done in FakeFS, but because Selenium is a separate process,
-      # we can't redirect its file operations.
-      DOWNLOAD_PATH.rmtree if DOWNLOAD_PATH.exist?
-      DOWNLOAD_PATH.mkpath
-      page.driver.browser.download_path = DOWNLOAD_PATH
-
-      Capybara.reset_sessions!
-      visit('/')
-   rescue StandardError => e
-      puts(([e.message] + e.backtrace).join("\n"))
-      raise e
-   end
+   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
 end
 
-After do
-   Timecop.return
-end
+World RSpec::Matchers

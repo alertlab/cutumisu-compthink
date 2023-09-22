@@ -11,7 +11,7 @@ Then('there {should} be a user with:') do |should, table|
          row[:last_name]  = name.last
       end
 
-      user = @persisters[:user].find(row)
+      user = persisters[:user].find(row)
 
       if should
          expect(user).to_not be_nil
@@ -26,16 +26,16 @@ Then('there {should} be a user with:') do |should, table|
    end
 end
 
-Then('user {string} should have {int} roles') do |user_name, n|
-   user = @persisters[:user].find(first_name: user_name)
+Then 'user {string} should have {int} roles' do |user_name, n|
+   user = persisters[:user].find(first_name: user_name)
 
    expect(user.roles.count).to eq n
 end
 
-Then('it should return user summaries for {string}') do |user_list|
-   user_persister  = @persisters[:user]
-   click_persister = @persisters[:click]
-   group_persister = @persisters[:group]
+Then 'it should return user summaries for {string}' do |user_list|
+   user_persister  = persisters[:user]
+   click_persister = persisters[:click]
+   group_persister = persisters[:group]
 
    names = extract_list(user_list)
 
@@ -46,7 +46,7 @@ Then('it should return user summaries for {string}') do |user_list|
       user = user_persister.find(first_name: name)
 
       puzzles = click_persister.puzzles_completed(user)
-      groups  = group_persister.groups_for(user)
+      groups  = group_persister.groups_for(user).collect(&:to_hash)
 
       expect(user).to_not be_nil # sanity check.completed
 
@@ -55,12 +55,12 @@ Then('it should return user summaries for {string}') do |user_list|
    end
 end
 
-Then('it should return user summaries for {string} in that order') do |user_list|
-   user_persister  = @persisters[:user]
-   click_persister = @persisters[:click]
-   group_persister = @persisters[:group]
+Then 'it should return user summaries for {string} in that order' do |user_list|
+   user_persister  = persisters[:user]
+   click_persister = persisters[:click]
+   group_persister = persisters[:group]
 
-   names = extract_list(user_list)
+   names = extract_list user_list
 
    expect(@result[:results]).to_not be_nil
    expect(@result[:results].size).to eq names.size
@@ -88,21 +88,21 @@ Then('it should not return user summaries') do
 end
 
 Then('there should be {int} user(s)') do |count|
-   expect(@persisters[:user].users.to_a.size).to eq count
+   expect(persisters[:user].users.to_a.size).to eq count
 end
 
 Then('there should be {int} person/people') do |n|
-   expect(@persisters[:user].users.count).to eq(n)
+   expect(persisters[:user].users.count).to eq(n)
 end
 
 Then('there should be a person with:') do |table|
    symtable(table).hashes.each do |row|
-      expect(@persisters[:user].find(row)).to_not be_nil
+      expect(persisters[:user].find(row)).to_not be_nil
    end
 end
 
 Then('{string} should have password {string}') do |user_name, pass|
-   user = @persisters[:user].find(first_name: user_name)
+   user = persisters[:user].find(first_name: user_name)
 
    expect(user.authenticate(pass)).to be true
 end

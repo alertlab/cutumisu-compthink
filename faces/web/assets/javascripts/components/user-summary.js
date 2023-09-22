@@ -8,7 +8,7 @@ ko.components.register('user-summary', {
                         <span class="role" data-bind="text: $parent.formatRole($data), css: $parent.roleClass($data)"></span>\
                      </div>\
                   </header>\
-                  <div class="email">\
+                  <div class="email" data-bind="visible: user.email">\
                      <a data-bind="text: user.email, attr:{ href: \'mailto:\' + user.email}"></a>\
                   </div>\
                   <div class="groups">\
@@ -31,10 +31,10 @@ ko.components.register('user-summary', {
 
       self.user = ko.unwrap(params.user || explode("Must provide 'user' parameter to user summary"));
 
-      self.edit_link = '/admin/edit_person?id=' + self.user.id;
+      self.edit_link = '/admin/edit-person?id=' + self.user.id;
 
       self.groupLink = function (id) {
-         return '/admin/edit_group?id=' + id;
+         return '/admin/edit-group?id=' + id;
       };
 
       self.roleClass = function (roleName) {

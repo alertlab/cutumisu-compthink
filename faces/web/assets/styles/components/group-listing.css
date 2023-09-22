@@ -1,0 +1,99 @@
+group-listing {
+   display: flex;
+
+   position: relative;
+   gap: 2rem;
+}
+
+group-listing h2 {
+   margin-top: 0;
+}
+
+group-listing .group-summaries {
+   flex-grow: 1;
+
+   min-height: 20em;
+}
+
+group-listing group-summary {
+   display: block;
+
+   box-shadow: 0.2em 0.2em 0.25em rgba(128, 128, 128, 0.5);
+}
+
+group-listing > .controls {
+   gap: 1rem;
+   order: 1;
+}
+
+group-listing > .controls header {
+   text-align: center;
+
+   font-size: 1.25em;
+}
+
+group-listing > .controls .filter {
+   padding: 1rem;
+
+   background-color: hsl(var(--neutral1-h), var(--neutral1-s), calc(var(--neutral1-l) * 13));
+}
+
+group-listing > .controls .filter label {
+   text-transform: capitalize;
+}
+
+group-listing .add-group-button {
+   margin: 0.5rem auto;
+
+   max-width: 10rem;
+}
+
+group-listing .add-group-button .icon {
+   position: relative;
+
+   display: inline-block;
+}
+
+group-listing .add-group-button .icon img {
+   display: inline-block;
+   vertical-align: text-bottom;
+
+   max-width: 1.5em;
+
+   opacity: 0.5;
+}
+
+group-listing .add-group-button .icon .plus {
+   position: absolute;
+
+   left: 1em;
+   top: 1em;
+
+   font-weight: bold;
+
+   color: var(--brand2);
+
+   width: 1.1em;
+   height: 1.1em;
+
+   border: 2px solid green;
+   border-radius: 2em;
+
+   background: white;
+
+   line-height: 0.9em;
+
+   font-size: 11px;
+}
+
+group-listing .add-group-controls {
+   margin-bottom: 1.5em;
+}
+
+group-listing .add-group-controls > header {
+   margin-bottom: 0.5em;
+
+   text-align: center;
+
+   font-size: 1.25em;
+}

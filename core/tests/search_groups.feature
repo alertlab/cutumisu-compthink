@@ -40,14 +40,13 @@ Feature: Search Groups
          | 13 |
    
    Scenario Outline: it should return only groups after the requested starting number
-      When groups are searched starting at <x>
+      When 2 groups are searched starting at page <x>
       Then it should return group summaries for "<expected groups>"
       Examples:
-         | x | expected groups             |
-         | 0 | Group two, Group B, Group A |
-         | 1 | Group B, Group A            |
-         | 2 | Group A                     |
-         | 3 |                             |
+         | x | expected groups    |
+         | 1 | Group two, Group B |
+         | 2 | Group A            |
+         | 3 |                    |
    
    
    Scenario Outline: it should return groups with the exact given id

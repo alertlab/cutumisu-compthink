@@ -42,6 +42,10 @@ Feature: Update User
       And "Allan" should have password "sekret"
    
    Scenario Outline: it should add roles
+      Given the following roles:
+         | name       |
+         | admin      |
+         | instructor |
       Given the following users:
          | first name | last name | email             | roles |
          | Allan      | Daniels   | allan@example.com |       |

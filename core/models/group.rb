@@ -11,7 +11,7 @@ module CompThink
       # Groups are time-limited, meaning that users can only access the puzzles between the start and end dates.
       #
       # @author Robin Miller
-      class Group < ROM::Struct
+      class Group
          attr_reader :id
          attr_reader :created_at
 

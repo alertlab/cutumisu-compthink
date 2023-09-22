@@ -2,10 +2,10 @@ ko.components.register('hanoi-game', {
    template: '<div class="game-meta-container">\
                  <div class="game-container"></div>\
               </div>\
-              <float-frame params="visibility: returnPrompt" class="return-prompt">\
-                  <header>Great Success!</header>\
+              <dialog-confirm params="title: \'Finished\', visible: returnPrompt, actions: {}" class="return-prompt">\
+                  <p>Great Success!</p>\
                   <p><a href="/games">Back To Game list</a></p>\
-              </float-frame>',
+              </dialog-confirm>',
 
    /**
     */
@@ -146,12 +146,14 @@ ko.components.register('hanoi-game', {
          } else
             self.statusLabel.text = "Moves: " + self.moves;
 
-         ajax('post', '/games/logging/record_click', ko.toJSON({
-            puzzle: 'hanoi',
-            complete: self.isComplete(),
-            target: peg.name,
-            move_number: self.moves
-         }));
+         TenjinComms.ajax('/games/logging/record-click', {
+            data: {
+               puzzle: 'hanoi',
+               complete: self.isComplete(),
+               target: peg.name,
+               move_number: self.moves
+            }
+         });
       }
    }
 });

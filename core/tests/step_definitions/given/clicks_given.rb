@@ -10,8 +10,8 @@ Given('the following click(s):') do |table|
       row[:time]     = Time.parse(row[:time]) if row[:time]
       row[:complete] = parse_bool(row[:complete]) if row[:complete]
 
-      row[:user_id] = @persisters[:user].first.id
+      row[:user_id] = persisters[:user].first.id
 
-      @persisters[:click].create(row)
+      persisters[:click].create(row)
    end
 end

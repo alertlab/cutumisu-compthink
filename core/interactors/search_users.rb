@@ -3,33 +3,29 @@
 module CompThink
    module Interactor
       class SearchUsers
+         include Command
+
          DEFAULT_USER_RESULT_COUNT = 10
 
-         def self.run(container,
-               filter: nil,
-               sort_by: :first_name,
-               sort_direction: 'asc',
-               count: DEFAULT_USER_RESULT_COUNT,
-               starting: 0)
-            users_persister = container.persisters[:user]
-            roles_persister = container.persisters[:role]
-            click_persister = container.persisters[:click]
-            group_persister = container.persisters[:group]
-
+         def run(filter: nil,
+                 sort_by: :first_name,
+                 sort_direction: true,
+                 count: DEFAULT_USER_RESULT_COUNT,
+                 page: 1)
             role = filter ? filter[:role] : nil
 
             return {errors: ['That role does not exist']} if role && !roles_persister.exists?(name: role)
 
             users = users_persister.users_matching(filter,
                                                    count:          count,
-                                                   offset:         starting,
+                                                   offset:         (page - 1) * count,
                                                    sort_by:        sort_by,
-                                                   sort_direction: sort_direction)
+                                                   sort_direction: sort_direction ? 'asc' : 'desc')
 
             {
                   results:        users[:results].collect do |u|
                      u.to_hash.merge(puzzles_completed: click_persister.puzzles_completed(u),
-                                     groups:            group_persister.groups_for(u))
+                                     groups:            group_persister.groups_for(u).map(&:to_hash))
                   end,
                   all_data_count: users[:max_results]
             }

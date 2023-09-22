@@ -1,0 +1,51 @@
+#game-index-page {
+   margin: 3em auto;
+
+   max-width: 60em;
+
+   flex-direction: row;
+}
+
+#game-index-page .game {
+   min-width: 10em;
+   min-height: 10em;
+
+   margin: 3em;
+
+   padding: 0.5em;
+
+   --shot-size: 10em;
+
+   text-align: center;
+}
+
+#game-index-page .game .shot-container {
+   position: relative;
+
+   height: var(--shot-size);
+
+   margin: 0.25em;
+
+   border-radius: 0.5em;
+
+   overflow: hidden;
+}
+
+#game-index-page .game .shot-container img {
+   max-height: var(--shot-size);
+}
+
+#game-index-page .game .shot-container .check {
+   position: absolute;
+
+   top: 0;
+   left: 0.25em;
+
+   font-size: 10em;
+   color: var(--brand2);
+   text-shadow: 1px 1px 1px #fedb10;
+}
+
+#game-index-page .game span {
+   font-size: 1.5em;
+}

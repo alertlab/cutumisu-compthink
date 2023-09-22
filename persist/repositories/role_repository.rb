@@ -4,10 +4,8 @@ module CompThink
    class RoleRepository < ROM::Repository[:roles]
       commands :create, update: :by_pk, delete: :by_pk
 
-      struct_namespace CompThink::Model
-
       def role_with(attributes)
-         roles.where(attributes).one
+         roles.where(attributes).map_with(:role_mapper).one
       end
 
       def exists?(attributes)

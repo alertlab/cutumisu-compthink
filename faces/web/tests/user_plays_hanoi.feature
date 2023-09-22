@@ -47,6 +47,6 @@ Feature: User Plays Hanoi
    # ==== Security ===
    Scenario: it should NOT allow people who are not signed in to view the puzzle
       When a guest visits the hanoi puzzle
-      Then they should be at /
+      Then they should be at /sign-in
       And they should not see "Towers"
       And they should not see "Hanoi"

@@ -1,0 +1,246 @@
+:root {
+   /*  TODO: redefine all colours */
+   /* brand color 1: whitish contrast coal */
+   --brand1-h: 0;
+   --brand1-s: 0%;
+   --brand1-l: 99.0%;
+   --brand1: hsl(var(--brand1-h), var(--brand1-s), var(--brand1-l));
+   --brand1-light: hsl(var(--brand1-h), var(--brand1-s), calc(var(--brand1-l) / .9));
+   --brand1-dark: hsl(var(--brand1-h), var(--brand1-s), calc(var(--brand1-l) * .9));
+
+   --neutral1-h: 0;
+   --neutral1-s: 0%;
+   --neutral1-l: 7%;
+   --neutral1: hsl(var(--neutral1-h), var(--neutral1-s), var(--neutral1-l));
+   --neutral1-light: hsl(var(--neutral1-h), var(--neutral1-s), calc(var(--neutral1-l) / .9));
+   --neutral1-dark: hsl(var(--neutral1-h), var(--neutral1-s), calc(var(--neutral1-l) * .9));
+
+   /* brand color 2: green contrast whitish */
+   --brand2-h: 151;
+   --brand2-s: 100%;
+   --brand2-l: 24%;
+   --brand2: hsl(var(--brand2-h), var(--brand2-s), var(--brand2-l));
+   --brand2-light: hsl(var(--brand2-h), var(--brand2-s), calc(var(--brand2-l) / .9));
+   --brand2-dark: hsl(var(--brand2-h), var(--brand2-s), calc(var(--brand2-l) * .9));
+
+   --neutral2-h: 0;
+   --neutral2-s: 95.0%;
+   --neutral2-l: 99.0%;
+   --neutral2: hsl(var(--neutral2-h), var(--neutral2-s), var(--neutral2-l));
+   --neutral2-light: hsl(var(--neutral2-h), var(--neutral2-s), calc(var(--neutral2-l) / .9));
+   --neutral2-dark: hsl(var(--neutral2-h), var(--neutral2-s), calc(var(--neutral2-l) * .9));
+
+   /* brand color 3: gold contrast coal */
+   --brand3-h: 51;
+   --brand3-s: 100%;
+   --brand3-l: 51%;
+   --brand3: hsl(var(--brand3-h), var(--brand3-s), var(--brand3-l));
+   --brand3-light: hsl(var(--brand3-h), var(--brand3-s), calc(var(--brand3-l) / .9));
+   --brand3-dark: hsl(var(--brand3-h), var(--brand3-s), calc(var(--brand3-l) * .9));
+
+   --neutral3-h: 0;
+   --neutral3-s: 0%;
+   --neutral3-l: 7%;
+   --neutral3: hsl(var(--neutral3-h), var(--neutral3-s), var(--neutral3-l));
+   --neutral3-light: hsl(var(--neutral3-h), var(--neutral3-s), calc(var(--neutral3-l) / .9));
+   --neutral3-dark: hsl(var(--neutral3-h), var(--neutral3-s), calc(var(--neutral3-l) * .9));
+
+   --error: rgba(255, 102, 102, 0.98);
+   --error-neutral: white;
+
+   /* non-standard link colours */
+   --font-color-link: #20669C;
+   --font-color-link-hover: #277ccc;
+
+   --main-column-width: 60rem;
+}
+
+body {
+   padding-bottom: 10rem;
+
+   background-color: var(--brand1);
+   color: var(--neutral1);
+   font-family: "Questrial", Verdana, sans-serif;
+}
+
+.overlay {
+   position: fixed;
+
+   top: -0.5%;
+   left: -0.5%;
+   width: 101%;
+   height: 101%;
+   z-index: 10;
+
+   background: rgba(0, 0, 0, 0.5);
+   transition: all 500ms ease-out;
+}
+
+.placeholder {
+   font-style: italic;
+   opacity: 0.4;
+}
+
+h2 {
+   padding: 0.5rem;
+
+   background: var(--brand2);
+
+   color: var(--neutral2);
+   font-weight: bold;
+   font-size: large;
+}
+
+body hr {
+   border: none;
+   border-top: 1px solid black;
+   opacity: 0.2;
+   margin: 1em 0;
+}
+
+body > header,
+.page-header {
+   position: relative;
+
+   padding-bottom: 0;
+   align-items: center;
+
+   color: var(--brand2);
+}
+
+body > header nav {
+   width: 100%;
+}
+
+body > header .banner,
+.page-header .banner {
+   display: flex;
+
+   margin: auto;
+
+   flex-direction: column;
+   padding: 1em 1em 0 1em;
+
+   font-weight: normal;
+}
+
+:is(body > header, .page-header) .banner,
+:is(body > header, .page-header) .banner:hover,
+:is(body > header, .page-header) .banner:visited {
+   color: var(--brand2);
+}
+
+:is(body > header, .page-header) .banner .logo {
+   display: flex;
+
+   border-radius: 0.25em;
+
+   flex-direction: row;
+   justify-content: space-between;
+   align-items: baseline;
+
+   user-select: none;
+}
+
+:is(body > header, .page-header) .banner .logo img {
+   max-width: 10rem;
+}
+
+:is(body > header, .page-header) .banner .logo span {
+   font-size: 3rem;
+   font-family: serif;
+}
+
+:is(body > header, .page-header) .banner .logo:hover {
+   text-decoration: none;
+}
+
+:is(body > header, .page-header) .banner .subtitle {
+   display: block;
+
+   margin-bottom: 1em;
+
+   font-family: "georgia", "times", "times new roman", serif;
+   font-style: italic;
+
+   user-select: none;
+
+   font-size: 1.5em;
+}
+
+:is(body > header, .page-header) nav current-session > a:hover {
+   opacity: 0.8;
+
+   transition: 0.2s all;
+}
+
+:is(body > header, .page-header) nav current-session span {
+   color: var(--brand2);
+
+   opacity: 0.5;
+}
+
+:is(body > header, .page-header) nav a:hover {
+   text-decoration: none;
+}
+
+main input[type="text"],
+main input[type="email"],
+main input[type="password"] {
+   box-shadow: -0.1em 0.1em 0.25em rgba(128, 128, 128, 0.3) inset;
+}
+
+form {
+   margin: 0;
+}
+
+button {
+   background-color: var(--brand3);
+   color: var(--neutral3);
+}
+
+/* Shims */
+input-password {
+   margin: 0.5rem 0;
+}
+
+input-password input {
+   height: 100%;
+   width: 100%;
+}
+
+input-password button {
+   max-width: fit-content;
+   min-height: auto;
+}
+
+input-password .show-pw span,
+input-password .show-pw .icon-label {
+   margin: 0;
+}
+
+input-search .results-section {
+   position: absolute;
+   top: 100%;
+   z-index: 10;
+   width: 100%;
+}
+
+input-search button {
+   justify-content: flex-start;
+   padding: 0.5rem;
+}
+
+dialog-confirm header {
+   background-color: var(--brand2);
+   color: var(--neutral2);
+}
+
+info-toast .toast {
+   color: var(--neutral2);
+   background-color: var(--brand2);
+}
+
+info-toast .toast button {
+   color: var(--neutral2);
+}

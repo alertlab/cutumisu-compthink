@@ -5,7 +5,7 @@ src_dir = File.expand_path('..', __dir__)
 $LOAD_PATH.unshift(src_dir) unless $LOAD_PATH.include?(src_dir)
 
 require 'core/comp_think'
-require 'persist/setup'
+require 'persist/persist'
 require 'persist/garden/garden'
 require 'yaml'
 

@@ -23,7 +23,7 @@ ko.components.register('group-summary', {
 
       self.group = ko.unwrap(params.group || explode("Must provide 'group' parameter to group-summary"));
 
-      self.edit_link = '/admin/edit_group?id=' + self.group.id;
+      self.edit_link = '/admin/edit-group?id=' + self.group.id;
 
       self.formatRoles = function (roleList) {
          return (roleList || []).map(function (roleName) {

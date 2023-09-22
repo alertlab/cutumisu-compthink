@@ -4,7 +4,7 @@ require 'bcrypt'
 
 module CompThink
    module Model
-      class UserAuthentication < ROM::Struct
+      class UserAuthentication
          attr_reader :encrypted_password
 
          BCRYPT_COST = (ENV['app_bcrypt_cost'] || BCrypt::Engine.cost).to_i

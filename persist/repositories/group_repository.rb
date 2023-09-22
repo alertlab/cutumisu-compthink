@@ -4,11 +4,9 @@ module CompThink
    class GroupRepository < ROM::Repository[:groups]
       commands :create, update: :by_pk, delete: :by_pk
 
-      struct_namespace CompThink::Model
-
       def find_all(attrs)
          groups.combine(:users)
-               .where(attrs).to_a
+               .where(attrs).map_with(:group_mapper).to_a
       end
 
       def find(attrs)
@@ -41,16 +39,16 @@ module CompThink
 
             add_participants(group, participant_ids + new_ids)
 
-            group
+            Persist::Mappers::GroupMapper.new.call(group).first
          end
       end
 
       def find_participant(group_name: nil, user_name: nil, create_missing: false)
          user = users.where(first_name: user_name)
-                      .join(:users_groups, user_id: Sequel[:users][:id])
-                      .join(:groups, Sequel[:groups][:id] => :group_id)
-                      .where(name: group_name)
-                      .one
+                     .join(:users_groups, user_id: Sequel[:users][:id])
+                     .join(:groups, Sequel[:groups][:id] => :group_id)
+                     .where(name: group_name)
+                     .one
 
          if user.nil? && create_missing
             user  = users.command(:create).call(first_name: user_name, email: "#{ user_name }@example.com")
@@ -59,7 +57,7 @@ module CompThink
             add_participants(group, [user.id])
          end
 
-         user
+         Persist::Mappers::UserMapper.new.call(user).first
       end
 
       def add_participants(group, participant_ids)
@@ -97,8 +95,10 @@ module CompThink
 
          max = results.count
 
-         {results:     results.limit(count, offset).to_a,
-          max_results: max}
+         {
+               results:     results.limit(count, offset).map_with(:group_mapper).to_a,
+               max_results: max
+         }
       end
 
       def first
@@ -125,7 +125,9 @@ module CompThink
 
       def groups_for(user)
          groups.join(:users_groups, group_id: :id)
-               .where(user_id: user.id).to_a
+               .where(user_id: user.id)
+               .map_with(:group_mapper)
+               .to_a
       end
    end
 end

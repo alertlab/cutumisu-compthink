@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html moznomarginboxes mozdisallowselectionprint>
+<head>
+   <title>Alert Lab Computational Thinking | University of Alberta</title>
+   <meta name="viewport" content="width=device-width, user-scalable=yes">
+
+   <script type="text/javascript" src="<%= javascript_path('javascripts/web-main') %>"></script>
+   <script type="text/javascript" src="/lib/phaser-ce-2.10.0.min.js"></script>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"
+           integrity="sha256-Znf8FdJF85f1LV0JmPOob5qudSrns8pLPZ6qkd/+F0o="
+           crossorigin="anonymous"></script>
+
+   <link rel="stylesheet" href="<%= stylesheet_path('styles/public-main') %>">
+
+   <script>
+      window.appData = {};
+      window.appData.imagePaths = {
+         disc_normal: '<%= image_path('images/games/disc_unselected.png') %>',
+         disc_selected: '<%= image_path('images/games/disc_selected.png') %>',
+         peg: '<%= image_path('images/games/peg.png') %>',
+         button: '<%= image_path('images/games/button.png') %>',
+         eyeGrey: '<%= image_path('images/eye-grey.svg') %>'
+      }
+   </script>
+</head>
+<body>
+<header class="page-header">
+   <div class="banner">
+      <div class="logo">
+         <img src="<%= image_path('images/logos/UA-COLOUR-440px.png') %>" alt="U of A Logo" title="Admin Home">
+         <span>Alert Lab</span>
+      </div>
+
+      <span class="subtitle">Computational Thinking Experiments</span>
+   </div>
+
+   <nav>
+      <current-session></current-session>
+   </nav>
+</header>
+
+<main>
+   <info-toast params="notices: window.toasts.info, warning: window.toasts.warn, errors: window.toasts.error"></info-toast>
+
+   <%= yield %>
+</main>
+
+</body>
+</html>

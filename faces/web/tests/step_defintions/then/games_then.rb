@@ -24,13 +24,13 @@ end
 Then('the last click should be move number {int}') do |n|
    # sorting these seems to fix a possible race condition where the last one recorded is not
    # actually the last click (because it's clicking way faster than a human)
-   clicks = @persisters[:click].clicks.to_a.sort_by(&:time)
+   clicks = persisters[:click].clicks.to_a.sort_by(&:time)
 
    expect(clicks.last.move_number).to eq(n)
 end
 
 Then('the last click should be marked as complete') do
-   repo = @persisters[:click]
+   repo = persisters[:click]
 
    expect(repo.clicks.to_a.any?(&:complete)).to be true
 
@@ -38,11 +38,11 @@ Then('the last click should be marked as complete') do
    # repo.clicks.to_a.each do |click|
    #    puts "#{ click.time.to_i } / #{ click.complete }"
    # end
-   # puts "last: #{ @persisters[:click].last.time.to_i }"
+   # puts "last: #{ persisters[:click].last.time.to_i }"
 
    # sorting these seems to fix a possible race condition where the last one recorded is not
    # actually the last click (because it's clicking way faster than a human)
-   clicks = @persisters[:click].clicks.to_a.sort_by(&:time)
+   clicks = persisters[:click].clicks.to_a.sort_by(&:time)
 
    expect(clicks.last.complete).to be true
 end

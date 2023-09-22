@@ -1,0 +1,167 @@
+group-editor {
+   display: block;
+}
+
+group-editor .group {
+   display: flex;
+   flex-direction: row;
+   flex: 1 1 0;
+}
+
+group-editor .group label {
+   display: inline-block;
+
+   min-width: 5em;
+}
+
+group-editor .group label span {
+   display: inline-block;
+
+   min-width: 4em;
+}
+
+group-editor .group > div {
+   flex-basis: 50%;
+}
+
+group-editor .group > div header {
+   font-size: 1.1em;
+   font-weight: bold;
+}
+
+group-editor .group > div label span {
+   min-width: 6em;
+}
+
+group-editor .group .basic-info {
+   display: flex;
+   flex-direction: column;
+}
+
+group-editor .group .bulk-participants .mode {
+   display: flex;
+
+   flex-direction: row;
+   justify-content: center;
+}
+
+group-editor .group .bulk-participants .mode label {
+   cursor: pointer;
+   user-select: none;
+}
+
+group-editor .group .bulk-participants .mode-list textarea {
+   width: 100%;
+   min-width: 100%;
+   height: 7em;
+}
+
+group-editor .group .bulk-participants .example {
+   opacity: 0.6;
+   font-style: italic;
+
+   font-size: 0.9em;
+}
+
+group-editor .group .participation-type-selector {
+   display: flex;
+
+   flex-direction: row;
+   justify-content: center;
+
+   user-select: none;
+}
+
+group-editor .group .participation-type-selector label {
+   cursor: pointer;
+}
+
+group-editor .group .participation-type-selector span {
+   min-width: auto;
+}
+
+group-editor .group .closed,
+group-editor .group .open,
+group-editor .group .custom {
+   min-height: 5.5em;
+}
+
+group-editor .group .participants {
+   justify-content: space-between;
+}
+
+group-editor .group .participants header {
+   flex-direction: row;
+}
+
+group-editor .group .participants .list {
+   flex-wrap: wrap-reverse;
+   justify-content: space-between;
+
+   flex-grow: 1;
+   gap: 1rem;
+}
+
+group-editor .group .participants .list > div {
+   flex-direction: row;
+   align-items: center;
+   gap: 0.5rem;
+}
+
+group-editor .group .participants .list .new-participant header,
+group-editor .group .participants .list .participant header {
+   margin: 0;
+}
+
+group-editor .group .participants .list .new-participant .email,
+group-editor .group .participants .list .new-participant .controls,
+group-editor .group .participants .list .new-participant .roles,
+group-editor .group .participants .list .participant .email,
+group-editor .group .participants .list .participant .controls,
+group-editor .group .participants .list .participant .roles {
+   display: none;
+}
+
+group-editor .group .participants .list .participant {
+   width: 100%;
+   height: 100%;
+   border: 1px solid var(--brand2);
+   border-radius: 0.5em;
+
+   padding: 0.25em 0.5em;
+   justify-content: center;
+
+   color: var(--brand2);
+   background-color: var(--neutral2);
+}
+
+group-editor .group .participants > .controls {
+   display: flex;
+
+   flex-direction: row;
+   justify-content: space-between;
+
+   padding: 1em 0;
+}
+
+group-editor .group .participants > .controls .bulk-add {
+   flex-basis: 80%;
+
+   justify-self: flex-end;
+}
+
+group-editor .group .participants > .controls .add {
+   flex-basis: 17%;
+   justify-self: flex-end;
+}
+
+group-editor .group .participants .placeholder {
+   display: block;
+   flex-grow: 1;
+   opacity: 0.7;
+
+   user-select: none;
+
+   padding: 1em;
+   text-align: center;
+}

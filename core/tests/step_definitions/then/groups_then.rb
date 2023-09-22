@@ -5,18 +5,18 @@ Then('there should be a group with:') do |table|
       row[:start_date] = Date.parse(row[:start_date]) if row[:start_date]
       row[:end_date]   = Date.parse(row[:end_date]) if row[:end_date]
 
-      group = @persisters[:group].find(row)
+      group = persisters[:group].find(row)
 
       expect(group).to_not be_nil
    end
 end
 
-Then('there should be {int} group(s)') do |count|
-   expect(@persisters[:group].count).to eq count
+Then 'there should be {int} group(s)' do |count|
+   expect(persisters[:group].count).to eq count
 end
 
 Then('it should return group summaries for {string}') do |group_list|
-   group_persister = @persisters[:group]
+   group_persister = persisters[:group]
 
    names = extract_list(group_list)
 
@@ -32,10 +32,10 @@ Then('it should return group summaries for {string}') do |group_list|
    end
 end
 
-Then('it should return group summaries for {string} in that order') do |group_list|
-   group_persister = @persisters[:group]
+Then 'it should return group summaries for {string} in that order' do |group_list|
+   group_persister = persisters[:group]
 
-   names = extract_list(group_list)
+   names = extract_list group_list
 
    expect(@result[:results]).to_not be_nil
    expect(@result[:results].size).to eq names.size
@@ -48,7 +48,7 @@ Then('it should return group summaries for {string} in that order') do |group_li
 end
 
 Then('group {string} should have {int} participant(s)') do |group_name, n|
-   group_persister = @persisters[:group]
+   group_persister = persisters[:group]
 
    group = group_persister.find(name: group_name)
 
@@ -56,8 +56,8 @@ Then('group {string} should have {int} participant(s)') do |group_name, n|
 end
 
 Then('{string} {should} be in group {string}') do |user_name, should, group_name|
-   group_persister = @persisters[:group]
-   user_persister  = @persisters[:user]
+   group_persister = persisters[:group]
+   user_persister  = persisters[:user]
 
    group = group_persister.find(name: group_name)
    user  = user_persister.find(first_name: user_name)

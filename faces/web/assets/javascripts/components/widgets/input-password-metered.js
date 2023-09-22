@@ -5,8 +5,10 @@ ko.components.register('input-password-metered', {
                  <input-password params="password: password"></input-password>\
                  <div class="strength">\
                     <meter min=0 max=4 high=3 low=2 optimum=4 value=0 data-bind="value: pwStrengthScore"></meter>\
-                    <span>Strength:</span>\
-                    <span class="score-label" data-bind="text: pwStrengthLabel"></span>\
+                    <div class="score-label">\
+                       <span class="label">Strength:</span>\
+                       <span class="score" data-bind="text: pwStrengthLabel"></span>\
+                    </div>\
                     <div class="tips-wrapper">\
                        <a href="#" data-bind="click: showTips.toggle, visible: pwStrengthTips().length > 0">Tips</a>\
                        <ul class="tips" data-bind="foreach: pwStrengthTips, visible: showTips">\

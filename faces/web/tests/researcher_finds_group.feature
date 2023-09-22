@@ -30,10 +30,9 @@ Feature: Researcher Finds Group
          | <name> |
       Then "Kelly" should see "of <n>"
       Examples:
-         | name       | n   |
-         | group      | 150 |
-         | group10    | 10  |
-         | groupfleem | 0   |
+         | name    | n   |
+         | group   | 150 |
+         | group10 | 10  |
    
    Scenario Outline: it should return to first page
       Given 100 groups

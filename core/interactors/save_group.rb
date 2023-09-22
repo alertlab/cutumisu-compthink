@@ -3,22 +3,26 @@
 module CompThink
    module Interactor
       class SaveGroup
-         def self.run(container, properties)
-            group_persister = container.persisters[:group]
+         include Command
 
-            group_id = properties.delete(:id)
-
-            return {errors: ['Name cannot be blank']} if properties[:name].blank?
-            if group_persister.any_other?(group_id, name: properties[:name])
-               return {errors: ["Group name #{ properties[:name] } is already used"]}
+         def run(id: nil, name:, start_date:, end_date:, create_participants: nil, participants: nil, regex: '')
+            return {errors: ['Name cannot be blank']} if name.blank?
+            if group_persister.any_other?(id, name: name)
+               return {errors: ["Group name #{ name } is already used"]}
             end
-            return {errors: ['Start date cannot be blank']} if properties[:start_date].blank?
-            return {errors: ['End date cannot be blank']} if properties[:end_date].blank?
+            return {errors: ['Start date cannot be blank']} if start_date.blank?
+            return {errors: ['End date cannot be blank']} if end_date.blank?
 
-            properties[:start_date] = Date.parse(properties[:start_date])
-            properties[:end_date]   = Date.parse(properties[:end_date])
+            start_date = Date.parse(start_date)
+            end_date   = Date.parse(end_date)
 
-            group = group_persister.upsert_with_participants(group_id, properties)
+            group = group_persister.upsert_with_participants(id,
+                                                             name:                name,
+                                                             start_date:          start_date,
+                                                             end_date:            end_date,
+                                                             participants:        participants,
+                                                             create_participants: create_participants,
+                                                             regex:               regex)
 
             {messages: ["Group #{ group.name } saved"]}
          end

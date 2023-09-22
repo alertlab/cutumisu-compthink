@@ -1,38 +1,35 @@
 # frozen_string_literal: true
 
 When('groups are searched') do
-   @result = SearchGroups.run(@container, filter: nil)
+   @result = SearchGroups.new(container).run(filter: nil)
 end
 
 When('groups are searched by:') do |table|
-   @result = SearchGroups.run(@container, filter: symrow(table))
+   @result = SearchGroups.new(container).run(filter: symrow(table))
 end
 
 When('groups are searched and sorted by {string}') do |sort_column|
    sort_column = sort_column.gsub(/\s/, '_').to_sym
 
-   @result = SearchGroups.run(@container, sort_by: sort_column)
+   @result = SearchGroups.new(container).run(sort_by: sort_column)
 end
 
 When('groups are searched and sorted by {string} {direction}') do |sort_column, direction|
    sort_column = sort_column.gsub(/\s/, '_').to_sym
 
-   @result = SearchGroups.run(@container,
-                              sort_by:        sort_column,
-                              sort_direction: direction == 'ascending' ? 'asc' : 'desc')
+   @result = SearchGroups.new(container).run(sort_by:        sort_column,
+                                             sort_direction: direction == 'ascending' ? 'asc' : 'desc')
 end
 
-When('{int} groups are searched') do |count|
-   @result = SearchGroups.run(@container,
-                              count: count)
+When '{int} groups are searched' do |count|
+   @result = SearchGroups.new(container).run(count: count)
 end
 
-When('groups are searched starting at {int}') do |starting_number|
-   @result = SearchGroups.run(@container,
-                              starting: starting_number)
+When '{int} groups are searched starting at page {int}' do |count, page_number|
+   @result = SearchGroups.new(container).run(count: count, page: page_number)
 end
 
-When('a group is created with:') do |table|
+When 'a group is created with:' do |table|
    row = symrow(table)
 
    row[:name]       = row[:name] || 'test_group'
@@ -41,7 +38,7 @@ When('a group is created with:') do |table|
 
    if row[:participants]
       row[:participants] = extract_list(row[:participants]).collect do |name|
-         @persisters[:user].find(first_name: name).id
+         persisters[:user].find(first_name: name).id
       end
    elsif row[:batch_participants]
       row[:create_participants] = extract_list(row.delete(:batch_participants)).collect do |name|
@@ -52,13 +49,13 @@ When('a group is created with:') do |table|
       end
    end
 
-   @result = SaveGroup.run(@container, row)
+   @result = SaveGroup.new(container).run(**row)
 end
 
 When('group {string} is saved with:') do |group_name, table|
    row = symrow(table)
 
-   group = @persisters[:group].find(name: group_name)
+   group = persisters[:group].find(name: group_name)
 
    row[:name]       = row[:name] || group.name
    row[:start_date] = row[:start_date] || group.start_date.to_s
@@ -68,7 +65,7 @@ When('group {string} is saved with:') do |group_name, table|
 
    if row[:participants]
       row[:participants] = extract_list(row[:participants]).collect do |name|
-         @persisters[:user].find(first_name: name).id
+         persisters[:user].find(first_name: name).id
       end
    elsif row[:batch_participants]
       row[:create_participants] = extract_list(row.delete(:batch_participants)).collect do |name|
@@ -81,11 +78,11 @@ When('group {string} is saved with:') do |group_name, table|
 
    row[:participants] ||= group.participants.collect(&:id)
 
-   @result = SaveGroup.run(@container, row.merge(id: group.id))
+   @result = SaveGroup.new(container).run(**row.merge(id: group.id))
 end
 
-When('group {string} is deleted') do |group_name|
-   group = @persisters[:group].find(name: group_name)
+When 'group {string} is deleted' do |group_name|
+   group = persisters[:group].find(name: group_name)
 
-   @result = DeleteGroup.run(@container, id: group ? group.id : -1)
+   @result = DeleteGroup.new(container).run(id: group ? group.id : -1)
 end

@@ -3,12 +3,12 @@
 module CompThink
    module Interactor
       class DeleteUser
-         def self.run(container, id:)
-            user_persister = container.persisters[:user]
+         include Command
 
-            return {errors: ['That person does not exist']} unless user_persister.exists?(id: id)
+         def run(id:)
+            return {errors: ['That person does not exist']} unless users_persister.exists?(id: id)
 
-            user = user_persister.delete(id)
+            user = users_persister.delete(id)
 
             {messages: ["#{ user.first_name } #{ user.last_name } deleted"]}
          end

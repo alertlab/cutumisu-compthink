@@ -1,5 +1,5 @@
 ko.components.register('sign-in', {
-   template: '<header data-bind="text: titleText"></header>\
+   template: '<h2 data-bind="text: titleText"></h2>\
               <form data-bind="submit: signIn">\
                  <ul data-bind="visible: isAdmin">\
                     <li>\
@@ -29,7 +29,7 @@ ko.components.register('sign-in', {
                        </label>\
                     </li>\
                  </ul>\
-                 <input type="submit" data-bind="value: buttonText"  />\
+                 <button type="submit"><span data-bind="text: buttonText"></span></button>\
               </form>',
 
    viewModel: function () {
@@ -40,10 +40,15 @@ ko.components.register('sign-in', {
       self.email = ko.observable();
       self.password = ko.observable();
 
-      self.group = ko.observable(getParam('g') || getParam('group'));
+      self.group = ko.observable().extend({
+         storage: {
+            type: 'query',
+            key: 'group'
+         }
+      });
       self.username = ko.observable();
 
-      self.isAdmin = !!(window.location.pathname.match(/^\/admin/) || window.location.search.match(/\?uri=\/admin/));
+      self.isAdmin = !!(window.location.pathname.match(/^\/admin/) || window.location.search.match(/\?uri=%2Fadmin/));
 
       self.titleText = ko.pureComputed(function () {
          return self.isAdmin ? 'Admin Sign In' : 'Hello';
@@ -65,12 +70,13 @@ ko.components.register('sign-in', {
             }
          };
 
-         ajax('post', '/auth/sign_in', ko.mapping.toJSON(data), function (response) {
-            self.user(ko.mapping.fromJS(response.user));
+         TenjinComms.ajax('/auth/sign-in', {
+            data: data,
+            onSuccess: function (response) {
+               self.user(ko.mapping.fromJS(response.user));
 
-            document.cookie = 'compthink.flash_notices=' + encodeURIComponent(JSON.stringify([response.notice]));
-
-            response.redirect = window.deserializeSearch().uri || response.redirect
+               response.redirect = window.deserializeSearch().uri || response.redirect
+            }
          });
 
          self.password(null);

@@ -3,15 +3,16 @@
 module CompThink
    module Interactor
       class RecordClick
-         def self.run(container, properties)
-            click_persister = container.persisters[:click]
+         include Command
 
-            data = properties.dup
-
-            data[:user_id] = data.delete(:user).id
-            data[:time]    = Time.now
-
-            click_persister.create(data)
+         def run(puzzle:, target:, user:, complete:, move_number:, expected: nil)
+            click_persister.create(user_id:     user.id,
+                                   time:        Time.now,
+                                   puzzle:      puzzle,
+                                   expected:    expected,
+                                   target:      target,
+                                   complete:    complete,
+                                   move_number: move_number)
          end
       end
    end

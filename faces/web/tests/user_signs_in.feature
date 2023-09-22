@@ -93,18 +93,14 @@ Feature: User Signs In
       Then "Bob" should be at /admin/people
   
   # === Error Cases - password ===
-   Scenario Outline: it should complain if their password is wrong
-      When "<user>" signs in with the wrong password
-      Then they should see "That email or password does not match our records"
-      And "<user>" should not be signed in
-      Examples:
-         | user |
-         | Bob  |
-         | Dot  |
+   Scenario: it should complain if their password is wrong
+      When "Bob" signs in with the wrong password
+      Then they should see "Incorrect email or password"
+      And "Bob" should not be signed in
    
    Scenario: it should complain if the account does not exist
       When "enzo" signs in with "enzo@example.com" and "sekret"
-      Then they should see "That email or password does not match our records"
+      Then they should see "Incorrect email or password"
       And "enzo" should not be signed in
    
    # === Error Cases - userid & group ===

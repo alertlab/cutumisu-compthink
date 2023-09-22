@@ -3,12 +3,12 @@
 module CompThink
    module Interactor
       class DeleteGroup
-         def self.run(container, id:)
-            persister = container.persisters[:group]
+         include Command
 
-            return {errors: ['That group does not exist']} unless persister.exists?(id: id)
+         def run(id:)
+            return {errors: ['That group does not exist']} unless group_persister.exists?(id: id)
 
-            group = persister.delete(id)
+            group = group_persister.delete(id)
 
             {messages: ["Group #{ group.name } deleted"]}
          end

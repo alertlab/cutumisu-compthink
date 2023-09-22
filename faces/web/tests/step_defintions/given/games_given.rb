@@ -8,5 +8,5 @@ Given('the lever order is {string}') do |lever_list|
    #
    # page.driver.browser.set_cookie(headers['Set-Cookie'])
 
-   Capybara.app.container.test_cookies['game.expected'] = levers
+   Capybara.app.test_cookies['game.expected'] = levers
 end

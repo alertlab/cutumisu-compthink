@@ -4,11 +4,9 @@ module CompThink
    class UserRepository < ROM::Repository[:users]
       commands :create, update: :by_pk, delete: :by_pk
 
-      struct_namespace CompThink::Model
-
       def find(attributes)
          users.combine(:user_authentications).combine(:roles)
-               .where(attributes).one!
+              .where(attributes).map_with(:user_mapper).one!
       rescue ROM::TupleCountMismatchError
          nil
       end
@@ -40,25 +38,25 @@ module CompThink
             end
          end
 
-         sort_by = :first_name if sort_by.to_s == :name.to_s
+         sort_by    = :first_name if sort_by.to_s == :name.to_s
 
          results = results.order(Sequel.qualify('users', sort_by))
 
          unless role_names.empty?
             results = results.join(:roles_users, user_id: :id)
-                            .join(:roles, id: :role_id)
-                            .where(name: role_names)
+                             .join(:roles, id: :role_id)
+                             .where(name: role_names)
          end
 
          if group_name && !group_name.empty?
             results = results.join(:users_groups, user_id: :id)
-                            .join(:groups, id: :group_id)
-                            .where(name: group_name)
+                             .join(:groups, id: :group_id)
+                             .where(name: group_name)
          end
 
          max = results.count
 
-         results = results.limit(count, offset).to_a
+         results = results.limit(count, offset).map_with(:user_mapper).to_a
 
          results = results.reverse unless sort_direction.nil? || sort_direction == 'asc'
 
@@ -82,13 +80,13 @@ module CompThink
             password = user_data.delete(:password)
 
             user = users.where(id: user_id)
-                         .changeset(:update, user_data)
-                         .commit
+                        .changeset(:update, user_data)
+                        .commit
 
             unless !password || password.empty?
                user_authentications.where(user_id: user_id)
-                     .changeset(:update, encrypted_password: CompThink::Model::UserAuthentication.encrypt(password))
-                     .commit
+                                   .changeset(:update, encrypted_password: CompThink::Model::UserAuthentication.encrypt(password))
+                                   .commit
             end
 
             roles_users.where(user_id: user.id).command(:delete).call
@@ -99,7 +97,7 @@ module CompThink
                roles_users.command(:create).call(user_id: user.id, role_id: role.id)
             end
 
-            user
+            Persist::Mappers::UserMapper.new.call(user).first
          end
       end
 

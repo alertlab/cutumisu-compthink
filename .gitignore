@@ -20,9 +20,6 @@ tmp/*
 # Ignore all gem files.
 *.gem
 
-# sass generates a tmp directory when running locally
-.sass-cache
-
 persist/seed_secrets.*
 
 faces/web/tmp/restart.txt

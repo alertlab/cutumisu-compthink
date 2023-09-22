@@ -10,7 +10,7 @@ ko.components.register('current-session', {
       self.isAdmin = !!(window.location.pathname.match(/^\/admin/) || window.location.search.match(/\?uri=\/admin/));
 
       self.signedIn = ko.pureComputed(function () {
-         return !!window.currentUser();
+         return !!ko.unwrap(window.currentUser);
       });
 
       self.currentEmail = function () {
@@ -24,12 +24,11 @@ ko.components.register('current-session', {
       };
 
       self.signOut = function () {
-         ajax('post', '/auth/sign_out', null, function (response) {
-            eatCookie('compthink.user_data');
-
-            window.flash('notice', response.notice);
-
-            window.currentUser(null);
+         TenjinComms.ajax('/auth/sign-out', {
+            data: {},
+            onSuccess: function (response) {
+               window.currentUser(null);
+            }
          });
       };
    }

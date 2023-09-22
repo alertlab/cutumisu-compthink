@@ -1,96 +1,96 @@
 # frozen_string_literal: true
 
-When('{string} signs in') do |first_name|
+When '{string} signs in' do |first_name|
    unless first_name.blank?
-      email    = @persisters[:user].find(first_name: first_name).email
+      email    = persisters[:user].find(first_name: first_name).email
       password = 'sekret' # probably should grab this via some some testing constant somewhere.
 
-      step(%["#{ first_name }" signs in with "#{ email }" and "#{ password }"])
+      step %["#{ first_name }" signs in with "#{ email }" and "#{ password }"]
    end
 end
 
-When('{string} force signs in') do |first_name|
+When '{string} force signs in' do |first_name|
    unless first_name.blank?
-      email    = @persisters[:user].find(first_name: first_name).email
+      email    = persisters[:user].find(first_name: first_name).email
       password = 'sekret' # probably should grab this via some some testing constant somewhere.
 
-      step(%["#{ first_name }" force signs in with "#{ email }" and "#{ password }"])
+      step %["#{ first_name }" force signs in with "#{ email }" and "#{ password }"]
    end
 end
 
-When('{string} signs in with follow uri {path}') do |first_name, uri|
-   visit("/?uri=#{ uri }")
+When '{string} signs in with follow uri {path}' do |first_name, uri|
+   visit "/sign-in?#{ Addressable::URI.heuristic_parse(uri.to_s).to_query('uri') }"
 
-   step(%["#{ first_name }" signs in])
+   step %["#{ first_name }" signs in]
 end
 
-When('{string} signs in with the wrong password') do |first_name|
-   email = @persisters[:user].find(first_name: first_name).email
+When '{string} signs in with the wrong password' do |first_name|
+   email = persisters[:user].find(first_name: first_name).email
 
-   step(%["#{ first_name }" signs in with "#{ email }" and "someR@ndomGarbage"])
+   step %["#{ first_name }" signs in with "#{ email }" and "someR@ndomGarbage"]
 
    # TODO: remove this cheat and actually determine current user from session data
    @current_user = nil
 end
 
-When('{string} signs in with {string} and {string}') do |first_name, email, password|
-   user = @persisters[:user].find(first_name: first_name)
+When '{string} signs in with {string} and {string}' do |first_name, email, password|
+   user = persisters[:user].find(first_name: first_name)
 
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
-      step(%["#{ first_name }" signs out]) if @current_user
+      step %["#{ first_name }" signs out] if @current_user
 
-      visit('/admin') unless page.current_url.match?('admin')
+      visit '/admin' unless page.current_url.match?('admin')
 
       close_flash
 
-      within('sign-in') do
+      within 'sign-in' do
          fill_in :email, with: email
-         fill_in :password, with: password
+         fill_in 'Password', with: password
 
-         click_button('Sign In')
+         click_button 'Sign In'
       end
 
       wait_for_ajax
 
-      @current_user = @persisters[:user].find(first_name: first_name, email: email)
+      @current_user = persisters[:user].find(first_name: first_name, email: email)
    end
 end
 
-When('{string} force signs in with {string} and {string}') do |first_name, email, password|
-   user = @persisters[:user].find(first_name: first_name)
+When '{string} force signs in with {string} and {string}' do |first_name, email, password|
+   user = persisters[:user].find(first_name: first_name)
 
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
-      step(%["#{ first_name }" signs out]) if @current_user
+      step %["#{ first_name }" signs out] if @current_user
 
-      page.driver.follow(:post, '/auth/sign_in', admin: {email:    email,
-                                                         password: password})
+      page.driver.browser.follow(:post, '/auth/sign-in', admin: {email:    email,
+                                                                 password: password})
       expect(page.driver.status_code).to be < 400
 
-      @current_user = @persisters[:user].find(first_name: first_name,
-                                              email:      email)
+      @current_user = persisters[:user].find(first_name: first_name,
+                                             email:      email)
    end
 end
 
-When('they sign in to participate with user {string} and preset group {string}') do |user_name, group_name|
-   user = @persisters[:user].find(first_name: user_name)
+When 'they sign in to participate with user {string} and preset group {string}' do |user_name, group_name|
+   user = persisters[:user].find(first_name: user_name)
 
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
-      step(%["#{ user_name }" signs out]) if @current_user
+      step %["#{ user_name }" signs out] if @current_user
 
-      visit("/?group=#{ group_name }")
+      visit "/?group=#{ group_name }"
 
       close_flash
 
-      within('sign-in') do
-         fill_in(:username, with: user_name)
+      within 'sign-in' do
+         fill_in :username, with: user_name
 
-         click_button('Go!')
+         click_button 'Go!'
       end
 
       wait_for_ajax
@@ -99,37 +99,37 @@ When('they sign in to participate with user {string} and preset group {string}')
    end
 end
 
-When('they sign in to participate with user {string} and group {string}') do |user_name, group_name|
-   user = @persisters[:user].find(first_name: user_name)
+When 'they sign in to participate with user {string} and group {string}' do |user_name, group_name|
+   user = persisters[:user].find(first_name: user_name)
 
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
-      step(%["#{ user_name }" signs out]) if @current_user
+      step %["#{ user_name }" signs out] if @current_user
 
-      visit('/')
+      visit '/'
 
       close_flash
 
-      within('sign-in') do
-         fill_in(:group, with: group_name)
-         fill_in(:username, with: user_name)
+      within 'sign-in' do
+         fill_in :group, with: group_name
+         fill_in :username, with: user_name
 
-         click_button('Go!')
+         click_button 'Go!'
       end
 
       wait_for_ajax
 
       # sometimes the user is created in the login process
-      @current_user = user || @persisters[:user].find(first_name: user_name)
+      @current_user = user || persisters[:user].find(first_name: user_name)
    end
 end
 
-When('{string} signs out') do |name|
-   step(%["#{ name }" is signed in])
+When '{string} signs out' do |name|
+   step %["#{ name }" is signed in]
 
    @current_user = nil
-   click_link('Sign Out')
+   click_link 'Sign Out'
 
    wait_for_ajax
 end

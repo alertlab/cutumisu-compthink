@@ -56,8 +56,8 @@ Feature: Researcher Updates Group
          | start date  | end date    |
          | Jan 15 2001 | Feb 15 2001 |
       And "Kelly" navigates to group editor for "Group A"
-      Then "Kelly" should see group "Start Date" is "15 Jan 2001"
-      And "Kelly" should see group "End Date" is "15 Feb 2001"
+      Then "Kelly" should see group "Start Date" is "2001-01-15"
+      And "Kelly" should see group "End Date" is "2001-02-15"
    
    Scenario Outline: it should update open participation matching rules
       Given the following group:

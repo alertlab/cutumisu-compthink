@@ -3,7 +3,7 @@ ko.components.register('group-editor', {
                                    formClass: formClass,\
                                    onSave: save,\
                                    onDelete: deleteGroup, \
-                                   canDelete: !isNewRecord(), \
+                                   deletable: !isNewRecord(), \
                                    deleteConfirm: deleteConfirm,\
                                    cancelHref: \'/admin/groups\' ">\
                   <div class="group">\
@@ -14,11 +14,11 @@ ko.components.register('group-editor', {
                         </label>\
                         <label>\
                            <span>Start Date</span>\
-                           <input type="text" name="start_date" data-bind="value: group.start_date" autocomplete="off">\
+                           <input type="date" name="start_date" data-bind="value: group.start_date" autocomplete="off">\
                         </label>\
                         <label>\
                            <span>End Date</span>\
-                           <input type="text" name="end_date" data-bind="value: group.end_date" autocomplete="off">\
+                           <input type="date" name="end_date" data-bind="value: group.end_date" autocomplete="off">\
                         </label>\
                      </div>\
                      <div class="participation-type">\
@@ -66,14 +66,20 @@ ko.components.register('group-editor', {
                            <header>\
                               Participants (<span data-bind="text: group.participants().length"></span>)\
                            </header>\
+                           <div class="controls">\
+                              <button type="button" class="bulk-add" data-bind="click: bulk.isVisible.toggle">Bulk Create...</button>\
+                              <button type="button" class="add" data-bind="click: addParticipant">+1</button>\
+                           </div>\
                            <div class="list" data-bind="foreach: {data: group.participants, as: \'userShell\'}">\
                               <div>\
                                  <div class="new-participant" data-bind="visible: !userShell.user(), \
                                                                          if: !userShell.user()">\
-                                    <search-select params="uri: \'/admin/search_users\', \
-                                                           selectedObservable: userShell.user,\
-                                                           labelWith: $parent.buildUserLabel, \
-                                                           name: \'participant-\'+ $index()"></search-select>\
+                                    <input-search params="value: userShell.user,\
+                                                          searchText: userShell.userSearch, \
+                                                          searchResults: userShell.foundUsers">\
+                                    <span data-bind="text: $data.first_name"></span>\
+                                    <span data-bind="text: $data.last_name"></span>\
+                                    </input-search>\
                                  </div>\
                                  <div class="participant" data-bind="visible: userShell.user(), \
                                                                      if: userShell.user()">\
@@ -83,18 +89,14 @@ ko.components.register('group-editor', {
                                     </a>\
                                     <!--<user-summary params="user: userShell.user"></user-summary>-->\
                                  </div>\
-                                 <a href="#" class="delete" title="Remove Participant" data-bind="click: function() { $parent.removeParticipant(userShell) }">x</a>\
+                                 <button class="delete" title="Remove Participant" data-bind="click: function() { $parent.removeParticipant(userShell) }">x</button>\
                               </div>\
                            </div>\
-                           <span class="placeholder" data-bind="visible: !group.participants().length">- nobody -</span>\
-                           <div class="controls">\
-                              <a href="#" class="bulk-add" data-bind="click: bulk.isVisible.toggle">Bulk Create...</a>\
-                              <a href="#" class="add" data-bind="click: addParticipant">+1</a>\
-                           </div>\
-                           <confirm-dialog class="bulk-participants" \
-                                           params="header: \'Add Multiple Participants\',\
-                                                   visibility: bulk.isVisible,\
-                                                   onConfirm: bulk.createUsers,\
+                           <span class="placeholder" data-bind="hidden: group.participants().length">- nobody -</span>\
+                           <dialog-confirm class="bulk-participants" \
+                                           params="title: \'Add Multiple Participants\',\
+                                                   visible: bulk.isVisible,\
+                                                   actions: bulk.actions,\
                                                    confirm: \'Add\'">\
                               <div class="mode">\
                                  <label>\
@@ -131,7 +133,7 @@ ko.components.register('group-editor', {
                                    sisko\
                                  </p>\
                               </div>\
-                           </confirm-dialog>\
+                           </dialog-confirm>\
                         </div>\
                      </div>\
                   </div>\
@@ -158,12 +160,58 @@ ko.components.register('group-editor', {
       // regular expression shortcut for open groups
       self.openRegex = "\\S+";
 
+      var UserShell = function (user) {
+         var shellSelf = this;
+         this.user = ko.observable(user);
+         this.userSearch = ko.observable('');
+         this.searchResults = ko.observableArray().extend({
+            loaded: {
+               url: '/admin/search-users',
+               params: {
+                  filter: {
+                     name: shellSelf.userSearch
+                  }
+               }
+            }
+         });
+         this.foundUsers = ko.pureComputed(function () {
+            return shellSelf.searchResults().results;
+         });
+      }
+
       self.bulk = {
          number: ko.observable(1),
          prefix: ko.observable('user'),
          isVisible: ko.observable(false).toggleable(),
          list: ko.observable(''),
          mode: ko.observable('generating'),
+         actions: {
+            'Cancel': false,
+            'Add': function () {
+               var newUsers;
+               var ids = [];
+
+               if (self.bulk.isGenerating()) {
+                  for (var i = 0; i < self.bulk.number(); i++) {
+                     var name = self.bulk.prefix() + padDigitLeft(self.bulk.maxNumber() + i + 1, 3);
+
+                     ids.push(name);
+                  }
+               } else { // then is list
+                  ids = self.bulk.list().split("\n");
+               }
+
+               newUsers = ids.map(function (name) {
+                  return new UserShell({
+                     first_name: name,
+                     email: name + '-' + self.group.name() + '@example.com',
+                     isNewUser: true
+                  })
+               });
+
+               self.group.participants(self.group.participants().concat(newUsers))
+            }
+         },
          isGenerating: ko.pureComputed(function () {
             return self.bulk.mode() === 'generating';
          }),
@@ -173,7 +221,7 @@ ko.components.register('group-editor', {
          maxNumber: ko.pureComputed(function () {
             var maxNumber = 0;
 
-            if (self.group.participants().length > 0) {
+            if (self.group.participants().length) {
                maxNumber = self.group.participants().map(function (userShell) {
                   return parseInt(userShell.user().first_name.replace(self.bulk.prefix(), '')) || 0;
                }).reduce(function (a, b) {
@@ -183,60 +231,10 @@ ko.components.register('group-editor', {
 
             return maxNumber;
          }),
-         createUsers: function () {
-            var newUsers;
-            var ids = [];
-
-            if (self.bulk.isGenerating()) {
-               for (var i = 0; i < self.bulk.number(); i++) {
-                  var name = self.bulk.prefix() + padDigitLeft(self.bulk.maxNumber() + i + 1, 3);
-
-                  ids.push(name);
-               }
-            } else { // then is list
-               ids = self.bulk.list().split("\n");
-            }
-
-            newUsers = ids.map(function (name) {
-               return {
-                  user: ko.observable({
-                     first_name: name,
-                     email: name + '-' + self.group.name() + '@example.com',
-                     isNewUser: true
-                  })
-               };
-            });
-
-            self.group.participants(self.group.participants().concat(newUsers))
-         },
          exampleUserLast: ko.pureComputed(function () {
             return self.bulk.prefix() + '15';
          })
       };
-
-      // put into timeout because basic-form re-parents the input and breaks the binding
-      window.setTimeout(function () {
-         self.datePickers = {
-            start: new Pikaday({
-               field: document.querySelector('input[name="start_date"]'),
-               onSelect: function (date) {
-                  var input = document.querySelector('input[name="start_date"]');
-
-                  self.group.start_date(date.toISOString());
-                  input.value = humanDate(date.getTime() / 1000);
-               }
-            }),
-            end: new Pikaday({
-               field: document.querySelector('input[name="end_date"]'),
-               onSelect: function (date) {
-                  var input = document.querySelector('input[name="end_date"]');
-
-                  self.group.end_date(date.toISOString());
-                  input.value = humanDate(date.getTime() / 1000);
-               }
-            })
-         };
-      });
 
       self.formClass = ko.pureComputed(function () {
          return 'group-editor-' + (self.isNewRecord() ? 'new' : self.group.id());
@@ -254,30 +252,32 @@ ko.components.register('group-editor', {
             filter: {id: self.group.id()}
          };
 
-         ajax('post', '/admin/search_groups', ko.toJSON(data), function (response) {
-            var group = response.results[0] || {};
+         TenjinComms.ajax('/admin/search-groups', {
+            data: data,
+            onSuccess: function (response) {
+               var group = response.results[0] || {};
 
-            // id is only defined on edit, not create
-            self.group.id(group.id);
+               // id is only defined on edit, not create
+               self.group.id(group.id);
 
-            self.group.name(group.name || '');
-            self.group.start_date(humanDate(group.start_date || ''));
-            self.group.end_date(humanDate(group.end_date || ''));
+               self.group.name(group.name || '');
 
-            self.group.regex(group.regex);
+               self.group.start_date(group.start_date.split('T')[0]);
+               self.group.end_date(group.end_date.split('T')[0]);
 
-            if (self.group.regex() === self.openRegex)
-               self.group.participationType('open');
-            else if (self.group.regex() === '' || self.group.regex() === null || self.group.regex() === undefined)
-               self.group.participationType('closed');
-            else
-               self.group.participationType('custom');
+               self.group.regex(group.regex);
 
-            self.group.participants(group.participants.map(function (p) {
-               return {
-                  user: ko.observable(p)
-               }
-            }));
+               if (self.group.regex() === self.openRegex)
+                  self.group.participationType('open');
+               else if (self.group.regex() === '' || self.group.regex() === null || self.group.regex() === undefined)
+                  self.group.participationType('closed');
+               else
+                  self.group.participationType('custom');
+
+               self.group.participants(group.participants.map(function (p) {
+                  return new UserShell(p);
+               }));
+            }
          });
       };
 
@@ -287,7 +287,7 @@ ko.components.register('group-editor', {
       self.save = function () {
          var payload, pType;
 
-         payload = ko.mapping.toJS(self.group, {ignore: ['participants', 'open']});
+         payload = ko.mapping.toJS(self.group, {ignore: ['participants', 'open', 'participationType']});
 
          pType = self.group.participationType();
 
@@ -308,9 +308,8 @@ ko.components.register('group-editor', {
                payload.participants.push(userData.id);
          });
 
-         ajax('post', '/admin/save_group', ko.mapping.toJSON(payload), function (response) {
-            if (response.messages)
-               window.flash('notice', response.messages);
+         TenjinComms.ajax('/admin/save-group', {
+            data: payload
          });
 
          if (params['onSave'])
@@ -318,9 +317,8 @@ ko.components.register('group-editor', {
       };
 
       self.deleteGroup = function () {
-         ajax('post', '/admin/delete_group', ko.mapping.toJSON({id: self.group.id()}), function (response) {
-            if (response.messages)
-               window.flash('notice', response.messages);
+         TenjinComms.ajax('/admin/delete-group', {
+            data: {id: self.group.id()}
          });
       };
 
@@ -328,12 +326,8 @@ ko.components.register('group-editor', {
          return 'Are you sure you wish to delete ' + self.group.name() + '?';
       });
 
-      self.buildUserLabel = function (user) {
-         return user.first_name + ' ' + user.last_name;
-      };
-
       self.userLink = function (user) {
-         return '/admin/edit_person?id=' + user.id;
+         return '/admin/edit-person?id=' + user.id;
       };
 
       self.headerText = ko.pureComputed(function () {
@@ -341,7 +335,7 @@ ko.components.register('group-editor', {
       });
 
       self.addParticipant = function () {
-         self.group.participants.push({user: ko.observable()});
+         self.group.participants.push(new UserShell());
       };
 
       self.removeParticipant = function (userShell) {

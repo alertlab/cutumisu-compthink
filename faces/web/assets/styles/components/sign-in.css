@@ -1,0 +1,36 @@
+sign-in {
+   display: flex;
+
+   flex-direction: column;
+
+   margin: 2rem auto 0 auto;
+
+   max-width: 30rem;
+   background: #ffffff;
+}
+
+sign-in ul {
+   margin-bottom: 0.5rem;
+   padding-left: 0;
+
+   background: none;
+   box-shadow: none;
+}
+
+sign-in li {
+   list-style: none;
+}
+
+sign-in form button {
+   box-shadow: 1px 1px 2px #6b5c00;
+   border: none;
+   border-radius: 0.25rem;
+   width: 100%;
+
+   padding: 0.5rem 1rem;
+   background: #ffdb05;
+
+   color: rgba(0, 0, 0, 0.7);
+   text-align: center;
+   font-family: sans-serif;
+}

@@ -1,0 +1,80 @@
+basic-form {
+   display: block;
+}
+
+basic-form > header {
+   margin-bottom: 1em;
+
+   padding: 1em 0.25em;
+
+   background: var(--brand2);
+   color: var(--neutral2);
+
+   font-size: 1.25em;
+}
+
+basic-form form .form-content {
+   margin-bottom: 2em;
+}
+
+basic-form form .form-content > header {
+   margin: 0.75em 0 0.5em 0;
+
+   border-bottom: 1px solid var(--brand2);
+
+   padding: 0.25em 0.25em;
+
+   color: var(--brand2);
+
+   font-size: 1.25em;
+}
+
+basic-form form .form-content legend {
+   font-style: italic;
+}
+
+basic-form form .form-content fieldset label span {
+   min-width: 9em;
+}
+
+basic-form form > .controls {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+
+   position: relative;
+
+   border-top: 1px solid var(--brand2);
+
+   padding: 1em 0;
+}
+
+basic-form form > .controls .standard-buttons {
+   flex-direction: row;
+}
+
+basic-form form > .controls > div > .cancel {
+   display: inline-block;
+
+   margin: 1em;
+
+   padding-bottom: 1px;
+}
+
+basic-form form > .controls > div > .cancel:before {
+   display: inline-block;
+
+   margin-right: 0.5em;
+   line-height: 1em;
+
+   opacity: 0;
+
+   content: '\21A9';
+
+   transition-property: opacity;
+   transition-duration: 300ms;
+}
+
+basic-form form > .controls > div > .cancel:hover:before {
+   opacity: 1;
+}

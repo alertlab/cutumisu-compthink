@@ -49,13 +49,13 @@ Feature: Search Users
          | 13 |
    
    Scenario Outline: it should return only users after the requested starting number
-      When users are searched starting at <x>
+      When 2 users are searched starting at page <x>
       Then it should return user summaries for "<expected users>"
       Examples:
-         | x | expected users    |
-         | 1 | Jane, John, Kelly |
-         | 2 | John, Kelly       |
-         | 4 |                   |
+         | x | expected users |
+         | 1 | Allan, Jane    |
+         | 2 | John, Kelly    |
+         | 3 |                |
    
    Scenario Outline: it should return users with the exact given id
       Given the following users:

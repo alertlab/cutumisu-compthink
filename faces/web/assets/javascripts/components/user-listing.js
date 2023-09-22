@@ -5,11 +5,11 @@ ko.components.register('user-listing', {
                      <div class="simple-fields">\
                         <label>\
                            <span>Name</span>\
-                           <input type="text" name="name" data-bind="textInput: search.name"/>\
+                           <input type="search" name="name" data-bind="textInput: search.name"/>\
                         </label>\
                         <label>\
                            <span>Email</span>\
-                           <input type="text" name="email" data-bind="textInput: search.email"/>\
+                           <input type="search" name="email" data-bind="textInput: search.email"/>\
                         </label>\
                         <label>\
                            <span>Group</span>\
@@ -18,28 +18,25 @@ ko.components.register('user-listing', {
                                                            value: search.group" ></select>\
                         </label>\
                      </div>\
-                     <fieldset class="roles">\
-                        <legend>\
-                           Role\
-                        </legend>\
-                        <input-checklist params="values: allRoles,\
-                                                 checkedItems: search.roles,\
-                                                 allLabel: \'Any\'"></input-checklist>\
-                     </fieldset>\
+                     <input-checklist params="name: \'role\', \
+                                              options: allRoles,\
+                                              checked: search.roles,\
+                                              allLabel: \'Any\'"></input-checklist>\
                   </div>\
-                  <a class="add-user-button" \
-                     href="#" \
-                     data-bind="visible: !createEditorVisible(), click: createEditorVisible.toggle">\
+                  <button class="add-user-button" \
+                     data-bind="hidden: createEditorVisible, click: createEditorVisible.toggle">\
                      <div class="icon">\
-                        <img src="" data-bind="attr: {src: window.appData.imagePaths.person}"/>\
+                        <img src="" alt="" data-bind="attr: {src: window.appData.imagePaths.person}"/>\
                         <span class="plus">+</span>\
                      </div>\
                      Add Person\
-                  </a>\
+                  </button>\
                   <hr>\
-                  <a class="download" href="/admin/export_data?type=users">\
-                     Download User Data\
-                  </a>\
+                  <form method="post" action="/admin/export-data?type=users">\
+                     <button type="submit" class="download">\
+                        Download User Data\
+                     </button>\
+                  </form>\
                </div>\
                <div class="user-summaries">\
                   <div class="add-user-controls" data-bind="visible: createEditorVisible">\
@@ -53,18 +50,17 @@ ko.components.register('user-listing', {
                   <div data-bind="foreach: {data: users, as: \'user\'}">\
                      <user-summary params="user: user"></user-summary>\
                   </div>\
-                  <div data-bind="visible: !createEditorVisible()">\
-                     <p data-bind="visible: users.isLoaded() && users().length == 0">\
+                  <div data-bind="hidden: createEditorVisible">\
+                     <p data-bind="visible: users() && !users().length">\
                         There are no people yet. \
                      </p>\
-                     <loading-spinner params="target: users"></loading-spinner>\
+                     <dialog-busy params="target: searchResults.isLoading"></dialog-busy>\
                   </div>\
-                  <paginator params="data: users, \
-                                     uri: \'/admin/search_users\',\
-                                     sortWith: sort,\
-                                     pageSizeOptions: [10],\
-                                     scrollTo: \'user-listing\', \
-                                     filter: search"></paginator>\
+                  <pane-paged params="page: page.number,\
+                                      size: page.size,\
+                                      sizeOptions: [10],\
+                                      maxResults: page.maxResults,\
+                                      scrollTo: \'user-listing\'"></pane-paged>\
                </div>',
 
    /**
@@ -72,14 +68,13 @@ ko.components.register('user-listing', {
    viewModel: function (params) {
       var self = this;
 
-      self.users = ko.observableArray().extend({loadable: true});
-      self.createEditorVisible = ko.observable(false).toggleable();
-
-      self.groupNames = JSON.parse(decodeURIComponent(params['groups'])) || [];
-      self.allRoles = JSON.parse(decodeURIComponent(window.appData.roles));
-
-      var searchLimit = 500;
-
+      self.page = {
+         size: ko.observable(),
+         number: ko.observable(1).extend({resettable: true}),
+         maxResults: ko.pureComputed(function () {
+            return self.searchResults().all_data_count || 0;
+         })
+      }
       self.sort = {
          field: ko.observable('first_name'),
          direction: ko.observable(true).extend({notify: 'always'})
@@ -99,8 +94,9 @@ ko.components.register('user-listing', {
          }
       });
       self.sort.direction.subscribe(function () {
-         self.users.shouldReload(true);
+         self.searchResults.load();
       });
+      var searchLimit = 500;
 
       self.search = {
          name: ko.observable().extend({rateLimit: searchLimit}),
@@ -108,6 +104,26 @@ ko.components.register('user-listing', {
          group: ko.observable(),
          roles: ko.observableArray()
       };
+      self.searchResults = ko.observable({}).extend({
+         loaded: {
+            url: '/admin/search-users',
+            params: {
+               filter: self.search,
+               sort_by: self.sort.field,
+               sort_direction: self.sort.direction,
+               count: self.page.size,
+               page: self.page.number
+            }
+         }
+      });
+      self.users = ko.pureComputed(function () {
+         return self.searchResults().results || [];
+      })
+
+      self.createEditorVisible = ko.observable(false).toggleable();
+
+      self.groupNames = JSON.parse(decodeURIComponent(params['groups'])) || [];
+      self.allRoles = JSON.parse(decodeURIComponent(window.appData.roles));
 
       self.sortOptions = [
          {name: 'First Name A-Z', value: 'first_name__asc'},
@@ -119,7 +135,7 @@ ko.components.register('user-listing', {
       // BEHAVIOUR
       self.personCreated = function () {
          self.createEditorVisible.toggle();
-         self.users.shouldReload(true);
+         self.searchResults.load();
       };
    }
 });

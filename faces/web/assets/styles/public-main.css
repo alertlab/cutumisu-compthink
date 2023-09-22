@@ -1,0 +1,10 @@
+/**
+ * To include a new directory, list it here using a require, require_directory, or require_tree directive.
+ *
+ *
+ * = require knockoutjs-widgets/manifests/sprockets
+ * = require styles/layouts/common
+ * = require styles/layouts/public
+ * = require_tree ./pages
+ * = require_tree ./components
+ */

@@ -2,10 +2,10 @@ ko.components.register('lever-game', {
    template: '<div class="game-meta-container">\
                   <div class="game-container"></div>\
               </div>\
-              <float-frame params="visibility: returnPrompt" class="return-prompt">\
-                  <header>Great Success!</header>\
+              <dialog-confirm params="title: \'Finished\', visible: returnPrompt, actions: {}" class="return-prompt">\
+                  <p>Great Success!</p>\
                   <p><a href="/games">Back To Game list</a></p>\
-                 </float-frame>',
+                 </dialog-confirm>',
 
    /**
     */
@@ -24,7 +24,7 @@ ko.components.register('lever-game', {
       self.moves = 0;
       shuffleExpected = true;
 
-      expected = eatCookie('compthink.game.expected');
+      expected = TenjinComms.cookie.eat('game.expected');
 
       if (expected) {
          expected = decodeURIComponent(expected).split(',');
@@ -108,13 +108,15 @@ ko.components.register('lever-game', {
             });
          }
 
-         ajax('post', '/games/logging/record_click', ko.toJSON({
-            puzzle: 'levers',
-            expected: expected,
-            complete: finalButton.switched,
-            target: button.name,
-            move_number: self.moves
-         }));
+         TenjinComms.ajax('/games/logging/record-click', {
+            data: {
+               puzzle: 'levers',
+               expected: expected,
+               complete: finalButton.switched,
+               target: button.name,
+               move_number: self.moves
+            }
+         });
       };
 
       self.game = new Phaser.Game(gameWidth, gameHeight, Phaser.AUTO, document.querySelector('lever-game .game-container'), {

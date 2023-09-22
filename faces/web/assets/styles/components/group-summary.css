@@ -1,0 +1,29 @@
+group-summary {
+   display: block;
+
+   position: relative;
+
+   margin-bottom: 1em;
+
+   border: 1px solid var(--brand2);
+   border-radius: 0.25em;
+
+   padding: 1em;
+}
+
+group-summary header {
+   margin-bottom: 0.5em;
+
+   border: none;
+
+   padding: 0;
+
+   text-align: left;
+   font-size: 1.25em;
+}
+
+group-summary .controls {
+   position: absolute;
+   top: 1rem;
+   right: 1rem;
+}

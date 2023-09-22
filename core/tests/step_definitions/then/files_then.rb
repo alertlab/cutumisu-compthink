@@ -27,7 +27,7 @@ Then('the download should have {int} lines') do |n|
 end
 
 Then('the download should include data for users {string}') do |name_list|
-   user_persister = @container.persisters[:user]
+   user_persister = container.persisters[:user]
 
    extract_list(name_list).each do |name|
       user = user_persister.find(first_name: name)
@@ -41,7 +41,7 @@ Then('the download should include data for users {string}') do |name_list|
 end
 
 Then('the download should include data for all clicks') do
-   clicks = @container.persisters[:click].clicks.to_a
+   clicks = container.persisters[:click].clicks.to_a
 
    clicks.each do |click|
       expect(@result.lines.map(&:chomp)).to include(ExportData::CLICK_COLUMNS.collect do |col|

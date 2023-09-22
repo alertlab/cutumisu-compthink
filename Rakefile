@@ -4,11 +4,15 @@ require 'rom'
 require 'rom/sql'
 require 'rom/sql/rake_task'
 require 'yaml'
-require 'sinatra/asset_pipeline/task'
-require_relative './faces/web/sinatra/routes.rb'
 require 'turnout/rake_tasks'
+require 'invar/rake/tasks'
+require_relative 'core/comp_think'
+require_relative 'faces/web/sinatra/server'
+require 'dirt/face/web/rake/tasks'
 
-Sinatra::AssetPipeline::Task.define! Sinatra::Application
+Invar::Rake::Tasks.define namespace: CompThink::AppContainer::INVAR_NAME
+
+Dirt::Face::Web::Rake::AssetTasks.define app: CompThink::WebFace::Server
 
 namespace :db do
    task :setup do

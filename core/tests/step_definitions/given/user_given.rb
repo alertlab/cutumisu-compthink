@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
-Given('the following role(s):') do |table|
-   @persisters[:role].create(symrow(table))
+Given 'the following role(s):' do |table|
+   symtable(table).hashes.each do |row|
+      persisters[:role].create(**row)
+   end
 end
 
-Given('the following user(s):') do |table|
-   user_persister  = @persisters[:user]
-   group_persister = @persisters[:group]
+Given 'the following user(s):' do |table|
+   user_persister  = persisters[:user]
+   group_persister = persisters[:group]
 
    symtable(table).hashes.each do |row|
       row[:roles] = extract_list(row.delete(:role) || row.delete(:roles)) if row[:role] || row[:roles]
@@ -42,9 +44,9 @@ Given('the following user(s):') do |table|
 end
 
 Given('{string} has role {string}') do |user_name, role_name|
-   role_persister = @persisters[:role]
+   role_persister = persisters[:role]
 
-   user = @persisters[:user].find(first_name: user_name)
+   user = persisters[:user].find(first_name: user_name)
 
    role = role_persister.role_with(name: role_name) || role_persister.create(name: role_name)
 
@@ -52,8 +54,8 @@ Given('{string} has role {string}') do |user_name, role_name|
 end
 
 Given('there are no users') do
-   @persisters[:user].users.to_a.each do |user|
-      @persisters[:user].delete(user.id)
+   persisters[:user].users.to_a.each do |user|
+      persisters[:user].delete(user.id)
    end
 end
 
@@ -65,11 +67,11 @@ Given('{int} users') do |count|
 
       n = n.to_s.rjust(count.to_s.split('').length, '0') # 0 pad for as many places as we expect
 
-      @persisters[:user].create_with_auth(first_name:           "User#{ n }",
-                                          last_name:            'Doe',
-                                          email:                "user#{ n }@example.com",
-                                          user_authentications: {
-                                                encrypted_password: Model::UserAuthentication.encrypt('sekret')
-                                          })
+      persisters[:user].create_with_auth(first_name:           "User#{ n }",
+                                         last_name:            'Doe',
+                                         email:                "user#{ n }@example.com",
+                                         user_authentications: {
+                                               encrypted_password: Model::UserAuthentication.encrypt('sekret')
+                                         })
    end
 end

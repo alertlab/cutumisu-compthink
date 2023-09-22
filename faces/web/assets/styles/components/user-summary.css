@@ -1,0 +1,69 @@
+user-summary {
+   display: block;
+
+   position: relative;
+
+   border: 1px solid var(--brand2);
+   border-radius: 0.25rem;
+
+   padding: 1rem;
+}
+
+user-summary .user-summary {
+   gap: 1rem;
+}
+
+user-summary header {
+   margin-bottom: 0.25rem;
+
+   border: none;
+
+   padding: 0;
+   gap: 1rem;
+   flex-direction: row;
+   align-items: center;
+
+   text-align: left;
+   font-size: large;
+}
+
+user-summary .roles {
+   flex-direction: row;
+
+   font-size: small;
+   gap: 0.1rem;
+}
+
+user-summary header > * {
+   margin: auto 0;
+}
+
+user-summary .roles .role {
+   display: flex;
+
+   border-radius: 0.1em;
+
+   padding: 0.5em;
+
+   background: #aaa;
+   color: white;
+}
+
+user-summary .role-admin {
+   background: #7F0AA9;
+}
+
+user-summary .groups {
+   flex-direction: row;
+   gap: 0.25rem;
+}
+
+user-summary .groups div {
+   display: flex;
+}
+
+user-summary .user-summary > .controls {
+   position: absolute;
+   top: 1em;
+   right: 1em;
+}

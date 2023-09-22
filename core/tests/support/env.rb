@@ -23,24 +23,4 @@ require_relative './shim'
 include CompThink
 include CompThink::Interactor
 
-persistence_env = CompThink.build_persistence_environment
-persisters      = CompThink.build_persisters(persistence_env)
-
-Before do
-   begin
-      @container = OpenStruct.new
-
-      @container.persistence_env = persistence_env
-      @container.persisters      = @persisters = persisters
-
-      Garden.build_seeder(persistence_env, @persisters).replant
-   rescue StandardError => e
-      Kernel.abort(([e.message] + e.backtrace).join("\n"))
-   end
-end
-
 World(HelperMethods)
-
-After do
-   Timecop.return
-end
