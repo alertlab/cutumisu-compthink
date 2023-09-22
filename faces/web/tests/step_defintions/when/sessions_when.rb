@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 When '{string} signs in' do |first_name|
-   unless first_name.blank?
+   unless first_name.nil? || first_name.empty?
       email    = persisters[:user].find(first_name: first_name).email
       password = 'sekret' # probably should grab this via some some testing constant somewhere.
 
@@ -10,7 +10,7 @@ When '{string} signs in' do |first_name|
 end
 
 When '{string} force signs in' do |first_name|
-   unless first_name.blank?
+   unless first_name.nil? || first_name.empty?
       email    = persisters[:user].find(first_name: first_name).email
       password = 'sekret' # probably should grab this via some some testing constant somewhere.
 
@@ -19,7 +19,7 @@ When '{string} force signs in' do |first_name|
 end
 
 When '{string} signs in with follow uri {path}' do |first_name, uri|
-   visit "/sign-in?#{ Addressable::URI.heuristic_parse(uri.to_s).to_query('uri') }"
+   visit "/sign-in?uri=#{ uri.to_s.gsub('/', '%2F') }"
 
    step %["#{ first_name }" signs in]
 end

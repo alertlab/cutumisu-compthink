@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rake', '~> 12.3'
+gem 'rake', '~> 13.0'
 
 group :face_web do
    # TODO: remove and update to most recent. When attempting to do so, it fails to find a js runtime.
@@ -21,7 +21,6 @@ end
 # end
 
 group :core do
-   gem 'activesupport', '~> 6.1' # Gross
    # gem 'procrastinator', '~>0.6.1'
    gem 'invar', '~> 0.8'
 end

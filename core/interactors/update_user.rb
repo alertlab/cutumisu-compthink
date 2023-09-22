@@ -7,8 +7,8 @@ module CompThink
 
          def run(id:, first_name:, last_name:, email:, password: nil, roles:, groups: nil)
             # TODO: use proper validator gem
-            return {errors: ['First name cannot be blank']} if first_name.blank?
-            return {errors: ['Last name cannot be blank']} if last_name.blank?
+            return {errors: ['First name cannot be blank']} if first_name.nil? || first_name.empty?
+            return {errors: ['Last name cannot be blank']} if last_name.nil? || last_name.empty?
 
             user = users_persister.update_with_auth(id,
                                                     first_name: first_name,

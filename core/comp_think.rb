@@ -3,8 +3,6 @@
 Bundler.require :core
 
 require 'pathname'
-require 'active_support'
-require 'active_support/core_ext'
 
 module Dirt
    PROJECT_ROOT = Pathname.new(File.dirname(__FILE__) + '/..').realpath

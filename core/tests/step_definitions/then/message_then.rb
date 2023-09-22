@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-Then('it should say {error level} {string}') do |level, txt|
-   lvl = level.pluralize.to_sym
+Then 'it should say {error level} {string}' do |level, txt|
+   expect(@result).to have_key(level)
+   expect(@result[level]).to_not be_nil
 
-   expect(@result).to have_key(lvl)
-   expect(@result[lvl]).to_not be_nil
-
-   expect(@result[lvl]).to eq [txt]
+   expect(@result[level]).to eq [txt]
 end
 
 # Then('it should return {int} {error level}(s)') do |number, type|

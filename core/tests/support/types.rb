@@ -22,7 +22,11 @@ ParameterType(name:        'direction',
 ParameterType(name:        'error level',
               regexp:      /(message|warning|error)/,
               type:        String,
-              transformer: ->(str) { str })
+              transformer: lambda { |str|
+                 str = "#{ str }s" unless str.end_with?('s')
+
+                 str.to_sym
+              })
 
 ParameterType(name:        'html element',
               regexp:      /<(\S+)>/,
