@@ -23,7 +23,7 @@ end
 group :core do
    gem 'activesupport', '~> 6.1' # Gross
    # gem 'procrastinator', '~>0.6.1'
-   gem 'invar', '~> 0.7'
+   gem 'invar', '~> 0.8'
 end
 
 group :persist do
@@ -56,7 +56,7 @@ group :test_face_web do
    gem 'capybara', '~> 3.39', require: 'capybara/cucumber'
    gem 'capybara-selenium', '~> 0.0.6'
    gem 'cucumber', '~> 8.0'
-   gem 'puma', '~> 6.3'
+   gem 'puma', '~> 6.4'
    gem 'selenium-webdriver', '~> 4.12'
    gem 'webmock', '~> 3.18'
 end
