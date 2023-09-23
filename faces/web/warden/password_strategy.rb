@@ -10,11 +10,11 @@ module CompThink
          FAIL_DISPLAY_MESSAGE = 'Incorrect email or password'
 
          def valid?
-            email && password
+            user_param.key?('email') && user_param.key?('password')
          end
 
          def authenticate!
-            user = persisters[:user].find(email: email)
+            user = email.empty? ? nil : persisters[:user].find(email: email)
 
             if user.nil?
                throw :warden,

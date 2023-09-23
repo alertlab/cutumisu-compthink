@@ -20,7 +20,7 @@ GEM
       uglifier (>= 4.2)
       warden (>= 1.2.9)
     knockoutjs-core (3.5.1)
-    knockoutjs-widgets (0.21.0)
+    knockoutjs-widgets (0.21.1)
       knockoutjs-core (>= 3.5.1.0, >= 3.5)
       tenjin-js-comms (>= 2.5)
     tenjin-js-comms (2.5.0)

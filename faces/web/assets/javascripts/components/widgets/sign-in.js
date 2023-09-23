@@ -37,8 +37,8 @@ ko.components.register('sign-in', {
 
       self.user = window.currentUser;
 
-      self.email = ko.observable();
-      self.password = ko.observable();
+      self.email = ko.observable('');
+      self.password = ko.observable('');
 
       self.group = ko.observable().extend({
          storage: {
@@ -59,16 +59,22 @@ ko.components.register('sign-in', {
       });
 
       self.signIn = function () {
-         var data = {
-            admin: {
-               email: self.email(),
-               password: self.password()
-            },
-            user: {
-               group: self.group(),
-               username: self.username()
-            }
-         };
+         var data;
+
+         if (self.isAdmin)
+            data = {
+               admin: {
+                  email: self.email(),
+                  password: self.password()
+               }
+            };
+         else
+            data = {
+               user: {
+                  group: self.group(),
+                  username: self.username()
+               }
+            };
 
          TenjinComms.ajax('/auth/sign-in', {
             data: data,

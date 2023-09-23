@@ -1,5 +1,4 @@
 :root {
-   /*  TODO: redefine all colours */
    /* brand color 1: whitish contrast coal */
    --brand1-h: 0;
    --brand1-s: 0%;
@@ -204,31 +203,8 @@ input-password {
    margin: 0.5rem 0;
 }
 
-input-password input {
-   height: 100%;
-   width: 100%;
-}
-
 input-password button {
-   max-width: fit-content;
    min-height: auto;
-}
-
-input-password .show-pw span,
-input-password .show-pw .icon-label {
-   margin: 0;
-}
-
-input-search .results-section {
-   position: absolute;
-   top: 100%;
-   z-index: 10;
-   width: 100%;
-}
-
-input-search button {
-   justify-content: flex-start;
-   padding: 0.5rem;
 }
 
 dialog-confirm header {
