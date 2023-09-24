@@ -11,22 +11,6 @@ module CompThink
                      redirect '/admin/people'
                   end
 
-                  get '/people' do
-                     erb :'admin/_people', layout: layout
-                  end
-
-                  get '/edit-person' do
-                     erb :'admin/_edit_person', layout: layout
-                  end
-
-                  get '/groups' do
-                     erb :'admin/_groups', layout: layout
-                  end
-
-                  get '/edit-group' do
-                     erb :'admin/_edit_group', layout: layout
-                  end
-
                   post '/search-users' do
                      run_command Interactor::SearchUsers
                   end

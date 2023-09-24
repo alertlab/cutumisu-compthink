@@ -1,7 +1,7 @@
 GEM
   remote: https://gems.internal.tenjin.ca/
   specs:
-    dirt-face-web (0.14.0)
+    dirt-face-web (0.15.0)
       addressable (>= 2.8)
       erubis (>= 2.7)
       knockoutjs-widgets (>= 0.21)
@@ -289,7 +289,7 @@ DEPENDENCIES
   capybara-selenium (~> 0.0.6)
   cucumber (~> 8.0)
   database_cleaner-sequel (~> 2.0)
-  dirt-face-web (~> 0.14)!
+  dirt-face-web (~> 0.15)!
   execjs (= 2.7.0)
   fakefs (~> 1.9)
   invar (~> 0.8)

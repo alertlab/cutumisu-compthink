@@ -77,9 +77,9 @@ module CompThink
 
             def layout
                if request.path.match?(%r{^/admin})
-                  :'layouts/admin'
+                  :admin
                else
-                  :'layouts/public'
+                  :public
                end
             end
          end

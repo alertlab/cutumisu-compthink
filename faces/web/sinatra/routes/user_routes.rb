@@ -7,18 +7,6 @@ module CompThink
          module Users
             def self.registered(app)
                app.namespace '/games' do
-                  get '/?' do
-                     erb :'_games', layout: layout
-                  end
-
-                  get '/leverproblem' do
-                     erb :'games/_leverproblem', layout: layout
-                  end
-
-                  get '/towers' do
-                     erb :'games/_towers', layout: layout
-                  end
-
                   namespace '/logging' do
                      post '/record-click' do
                         params.merge!(user: current_user)

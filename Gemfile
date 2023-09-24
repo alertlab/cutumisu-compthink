@@ -9,7 +9,7 @@ group :face_web do
    gem 'execjs', '=2.7.0'
 
    source 'https://gems.internal.tenjin.ca' do
-      gem 'dirt-face-web', '~> 0.14'
+      gem 'dirt-face-web', '~> 0.15'
    end
 
    gem 'bcrypt', '~> 3.1.19'

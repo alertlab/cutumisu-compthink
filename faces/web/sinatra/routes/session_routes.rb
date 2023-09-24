@@ -41,7 +41,11 @@ module CompThink
                end
 
                app.get '/?' do
-                  erb(:sign_in, layout: layout)
+                  target = Addressable::URI.heuristic_parse('/sign-in')
+
+                  target&.query_values = params
+
+                  redirect target
                end
 
                # legacy support
@@ -49,7 +53,7 @@ module CompThink
                   redirect '/?' + request.query_string
                end
 
-               app.get '/sign-in' do
+               app.before '/sign-in' do
                   original_path = params[:uri]
 
                   if original_path && warden.authenticated?
@@ -58,12 +62,6 @@ module CompThink
                      # path-only allowed to protect against phishing
                      redirect original_path if original_path && original_path.domain.nil?
                   end
-
-                  erb :sign_in,
-                      layout: layout,
-                      locals: {
-                            # calendar: nil
-                      }
                end
 
                app.namespace '/auth' do
