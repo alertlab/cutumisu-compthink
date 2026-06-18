@@ -110,8 +110,10 @@ if $PROGRAM_NAME == __FILE__
       garden = Garden.build_seeder(env, persisters)
 
       garden.replant(ARGV[0].to_sym)
+
+      exit 0
    rescue Garden::SeedError => e
       puts e.message
-      return 1
+      exit 1
    end
 end
