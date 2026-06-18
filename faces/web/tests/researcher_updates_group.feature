@@ -119,12 +119,12 @@ Feature: Researcher Updates Group
       When "<user>" force updates group "Group A" with:
          | Name    |
          | NewName |
-      Then they should see "You are not permitted to do that"
+      Then they should see "<msg>"
       And there should be 1 group
       And there should be a group with:
          | Name    |
          | Group A |
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |

@@ -49,15 +49,15 @@ Feature: Researcher Exports Data
          | lever  | Jan 1 2019 12:00 |
          | hanoi  | Jan 2 2019 09:00 |
       When "<user>" force exports clicks as CSV
-      Then they should see "You are not permitted to do that"
+      Then they should see "<msg>"
       And they should not see "lever"
       And they should not see "hanoi"
       And they should not see "Jan"
       And they should not see "move_number"
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |
    
    @no-js
    Scenario Outline: it should not allow non-admins to export users
@@ -65,10 +65,11 @@ Feature: Researcher Exports Data
          | Name      | Email           | role   | password |
          | Hex Virus | hex@example.com | member | sekret   |
       When "<user>" force exports users as CSV
-      Then they should see "You are not permitted to do that"
+      Then they should see "<msg>"
       And they should not see "Kelly"
       And they should not see "Email"
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |
+      

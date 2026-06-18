@@ -35,7 +35,7 @@ Feature: Researcher Removes Person
          | Name      | Email           | password |
          | Hex Virus | hex@example.com | sekret   |
       When "<user>" force removes user "Kelly"
-      Then they should see "You are not permitted to do that"
+      Then they should see "<msg>"
       Then there should be 3 users
       And there should be a user with:
          | name      |
@@ -44,6 +44,7 @@ Feature: Researcher Removes Person
          | name         |
          | Kelly Meyers |
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |
+      

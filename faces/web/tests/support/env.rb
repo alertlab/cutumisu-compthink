@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require 'pathname'
-src_dir = Pathname.new(__FILE__).parent.parent.parent.parent.parent
+src_dir = File.expand_path('../../../..', __dir__)
 $LOAD_PATH.unshift(src_dir) unless $LOAD_PATH.include?(src_dir)
+
+require 'core/comp_think'
 
 require 'core/tests/support/types'
 
@@ -15,25 +16,17 @@ require 'core/tests/step_definitions/then/groups_then'
 require 'core/tests/step_definitions/then/games_then'
 require 'core/tests/step_definitions/then/message_then'
 
-require 'core/comp_think'
-
 Bundler.require :test_core, :test_face_web
 
-SimpleCov.command_name 'face:web'
-
 ENV['APP_ENV'] ||= 'test'
-
-require 'core/tests/support/hooks'
-
-# require 'database_cleaner'
-# require 'database_cleaner/cucumber'
-#
-# DatabaseCleaner[:sequel, {:connection => get_rom_connection_from_gateway}]
-# DatabaseCleaner.strategy = :truncation
+require_relative 'hooks'
 
 require 'faces/web/sinatra/server'
 
+# Disabling because it's much more legible in steps
+# rubocop:disable Style/MixinUsage
 include CompThink
+# rubocop:enable Style/MixinUsage
 
 Capybara.configure do |config|
    config.app, _opts = Rack::Builder.parse_file('faces/web/config.ru')
@@ -58,14 +51,15 @@ Capybara.configure do |config|
    # config.asset_host = 'http://localhost:4567'
 end
 
+# Old headless driver using chrome-headless-shell.
+# Much faster than using the --headless=new option.
 Capybara.register_driver :selenium_chrome_headless do |app|
    browser_options = ::Selenium::WebDriver::Chrome::Options.new
 
    browser_options.args << "--window-size=#{ HelperMethods::Web::BROWSER_SIZE.join(',') }"
-   browser_options.args << '--headless' # twice as fast; no frame opened
-   browser_options.args << '--disable-gpu' # 38s
 
-   # try these
+   # trying these for performance
+   browser_options.args << '--disable-gpu'
    browser_options.args << '--wm-window-animations-disabled'
    browser_options.args << '--disable-smooth-scrolling'
    browser_options.args << '--webrtc-max-cpu-consumption-percentage=80' # default is 50%
@@ -82,7 +76,19 @@ Capybara.register_driver :selenium_chrome_headless do |app|
          default_directory:          HelperMethods::Web::TEST_TMP_DOWNLOADS.to_s
    })
 
-   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+   # Use Selenium::WebDriver::Chrome::Options#browser_version to pin to a specific major version (eg. 125, 126, etc). Must be a string.
+   #   browser_options.browser_version = '131'
+
+   # specify the headless binary because as of 2025-08-30, Selenium still does not fetch the now-separate
+   # chrome-headless-shell binary
+   browser_options.binary = Selenium::ManagerHeadlessExtension.chrome_headless_binary
+
+   # You can set the Selenium log level to debug if you're having problems
+   #   Selenium::WebDriver.logger.level = Logger::DEBUG
+
+   Capybara::Selenium::Driver.new(app,
+                                  browser: :chrome_headless_shell,
+                                  options: browser_options)
 end
 
 World RSpec::Matchers

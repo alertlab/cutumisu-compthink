@@ -107,8 +107,8 @@ Feature: Researcher Assigns Participants to Group
          | Hex        | Virus     | hex@example.com | sekret   |
       When "<user>" force adds "Hex" to group "Group A"
       Then "<user>" should not be in group "Group A"
-      And they should see "You are not permitted to do that"
+      And they should see "<msg>"
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |

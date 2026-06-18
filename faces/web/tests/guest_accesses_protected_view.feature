@@ -47,7 +47,7 @@ Feature: Guest Access Protected View
    @no-js
    Scenario Outline: it should bounce guests from admin actions
       When guest force posts to "<uri>"
-      Then they should see 403 error "You are not permitted to do that"
+      Then they should see 401 error "You are not authenticated."
       Examples:
          | uri                 |
          | /admin              |

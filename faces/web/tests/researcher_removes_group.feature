@@ -28,9 +28,9 @@ Feature: Researcher Removes Group
          | Name      | Email           | password |
          | Hex Virus | hex@example.com | sekret   |
       When "<user>" force removes group "Group A"
-      Then they should see "You are not permitted to do that"
+      Then they should see "<msg>"
       Then there should be 1 group
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |

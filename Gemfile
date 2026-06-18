@@ -9,10 +9,10 @@ group :face_web do
    gem 'execjs', '=2.7.0'
 
    source 'https://gems.internal.tenjin.ca' do
-      gem 'dirt-face-web', '~> 0.15'
+      gem 'dirt-face-web', '~> 0.21'
    end
 
-   gem 'bcrypt', '~> 3.1.19'
+   gem 'bcrypt', '~> 3.1.22'
 end
 
 group :core do
@@ -55,6 +55,6 @@ group :test_face_web do
    gem 'capybara-selenium', '~> 0.0.6'
    gem 'cucumber', '~> 11.1'
    gem 'puma', '~> 8.0'
-   gem 'selenium-webdriver', '~> 4.12'
-   gem 'webmock', '~> 3.18'
+   gem 'selenium-webdriver', '~> 4.45'
+   gem 'webmock', '~> 3.26'
 end

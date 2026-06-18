@@ -32,8 +32,8 @@ Feature: Researcher Adds Person
       And there should be a person with:
          | first name | last name |
          | Hex        | Virus     |
-      And they should see "You are not permitted to do that"
+      And they should see "<msg>"
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |

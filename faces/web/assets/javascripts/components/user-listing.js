@@ -70,7 +70,7 @@ ko.components.register('user-listing', {
 
       self.page = {
          size: ko.observable(),
-         number: ko.observable(1).extend({resettable: true}),
+         number: ko.observable(1).extend({retain: {prompt: false}}),
          maxResults: ko.pureComputed(function () {
             return self.searchResults().all_data_count || 0;
          })

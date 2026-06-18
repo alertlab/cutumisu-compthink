@@ -93,10 +93,11 @@ Feature: Researcher Finds Person
       When "<user>" force searches for users with:
          | name |
          | John |
-      Then they should see "You are not permitted to do that"
+      Then they should see "<msg>"
       And they should not see "John"
       And they should not see "Doe"
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |
+      

@@ -164,7 +164,7 @@ ko.components.register('group-editor', {
          var shellSelf = this;
          this.user = ko.observable(user);
          this.userSearch = ko.observable('');
-         this.searchResults = ko.observableArray().extend({
+         this.searchResults = ko.observable({results: []}).extend({
             loaded: {
                url: '/admin/search-users',
                params: {

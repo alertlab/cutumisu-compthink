@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'core/tests/support/hooks'
+require_relative 'selenium_headless'
 
 ##### Universal Hooks #####
 
@@ -10,11 +11,19 @@ end
 
 BeforeAll name: 'Disable real internet' do
    WebMock.disable_net_connect!(allow_localhost: true,
-                                allow:           'chromedriver.storage.googleapis.com')
+                                allow:           ['chromedriver.storage.googleapis.com',
+                                                  'storage.googleapis.com',
+                                                  Selenium::ManagerHeadlessExtension::CHROME_ENDPOINT_HOST,
+                                                  'compthink.localhost'])
 end
 
 BeforeAll name: 'Size browser to desktop' do
    Capybara.page.driver.browser.manage.window.resize_to(*HelperMethods::Web::BROWSER_SIZE)
+end
+
+BeforeAll name: 'Set faster UI timeouts' do
+   Capybara.app.ui_timeouts[:rate_limit] = HelperMethods::Web::INPUT_COOLDOWN
+   Capybara.app.ui_timeouts[:long_click] = HelperMethods::Web::LONG_CLICK_DURATION
 end
 
 ##### No-JS hooks #####
@@ -44,50 +53,26 @@ Before name: 'Tempfile logging' do
    Capybara.app.auth_log_path = HelperMethods::TEST_TMP_LOG / 'web-auth.log'
 end
 
-After 'not @no-js', name: 'Collect Failure Data' do |scenario|
-   if scenario.failed?
-      pic!
-      # or:
-      # page!
-   end
-
-   console_logs = page.driver.browser.logs.get(:browser)
-
-   # Capybara records messages/errors instead of displaying at the moment of call, so we need to print them
-   # if we want them to show up in STDOUT
-   unless console_logs.empty?
-      warn <<~HEAD
-         ====== BROWSER LOGS =======
-         Scenario: #{ scenario.name }
-         File:     #{ scenario.location }
-         ---------- Start ----------
-      HEAD
-      console_logs.each do |log|
-         msg = "#{ log.message } (#{ Time.at log.timestamp })"
-
-         if log.level == 'INFO'
-            puts msg
-         else
-            warn msg
-         end
-
-      end
-
-      warn <<~HEAD
-         ----------- End -----------
-      HEAD
-   end
+Before name: 'Init Expected Browser Logs' do
+   @expected_console_logs ||= []
+   @expected_console_logs.clear
 end
 
-After 'not @no-js', name: 'Reset Unsaved Dialog' do
-   # It's faster to just reset the unsaved flag every round rather than check for and close the alert
-   # Also: for some reason, just calling the KO setter causes a circular reference
-   # possibly a chrome webdriver bug; either way, forcing to boolean makes it happy
-   page.evaluate_script('window.unsaved && window.unsaved(false) && false') # takes about 3.5ms
+After 'not @no-js', name: 'Collect Failure Data' do |scenario|
+   pic! if scenario.failed?
+end
 
-   # this combo is about 7.5ms
-   #    visit(current_path)
-   #    page.driver.browser.switch_to.alert.accept
+# Capybara records messages/errors instead of displaying at the moment of call, so they must be collected and
+# printed to get them to show up in STDOUT/STDERR
+After 'not @no-js', name: 'Assert Browser Logs' do |scenario|
+   next # TOOD: enable browser log checks
+   unexpected_logs = consume_expected_logs browser_logs
+
+   print_browser_logs unexpected_logs, scenario unless unexpected_logs.empty?
+
+   expect(unexpected_logs).to be_empty, 'Unexpected browser logs found'
+   # TODO: figure out how to get the browser logs to include INFO level messages
+   # expect(@expected_console_logs).to be_empty, 'Expected console logs, but some were missing'
 end
 
 Before '@expect-err', name: 'JS errors accepted' do
@@ -98,16 +83,11 @@ After '@expect-err', name: 'JS errors raised' do
    page.driver.browser.js_errors = true
 end
 
-# Based on: http://collectiveidea.com/blog/archives/2014/01/21/mocking-html5-apis-using-phantomjs-extensions/
-Before '@stub_date' do
-   # there is only a #extensions= method. I don't know why it isn't an accessor like normal things.
-   ext = [File.expand_path('../../extensions/stub_date.js', __dir__)]
+# Needed to cleanly complete tests that intentionally leave the browser in an unsaved state
+After '@expect-confirm', name: 'Clear unsaved changes confirm' do
+   # visit '/'
+   # page.driver.browser.switch_to.alert.accept
 
-   page.driver.browser.extensions = [ext]
-end
-
-After '@stub_date' do
-   ext = [File.expand_path('../../extensions/unstub_date.js', __dir__)]
-
-   page.driver.browser.extensions = [ext]
+   # force focus on something but don't actually activate anything
+   find('body').send_keys :tab
 end

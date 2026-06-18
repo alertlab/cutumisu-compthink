@@ -63,9 +63,10 @@ Feature: Researcher Finds Group
       When "<user>" force searches for groups with:
          | name  |
          | Group |
-      Then they should see "You are not permitted to do that"
+      Then they should see "<msg>"
       And they should not see "Group A"
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |
+      

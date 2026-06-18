@@ -5,46 +5,48 @@ module CompThink
       # Sinatra extension to define route permissions
       module Permissions
          def self.registered(app)
-            app.rules do
-               can(:get, '/__sinatra__/*') # Internal sinatra assets
+            bouncer = app.bouncer
 
-               can(:get, '/')
-               can(:get, '/login') # legacy route
-               can(:get, '/assets/*')
-               can(:get, '/assets/javascripts/*')
-               can(:get, '/assets/javascripts/lib/*')
-               can(:get, '/assets/styles/*')
-               can(:get, '/assets/images/*')
-               can(:get, '/assets/games/*')
-               can(:get, '/assets/games/screenshots/*')
-               can(:get, '/assets/logos/*')
-               can(:get, '/assets/fonts/*')
-               can(:get, '/assets/logos/*')
+            bouncer.role :users do
+               !current_user.nil?
+            end
 
-               # sourcemap for phaser
-               can(:get, '/lib/phaser.map')
+            bouncer.role :admins do
+               current_user&.has_role?(:admin)
+            end
 
-               can(:get, '/sign-in')
-               can(:post, '/auth/sign-in')
-               can(:post, '/auth/sign-out')
-               can(:post, '/auth/failure')
+            # NOTE: If these rule definitions change, remember to also update any UI descriptions of them
+            bouncer.rules do
+               anyone.can get:  ['/',
+                                 '/login', # legacy route
+                                 '/__sinatra__/*', # Internal sinatra assets
+                                 '/assets/*',
+                                 '/assets/javascripts/*',
+                                 '/assets/javascripts/lib/*',
+                                 '/assets/styles/*',
+                                 '/assets/images/*',
+                                 '/assets/games/*',
+                                 '/assets/games/screenshots/*',
+                                 '/assets/logos/*',
+                                 '/assets/fonts/*',
+                                 '/assets/logos/*',
+                                 '/lib/phaser.map', # sourcemap for phaser
+                                 '/sign-in'],
+                          post: ['/auth/sign-in',
+                                 '/auth/sign-out',
+                                 '/auth/failure']
 
-               if current_user
-                  can(:get, '/games')
-                  can(:get, '/games/*')
+               users.can get: ['/games',
+                               '/games/*']
 
-                  can(:post, '/games/logging/record-click')
+               users.can post: '/games/logging/record-click'
 
-                  if current_user.has_role?(:admin)
-                     can(:get, :all)
-
-                     can(:post, :all)
-                  end
-               end
+               admins.can get:  :all,
+                          post: :all
             end
 
             # TODO: dirt web face needs a better way to override this redirect location
-            app.bounce_with do
+            bouncer.bounce_with do
                if request.get? && request.accept.collect(&:to_s).include?('text/html')
                   if current_user
                      # We know who they are, but they still can't do that
@@ -62,8 +64,13 @@ module CompThink
                   show.error msg
 
                   redirect new_path
-               else
+               elsif current_user
                   halt 403, 'You are not permitted to do that.'
+               else
+                  # Warden normally intercepts 401s (for unknown reasons)
+                  warden.custom_failure!
+
+                  halt 401, 'You are not authenticated.'
                end
             end
          end

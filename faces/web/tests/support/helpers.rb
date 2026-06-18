@@ -12,20 +12,35 @@ module HelperMethods
    end
 
    module Web
-      BROWSER_SIZE = [1024, 768].freeze
+      BROWSER_SIZE = [1366, 768].freeze
 
       TEST_TMP_DOWNLOADS = TEST_TMP_ROOT / 'downloads'
 
       # format used to type in dates in date selectors
       DATE_INPUT_FORMAT = '%d/%m/%Y'
 
+      # KO rateLimit cooldown value for tests (seconds)
+      INPUT_COOLDOWN = 0
+
+      # Long click duration value (seconds)
+      LONG_CLICK_DURATION = 0.01
+
       def user_agent
          @user_agents                          ||= {}
          @user_agents[Capybara.current_driver] ||= begin
                                                       page.evaluate_script 'window.navigator.userAgent'
                                                    rescue Capybara::NotSupportedByDriverError
-                                                      ''
+                                                      'Testing/0.0 Test'
                                                    end
+      end
+
+      def rack_env
+         # Need to spoof user agent to make Rack::Protection happy
+         {
+               'CONTENT_TYPE'    => 'application/json;charset=UTF-8',
+               'HTTP_USER_AGENT' => user_agent,
+               'HTTPS'           => 'on'
+         }
       end
 
       def session_cookie_name
@@ -39,10 +54,17 @@ module HelperMethods
       end
 
       def read_downloaded(filename)
-         sleep 0.5 # wait for filesystem to catch up
-
          file = HelperMethods::Web::TEST_TMP_DOWNLOADS / filename
-         file.read
+
+         # try n times, give up if it's not there yet
+         5.downto(0) do |i|
+            sleep 0.1 # wait for filesystem to catch up
+
+            # explicit return to break the loop if successful
+            return file.read
+         rescue Errno::ENOENT
+            raise unless i.positive?
+         end
       end
 
       def close_flash
@@ -97,19 +119,24 @@ module HelperMethods
       def format_duration(seconds)
          units = {
                year:   365.25 * 86400,
+               month:  30 * 86400,
                week:   7 * 86400,
                hour:   3600,
                minute: 60,
                second: 1
          }
 
-         unit_key = if seconds >= units[:year]
+         unit_key = if seconds.zero?
+                       :second
+                    elsif (seconds % units[:year]).zero?
                        :year
-                    elsif seconds >= units[:week]
+                    elsif (seconds % units[:month]).zero?
+                       :month
+                    elsif (seconds % units[:week]).zero?
                        :week
-                    elsif seconds >= units[:hour]
+                    elsif (seconds % units[:hour]).zero?
                        :hour
-                    elsif seconds >= units[:minute]
+                    elsif (seconds % units[:minute]).zero?
                        :minute
                     else
                        :second
@@ -139,10 +166,10 @@ module HelperMethods
       end
 
       # selects an option from the complex search-select widget
-      def search_select(field_name, value, **opts)
+      def search_select(field_name, value, result_selector: '', **opts)
          fill_in(field_name, with: value, **opts)
          wait_for_ajax
-         option_div = find('input-search .results-section .result')
+         option_div = find("input-search .results-section:not(.no-results) .result #{ result_selector }")
          option_div.click
       end
 
@@ -151,7 +178,7 @@ module HelperMethods
       #
       # @param target [String, Symbol, Capybara::Node::Element] the target to click
       # @param duration [Numeric] the duration of the click in seconds
-      def long_click(target, duration: 0.550)
+      def long_click(target, duration: LONG_CLICK_DURATION)
          element = target.is_a?(Capybara::Node::Element) ? target : find(target)
 
          # page.execute_script('window.scrollTo(0, document.body.scrollHeight)')
@@ -160,19 +187,92 @@ module HelperMethods
          page.scroll_to element, align: :center
 
          # this is the real longclick
-         element.click delay: duration
+         element.click delay: duration + 0.01
+      end
+
+      alias long_press long_click
+
+      module Actions
+         def api_request(url, params)
+            page.driver.browser.post url, params.to_json, rack_env
+         end
+
+         # TODO: extract to Gem or submit as pull request for Capybara (plus test properly)
+         module RangeNode
+            # Credit: glaszig (https://gist.github.com/glaszig/edef1f58ca62f1e58c724ad221563579)
+            #
+            # usage: set_range "My Range Field", to: 42
+            # this also triggers the input's change and/or input events
+            # as opposed to find_field("My Range Field").set 42
+            def set_range(locator = nil, to:)
+               fill_in locator, with: to
+
+               # TODO: this doesn't seem to actually fire any event, but fill_in works ok
+               # find_field(locator, **find_options).execute_script %[this.value = "#{ to }"]
+            end
+         end
+
+         # TODO: extract to Gem or submit as pull request for Capybara (plus test properly)
+         module DetailsNode
+            def find_details_summary(details_locator, **options, &optional_filter_block)
+               node = case details_locator
+                      when Capybara::Node::Element
+                         details_locator
+                      else
+                         find(details_locator, **options, &optional_filter_block)
+                      end
+
+               case node.tag_name
+               when 'details'
+                  [node, node.first('summary')]
+               when 'summary'
+                  [node.ancestor('details'), node]
+               else
+                  raise "Locator '#{ details_locator }' matched a node '#{ node.tag_name }', not a <details> or <summary> node"
+               end
+            end
+
+            # Expands a <details> HTML widget
+            def expand(details_locator, **options)
+               details_node, summary_node = find_details_summary(details_locator, **options)
+
+               # Scrolling it into view manually is way faster for some reason
+               page.scroll_to summary_node, align: :center
+
+               summary_node.click unless details_node[:open] == 'true'
+            end
+
+            # Collapses a <details> HTML widget
+            def collapse(details_locator, **options)
+               details_node, summary_node = find_details_summary(details_locator, **options)
+
+               summary_node.click if details_node[:open]
+            end
+         end
+
+         def switch_to_new_tab
+            page.driver.browser.switch_to.window page.driver.browser.window_handles.last
+         end
       end
 
       def get_cookie(cookie_name)
          page.driver.browser.manage.cookie_named(cookie_name)
-      rescue Selenium::WebDriver::Error::NoSuchCookieError => e
+      rescue Selenium::WebDriver::Error::NoSuchCookieError => _e
          nil
       end
 
       def delete_cookie(cookie_name)
-         page.driver.browser.manage.delete_cookie(cookie_name)
+         if Capybara.current_driver == :rack_test
+            page.driver.browser.clear_cookies
+
+            # TODO: actually only delete just the cookie in question
+            # this almost works, but keeps the key: page.driver.browser.set_cookie "#{ cookie_name }="
+         else
+            page.driver.browser.manage.delete_cookie cookie_name
+         end
       end
 
+      # Helper methods for debug and logging
       module Debug
          SCREENSHOT_DIR = Dirt::PROJECT_ROOT / '.screenshots'
 
@@ -188,6 +288,56 @@ module HelperMethods
             else
                save_screenshot(SCREENSHOT_DIR / "#{ next_num }.png")
             end
+         end
+
+         def browser_logs
+            page.driver.browser.logs.get(:browser)
+         end
+
+         # Capybara records messages/errors instead of displaying at the moment of call, so they must be collected and
+         # printed to get them to show up in STDOUT/STDERR
+         def print_browser_logs(unexpected_logs, scenario)
+            warn <<~HEAD
+               ====== BROWSER LOGS =======
+               Scenario: #{ scenario.name }
+               File:     #{ scenario.location }
+               ---------- Start ----------
+            HEAD
+            unexpected_logs.each do |log|
+               formatted = "#{ log.message } (#{ Time.at log.timestamp })"
+
+               if log.level == 'INFO'
+                  puts formatted
+               else
+                  warn formatted
+               end
+            end
+
+            warn <<~HEAD
+               ----------- End -----------
+            HEAD
+         end
+
+         def consume_expected_logs(console_logs)
+            # consume one at a time (#delete would delete all instances, but duplicates matter here)
+            console_logs.each_with_object([]) do |log, unexpected_logs|
+               msg   = message_from_browser_log log
+               index = @expected_console_logs.index msg
+
+               if index
+                  @expected_console_logs.delete_at index
+               else
+                  unexpected_logs << log
+               end
+            end
+         end
+
+         # Browser logs (at least in headless Chrome) are annoyingly returned as a compound string
+         # This extracts the real message from the full line
+         def message_from_browser_log(log)
+            match = /^.+ .+ "(.+)"$/.match(log.message)
+
+            match ? match[1] : log.message
          end
 
          def with_window_size(width, height)
@@ -211,9 +361,17 @@ module HelperMethods
          def page!
             save_and_open_page
          end
+
+         def temp!
+            require 'launchy'
+            Launchy.open(TEST_TMP_ROOT)
+         end
       end
    end
 end
 
-World HelperMethods::Web,
-      HelperMethods::Web::Debug
+World(HelperMethods::Web,
+      HelperMethods::Web::Debug,
+      HelperMethods::Web::Actions,
+      HelperMethods::Web::Actions::DetailsNode,
+      HelperMethods::Web::Actions::RangeNode)

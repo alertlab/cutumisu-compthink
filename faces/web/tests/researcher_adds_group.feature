@@ -28,8 +28,9 @@ Feature: Researcher Adds Group
          | Hex        | Virus     | hex@example.com | sekret   |
       When "<user>" force adds a group
       Then there should be 0 groups
-      And they should see "You are not permitted to do that"
+      And they should see "<msg>"
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |
+      

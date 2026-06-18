@@ -27,9 +27,10 @@ Feature: Researcher Resets User Clicks
          | Name      | Email           | password |
          | Hex Virus | hex@example.com | sekret   |
       When "<user>" force resets click data for "Allan"
-      Then they should see "You are not permitted to do that"
+      Then they should see "<msg>"
       And there should be 1 click
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |
+      

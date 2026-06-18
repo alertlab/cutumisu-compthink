@@ -87,12 +87,13 @@ Feature: Researcher Updates Person
       When "<user>" force updates user "Allan" with:
          | Name          | email            |
          | Allan Daniels | derp@example.com |
-      Then they should see "You are not permitted to do that"
+      Then they should see "<msg>"
       And there should be 3 users
       And there should not be a user with:
          | email            |
          | derp@example.com |
       Examples:
-         | user |
-         | Hex  |
-         |      |
+         | user | msg                              |
+         | Hex  | You are not permitted to do that |
+         |      | You are not authenticated        |
+      
