@@ -1,5 +1,11 @@
 inherit_from: ~/.config/rubocop/config.yml
 
+plugins:
+  - rubocop-performance
+  - rubocop-rspec
+  - rubocop-rake
+  - rubocop-capybara
+
 #
 # This file contains temporary ignore statements to shut down warnings 
 # about stuff that is already scheduled for refactoring. 

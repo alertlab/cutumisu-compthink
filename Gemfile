@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'rake', '~> 13.0'
+gem 'rake', '~> 13.4'
 
 group :face_web do
    # TODO: remove and update to most recent. When attempting to do so, it fails to find a js runtime.
@@ -14,11 +14,6 @@ group :face_web do
 
    gem 'bcrypt', '~> 3.1.19'
 end
-
-# group :face_email do
-#    gem 'ghostwriter', '~>0.3'
-#    gem 'mail', '~>2.6.3'
-# end
 
 group :core do
    gem 'csv', '~> 3.3'
@@ -37,12 +32,13 @@ group :persist do
 end
 
 group :development do
-   gem 'localhost', '~> 1.1'
-   gem 'rubocop', '~> 1.53', require: false
-   gem 'rubocop-performance', '~> 1.19'
-   gem 'ruby-prof', '~> 1.4'
-
-   # gem 'dotenv', '~>2.7.5'
+   gem 'localhost', '~> 1.8'
+   gem 'rubocop', '~> 1.88'
+   gem 'rubocop-capybara', '~> 2.23'
+   gem 'rubocop-performance', '~> 1.26'
+   gem 'rubocop-rake', '~> 0.7'
+   gem 'rubocop-rspec', '~> 3.9'
+   gem 'ruby-prof', '~> 2.0'
 end
 
 group :test_core do
