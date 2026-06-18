@@ -43,7 +43,7 @@ end
 
 group :test_core do
    gem 'fakefs', '~> 1.9', require: 'fakefs/safe'
-   gem 'rspec', '~> 3.12', require: 'rspec/expectations'
+   gem 'rspec', '~> 3.13', require: 'rspec/expectations'
    gem 'simplecov', '~> 0.18'
    gem 'timecop', '~> 0.9'
 end
