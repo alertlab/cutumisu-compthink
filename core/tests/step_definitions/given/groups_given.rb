@@ -38,14 +38,14 @@ Given('{int} groups') do |count|
       n = n.to_s.rjust(count.to_s.split('').length, '0') # 0 pad for as many places as we expect
 
       persisters[:group].create(name:       "Group#{ n }",
-                                 start_date: Date.today,
-                                 end_date:   Date.today.next_day,
-                                 regex:      '') # TODO: remove regex
+                                start_date: Date.today,
+                                end_date:   Date.today.next_day,
+                                regex:      '') # TODO: remove regex
    end
 end
 
 Given('group {string} has participant(s) {string}') do |group_name, user_list|
-   user_ids = extract_list(user_list).collect do |name|
+   user_ids = parse_list(user_list).collect do |name|
       persisters[:user].find(first_name: name).id
    end
 

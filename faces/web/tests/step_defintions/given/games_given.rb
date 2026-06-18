@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Given('the lever order is {string}') do |lever_list|
-   levers = extract_list(lever_list).join(',')
+   levers = parse_list(lever_list).join(',') # not redundant; strips each entry of whitespace
 
    # headers = {}
    # Rack::Utils.set_cookie_header!(headers, 'game.expected', levers)

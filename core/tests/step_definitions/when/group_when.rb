@@ -37,11 +37,11 @@ When 'a group is created with:' do |table|
    row[:end_date]   = row[:end_date] || Date.today.to_s
 
    if row[:participants]
-      row[:participants] = extract_list(row[:participants]).collect do |name|
+      row[:participants] = parse_list(row[:participants]).collect do |name|
          persisters[:user].find(first_name: name).id
       end
    elsif row[:batch_participants]
-      row[:create_participants] = extract_list(row.delete(:batch_participants)).collect do |name|
+      row[:create_participants] = parse_list(row.delete(:batch_participants)).collect do |name|
          {
                first_name: name,
                email:      "#{ name }@example.com"
@@ -64,11 +64,11 @@ When('group {string} is saved with:') do |group_name, table|
    row[:open]       = parse_bool(row[:open]) if row.key?(:open)
 
    if row[:participants]
-      row[:participants] = extract_list(row[:participants]).collect do |name|
+      row[:participants] = parse_list(row[:participants]).collect do |name|
          persisters[:user].find(first_name: name).id
       end
    elsif row[:batch_participants]
-      row[:create_participants] = extract_list(row.delete(:batch_participants)).collect do |name|
+      row[:create_participants] = parse_list(row.delete(:batch_participants)).collect do |name|
          {
                first_name: name,
                email:      "#{ name }@example.com"

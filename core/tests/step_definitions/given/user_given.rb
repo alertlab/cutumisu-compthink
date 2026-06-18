@@ -11,7 +11,7 @@ Given 'the following user(s):' do |table|
    group_persister = persisters[:group]
 
    symtable(table).hashes.each do |row|
-      row[:roles] = extract_list(row.delete(:role) || row.delete(:roles)) if row[:role] || row[:roles]
+      row[:roles] = parse_list(row.delete(:role) || row.delete(:roles)) if row[:role] || row[:roles]
 
       password                          = row.delete(:password) || 'sekret'
 

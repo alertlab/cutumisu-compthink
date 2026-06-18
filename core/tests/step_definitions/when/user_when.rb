@@ -17,7 +17,7 @@ end
 When 'users are searched by:' do |table|
    row         = symrow(table)
 
-   row[:roles] = extract_list(row[:roles]) if row[:roles]
+   row[:roles] = parse_list row[:roles] if row[:roles]
 
    @result = SearchUsers.new(container).run(filter: row)
 end
@@ -51,7 +51,7 @@ When 'user {string} is updated with:' do |user_name, table|
    row[:first_name] = row[:first_name] || user.first_name
    row[:last_name]  = row[:last_name] || user.last_name
    row[:email]      = row[:email] || user.email
-   row[:roles]      = extract_list(row[:roles])
+   row[:roles]      = parse_list row[:roles]
 
    @result = UpdateUser.new(container).run(**row.merge(id: user.id))
 end

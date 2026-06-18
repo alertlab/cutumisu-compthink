@@ -147,8 +147,6 @@ end
 When "{string} batch creates participants from list:" do |admin_name, id_list|
    step %["#{ admin_name }" is signed in]
 
-   # names = extract_list(id_list, separator: "\n")
-
    within 'group-editor .participants' do
       click_button 'Bulk Create...'
 

@@ -24,11 +24,9 @@ module HelperMethods
       container.procrastinator
    end
 
+   # General type conversion methods to process raw string values from the test spec where proper Cucmber types cannot
+   # be used (eg. from table entries)
    module Conversion
-      def extract_list(list_string)
-         (list_string || '').split(',').map(&:strip)
-      end
-
       def symrow(table)
          table.symbolic_hashes.first
       end
@@ -39,8 +37,12 @@ module HelperMethods
          end
       end
 
+      def parse_list(list_string)
+         (list_string || '').split(',').map(&:strip)
+      end
+
       def parse_bool(string)
-         !(string =~ /t|y/i).nil?
+         !(string =~ /[ty]/i).nil?
       end
 
       def parse_phone(string)
@@ -67,7 +69,19 @@ module HelperMethods
          scalar.to_i * unit_map[unit.downcase.to_sym]
       end
    end
+
+   # Shorthand methods for loading data in Given or When step defs and erroring out if not found, helping
+   # prevent wild goose chases when there's a simple typo in a test.
+   module Finders
+      def find_user(first_name)
+         user = persisters[:user].find(first_name: first_name)
+
+         raise %[Test error: no such user "#{ first_name }"] unless user
+
+         user
+      end
+   end
 end
 
 # Inject the HelperMethods into the Cucumber test context
-World HelperMethods, HelperMethods::Conversion
+World(HelperMethods, HelperMethods::Conversion, HelperMethods::Finders)

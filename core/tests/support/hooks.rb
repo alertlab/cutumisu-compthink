@@ -16,7 +16,12 @@ require 'database_cleaner/sequel'
 # Cannot be nested in a BeforeAll hook, because the web face needs it loaded immediately before the server file is even
 # loaded; due to the structure of Sinatra, it reads from invar config during class definition
 Invar.after_load do |reality|
-   reality[:configs][:mysql].pretend database: 'compthink_test'
+   test_process_group = ENV['TEST_ENV_NUMBER']&.to_i
+
+   source = 'compthink'
+
+   reality[:configs][:mysql].pretend database: ["#{ source }_test", test_process_group].compact.join('_')
+   reality[:secrets][:mysql].pretend user: source
    reality[:configs][:core].pretend log_dir: HelperMethods::TEST_TMP_LOG.to_s
 end
 
@@ -39,14 +44,17 @@ Before name: 'Reseed' do
 
    # Only clean databases ending with '_test'.
    # Not using `DatabaseCleaner.url_allowlist` because it only checks against env variable DATABASE_URL, not the
-   # the actual connection names, which isn't as flexible.
-   unless db_name.end_with? '_test'
-      raise "[Reseed hook] Safety catch: Database name must end with '_test' but got #{ db_name }"
+   # actual connection names, which isn't as flexible.
+   unless db_name.match?(/_test(_\d+)?$/)
+      raise "[Reseed hook] Safety catch: Database name must end with '_test' or '_test_[number]' but got #{ db_name }"
    end
 
-   DatabaseCleaner[:sequel, db: connection]
+   DatabaseCleaner[:sequel].db = connection
 
-   DatabaseCleaner.strategy = :deletion, {except: %w[schema_migrations sequel_schema_migrations]}
+   DatabaseCleaner.strategy = :deletion, {
+         except:    %w[schema_migrations sequel_schema_migrations schema_migrations_dirt],
+         pre_count: true # this is supposedly applicable to deletion strat, but only seems to be respected for truncation
+   }
 
    DatabaseCleaner.clean
 end

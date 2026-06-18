@@ -18,7 +18,7 @@ end
 Then('it should return group summaries for {string}') do |group_list|
    group_persister = persisters[:group]
 
-   names = extract_list(group_list)
+   names = parse_list group_list
 
    expect(@result[:results]).to_not be_nil
    expect(@result[:results].size).to eq names.size
@@ -35,7 +35,7 @@ end
 Then 'it should return group summaries for {string} in that order' do |group_list|
    group_persister = persisters[:group]
 
-   names = extract_list group_list
+   names = parse_list group_list
 
    expect(@result[:results]).to_not be_nil
    expect(@result[:results].size).to eq names.size

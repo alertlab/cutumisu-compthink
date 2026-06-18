@@ -33,7 +33,7 @@ end
 When '{string} flips levers {string}' do |user_name, lever_list|
    step %["#{ user_name }" plays levers]
 
-   extract_list(lever_list).each do |lever_name|
+   parse_list(lever_list).each do |lever_name|
       script = %[#{ game_vm_js }.buttonClick(#{ game_vm_js }.buttonGroup.getByName("#{ lever_name }"));]
 
       # firing this handler directly because trying to invoke a click event (ie. MouseEvent with 'onpointerdown')

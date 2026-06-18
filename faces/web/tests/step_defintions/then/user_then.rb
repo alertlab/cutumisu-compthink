@@ -21,7 +21,7 @@ end
 Then('{string} should see user summaries for {string} in that order') do |viewer_name, user_list|
    step(%["#{ viewer_name }" is signed in])
 
-   extract_list(user_list).each_with_index do |user_name, i|
+   parse_list(user_list).each_with_index do |user_name, i|
       user = persisters[:user].find(first_name: user_name)
 
       within(".user-summaries user-summary:nth-child(#{ i + 1 })") do

@@ -3,7 +3,7 @@
 # === Users ===
 Then('there {should} be a user with:') do |should, table|
    symtable(table).hashes.each do |row|
-      role_names = extract_list(row.delete(:role) || row.delete(:roles))
+      role_names = parse_list(row.delete(:role) || row.delete(:roles))
 
       if row[:name]
          name             = row.delete(:name).split(/\s/)
@@ -37,7 +37,7 @@ Then 'it should return user summaries for {string}' do |user_list|
    click_persister = persisters[:click]
    group_persister = persisters[:group]
 
-   names = extract_list(user_list)
+   names = parse_list user_list
 
    expect(@result[:results]).to_not be_nil
    expect(@result[:results].size).to eq names.size
@@ -60,7 +60,7 @@ Then 'it should return user summaries for {string} in that order' do |user_list|
    click_persister = persisters[:click]
    group_persister = persisters[:group]
 
-   names = extract_list user_list
+   names = parse_list user_list
 
    expect(@result[:results]).to_not be_nil
    expect(@result[:results].size).to eq names.size

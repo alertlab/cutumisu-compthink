@@ -46,7 +46,7 @@ When('{string} updates user {string} with:') do |admin_name, user_name, table|
       fill_in :email, with: row[:email] if row[:email]
       fill_in 'New Password', with: row[:password] if row[:password]
 
-      extract_list(row.delete(:roles)).each do |role_name|
+      parse_list(row.delete(:roles)).each do |role_name|
          page.find(:label, role_name.strip.downcase).click
 
          # TODO: for some reason it can't find the label even though Capybara.automatic_label_click is enabled in env.rb
