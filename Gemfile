@@ -21,8 +21,9 @@ end
 # end
 
 group :core do
+   gem 'csv', '~> 3.3'
    # gem 'procrastinator', '~>0.6.1'
-   gem 'invar', '~> 0.8'
+   gem 'invar', '~> 0.11'
 end
 
 group :persist do
@@ -31,8 +32,8 @@ group :persist do
 
    gem 'mysql2', '~> 0.5'
 
-   gem 'rom', '~> 5.3'
-   gem 'rom-sql', '~> 3.6'
+   gem 'rom', '~> 5.4'
+   gem 'rom-sql', '~> 3.7'
 end
 
 group :development do
@@ -54,8 +55,8 @@ end
 group :test_face_web do
    gem 'capybara', '~> 3.39', require: 'capybara/cucumber'
    gem 'capybara-selenium', '~> 0.0.6'
-   gem 'cucumber', '~> 8.0'
-   gem 'puma', '~> 6.4'
+   gem 'cucumber', '~> 11.1'
+   gem 'puma', '~> 8.0'
    gem 'selenium-webdriver', '~> 4.12'
    gem 'webmock', '~> 3.18'
 end
