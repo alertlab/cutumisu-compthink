@@ -7,8 +7,6 @@ module CompThink
       class UserAuthentication
          attr_reader :encrypted_password
 
-         BCRYPT_COST = (ENV['app_bcrypt_cost'] || BCrypt::Engine.cost).to_i
-
          def initialize(id: nil, user_id:, password: nil, encrypted_password: nil)
             @id      = id
             @user_id = user_id
@@ -25,7 +23,7 @@ module CompThink
          end
 
          def self.encrypt(password)
-            BCrypt::Password.create(password, cost: BCRYPT_COST)
+            BCrypt::Password.create(password)
          end
 
          def password=(password)
