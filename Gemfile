@@ -42,7 +42,9 @@ group :development do
 end
 
 group :test_core do
+   gem 'cuke_modeler', '~> 3.0' # required for parallel_tests to be able to find individual scenarios
    gem 'fakefs', '~> 1.9', require: 'fakefs/safe'
+   gem 'parallel_tests', '~> 5.6'
    gem 'rspec', '~> 3.13', require: 'rspec/expectations'
    gem 'simplecov', '~> 0.18'
    gem 'timecop', '~> 0.9'
