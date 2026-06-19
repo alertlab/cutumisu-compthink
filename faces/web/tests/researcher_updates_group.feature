@@ -32,7 +32,7 @@ Feature: Researcher Updates Group
       And she navigates to group editor for "Group A"
       # ie. save with no changes
       And she saves the group
-      Then "Kelly" should see "Group Group A saved"
+      Then she should see "Group Group A saved"
    
    Scenario: it should redirect to the group listing after saving
       Given the following group:
@@ -43,7 +43,7 @@ Feature: Researcher Updates Group
       And she navigates to group editor for "Group A"
       # ie. save with no changes
       And she saves the group
-      Then "Kelly" should be at /admin/groups
+      Then she should be at /admin/groups
    
    Scenario: it should update the name
       Given the following group:
@@ -58,7 +58,7 @@ Feature: Researcher Updates Group
       And "Kelly" is signed in
       When she navigates to "Groups"
       And she navigates to group editor for "NewName"
-      Then "Kelly" should see group "Name" is "NewName"
+      Then she should see group "Name" is "NewName"
    
    Scenario: it should update their start and end dates
       Given the following group:
@@ -73,8 +73,8 @@ Feature: Researcher Updates Group
       # TODO: replace with refreshes the page
       When she navigates to "Groups"
       And she navigates to group editor for "Group A"
-      Then "Kelly" should see group "Start Date" is "2001-01-15"
-      And "Kelly" should see group "End Date" is "2001-02-15"
+      Then she should see group "Start Date" is "2001-01-15"
+      And she should see group "End Date" is "2001-02-15"
    
    Scenario Outline: it should update open participation matching rules
       Given the following group:

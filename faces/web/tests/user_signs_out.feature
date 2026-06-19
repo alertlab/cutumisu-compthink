@@ -10,7 +10,7 @@ Feature: User Signs Out
          | Dot Matrix    | dot@example.com | admin | sekret   |
       Given "<user>" is signed in
       When they sign out
-      Then "<user>" should not be signed in
+      Then they should not be signed in
       And they should see "Signed out"
       Examples:
          | user |

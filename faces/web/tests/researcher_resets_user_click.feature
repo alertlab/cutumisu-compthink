@@ -22,7 +22,7 @@ Feature: Researcher Resets User Clicks
       When she navigates to "People"
       And she navigates to user editor for "Allan"
       And she resets the click data
-      Then "Kelly" should see "Click data cleared for Allan Daniels"
+      Then she should see "Click data cleared for Allan Daniels"
    
    #============
    # Security

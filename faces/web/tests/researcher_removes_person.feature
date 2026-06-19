@@ -22,13 +22,13 @@ Feature: Researcher Removes Person
       Given "Kelly" is signed in
       When she navigates to "People"
       And she removes user "Allan"
-      Then "Kelly" should see "Allan Daniels deleted"
+      Then she should see "Allan Daniels deleted"
    
    Scenario: it should redirect to the group listing after saving
       Given "Kelly" is signed in
       When she navigates to "People"
       And she removes user "Allan"
-      Then "Kelly" should be at /admin/people
+      Then she should be at /admin/people
    
    
    #============

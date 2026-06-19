@@ -23,7 +23,7 @@ Feature: Researcher Removes Group
       When she navigates to "Groups"
       And she navigates to group editor for "Group A"
       And she removes the group
-      Then "Kelly" should be at /admin/groups
+      Then she should be at /admin/groups
    
    #============
    # Security

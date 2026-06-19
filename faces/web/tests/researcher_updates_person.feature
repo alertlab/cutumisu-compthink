@@ -23,13 +23,13 @@ Feature: Researcher Updates Person
       Given "Kelly" is signed in
       When she navigates to user editor for "Allan"
       And she saves the user
-      Then "Kelly" should see "Allan Daniels saved"
+      Then she should see "Allan Daniels saved"
    
    Scenario: it should redirect to the group listing after saving
       Given "Kelly" is signed in
       When she navigates to user editor for "Allan"
       And she saves the user
-      Then "Kelly" should be at /admin/people
+      Then she should be at /admin/people
    
    Scenario: it should update their name
       Given "Kelly" is signed in
@@ -37,7 +37,7 @@ Feature: Researcher Updates Person
       And she updates user "Allan" with:
          | First Name | Last Name | Email            |
          | Jane       | Doe       | jane@example.com |
-      Then "Kelly" should see "Jane Doe saved"
+      Then she should see "Jane Doe saved"
       And there should be 2 users
       And there should be a user with:
          | First Name | Last Name | Email            |
@@ -62,8 +62,8 @@ Feature: Researcher Updates Person
       And "Kelly" is signed in
       When she navigates to "People"
       And she navigates to user editor for "Allan"
-      Then "Kelly" should see they have completed <puzzle>
-      And "Kelly" should see they have not completed <unfinished>
+      Then she should see she has completed <puzzle>
+      And she should see she has not completed <unfinished>
       Examples:
          | puzzle | unfinished |
          | hanoi  | levers     |
@@ -77,8 +77,8 @@ Feature: Researcher Updates Person
       And "Kelly" is signed in
       When she navigates to "People"
       And she navigates to user editor for "Allan"
-      Then "Kelly" should see "Group A"
-      And "Kelly" should see "Group B"
+      Then she should see "Group A"
+      And she should see "Group B"
    
    Scenario: it should update their roles
       Given "Kelly" is signed in

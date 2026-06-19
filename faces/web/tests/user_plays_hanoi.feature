@@ -42,7 +42,7 @@ Feature: User Plays Hanoi
    
    Scenario: it should link back to the index in the return prompt
       When "Bob" completes the hanoi puzzle and returns
-      Then "Bob" should be at /games
+      Then he should be at /games
    
    # ==== Security ===
    Scenario: it should NOT allow people who are not signed in to view the puzzle

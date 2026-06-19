@@ -11,9 +11,9 @@ Feature: Researcher Views People
          | John       | Doe       | john@example.com  | instructor |          |
       And "Kelly" is signed in
       When she navigates to "People"
-      And "Kelly" should see user summary for "Kelly"
-      And "Kelly" should see user summary for "Allan"
-      And "Kelly" should see user summary for "John"
+      And she should see user summary for "Kelly"
+      And she should see user summary for "Allan"
+      And she should see user summary for "John"
    
    Scenario Outline: it should sort users
       Given the following users:
@@ -24,7 +24,7 @@ Feature: Researcher Views People
       And "Kelly" is signed in
       When she navigates to "People"
       And she sorts users by "<sorter>" <direction>
-      Then "Kelly" should see user summaries for "<users>" in that order
+      Then she should see user summaries for "<users>" in that order
       Examples:
          | sorter     | direction  | users              |
          | First Name | ascending  | Allan, John, Kelly |
@@ -37,9 +37,9 @@ Feature: Researcher Views People
       And "User01" has role "admin"
       And "User01" is signed in
       When they navigate to "People"
-      Then "User01" should see user summary for "User01"
-      And "User01" should see user summary for "User10"
-      And "User01" should not see user summary for "User11"
+      Then they should see user summary for "User01"
+      And they should see user summary for "User10"
+      And they should not see user summary for "User11"
    
    Scenario: it should load more users on the next page
       Given 25 users
@@ -47,8 +47,8 @@ Feature: Researcher Views People
       And "User01" is signed in
       When they navigate to "People"
       And they view the next pagination page
-      Then "User01" should not see user summary for "User01"
-      And "User01" should not see user summary for "User10"
-      And "User01" should see user summary for "User11"
-      And "User01" should see user summary for "User20"
-      And "User01" should not see user summary for "User21"
+      Then they should not see user summary for "User01"
+      And they should not see user summary for "User10"
+      And they should see user summary for "User11"
+      And they should see user summary for "User20"
+      And they should not see user summary for "User21"

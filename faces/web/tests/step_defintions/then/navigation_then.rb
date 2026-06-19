@@ -1,12 +1,8 @@
 # frozen_string_literal: true
 
 # ============= Navigation ===============
-Then '{string} should be at {path}' do |user_name, path|
+Then 'he/she/they should be at {path}' do |path|
    expect(current_path).to eq path.to_s
-end
-
-Then 'he/she/they should be at {path}' do |uri|
-   expect(current_path).to eq uri.to_s
 end
 
 Then 'he/she/they should have query parameter {string}' do |parameter|

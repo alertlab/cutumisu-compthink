@@ -5,7 +5,7 @@ When '{string} signs in' do |first_name|
       email    = persisters[:user].find(first_name: first_name).email
       password = 'sekret' # probably should grab this via some some testing constant somewhere.
 
-      step %["#{ first_name }" signs in with "#{ email }" and "#{ password }"]
+      step %[they sign in with "#{ email }" and "#{ password }"]
    end
 end
 
@@ -27,14 +27,14 @@ end
 When '{string} signs in with the wrong password' do |first_name|
    email = persisters[:user].find(first_name: first_name).email
 
-   step %["#{ first_name }" signs in with "#{ email }" and "someR@ndomGarbage"]
+   step %[they sign in with "#{ email }" and "someR@ndomGarbage"]
 
    # TODO: remove this cheat and actually determine current user from session data
    @current_user = nil
 end
 
-When '{string} signs in with {string} and {string}' do |first_name, email, password|
-   user = persisters[:user].find(first_name: first_name)
+When 'he/she/they/someone sign(s) in with {string} and {string}' do |email, password|
+   user = persisters[:user].find(email: email)
 
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
@@ -54,7 +54,7 @@ When '{string} signs in with {string} and {string}' do |first_name, email, passw
 
       wait_for_ajax
 
-      @current_user = persisters[:user].find(first_name: first_name, email: email)
+      @current_user = persisters[:user].find(email: email)
    end
 end
 

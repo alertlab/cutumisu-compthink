@@ -20,7 +20,7 @@ Feature: User Signs In
          | groupB | user2        |
       When they sign in to participate with user "<user>" and group "<group>"
       Then "<user>" should be signed in
-      And "<user>" should see "Hello!"
+      And they should see "Hello!"
       Examples:
          | group  | user  |
          | groupA | user1 |
@@ -32,7 +32,7 @@ Feature: User Signs In
          | GroupA | <regex> |
       When they sign in to participate with user "<user>" and group "GroupA"
       Then "<user>" should be signed in
-      And "<user>" should see "Hello!"
+      And they should see "Hello!"
       And there should be 1 group
       And group "GroupA" should have 1 participant
       Examples:
@@ -55,7 +55,7 @@ Feature: User Signs In
          | groupB | user2        |
       When they sign in to participate with user "<user>" and preset group "<group>"
       Then "<user>" should be signed in
-      And "<user>" should see "Hello!"
+      And they should see "Hello!"
       Examples:
          | group  | user  |
          | groupA | user1 |
@@ -74,7 +74,7 @@ Feature: User Signs In
    Scenario Outline: it should sign in admins with user and password
       When "<user>" signs in
       Then "<user>" should be signed in
-      And "<user>" should see "Welcome back, <user>"
+      And they should see "Welcome back, <user>"
       Examples:
          | user |
          | Bob  |
@@ -82,7 +82,7 @@ Feature: User Signs In
    
    Scenario Outline: it should redirect admins to the follow uri when given one
       When "Bob" signs in with follow uri <uri>
-      Then "Bob" should be at <uri>
+      Then he should be at <uri>
       Examples:
          | uri           |
          | /admin/groups |
@@ -90,18 +90,18 @@ Feature: User Signs In
    
    Scenario: it should redirect admins to dashboard by default
       When "Bob" signs in
-      Then "Bob" should be at /admin/people
+      Then he should be at /admin/people
   
   # === Error Cases - password ===
    Scenario: it should complain if their password is wrong
       When "Bob" signs in with the wrong password
       Then they should see "Incorrect email or password"
-      And "Bob" should not be signed in
+      And they should not be signed in
    
    Scenario: it should complain if the account does not exist
-      When "enzo" signs in with "enzo@example.com" and "sekret"
+      When someone signs in with "enzo@example.com" and "sekret"
       Then they should see "Incorrect email or password"
-      And "enzo" should not be signed in
+      And they should not be signed in
    
    # === Error Cases - userid & group ===
    Scenario Outline: it should complain if the group does not exist

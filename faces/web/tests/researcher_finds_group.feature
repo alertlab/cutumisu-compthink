@@ -18,8 +18,8 @@ Feature: Researcher Finds Group
       And she searches for groups with:
          | name     |
          | <search> |
-      Then "Kelly" should see "UACS"
-      And "Kelly" should not see "Group A"
+      Then she should see "UACS"
+      And she should not see "Group A"
       Examples:
          | search |
          | UACS   |
@@ -32,7 +32,7 @@ Feature: Researcher Finds Group
       And she searches for groups with:
          | name   |
          | <name> |
-      Then "Kelly" should see "of <n>"
+      Then she should see "of <n>"
       Examples:
          | name    | n   |
          | group   | 150 |

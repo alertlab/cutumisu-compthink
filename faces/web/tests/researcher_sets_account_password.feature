@@ -44,7 +44,7 @@ Feature: Researcher Sets Account Password
       And she updates user "Kelly" with:
          | password |
          | d!ffr3nt |
-      Then "Kelly" should see "Kelly Myers saved"
+      Then she should see "Kelly Myers saved"
    
    # == Security ==
    @no-js

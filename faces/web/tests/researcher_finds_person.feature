@@ -15,8 +15,8 @@ Feature: Researcher Finds Person
       And she searches for users with:
          | name     |
          | <search> |
-      Then "Kelly" should see "Allan Daniels"
-      And "Kelly" should not see "Kelly Meyers"
+      Then she should see "Allan Daniels"
+      And she should not see "Kelly Meyers"
       Examples:
          | search |
          | allan  |
@@ -28,8 +28,8 @@ Feature: Researcher Finds Person
       And she searches for users with:
          | email             |
          | allan@example.com |
-      Then "Kelly" should see "Allan Daniels"
-      And "Kelly" should not see "Kelly Meyers"
+      Then she should see "Allan Daniels"
+      And she should not see "Kelly Meyers"
    
    Scenario: it should filter by role
       Given "Kelly" is signed in
@@ -37,8 +37,8 @@ Feature: Researcher Finds Person
       And she searches for users with:
          | role  |
          | Admin |
-      Then "Kelly" should see "Kelly Meyers"
-      And "Kelly" should not see "Allan Daniels"
+      Then she should see "Kelly Meyers"
+      And she should not see "Allan Daniels"
    
    Scenario: it should filter by group
       Given the following users:
@@ -52,9 +52,9 @@ Feature: Researcher Finds Person
       And she searches for users with:
          | group  |
          | GroupA |
-      Then "Kelly" should not see "Allan Daniels"
-      And "Kelly" should not see "Kelly Meyers"
-      And "Kelly" should see "user.001"
+      Then she should not see "Allan Daniels"
+      And she should not see "Kelly Meyers"
+      And she should see "user.001"
    
    Scenario Outline: it should return the number of matched elements
       Given 100 users
@@ -67,7 +67,7 @@ Feature: Researcher Finds Person
       And she searches for users with:
          | email   |
          | <email> |
-      Then "Kelly" should see "of <n>"
+      Then she should see "of <n>"
       Examples:
          | email       | n   |
          | user        | 100 |
