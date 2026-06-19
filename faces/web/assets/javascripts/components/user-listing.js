@@ -120,6 +120,11 @@ ko.components.register('user-listing', {
          return self.searchResults().results || [];
       })
 
+      // can't sub to searchResults or users because they fire when page observables change :(
+      Object.values(self.search).concat(Object.values(self.sort)).forEach(function (observable) {
+         observable.subscribe(self.page.number.reset)
+      })
+
       self.createEditorVisible = ko.observable(false).toggleable();
 
       self.groupNames = JSON.parse(decodeURIComponent(params['groups'])) || [];

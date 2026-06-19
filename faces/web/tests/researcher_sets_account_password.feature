@@ -5,7 +5,9 @@ Feature: Researcher Sets Account Password
          | name          | email             | role  | password |
          | Kelly Myers   | kelly@example.com | admin | sekret   |
          | Allan Daniels | allan@example.com | admin | sekret   |
-      When "<user>" updates their user account with:
+      Given "<user>" is signed in
+      When they navigate to user editor for "<user>"
+      And they update user "<user>" with:
          | password |
          | <pass>   |
       Then "<user>" should have password "<pass>"
@@ -20,7 +22,9 @@ Feature: Researcher Sets Account Password
          | Kelly Myers   | kelly@example.com | admin      | sekret   |
          | Allan Daniels | allan@example.com | instructor | sekret   |
          | Jane Doe      | jane@example.com  |            | sekret   |
-      When "Kelly" updates user "<target>" with:
+      And "Kelly" is signed in
+      When she navigates to user editor for "<target>"
+      And she updates user "<target>" with:
          | password |
          | <pass>   |
       Then there should be 3 users
@@ -35,7 +39,9 @@ Feature: Researcher Sets Account Password
       Given the following users:
          | name        | email             | role  | password |
          | Kelly Myers | kelly@example.com | admin | sekret   |
-      When "Kelly" updates their user account with:
+      Given "Kelly" is signed in
+      When she navigates to user editor for "Kelly"
+      And she updates user "Kelly" with:
          | password |
          | d!ffr3nt |
       Then "Kelly" should see "Kelly Myers saved"

@@ -17,8 +17,11 @@ Feature: Researcher Assigns Participants to Group
          | Bob Mainframe |
          | Dot Matrix    |
       And group "Group A" has participants "Bob, Dot"
-      When "Kelly" navigates to group editor for "Group A"
-      And "Kelly" updates group "Group A" with no changes
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      When she navigates to group editor for "Group A"
+      # ie. save with no changes
+      And she saves the group
       Then there should be 1 group
       And group "Group A" should have 2 participants
       And "Bob" should be in group "Group A"
@@ -28,7 +31,10 @@ Feature: Researcher Assigns Participants to Group
       Given the following user:
          | name          |
          | Bob Mainframe |
-      When "Kelly" adds "Bob" to group "Group A"
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      When she navigates to group editor for "Group A"
+      And she adds "Bob" to group "Group A"
       Then "Bob" should be in group "Group A"
    
    Scenario: it should NOT add the single participant to another group
@@ -38,13 +44,19 @@ Feature: Researcher Assigns Participants to Group
       And the following groups:
          | Name    |
          | Group B |
-      When "Kelly" adds "Bob" to group "Group B"
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group B"
+      And she adds "Bob" to group "Group B"
       Then "Bob" should be in group "Group B"
       And "Bob" should not be in group "Group A"
    
    Scenario Outline: it should batch create and add new sequential participants to a group
-      When "Kelly" batch creates <number> participants in group "Group A"
-      And "Kelly" saves the form
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
+      And she batch creates <number> participants in the group
+      And she saves the form
       Then group "Group A" should have <number> participants
       Examples:
          | number |
@@ -57,8 +69,11 @@ Feature: Researcher Assigns Participants to Group
          | testuser001 |           |
          | testuser002 |           |
       And group "Group A" has participants "testuser001, testuser002"
-      When "Kelly" batch creates <number> participants in group "Group A"
-      And "Kelly" saves the form
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
+      And she batch creates <number> participants in the group
+      And she saves the form
       Then group "Group A" should have <result> participants
       And there should be a user with:
          | first name       |
@@ -70,15 +85,17 @@ Feature: Researcher Assigns Participants to Group
          | 100    | 102    |
    
    Scenario: it should batch create and add participant listing to a group
-      When "Kelly" navigates to group editor for "Group A"
-      And "Kelly" batch creates participants from list:
+      Given "Kelly" is signed in
+      When she navigates to "Groups"
+      When she navigates to group editor for "Group A"
+      And she batch creates participants from list:
          """
          Bob
          Dot
          Phong
          Frisket
          """
-      And "Kelly" saves the form
+      And she saves the form
       Then group "Group A" should have 4 participants
       And there should be a user with:
          | first name |

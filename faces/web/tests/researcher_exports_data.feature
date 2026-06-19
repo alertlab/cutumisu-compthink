@@ -16,8 +16,10 @@ Feature: Researcher Exports Data
          | Name          | Email                |
          | Allan Daniels | allan@example.com    |
          | Test user     | test.001@example.com |
-      When "Kelly" exports users as CSV
-      Then "Kelly" should get a CSV file "users.csv" with this data:
+      And "Kelly" is signed in
+      When she navigates to "People"
+      And she exports users as CSV
+      Then she should get a CSV file "users.csv" with this data:
          | first name | last name | email                |
          | Allan      | Daniels   | allan@example.com    |
          | Test       | user      | test.001@example.com |
@@ -28,8 +30,10 @@ Feature: Researcher Exports Data
          | lever  | A      | Jan 1 2018 12:00:00 | 1           | No       |
          | lever  | B      | Jan 1 2018 12:00:01 | 2           | Yes      |
          | hanoi  | A      | Jan 2 2018 12:00:00 | 1           | No       |
-      When "Kelly" exports clicks as CSV
-      Then "Kelly" should get a CSV file "clicks.csv" with this data:
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she exports clicks as CSV
+      Then she should get a CSV file "clicks.csv" with this data:
          | game  |
          | lever |
          | hanoi |

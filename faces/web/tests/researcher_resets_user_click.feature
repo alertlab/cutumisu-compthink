@@ -11,11 +11,17 @@ Feature: Researcher Resets User Clicks
       And "Allan" has completed hanoi
    
    Scenario: it should remove clicks for the user
-      When "Kelly" resets click data for "Allan"
+      Given "Kelly" is signed in
+      When she navigates to "People"
+      And she navigates to user editor for "Allan"
+      And she resets the click data
       Then there should be 0 clicks
    
    Scenario: it should show a message
-      When "Kelly" resets click data for "Allan"
+      Given "Kelly" is signed in
+      When she navigates to "People"
+      And she navigates to user editor for "Allan"
+      And she resets the click data
       Then "Kelly" should see "Click data cleared for Allan Daniels"
    
    #============

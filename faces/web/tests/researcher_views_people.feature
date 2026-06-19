@@ -9,7 +9,8 @@ Feature: Researcher Views People
          | Kelly      | Meyers    | kelly@example.com | admin      | sekret   |
          | Allan      | Daniels   | allan@example.com | instructor |          |
          | John       | Doe       | john@example.com  | instructor |          |
-      When "Kelly" navigates to "People"
+      And "Kelly" is signed in
+      When she navigates to "People"
       And "Kelly" should see user summary for "Kelly"
       And "Kelly" should see user summary for "Allan"
       And "Kelly" should see user summary for "John"
@@ -20,7 +21,9 @@ Feature: Researcher Views People
          | Kelly      | Meyers    | kelly@example.com | admin      |
          | Allan      | Daniels   | allan@example.com | instructor |
          | John       | Doe       | john@example.com  | instructor |
-      When "Kelly" views users sorted by "<sorter>" <direction>
+      And "Kelly" is signed in
+      When she navigates to "People"
+      And she sorts users by "<sorter>" <direction>
       Then "Kelly" should see user summaries for "<users>" in that order
       Examples:
          | sorter     | direction  | users              |
@@ -32,7 +35,8 @@ Feature: Researcher Views People
    Scenario: it should paginate users
       Given 25 users
       And "User01" has role "admin"
-      When "User01" navigates to "People"
+      And "User01" is signed in
+      When they navigate to "People"
       Then "User01" should see user summary for "User01"
       And "User01" should see user summary for "User10"
       And "User01" should not see user summary for "User11"
@@ -40,7 +44,9 @@ Feature: Researcher Views People
    Scenario: it should load more users on the next page
       Given 25 users
       And "User01" has role "admin"
-      When "User01" views more users
+      And "User01" is signed in
+      When they navigate to "People"
+      And they view the next pagination page
       Then "User01" should not see user summary for "User01"
       And "User01" should not see user summary for "User10"
       And "User01" should see user summary for "User11"

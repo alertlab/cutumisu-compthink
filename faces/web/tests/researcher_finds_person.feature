@@ -10,7 +10,9 @@ Feature: Researcher Finds Person
          | Allan Daniels | allan@example.com | instructor |          |
    
    Scenario Outline: it should filter by name
-      When "Kelly" searches for users with:
+      Given "Kelly" is signed in
+      When she navigates to "People"
+      And she searches for users with:
          | name     |
          | <search> |
       Then "Kelly" should see "Allan Daniels"
@@ -21,14 +23,18 @@ Feature: Researcher Finds Person
          | ani    |
    
    Scenario: it should filter by email
-      When "Kelly" searches for users with:
+      Given "Kelly" is signed in
+      When she navigates to "People"
+      And she searches for users with:
          | email             |
          | allan@example.com |
       Then "Kelly" should see "Allan Daniels"
       And "Kelly" should not see "Kelly Meyers"
    
    Scenario: it should filter by role
-      When "Kelly" searches for users with:
+      Given "Kelly" is signed in
+      When she navigates to "People"
+      And she searches for users with:
          | role  |
          | Admin |
       Then "Kelly" should see "Kelly Meyers"
@@ -41,7 +47,9 @@ Feature: Researcher Finds Person
       And the following groups:
          | name   | participants |
          | GroupA | user.001     |
-      When "Kelly" searches for users with:
+      And "Kelly" is signed in
+      When she navigates to "People"
+      And she searches for users with:
          | group  |
          | GroupA |
       Then "Kelly" should not see "Allan Daniels"
@@ -54,7 +62,9 @@ Feature: Researcher Finds Person
          | Name             | Email              | role  |
          | Kelly Meyers     | kelly@example.com  | admin |
          | Kellyette Second | kelly2@example.com |       |
-      When "Kelly" searches for users with:
+      And "Kelly" is signed in
+      When she navigates to "People"
+      And she searches for users with:
          | email   |
          | <email> |
       Then "Kelly" should see "of <n>"
@@ -69,12 +79,13 @@ Feature: Researcher Finds Person
       And the following users:
          | Name         | Email             | role  |
          | Kelly Meyers | kelly@example.com | admin |
-      When "Kelly" navigates to "People"
-      And "Kelly" views the pagination page <n>
-      And "Kelly" searches for users with:
+      And "Kelly" is signed in
+      When she navigates to "People"
+      And she views the pagination page <n>
+      And she searches for users with:
          | Name  |
          | Kelly |
-      Then "Kelly" should be on pagination page 1
+      Then she should be on pagination page 1
       Examples:
          | n |
          | 2 |

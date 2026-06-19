@@ -9,7 +9,9 @@ Feature: Researcher Adds Group
          | Kelly      | Meyers    | kelly@example.com | admin | sekret   |
    
    Scenario: it should add a group
-      When "Kelly" creates a group with:
+      Given "Kelly" is signed in
+      When she navigates to "Groups"
+      And she creates a group with:
          | name      | start date    | end date    |
          | testgroup | April 21 2018 | May 11 2018 |
       Then there should be 1 group

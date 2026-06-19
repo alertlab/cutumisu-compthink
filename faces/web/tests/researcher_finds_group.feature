@@ -13,7 +13,9 @@ Feature: Researcher Finds Group
          | name    |
          | Group A |
          | UACS    |
-      When "Kelly" searches for groups with:
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she searches for groups with:
          | name     |
          | <search> |
       Then "Kelly" should see "UACS"
@@ -25,7 +27,9 @@ Feature: Researcher Finds Group
    
    Scenario Outline: it should return the number of matched elements
       Given 150 groups
-      When "Kelly" searches for groups with:
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she searches for groups with:
          | name   |
          | <name> |
       Then "Kelly" should see "of <n>"
@@ -36,12 +40,13 @@ Feature: Researcher Finds Group
    
    Scenario Outline: it should return to first page
       Given 100 groups
-      When "Kelly" navigates to "Groups"
-      And "Kelly" views the pagination page <n>
-      And "Kelly" searches for groups with:
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she views the pagination page <n>
+      And she searches for groups with:
          | Name  |
          | Kelly |
-      Then "Kelly" should be on pagination page 1
+      Then she should be on pagination page 1
       Examples:
          | n |
          | 2 |

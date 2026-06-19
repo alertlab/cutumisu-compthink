@@ -9,7 +9,10 @@ Feature: Researcher Adds Person
          | Kelly      | Meyers    | kelly@example.com | admin | sekret   |
    
    Scenario: it should add a person
-      When "Kelly" adds a person named "John Doe"
+      Given "Kelly" is signed in
+      When she navigates to "People"
+      And she fills in a new person named "John Doe"
+      And she saves the new user
       Then there should be 2 people
       And there should be a person with:
          | first name | last name |

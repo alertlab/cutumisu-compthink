@@ -13,8 +13,11 @@ Feature: Researcher Updates Group
       Given the following group:
          | Name    | start date | end date | regex   |
          | Group A | Jan 1      | Feb 1    | .*[a-z] |
-      When "Kelly" navigates to group editor for "Group A"
-      And "Kelly" updates group "Group A" with no changes
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
+      # ie. save with no changes
+      And she saves the group
       Then there should be 1 group
       And there should be a group with:
          | Name    | start date | end date | regex   |
@@ -24,38 +27,52 @@ Feature: Researcher Updates Group
       Given the following group:
          | Name    |
          | Group A |
-      When "Kelly" navigates to group editor for "Group A"
-      And "Kelly" updates group "Group A" with no changes
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
+      # ie. save with no changes
+      And she saves the group
       Then "Kelly" should see "Group Group A saved"
    
    Scenario: it should redirect to the group listing after saving
       Given the following group:
          | Name    |
          | Group A |
-      When "Kelly" navigates to group editor for "Group A"
-      And "Kelly" updates group "Group A" with no changes
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
+      # ie. save with no changes
+      And she saves the group
       Then "Kelly" should be at /admin/groups
    
    Scenario: it should update the name
       Given the following group:
          | Name    |
          | Group A |
-      When "Kelly" navigates to group editor for "Group A"
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
       And "Kelly" updates group "Group A" with:
          | Name    |
          | NewName |
-      And "Kelly" navigates to group editor for "NewName"
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "NewName"
       Then "Kelly" should see group "Name" is "NewName"
    
    Scenario: it should update their start and end dates
       Given the following group:
          | Name    | start date | end date |
          | Group A | Jan 1      | Feb 1    |
-      When "Kelly" navigates to group editor for "Group A"
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
       And "Kelly" updates group "Group A" with:
          | start date  | end date    |
          | Jan 15 2001 | Feb 15 2001 |
-      And "Kelly" navigates to group editor for "Group A"
+      # TODO: replace with refreshes the page
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
       Then "Kelly" should see group "Start Date" is "2001-01-15"
       And "Kelly" should see group "End Date" is "2001-02-15"
    
@@ -63,7 +80,9 @@ Feature: Researcher Updates Group
       Given the following group:
          | Name    | regex |
          | Group A | abc   |
-      When "Kelly" navigates to group editor for "Group A"
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
       And "Kelly" updates group "Group A" with:
          | regex   |
          | <regex> |
@@ -82,7 +101,9 @@ Feature: Researcher Updates Group
       Given the following group:
          | Name    | regex |
          | Group A |       |
-      When "Kelly" navigates to group editor for "Group A"
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
       And "Kelly" updates group "Group A" with:
          | open |
          | yes  |
@@ -95,7 +116,9 @@ Feature: Researcher Updates Group
       Given the following group:
          | Name    | regex |
          | Group A | [a-z] |
-      When "Kelly" navigates to group editor for "Group A"
+      And "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
       And "Kelly" updates group "Group A" with:
          | open |
          | no   |

@@ -10,18 +10,24 @@ Feature: Researcher Removes Person
          | Allan Daniels | allan@example.com |       |          |
    
    Scenario: it should remove a person
-      When "Kelly" removes user "Allan"
+      Given "Kelly" is signed in
+      When she navigates to "People"
+      And she removes user "Allan"
       Then there should be 1 user
       And there should not be a user with:
          | name          |
          | Allan Daniels |
    
    Scenario: it should show a success message
-      When "Kelly" removes user "Allan"
+      Given "Kelly" is signed in
+      When she navigates to "People"
+      And she removes user "Allan"
       Then "Kelly" should see "Allan Daniels deleted"
    
    Scenario: it should redirect to the group listing after saving
-      When "Kelly" removes user "Allan"
+      Given "Kelly" is signed in
+      When she navigates to "People"
+      And she removes user "Allan"
       Then "Kelly" should be at /admin/people
    
    

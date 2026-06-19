@@ -8,7 +8,8 @@ Feature: User Signs Out
          | Name          | Email           | Roles | password |
          | Bob Mainframe | bob@example.com | admin | sekret   |
          | Dot Matrix    | dot@example.com | admin | sekret   |
-      When "<user>" signs out
+      Given "<user>" is signed in
+      When they sign out
       Then "<user>" should not be signed in
       And they should see "Signed out"
       Examples:
@@ -24,7 +25,7 @@ Feature: User Signs Out
          | name    | participants |
          | <group> | <user>       |
       When they sign in to participate with user "<user>" and group "<group>"
-      And "<user>" signs out
+      And they sign out
       Then they should not be signed in
       And they should see "Signed out"
       Examples:

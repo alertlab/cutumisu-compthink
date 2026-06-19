@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-Then '{string} should get a CSV file {string} with this data:' do |user_name, file_name, table|
-   step %["#{ user_name }" is signed in]
-
+Then 'he/she/they should get a CSV file {string} with this data:' do |file_name, table|
    file = HelperMethods::Web::TEST_TMP_DOWNLOADS / file_name
 
    expected_rows = symtable(table).rows

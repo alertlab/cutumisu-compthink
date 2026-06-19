@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Then 'they {should} see {string}' do |should, msg|
+Then 'he/she/they {should} see {string}' do |should, msg|
    step %["" #{ should ? 'should' : 'should not' } see "#{ msg }"]
 end
 
@@ -28,7 +28,7 @@ Then '{string} {should} see {html element}' do |user_name, should, element|
    end
 end
 
-Then 'they should see {int} error {string}' do |number, msg|
+Then 'he/she/they should see {int} error {string}' do |number, msg|
    expect(page.driver.status_code).to eq number
 
    expect(page.driver.response.body).to include(msg)
@@ -59,10 +59,8 @@ Then '{string} should see group {string} is {string}' do |user_name, field_name,
 end
 
 # ============= Pagination ===============
-Then '{string} should be on pagination page {int}' do |user_name, n|
-   step %["#{ user_name }" is signed in]
-
+Then 'he/she/they should be on pagination page {int}' do |n|
    within 'pane-paged .current' do
-      expect(page).to have_content(n, normalize_ws: true)
+      expect(page).to have_content n, normalize_ws: true
    end
 end

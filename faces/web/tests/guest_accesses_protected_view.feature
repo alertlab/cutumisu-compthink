@@ -4,7 +4,7 @@ Feature: Guest Access Protected View
    I will be bounced to the login screen
    
    Scenario Outline: it should redirect the guest to the login page
-      When guest visits <uri>
+      When someone visits <uri>
       Then they should be at /sign-in
       Examples:
          | uri           |
@@ -14,7 +14,7 @@ Feature: Guest Access Protected View
          | /admin/groups |
    
    Scenario Outline: it should include the original URI in the query parameters
-      When guest visits <uri>
+      When someone visits <uri>
       Then they should have query parameter "<escaped>"
       Examples:
          | uri           | escaped           |
@@ -22,7 +22,7 @@ Feature: Guest Access Protected View
          | /admin/people | %2Fadmin%2Fpeople |
    
    Scenario Outline: it should bounce guests from admin views
-      When guest visits <uri>
+      When someone visits <uri>
       Then they should see "You must log in to view that page"
       And they should be at /sign-in
       Examples:
@@ -35,9 +35,10 @@ Feature: Guest Access Protected View
       Given the following user:
          | name          | email             | password |
          | Allan Daniels | allan@example.com | sekret   |
-      When "Allan" visits <uri>
-      Then they should see "You do not have permission to view that page"
-      And they should be at /sign-in
+      And "Allan" is signed in
+      When he visits <uri>
+      Then he should see "You do not have permission to view that page"
+      And he should be at /sign-in
       Examples:
          | uri           |
          | /admin        |
@@ -46,7 +47,7 @@ Feature: Guest Access Protected View
    
    @no-js
    Scenario Outline: it should bounce guests from admin actions
-      When guest force posts to "<uri>"
+      When someone force posts to "<uri>"
       Then they should see 401 error "You are not authenticated."
       Examples:
          | uri                 |
@@ -63,7 +64,7 @@ Feature: Guest Access Protected View
          | name          | password |
          | Allan Daniels | sekret   |
       When "Allan" force posts to "<uri>"
-      Then they should see 403 error "You are not permitted to do that"
+      Then he should see 403 error "You are not permitted to do that"
       Examples:
          | uri                 |
          | /admin              |

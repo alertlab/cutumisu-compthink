@@ -1,40 +1,28 @@
 # frozen_string_literal: true
 
-When '{string} views more users' do |user_name|
-   step %["#{ user_name }" navigates to "People"]
-
+When 'he/she/they view(s) the next pagination page' do
    click_button 'Next'
 
    wait_for_ajax
 end
 
-When '{string} views users sorted by {string} {direction}' do |user_name, sort_field, direction|
-   step %["#{ user_name }" navigates to "People"]
-
+When 'he/she/they/someone sort(s) users by {string} {direction}' do |sort_field, direction|
    if direction.match?(/asc/)
-      select("#{ sort_field } A-Z", from: 'Sort')
+      select "#{ sort_field } A-Z", from: 'Sort'
    else
-      select("#{ sort_field } Z-A", from: 'Sort')
+      select "#{ sort_field } Z-A", from: 'Sort'
    end
 
    wait_for_ajax
 end
 
-When('{string} updates user {string} with no changes') do |admin_name, user_name|
-   step(%["#{ admin_name }" navigates to user editor for "#{ user_name }"])
-
-   click_button('Save')
+When 'he/she/they/someone save(s) the user' do
+   click_button 'Save'
 
    wait_for_ajax
 end
 
-When('{string} updates their user account with:') do |admin_name, table|
-   step(%["#{ admin_name }" updates user "#{ admin_name }" with:], table)
-end
-
-When('{string} updates user {string} with:') do |admin_name, user_name, table|
-   step(%["#{ admin_name }" navigates to user editor for "#{ user_name }"])
-
+When 'he/she/they update(s) user {string} with:' do |user_name, table|
    user = persisters[:user].find(first_name: user_name)
 
    row = symrow(table)
@@ -69,9 +57,7 @@ When '{string} force updates user {string} with:' do |admin_name, user_name, tab
    page.driver.browser.follow(:post, '/admin/update_user')
 end
 
-When '{string} fills in a new person named {string}' do |user_name, person_name|
-   step %["#{ user_name }" navigates to "People"]
-
+When 'he/she/they/someone fill(s) in a new person named {string}' do |person_name|
    first, last = person_name.split(' ')
 
    click_button 'Add Person'
@@ -82,13 +68,9 @@ When '{string} fills in a new person named {string}' do |user_name, person_name|
 
       fill_in :email, with: "#{ first }@example.com"
    end
-
-   # no wait for ajax needed because this step is a shared step. The actual submit is done elsewhere.
 end
 
-When '{string} adds a person named {string}' do |admin_name, person_name|
-   step %["#{ admin_name }" fills in a new person named "#{ person_name }"]
-
+When 'he/she/they/someone save(s) the new user' do
    within '.add-user-controls' do
       click_button 'Save'
    end
@@ -102,10 +84,8 @@ When '{string} force adds a person named {string}' do |admin_name, person_name|
    page.driver.browser.follow(:post, '/admin/create_user', first_name: person_name)
 end
 
-When '{string} searches for users with:' do |user_name, table|
-   step %["#{ user_name }" navigates to "People"]
-
-   row = symrow(table)
+When 'he/she/they/someone search(es) for users with:' do |table|
+   row = symrow table
 
    within '.filter' do
       fill_in :name, with: row[:name] if row[:name]
@@ -133,9 +113,7 @@ When '{string} force searches for users with:' do |user_name, table|
    page.driver.browser.follow(:post, '/admin/search_users', filter: symrow(table))
 end
 
-When '{string} removes user {string}' do |admin_name, user_name|
-   step %["#{ admin_name }" navigates to "People"]
-
+When 'he/she/they/someone remove(s) user {string}' do |user_name|
    user = persisters[:user].find(first_name: user_name)
 
    within "#user-#{ user.id }" do

@@ -10,22 +10,31 @@ Feature: Researcher Updates Person
          | Allan Daniels | allan@example.com | instructor |          |
    
    Scenario: it should load existing properties
-      When "Kelly" updates user "Allan" with no changes
+      Given "Kelly" is signed in
+      When she navigates to user editor for "Allan"
+      # ie. save with no changes
+      And she saves the user
       Then there should be 2 users
       And there should be a user with:
          | Name          | Email             | role       |
          | Allan Daniels | allan@example.com | instructor |
    
    Scenario: it should show a success message
-      When "Kelly" updates user "Allan" with no changes
+      Given "Kelly" is signed in
+      When she navigates to user editor for "Allan"
+      And she saves the user
       Then "Kelly" should see "Allan Daniels saved"
    
    Scenario: it should redirect to the group listing after saving
-      When "Kelly" updates user "Allan" with no changes
+      Given "Kelly" is signed in
+      When she navigates to user editor for "Allan"
+      And she saves the user
       Then "Kelly" should be at /admin/people
    
    Scenario: it should update their name
-      When "Kelly" updates user "Allan" with:
+      Given "Kelly" is signed in
+      When she navigates to user editor for "Allan"
+      And she updates user "Allan" with:
          | First Name | Last Name | Email            |
          | Jane       | Doe       | jane@example.com |
       Then "Kelly" should see "Jane Doe saved"
@@ -38,7 +47,9 @@ Feature: Researcher Updates Person
          | Allan      | Daniels   | allan@example.com |
    
    Scenario: it should update their contact info
-      When "Kelly" updates user "Allan" with:
+      Given "Kelly" is signed in
+      When she navigates to user editor for "Allan"
+      And she updates user "Allan" with:
          | Email                 |
          | different@example.com |
       Then there should be 2 users
@@ -48,7 +59,9 @@ Feature: Researcher Updates Person
    
    Scenario Outline: it should display the games they have completed
       Given "Allan" has completed <puzzle>
-      When "Kelly" navigates to user editor for "Allan"
+      And "Kelly" is signed in
+      When she navigates to "People"
+      And she navigates to user editor for "Allan"
       Then "Kelly" should see they have completed <puzzle>
       And "Kelly" should see they have not completed <unfinished>
       Examples:
@@ -61,12 +74,16 @@ Feature: Researcher Updates Person
       And group "Group B"
       And group "Group A" has participant "Allan"
       And group "Group B" has participant "Allan"
-      When "Kelly" navigates to user editor for "Allan"
+      And "Kelly" is signed in
+      When she navigates to "People"
+      And she navigates to user editor for "Allan"
       Then "Kelly" should see "Group A"
       And "Kelly" should see "Group B"
    
    Scenario: it should update their roles
-      When "Kelly" updates user "Allan" with:
+      Given "Kelly" is signed in
+      When she navigates to user editor for "Allan"
+      And she updates user "Allan" with:
          | roles |
          | Admin |
       Then there should be 2 users

@@ -75,6 +75,10 @@ ko.components.register('group-listing', {
       self.groups = ko.pureComputed(function () {
          return self.searchResults().results || [];
       })
+      // can't sub to searchResults or groups because they fire when page observables change :(
+      Object.values(self.search).forEach(function (observable) {
+         observable.subscribe(self.page.number.reset)
+      })
 
       self.formatRoles = function (roleList) {
          return roleList.map(function (roleName) {

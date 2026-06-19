@@ -39,7 +39,7 @@ When '{string} signs in with {string} and {string}' do |first_name, email, passw
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
-      step %["#{ first_name }" signs out] if @current_user
+      raise 'Test error: Already signed in' if @current_user
 
       visit '/admin' unless page.current_url.match?('admin')
 
@@ -64,7 +64,7 @@ When '{string} force signs in with {string} and {string}' do |first_name, email,
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
-      step %["#{ first_name }" signs out] if @current_user
+      raise 'Test error: Already signed in' if @current_user
 
       page.driver.browser.follow(:post, '/auth/sign-in', admin: {email:    email,
                                                                  password: password})
@@ -81,7 +81,7 @@ When 'they sign in to participate with user {string} and preset group {string}' 
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
-      step %["#{ user_name }" signs out] if @current_user
+      raise 'Test error: Already signed in' if @current_user
 
       visit "/?group=#{ group_name }"
 
@@ -105,7 +105,7 @@ When 'they sign in to participate with user {string} and group {string}' do |use
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
-      step %["#{ user_name }" signs out] if @current_user
+      raise 'Test error: Already signed in' if @current_user
 
       visit '/'
 
@@ -125,11 +125,11 @@ When 'they sign in to participate with user {string} and group {string}' do |use
    end
 end
 
-When '{string} signs out' do |name|
-   step %["#{ name }" is signed in]
-
-   @current_user = nil
-   click_link 'Sign Out'
+When 'he/she/they sign(s) out' do
+   within 'current-session' do
+      click_link 'Sign Out'
+   end
 
    wait_for_ajax
+   @current_user = nil
 end

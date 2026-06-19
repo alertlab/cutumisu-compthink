@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
-When '{string} creates a group with:' do |admin_name, table|
-   step %["#{ admin_name }" is signed in]
-
-   row = symrow(table)
-
-   step %["#{ admin_name }" navigates to "Groups"]
+When 'he/she/they create(s) a group with:' do |table|
+   row = symrow table
 
    click_button 'Add Group'
 
@@ -30,10 +26,8 @@ When '{string} force adds a group' do |user_name|
    }
 end
 
-When '{string} searches for groups with:' do |user_name, table|
-   step %["#{ user_name }" navigates to "Groups"]
-
-   row = symrow(table)
+When 'he/she/they/someone search(es) for groups with:' do |table|
+   row = symrow table
 
    within '.filter' do
       fill_in :name, with: row[:name] if row[:name]
@@ -48,8 +42,8 @@ When('{string} force searches for group(s) with:') do |user_name, table|
    page.driver.browser.follow(:post, '/admin/search_groups', filter: symrow(table))
 end
 
-When('{string} updates group {string} with no changes') do |admin_name, user_name|
-   click_button('Save')
+When 'he/she/they/someone save(s) the group' do
+   click_button 'Save'
 
    wait_for_ajax
 end
@@ -86,12 +80,14 @@ When '{string} force updates group {string} with:' do |user_name, group_name, ta
    page.driver.browser.follow(:post, '/admin/save-group')
 end
 
-When '{string} removes group {string}' do |admin_name, group_name|
-   step %["#{ admin_name }" navigates to group editor for "#{ group_name }"]
+When 'he/she/they/someone remove(s) the group' do
+   within 'form > .controls' do
+      click_button 'Delete'
+   end
 
-   click_button 'Delete'
-
-   click_button 'Delete Permanently'
+   within '.delete-confirm' do
+      click_button 'Delete Permanently'
+   end
 
    wait_for_ajax
 end
@@ -102,9 +98,7 @@ When '{string} force removes group {string}' do |admin_name, group_name|
    page.driver.browser.follow(:post, '/admin/remove-group')
 end
 
-When '{string} adds {string} to group {string}' do |admin_name, user_name, group_name|
-   step %["#{ admin_name }" navigates to group editor for "#{ group_name }"]
-
+When 'he/she/they/someone add(s) {string} to group {string}' do |user_name, group_name|
    within 'group-editor' do
       within '.participants' do
          click_button '+1'
@@ -128,9 +122,7 @@ When '{string} force adds {string} to group {string}' do |user_name, target_name
    page.driver.browser.follow(:post, '/admin/save-group')
 end
 
-When '{string} batch creates {int} participants in group {string}' do |admin_name, number, group_name|
-   step %["#{ admin_name }" navigates to group editor for "#{ group_name }"]
-
+When 'he/she/they batch create(s) {int} participants in the group' do |number|
    within 'group-editor .participants' do
       click_button 'Bulk Create...'
 
@@ -144,9 +136,7 @@ When '{string} batch creates {int} participants in group {string}' do |admin_nam
    end
 end
 
-When "{string} batch creates participants from list:" do |admin_name, id_list|
-   step %["#{ admin_name }" is signed in]
-
+When 'he/she/they/someone batch create(s) participants from list:' do |id_list|
    within 'group-editor .participants' do
       click_button 'Bulk Create...'
 
@@ -160,9 +150,7 @@ When "{string} batch creates participants from list:" do |admin_name, id_list|
    end
 end
 
-When "{string} saves the form" do |admin_name|
-   step %["#{ admin_name }" is signed in]
-
+When 'he/she/they save(s) the form' do
    within 'form > .controls' do
       click_button 'Save'
    end

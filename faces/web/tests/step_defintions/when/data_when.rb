@@ -1,15 +1,7 @@
 # frozen_string_literal: true
 
-When '{string} exports users as CSV' do |admin_name|
-   step %["#{ admin_name }" navigates to "People"]
-
-   click_button 'Download User Data'
-end
-
-When '{string} exports clicks as CSV' do |admin_name|
-   step %["#{ admin_name }" navigates to "Groups"]
-
-   click_button 'Download Click Data'
+When 'he/she/they/someone export(s) {word}s as CSV' do |type|
+   click_button "Download #{ type.capitalize } Data"
 end
 
 When '{string} force exports {export data} as CSV' do |user_name, data_type|
@@ -18,12 +10,14 @@ When '{string} force exports {export data} as CSV' do |user_name, data_type|
    page.driver.browser.follow(:post, '/admin/export-data', type: data_type, filter: nil)
 end
 
-When '{string} resets click data for {string}' do |admin_name, target_name|
-   step %["#{ admin_name }" navigates to user editor for "#{ target_name }"]
+When 'he/she/they/someone reset(s) the click data' do
+   within '.participation' do
+      click_button 'Reset Clicks'
+   end
 
-   click_button 'Reset Clicks'
-
-   click_button 'Reset Permanently'
+   within '.reset-clicks-confirm' do
+      click_button 'Reset Permanently'
+   end
 
    wait_for_ajax
 end

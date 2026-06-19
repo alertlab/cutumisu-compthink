@@ -12,11 +12,17 @@ Feature: Researcher Removes Group
          | Group A |
    
    Scenario: it should remove a group
-      When "Kelly" removes group "Group A"
+      Given "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
+      And she removes the group
       Then there should be 0 groups
    
    Scenario: it should redirect to the group listing after saving
-      When "Kelly" removes group "Group A"
+      Given "Kelly" is signed in
+      When she navigates to "Groups"
+      And she navigates to group editor for "Group A"
+      And she removes the group
       Then "Kelly" should be at /admin/groups
    
    #============

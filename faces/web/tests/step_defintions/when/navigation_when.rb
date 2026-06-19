@@ -2,9 +2,7 @@
 
 # ==== General Navigation ====
 
-When '{string} navigates to {string}' do |user, location|
-   step %["#{ user }" is signed in]
-
+When 'he/she/they/someone navigate(s) to {string}' do |location|
    within 'nav' do
       click_link location
    end
@@ -12,9 +10,7 @@ When '{string} navigates to {string}' do |user, location|
    wait_for_ajax
 end
 
-When '{string} navigates to group editor for {string}' do |navigator, name|
-   step %["#{ navigator }" navigates to "Groups"]
-
+When 'he/she/they/someone navigate(s) to group editor for {string}' do |name|
    group = persisters[:group].find(name: name)
 
    within "#group-#{ group.id }" do
@@ -24,9 +20,7 @@ When '{string} navigates to group editor for {string}' do |navigator, name|
    wait_for_ajax
 end
 
-When '{string} navigates to user editor for {string}' do |navigator, user_name|
-   step %["#{ navigator }" navigates to "People"]
-
+When 'he/she/they/someone navigate(s) to user editor for {string}' do |user_name|
    user = persisters[:user].find(first_name: user_name)
 
    within "#user-#{ user.id }" do
@@ -36,17 +30,11 @@ When '{string} navigates to user editor for {string}' do |navigator, user_name|
    wait_for_ajax
 end
 
-When '{string} visits {path}' do |user_name, uri|
-   step %["#{ user_name }" signs in]
-
+When 'he/she/they/someone visit(s) {path}' do |uri|
    visit uri
 end
 
-When 'guest visits {path}' do |uri|
-   visit uri
-end
-
-When 'guest force posts to {string}' do |uri|
+When 'he/she/they/someone force posts to {string}' do |uri|
    page.driver.browser.follow(:post, uri)
 end
 
@@ -56,7 +44,7 @@ When '{string} force posts to {string}' do |user_name, uri|
    page.driver.browser.follow(:post, uri)
 end
 
-When '{string} views the pagination page {int}' do |user_name, n|
+When 'he/she/they view(s) the pagination page {int}' do |n|
    within 'pane-paged .numbers' do
       click_button n.to_s
    end
