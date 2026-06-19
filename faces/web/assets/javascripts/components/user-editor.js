@@ -58,7 +58,7 @@ ko.components.register('user-editor', {
                   </div>\
                   <h3>Security</h3>\
                   <div class="security">\
-                     <input-password-metered params="password: user.password"></input-password-metered>\
+                     <input-password-metered params="value: user.password"></input-password-metered>\
                      <input-checklist params="name: \'Roles\', options: allRoles, checked: user.roles"></input-checklist>\
                   </div>\
                </basic-form>',

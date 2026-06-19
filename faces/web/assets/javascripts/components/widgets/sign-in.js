@@ -11,7 +11,7 @@ ko.components.register('sign-in', {
                     <li>\
                        <label>\
                           <span>Password</span>\
-                          <input-password params="password: password"></input-password>\
+                          <input-password params="value: password"></input-password>\
                        </label>\
                     </li>\
                  </ul>\

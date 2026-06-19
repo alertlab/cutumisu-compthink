@@ -2,7 +2,7 @@ ko.components.register('input-password-metered', {
    template: '<div class="overlay" data-bind="click: showTips.toggle, visible: showTips"></div>\
               <label class="password-edit">\
                  <span>New Password</span>\
-                 <input-password params="password: password"></input-password>\
+                 <input-password params="value: passwordValue"></input-password>\
                  <div class="strength">\
                     <meter min=0 max=4 high=3 low=2 optimum=4 value=0 data-bind="value: pwStrengthScore"></meter>\
                     <div class="score-label">\
@@ -31,12 +31,12 @@ ko.components.register('input-password-metered', {
 
       self.user = window.currentUser;
 
-      self.password = params['password'] || ko.observable('');
+      self.passwordValue = params['value'] || ko.observable('');
 
       self.showTips = ko.observable(false).toggleable();
 
       self.pwStrength = ko.pureComputed(function () {
-         return zxcvbn(self.password());
+         return zxcvbn(self.passwordValue());
       });
 
       self.pwStrengthScore = ko.pureComputed(function () {
