@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module CompThink
-   module Interactor
+   module Command
       class DeleteUser
-         include Command
+         include Command::Abstract
 
          def run(id:)
             return {errors: ['That person does not exist']} unless users_persister.exists?(id: id)

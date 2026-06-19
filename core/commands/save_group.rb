@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module CompThink
-   module Interactor
+   module Command
       class SaveGroup
-         include Command
+         include Command::Abstract
 
          def run(id: nil, name:, start_date:, end_date:, create_participants: nil, participants: nil, regex: '')
             return {errors: ['Name cannot be blank']} if name.nil? || name.empty?

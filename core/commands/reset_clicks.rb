@@ -3,9 +3,9 @@
 require 'csv'
 
 module CompThink
-   module Interactor
+   module Command
       class ResetClicks
-         include Command
+         include Command::Abstract
 
          def run(user_id:)
             click_persister.delete_clicks_for(user_id: user_id)

@@ -3,9 +3,9 @@
 require 'csv'
 
 module CompThink
-   module Interactor
+   module Command
       class ExportData
-         include Command
+         include Command::Abstract
 
          CLICK_COLUMNS = %w[user_id puzzle target time move_number complete].freeze
          USER_COLUMNS  = %w[id first_name last_name email creation_time].freeze

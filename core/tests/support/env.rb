@@ -16,7 +16,7 @@ require_relative 'mocks'
 # Disabling because it's much more legible in steps
 # rubocop:disable Style/MixinUsage
 include CompThink
-include CompThink::Interactor
+include CompThink::Command
 # rubocop:enable Style/MixinUsage
 
 World HelperMethods

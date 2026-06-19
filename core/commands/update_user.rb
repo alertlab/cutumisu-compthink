@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module CompThink
-   module Interactor
+   module Command
       class UpdateUser
-         include Command
+         include Command::Abstract
 
          def run(id:, first_name:, last_name:, email:, password: nil, roles:, groups: nil)
             # TODO: use proper validator gem

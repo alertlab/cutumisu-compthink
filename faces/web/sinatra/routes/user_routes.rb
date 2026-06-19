@@ -11,7 +11,7 @@ module CompThink
                      post '/record-click' do
                         params.merge!(user: current_user)
 
-                        run_command Interactor::RecordClick
+                        run_command Command::RecordClick
                      end
                   end
                end

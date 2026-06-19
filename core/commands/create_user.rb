@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module CompThink
-   module Interactor
+   module Command
       class CreateUser
-         include Command
+         include Command::Abstract
 
          def run(first_name:, last_name:, email: '', password: nil, groups: nil, roles: nil)
             # TODO: use proper validator gem

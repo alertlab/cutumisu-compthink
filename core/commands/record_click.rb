@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 module CompThink
-   module Interactor
+   module Command
+      # Records a user's click action
       class RecordClick
-         include Command
+         include Command::Abstract
 
          def run(puzzle:, target:, user:, complete:, move_number:, expected: nil)
             click_persister.create(user_id:     user.id,

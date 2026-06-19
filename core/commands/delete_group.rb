@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module CompThink
-   module Interactor
+   module Command
       class DeleteGroup
-         include Command
+         include Command::Abstract
 
          def run(id:)
             return {errors: ['That group does not exist']} unless group_persister.exists?(id: id)

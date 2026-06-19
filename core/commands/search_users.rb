@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module CompThink
-   module Interactor
+   module Command
       class SearchUsers
-         include Command
+         include Command::Abstract
 
          DEFAULT_USER_RESULT_COUNT = 10
 
