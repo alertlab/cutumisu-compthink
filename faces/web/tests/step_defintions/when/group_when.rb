@@ -7,8 +7,8 @@ When 'he/she/they create(s) a group with:' do |table|
 
    within 'group-editor' do
       fill_in :name, with: row[:name]
-      fill_in :start_date, with: Time.parse(row[:start_date]).strftime('%d/%m/%Y')
-      fill_in :end_date, with: Time.parse(row[:end_date]).strftime('%d/%m/%Y')
+      fill_in :start_date, with: form_date(row[:start_date])
+      fill_in :end_date, with: form_date(row[:end_date])
 
       click_button 'Save'
    end
@@ -48,8 +48,8 @@ When 'he/she/they update(s) group {string} with:' do |group_name, table|
    within ".group-editor-#{ group.id }" do
       fill_in :name, with: row[:name] if row[:name]
 
-      fill_in :start_date, with: Time.parse(row[:start_date]).strftime('%d/%m/%Y') if row[:start_date]
-      fill_in :end_date, with: Time.parse(row[:end_date]).strftime('%d/%m/%Y') if row[:end_date]
+      fill_in :start_date, with: form_date(row[:start_date]) if row[:start_date]
+      fill_in :end_date, with: form_date(row[:end_date]) if row[:end_date]
 
       if row[:regex]
          choose 'Custom'

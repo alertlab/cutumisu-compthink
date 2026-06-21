@@ -165,6 +165,10 @@ module HelperMethods
          end
       end
 
+      def form_date(datetime_str)
+         Time.parse(datetime_str).strftime('%d/%m/%Y')
+      end
+
       # selects an option from the complex search-select widget
       def search_select(field_name, value, result_selector: '', **opts)
          fill_in(field_name, with: value, **opts)

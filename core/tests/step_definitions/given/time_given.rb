@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Given(/^the (?:date|time) is "(.*?)"$/) do |date_string|
-   time = Time.parse(date_string)
+Given 'the date/time is {string}' do |date_string|
+   time = Time.parse date_string
 
-   Timecop.travel(time)
+   Timecop.travel time
 end
