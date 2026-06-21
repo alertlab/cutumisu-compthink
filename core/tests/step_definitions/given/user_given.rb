@@ -31,7 +31,7 @@ Given 'the following user(s):' do |table|
 
       if group_name
          step(%[group "#{ group_name }"])
-         group = group_persister.find(name: group_name)
+         group = find_group group_name
          group_persister.add_participants(group, [user.id])
       end
 
@@ -43,24 +43,24 @@ Given 'the following user(s):' do |table|
    end
 end
 
-Given('{string} has role {string}') do |user_name, role_name|
+Given '{string} has role {string}' do |user_name, role_name|
    role_persister = persisters[:role]
 
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    role = role_persister.role_with(name: role_name) || role_persister.create(name: role_name)
 
-   role_persister.assign_role(user: user, role: role)
+   role_persister.assign_role user: user, role: role
 end
 
-Given('there are no users') do
+Given 'there are no users' do
    persisters[:user].users.to_a.each do |user|
       persisters[:user].delete(user.id)
    end
 end
 
-Given('{int} users') do |count|
-   step('there are no users') # clear the set so that we get exactly the expected amount.
+Given '{int} users' do |count|
+   step 'there are no users' # clear the set so that we get exactly the expected amount.
 
    count.times do |n|
       n += 1 # adjust for 0-counting

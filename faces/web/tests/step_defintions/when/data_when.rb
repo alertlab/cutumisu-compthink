@@ -21,7 +21,5 @@ When 'he/she/they/someone reset(s) the click data' do
 end
 
 When 'he/she/they/someone API reset(s) click data for {string}' do |target_name|
-   user = persisters[:user].find(first_name: target_name)
-
-   api_request '/admin/reset_clicks', user_id: user.id
+   api_request '/admin/reset_clicks', user_id: find_user(target_name).id
 end

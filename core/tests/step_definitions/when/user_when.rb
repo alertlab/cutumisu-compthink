@@ -46,7 +46,7 @@ end
 When 'user {string} is updated with:' do |user_name, table|
    row = symrow(table)
 
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    row[:first_name] = row[:first_name] || user.first_name
    row[:last_name]  = row[:last_name] || user.last_name
@@ -57,6 +57,7 @@ When 'user {string} is updated with:' do |user_name, table|
 end
 
 When 'user {string} is deleted' do |user_name|
+   # don't use find_user here to allow testing non-existing users
    user = persisters[:user].find(first_name: user_name)
 
    @result = DeleteUser.new(container).run(id: user ? user.id : -1)

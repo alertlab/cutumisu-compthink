@@ -37,13 +37,12 @@ Then 'there should not be a user with:' do |table|
 end
 
 Then 'user {string} should have {int} roles' do |user_name, n|
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    expect(user.roles.count).to eq n
 end
 
 Then 'it should return user summaries for {string}' do |user_list|
-   user_persister  = persisters[:user]
    click_persister = persisters[:click]
    group_persister = persisters[:group]
 
@@ -53,12 +52,10 @@ Then 'it should return user summaries for {string}' do |user_list|
    expect(@result[:results].size).to eq names.size
 
    names.each do |name|
-      user = user_persister.find(first_name: name)
+      user = find_user name
 
       puzzles = click_persister.puzzles_completed(user)
       groups  = group_persister.groups_for(user).collect(&:to_hash)
-
-      expect(user).to_not be_nil # sanity check.completed
 
       expect(@result[:results]).to include(user.to_hash.merge(puzzles_completed: puzzles,
                                                               groups:            groups))
@@ -66,7 +63,6 @@ Then 'it should return user summaries for {string}' do |user_list|
 end
 
 Then 'it should return user summaries for {string} in that order' do |user_list|
-   user_persister  = persisters[:user]
    click_persister = persisters[:click]
    group_persister = persisters[:group]
 
@@ -76,7 +72,7 @@ Then 'it should return user summaries for {string} in that order' do |user_list|
    expect(@result[:results].size).to eq names.size
 
    user_hashes = names.collect do |name|
-      user = user_persister.find(first_name: name)
+      user = find_user name
 
       puzzles = click_persister.puzzles_completed(user)
       groups  = group_persister.groups_for(user)
@@ -112,7 +108,7 @@ Then 'there should be a person with:' do |table|
 end
 
 Then '{string} should have password {string}' do |user_name, pass|
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    expect(user.authenticate(pass)).to be true
 end

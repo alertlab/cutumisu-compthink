@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-Given('group {string}') do |name|
-   step('the following groups:', table(%[|  name  |
-                                         |#{ name } |]))
+Given 'group {string}' do |name|
+   step 'the following groups:', table(%[|  name  |
+                                         |#{ name } |])
 end
 
-Given('the following group(s):') do |table|
+Given 'the following group(s):' do |table|
    symtable(table).hashes.each do |row|
       row[:name]       = 'TestGroup' unless row[:name]
       row[:created_at] = row[:created_at] ? Time.parse(row[:created_at]) : Time.now
@@ -19,18 +19,18 @@ Given('the following group(s):') do |table|
 
       persisters[:group].create(row)
 
-      step(%[group "#{ row[:name] }" has participants "#{ participants }"])
+      step %[group "#{ row[:name] }" has participants "#{ participants }"]
    end
 end
 
-Given('there are no groups') do
+Given 'there are no groups' do
    persisters[:group].groups.to_a.each do |g|
       persisters[:group].delete(g.id)
    end
 end
 
-Given('{int} groups') do |count|
-   step('there are no groups') # clear the set so that we get exactly the expected amount.
+Given '{int} groups' do |count|
+   step 'there are no groups' # clear the set so that we get exactly the expected amount.
 
    count.times do |n|
       n += 1 # adjust for 0-counting
@@ -44,12 +44,12 @@ Given('{int} groups') do |count|
    end
 end
 
-Given('group {string} has participant(s) {string}') do |group_name, user_list|
+Given 'group {string} has participant(s) {string}' do |group_name, user_list|
    user_ids = parse_list(user_list).collect do |name|
-      persisters[:user].find(first_name: name).id
+      find_user(name).id
    end
 
-   group = persisters[:group].find(name: group_name)
+   group = find_group group_name
 
    persisters[:group].upsert_with_participants(group.id, participants: user_ids)
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Then '{string} should be signed in' do |first_name|
-   user = persisters[:user].find(first_name: first_name)
+   user = find_user first_name
 
    step %[they should not see <sign-in>]
    step %[they should see <current-session>]

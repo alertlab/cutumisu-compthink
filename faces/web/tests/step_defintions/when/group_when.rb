@@ -41,7 +41,7 @@ When 'he/she/they/someone save(s) the group' do
 end
 
 When 'he/she/they update(s) group {string} with:' do |group_name, table|
-   group = persisters[:group].find(name: group_name)
+   group = find_group group_name
 
    row = symrow table
 
@@ -71,9 +71,7 @@ When 'he/she/they update(s) group {string} with:' do |group_name, table|
 end
 
 When 'he/she/they/someone API update(s) group {string} with:' do |group_name, table|
-   group = persisters[:group].find(name: group_name)
-
-   api_request '/admin/save-group', group_id: group.id, **symrow(table)
+   api_request '/admin/save-group', group_id: find_group(group_name).id, **symrow(table)
 end
 
 When 'he/she/they/someone remove(s) the group' do
@@ -89,9 +87,7 @@ When 'he/she/they/someone remove(s) the group' do
 end
 
 When 'he/she/they/someone API remove(s) group {string}' do |group_name|
-   group = persisters[:group].find(name: group_name)
-
-   api_request '/admin/remove-group', group_id: group.id
+   api_request '/admin/remove-group', group_id: find_group(group_name).id
 end
 
 When 'he/she/they/someone add(s) {string} to group {string}' do |user_name, group_name|
@@ -113,10 +109,9 @@ When 'he/she/they/someone add(s) {string} to group {string}' do |user_name, grou
 end
 
 When 'hhe/she/they/someone API add(s) {string} to group {string}' do |target_name, group_name|
-   group = persisters[:group].find(name: group_name)
-   user  = persisters[:user].find(first_name: target_name)
-
-   api_request '/admin/save-group', participants: [user.id], group_id: group.id
+   api_request '/admin/save-group',
+               participants: [find_user(target_name).id],
+               group_id:     find_group(group_name).id
 end
 
 When 'he/she/they batch create(s) {int} participants in the group' do |number|

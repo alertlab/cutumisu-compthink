@@ -14,7 +14,6 @@ When 'user {string} in group {string} views game list' do |user_name, group_name
 end
 
 When '{string} plays {puzzle}' do |user_name, puzzle|
-   # user  = persisters[:user].find(first_name: user_name)
    group = persisters[:group].first
 
    unless current_path.match? '/game'

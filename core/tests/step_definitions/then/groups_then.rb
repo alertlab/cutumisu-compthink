@@ -16,61 +16,47 @@ Then 'there should be {int} group(s)' do |count|
 end
 
 Then 'it should return group summaries for {string}' do |group_list|
-   group_persister = persisters[:group]
-
    names = parse_list group_list
 
    expect(@result[:results]).to_not be_nil
    expect(@result[:results].size).to eq names.size
 
    names.each do |name|
-      group = group_persister.find(name: name)
-
-      expect(group).to_not be_nil # sanity check
+      group = find_group name
 
       expect(@result[:results]).to include group.to_hash
    end
 end
 
 Then 'it should return group summaries for {string} in that order' do |group_list|
-   group_persister = persisters[:group]
-
    names = parse_list group_list
 
    expect(@result[:results]).to_not be_nil
    expect(@result[:results].size).to eq names.size
 
    group_hashes = names.collect do |name|
-      group_persister.find(name: name).to_hash
+      find_group(name).to_hash
    end
 
    expect(@result[:results]).to eq group_hashes
 end
 
 Then 'group {string} should have {int} participant(s)' do |group_name, n|
-   group_persister = persisters[:group]
-
-   group = group_persister.find(name: group_name)
+   group = find_group group_name
 
    expect(group.participants.size).to eq n
 end
 
 Then '{string} should be in group {string}' do |user_name, group_name|
-   group_persister = persisters[:group]
-   user_persister  = persisters[:user]
+   group = find_group group_name
+   user  = find_user user_name
 
-   group = group_persister.find(name: group_name)
-   user  = user_persister.find(first_name: user_name)
-
-   expect(group_persister.in_group?(user, group)).to be true if user
+   expect(persisters[:group].in_group?(user, group)).to be true if user
 end
 
 Then '{string} should not be in group {string}' do |user_name, group_name|
-   group_persister = persisters[:group]
-   user_persister  = persisters[:user]
+   group = find_group group_name
+   user  = find_user user_name
 
-   group = group_persister.find(name: group_name)
-   user  = user_persister.find(first_name: user_name)
-
-   expect(group_persister.in_group?(user, group)).to be false if user
+   expect(persisters[:group].in_group?(user, group)).to be false if user
 end

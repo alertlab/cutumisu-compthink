@@ -23,11 +23,11 @@ When 'he/she/they/someone save(s) the user' do
 end
 
 When 'he/she/they update(s) user {string} with:' do |user_name, table|
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
-   row = symrow(table)
+   row = symrow table
 
-   within(".user-editor-#{ user.id }") do
+   within ".user-editor-#{ user.id }" do
       fill_in :first_name, with: row[:first_name] if row[:first_name]
       fill_in :last_name, with: row[:last_name] if row[:last_name]
 
@@ -41,7 +41,7 @@ When 'he/she/they update(s) user {string} with:' do |user_name, table|
          # check(role_name.strip.downcase)
       end
 
-      click_button('Save')
+      click_button 'Save'
 
       wait_for_ajax
    end
@@ -52,13 +52,13 @@ When 'he/she/they/someone API update(s) their user account with:' do |table|
 end
 
 When 'he/she/they/someone API update(s) user {string} with:' do |user_name, table|
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    api_request '/admin/update_user', user_id: user.id, **symrow(table)
 end
 
 When 'he/she/they/someone fill(s) in a new person named {string}' do |person_name|
-   first, last = person_name.split(' ')
+   first, last = person_name.split ' '
 
    click_button 'Add Person'
 
@@ -110,7 +110,7 @@ When 'he/she/they/someone API search(es) for users with:' do |table|
 end
 
 When 'he/she/they/someone remove(s) user {string}' do |user_name|
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    within "#user-#{ user.id }" do
       click_link 'Edit'
@@ -126,7 +126,7 @@ When 'he/she/they/someone remove(s) user {string}' do |user_name|
 end
 
 When 'he/she/they/someone API remove(s) user {string}' do |user_name|
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    api_request '/admin/remove_user', user_id: user.id
 end

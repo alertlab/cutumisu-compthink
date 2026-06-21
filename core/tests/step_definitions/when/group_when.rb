@@ -38,7 +38,7 @@ When 'a group is created with:' do |table|
 
    if row[:participants]
       row[:participants] = parse_list(row[:participants]).collect do |name|
-         persisters[:user].find(first_name: name).id
+         find_user(name).id
       end
    elsif row[:batch_participants]
       row[:create_participants] = parse_list(row.delete(:batch_participants)).collect do |name|
@@ -55,7 +55,7 @@ end
 When('group {string} is saved with:') do |group_name, table|
    row = symrow(table)
 
-   group = persisters[:group].find(name: group_name)
+   group = find_group group_name
 
    row[:name]       = row[:name] || group.name
    row[:start_date] = row[:start_date] || group.start_date.to_s
@@ -65,7 +65,7 @@ When('group {string} is saved with:') do |group_name, table|
 
    if row[:participants]
       row[:participants] = parse_list(row[:participants]).collect do |name|
-         persisters[:user].find(first_name: name).id
+         find_user(name).id
       end
    elsif row[:batch_participants]
       row[:create_participants] = parse_list(row.delete(:batch_participants)).collect do |name|

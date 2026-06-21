@@ -2,19 +2,19 @@
 
 When '{string} signs in' do |first_name|
    unless first_name.nil? || first_name.empty?
-      email    = persisters[:user].find(first_name: first_name).email
-      password = 'sekret' # probably should grab this via some some testing constant somewhere.
+      user     = find_user first_name
+      password = 'sekret' # TODO: probably should grab this via some testing constant somewhere.
 
-      step %[they sign in with "#{ email }" and "#{ password }"]
+      step %[they sign in with "#{ user.email }" and "#{ password }"]
    end
 end
 
 When '{string} API signs in' do |first_name|
    unless first_name.nil? || first_name.empty?
-      email    = persisters[:user].find(first_name: first_name).email
-      password = 'sekret' # probably should grab this via some some testing constant somewhere.
+      user     = find_user first_name
+      password = 'sekret' # TODO: probably should grab this via some testing constant somewhere.
 
-      step %[they API sign in with "#{ email }" and "#{ password }"]
+      step %[they API sign in with "#{ user.email }" and "#{ password }"]
    end
 end
 
@@ -25,9 +25,9 @@ When '{string} signs in with follow uri {path}' do |first_name, uri|
 end
 
 When '{string} signs in with the wrong password' do |first_name|
-   email = persisters[:user].find(first_name: first_name).email
+   user = find_user first_name
 
-   step %[they sign in with "#{ email }" and "someR@ndomGarbage"]
+   step %[they sign in with "#{ user.email }" and "someR@ndomGarbage"]
 
    # TODO: remove this cheat and actually determine current user from session data
    @current_user = nil
@@ -75,7 +75,7 @@ When 'he/she/they/someone API sign(s) in with {string} and {string}' do |email, 
 end
 
 When 'they sign in to participate with user {string} and preset group {string}' do |user_name, group_name|
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
@@ -119,7 +119,7 @@ When 'they sign in to participate with user {string} and group {string}' do |use
 
       wait_for_ajax
 
-      # sometimes the user is created in the login process
+      # sometimes the user is created in the login process, or not at all (if failed)
       @current_user = user || persisters[:user].find(first_name: user_name)
    end
 end

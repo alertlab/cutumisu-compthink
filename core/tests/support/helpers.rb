@@ -74,11 +74,19 @@ module HelperMethods
    # prevent wild goose chases when there's a simple typo in a test.
    module Finders
       def find_user(first_name)
-         user = persisters[:user].find(first_name: first_name)
+         person = persisters[:user].find first_name: first_name
 
-         raise %[Test error: no such user "#{ first_name }"] unless user
+         raise %[Test error: no such Person "#{ first_name }"] unless person
 
-         user
+         person
+      end
+
+      def find_group(group_name)
+         group = persisters[:group].find name: group_name
+
+         raise %[Test error: no such Group "#{ group_name }"] unless group
+
+         group
       end
    end
 end

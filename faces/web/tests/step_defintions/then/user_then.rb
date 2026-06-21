@@ -2,7 +2,7 @@
 
 # ============= Users ===============
 Then 'he/she/they should see user summary for {string}' do |user_name|
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    within 'user-listing .user-summaries' do
       step %[they should see "#{ user.name }"]
@@ -17,7 +17,7 @@ Then 'he/she/they should see user summary for {string}' do |user_name|
 end
 
 Then 'he/she/they should not see user summary for {string}' do |user_name|
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    within 'user-listing .user-summaries' do
       step %[they should not see "#{ user.name }"]
@@ -33,7 +33,7 @@ end
 
 Then 'he/she/they should see user summaries for {string} in that order' do |user_list|
    parse_list(user_list).each_with_index do |user_name, i|
-      user = persisters[:user].find(first_name: user_name)
+      user = find_user user_name
 
       within ".user-summaries user-summary:nth-child(#{ i + 1 })" do
          step %[they should see "#{ user.name }"]

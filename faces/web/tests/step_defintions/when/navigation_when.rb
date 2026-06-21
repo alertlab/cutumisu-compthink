@@ -21,7 +21,7 @@ When 'he/she/they/someone navigate(s) to group editor for {string}' do |name|
 end
 
 When 'he/she/they/someone navigate(s) to user editor for {string}' do |user_name|
-   user = persisters[:user].find(first_name: user_name)
+   user = find_user user_name
 
    within "#user-#{ user.id }" do
       click_link 'Edit'
