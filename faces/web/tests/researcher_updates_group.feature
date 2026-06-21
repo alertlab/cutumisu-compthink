@@ -52,7 +52,7 @@ Feature: Researcher Updates Group
       And "Kelly" is signed in
       When she navigates to "Groups"
       And she navigates to group editor for "Group A"
-      And "Kelly" updates group "Group A" with:
+      And she updates group "Group A" with:
          | Name    |
          | NewName |
       And "Kelly" is signed in
@@ -67,7 +67,7 @@ Feature: Researcher Updates Group
       And "Kelly" is signed in
       When she navigates to "Groups"
       And she navigates to group editor for "Group A"
-      And "Kelly" updates group "Group A" with:
+      And she updates group "Group A" with:
          | start date  | end date    |
          | Jan 15 2001 | Feb 15 2001 |
       # TODO: replace with refreshes the page
@@ -83,7 +83,7 @@ Feature: Researcher Updates Group
       And "Kelly" is signed in
       When she navigates to "Groups"
       And she navigates to group editor for "Group A"
-      And "Kelly" updates group "Group A" with:
+      And she updates group "Group A" with:
          | regex   |
          | <regex> |
       Then there should be 1 group
@@ -104,7 +104,7 @@ Feature: Researcher Updates Group
       And "Kelly" is signed in
       When she navigates to "Groups"
       And she navigates to group editor for "Group A"
-      And "Kelly" updates group "Group A" with:
+      And she updates group "Group A" with:
          | open |
          | yes  |
       Then there should be 1 group
@@ -119,7 +119,7 @@ Feature: Researcher Updates Group
       And "Kelly" is signed in
       When she navigates to "Groups"
       And she navigates to group editor for "Group A"
-      And "Kelly" updates group "Group A" with:
+      And she updates group "Group A" with:
          | open |
          | no   |
       Then there should be 1 group

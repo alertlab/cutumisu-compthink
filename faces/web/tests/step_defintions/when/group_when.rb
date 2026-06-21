@@ -40,12 +40,12 @@ When 'he/she/they/someone save(s) the group' do
    wait_for_ajax
 end
 
-When('{string} updates group {string} with:') do |admin_name, group_name, table|
+When 'he/she/they update(s) group {string} with:' do |group_name, table|
    group = persisters[:group].find(name: group_name)
 
-   row = symrow(table)
+   row = symrow table
 
-   within(".group-editor-#{ group.id }") do
+   within ".group-editor-#{ group.id }" do
       fill_in :name, with: row[:name] if row[:name]
 
       fill_in :start_date, with: Time.parse(row[:start_date]).strftime('%d/%m/%Y') if row[:start_date]
@@ -57,13 +57,17 @@ When('{string} updates group {string} with:') do |admin_name, group_name, table|
       end
 
       if row[:open]
-         parse_bool(row[:open]) ? choose('Open') : choose('Closed')
+         if parse_bool row[:open]
+            choose 'Open'
+         else
+            choose 'Closed'
+         end
       end
 
-      click_button('Save')
-
-      wait_for_ajax
+      click_button 'Save'
    end
+
+   wait_for_ajax
 end
 
 When 'he/she/they/someone API update(s) group {string} with:' do |group_name, table|
