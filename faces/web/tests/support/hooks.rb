@@ -14,7 +14,7 @@ BeforeAll name: 'Disable real internet' do
                                 allow:           ['chromedriver.storage.googleapis.com',
                                                   'storage.googleapis.com',
                                                   Selenium::ManagerHeadlessExtension::CHROME_ENDPOINT_HOST,
-                                                  'compthink.localhost'])
+                                                  Capybara.server_host])
 end
 
 BeforeAll name: 'Size browser to desktop' do
