@@ -9,12 +9,12 @@ When '{string} signs in' do |first_name|
    end
 end
 
-When '{string} force signs in' do |first_name|
+When '{string} API signs in' do |first_name|
    unless first_name.nil? || first_name.empty?
       email    = persisters[:user].find(first_name: first_name).email
       password = 'sekret' # probably should grab this via some some testing constant somewhere.
 
-      step %["#{ first_name }" force signs in with "#{ email }" and "#{ password }"]
+      step %[they API sign in with "#{ email }" and "#{ password }"]
    end
 end
 
@@ -58,20 +58,19 @@ When 'he/she/they/someone sign(s) in with {string} and {string}' do |email, pass
    end
 end
 
-When '{string} force signs in with {string} and {string}' do |first_name, email, password|
-   user = persisters[:user].find(first_name: first_name)
+When 'he/she/they/someone API sign(s) in with {string} and {string}' do |email, password|
+   user = persisters[:user].find(email: email)
 
    # Don't bother signing in again if we're already the desired user
    # TODO: find out why the equality for hashes fails. or better yet, make an equality for the direct objects.
    if !@current_user || !((@current_user || {}).to_hash.to_a - user.to_hash.to_a).empty?
       raise 'Test error: Already signed in' if @current_user
 
-      page.driver.browser.follow(:post, '/auth/sign-in', admin: {email:    email,
-                                                                 password: password})
+      api_request '/auth/sign-in', admin: {email: email, password: password}
+
       expect(page.driver.status_code).to be < 400
 
-      @current_user = persisters[:user].find(first_name: first_name,
-                                             email:      email)
+      @current_user = persisters[:user].find(email: email)
    end
 end
 

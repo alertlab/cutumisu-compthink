@@ -37,43 +37,56 @@ Feature: Researcher Exports Data
          | game  |
          | lever |
          | hanoi |
+   
+   Rule: it should not allow unauthorized exports
+      @security @no-js
+      Scenario: unauthenticated clicks export
+         Given the following clicks:
+            | puzzle | time             |
+            | lever  | Jan 1 2019 12:00 |
+            | hanoi  | Jan 2 2019 09:00 |
+         When someone API exports clicks as CSV
+         Then they should see "You are not authenticated"
+         And they should not see "lever"
+         And they should not see "hanoi"
+         And they should not see "Jan"
+         And they should not see "move_number"
       
-   
-   
-   #============
-   # Security
-   #============
-   @no-js
-   Scenario Outline: it should not allow non-admins to export clicks
-      Given the following users:
-         | Name      | Email           | role   | password |
-         | Hex Virus | hex@example.com | member | sekret   |
-      Given the following clicks:
-         | puzzle | time             |
-         | lever  | Jan 1 2019 12:00 |
-         | hanoi  | Jan 2 2019 09:00 |
-      When "<user>" force exports clicks as CSV
-      Then they should see "<msg>"
-      And they should not see "lever"
-      And they should not see "hanoi"
-      And they should not see "Jan"
-      And they should not see "move_number"
-      Examples:
-         | user | msg                              |
-         | Hex  | You are not permitted to do that |
-         |      | You are not authenticated        |
-   
-   @no-js
-   Scenario Outline: it should not allow non-admins to export users
-      Given the following users:
-         | Name      | Email           | role   | password |
-         | Hex Virus | hex@example.com | member | sekret   |
-      When "<user>" force exports users as CSV
-      Then they should see "<msg>"
-      And they should not see "Kelly"
-      And they should not see "Email"
-      Examples:
-         | user | msg                              |
-         | Hex  | You are not permitted to do that |
-         |      | You are not authenticated        |
+      @security @no-js
+      Scenario: non-admin clicks export
+         Given the following users:
+            | Name      | Email           | role   | password |
+            | Hex Virus | hex@example.com | member | sekret   |
+         And the following clicks:
+            | puzzle | time             |
+            | lever  | Jan 1 2019 12:00 |
+            | hanoi  | Jan 2 2019 09:00 |
+         When "Hex" API signs in
+         And they API export clicks as CSV
+         Then they should see "You are not permitted to do that"
+         And they should not see "lever"
+         And they should not see "hanoi"
+         And they should not see "Jan"
+         And they should not see "move_number"
+      
+      @security @no-js
+      Scenario: unauthenticated users export
+         Given the following users:
+            | Name      | Email           | role   | password |
+            | Hex Virus | hex@example.com | member | sekret   |
+         And they API export clicks as CSV
+         Then they should see "You are not authenticated"
+         And they should not see "Kelly"
+         And they should not see "Email"
+      
+      @security @no-js
+      Scenario: non-admin users export
+         Given the following users:
+            | Name      | Email           | role   | password |
+            | Hex Virus | hex@example.com | member | sekret   |
+         When "Hex" API signs in
+         And they API export clicks as CSV
+         Then they should see "You are not permitted to do that"
+         And they should not see "Kelly"
+         And they should not see "Email"
       

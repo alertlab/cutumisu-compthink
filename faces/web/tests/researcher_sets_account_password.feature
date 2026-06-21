@@ -34,7 +34,6 @@ Feature: Researcher Sets Account Password
          | Allan  | s0sekrety  |
          | Jane   | new sekret |
    
-   
    Scenario: it should show a success message
       Given the following users:
          | name        | email             | role  | password |
@@ -46,26 +45,27 @@ Feature: Researcher Sets Account Password
          | d!ffr3nt |
       Then she should see "Kelly Myers saved"
    
-   # == Security ==
-   @no-js
-   Scenario Outline: it should not allow regular users to update their own role
-      Given the following users:
-         | name     | email            | role       |
-         | Tom Finn | tom@example.com  | instructor |
-         | Beth Liu | beth@example.com |            |
-      When "<user>" force updates their user account with:
-         | role   |
-         | <role> |
-      Then there should be 2 users
-      And there should be a user with:
-         | first name | last name | email           | role       |
-         | Tom        | Finn      | tom@example.com | instructor |
-      And there should be a user with:
-         | first name | last name | email            | role |
-         | Beth       | Liu       | beth@example.com |      |
-      Examples:
-         | user | role       |
-         | Tom  | admin      |
-         | Beth | admin      |
-         | Beth | instructor |
+   Rule: it should NOT allow regular users to update their own role
+      @security @no-js
+      Scenario Outline: lacks permissions
+         Given the following users:
+            | name     | email            | role       |
+            | Tom Finn | tom@example.com  | instructor |
+            | Beth Liu | beth@example.com |            |
+         When "<user>" API signs in
+         And they API update their user account with:
+            | role   |
+            | <role> |
+         Then there should be 2 users
+         And there should be a user with:
+            | first name | last name | email           | role       |
+            | Tom        | Finn      | tom@example.com | instructor |
+         And there should be a user with:
+            | first name | last name | email            | role |
+            | Beth       | Liu       | beth@example.com |      |
+         Examples:
+            | user | role       |
+            | Tom  | admin      |
+            | Beth | admin      |
+            | Beth | instructor |
       

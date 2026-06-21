@@ -16,14 +16,8 @@ When 'he/she/they create(s) a group with:' do |table|
    wait_for_ajax
 end
 
-When '{string} force adds a group' do |user_name|
-   step %["#{ user_name }" force signs in]
-
-   page.driver.browser.follow :post, '/admin/create_group', filter: {
-         name:       'test group',
-         start_date: Date.today,
-         end_date:   Date.today
-   }
+When 'he/she/they/someone API add(s) a group' do
+   api_request '/admin/create_group', name: '', start_date: nil, end_date: nil, create_participants: nil, participants: nil, regex: ''
 end
 
 When 'he/she/they/someone search(es) for groups with:' do |table|
@@ -36,10 +30,8 @@ When 'he/she/they/someone search(es) for groups with:' do |table|
    wait_for_ajax
 end
 
-When('{string} force searches for group(s) with:') do |user_name, table|
-   step(%["#{ user_name }" force signs in])
-
-   page.driver.browser.follow(:post, '/admin/search_groups', filter: symrow(table))
+When 'he/she/they/someone API search(es) for groups with:' do |table|
+   api_request '/admin/search_groups', filter: symrow(table)
 end
 
 When 'he/she/they/someone save(s) the group' do
@@ -74,10 +66,10 @@ When('{string} updates group {string} with:') do |admin_name, group_name, table|
    end
 end
 
-When '{string} force updates group {string} with:' do |user_name, group_name, table|
-   step %["#{ user_name }" force signs in]
+When 'he/she/they/someone API update(s) group {string} with:' do |group_name, table|
+   group = persisters[:group].find(name: group_name)
 
-   page.driver.browser.follow(:post, '/admin/save-group')
+   api_request '/admin/save-group', group_id: group.id, **symrow(table)
 end
 
 When 'he/she/they/someone remove(s) the group' do
@@ -92,10 +84,10 @@ When 'he/she/they/someone remove(s) the group' do
    wait_for_ajax
 end
 
-When '{string} force removes group {string}' do |admin_name, group_name|
-   step %["#{ admin_name }" force signs in]
+When 'he/she/they/someone API remove(s) group {string}' do |group_name|
+   group = persisters[:group].find(name: group_name)
 
-   page.driver.browser.follow(:post, '/admin/remove-group')
+   api_request '/admin/remove-group', group_id: group.id
 end
 
 When 'he/she/they/someone add(s) {string} to group {string}' do |user_name, group_name|
@@ -116,10 +108,11 @@ When 'he/she/they/someone add(s) {string} to group {string}' do |user_name, grou
    wait_for_ajax
 end
 
-When '{string} force adds {string} to group {string}' do |user_name, target_name, group_name|
-   step %["#{ user_name }" force signs in]
+When 'hhe/she/they/someone API add(s) {string} to group {string}' do |target_name, group_name|
+   group = persisters[:group].find(name: group_name)
+   user  = persisters[:user].find(first_name: target_name)
 
-   page.driver.browser.follow(:post, '/admin/save-group')
+   api_request '/admin/save-group', participants: [user.id], group_id: group.id
 end
 
 When 'he/she/they batch create(s) {int} participants in the group' do |number|

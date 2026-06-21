@@ -91,24 +91,29 @@ Feature: Researcher Finds Person
          | 2 |
          | 3 |
    
-   
-   #============
-   # Security
-   #============
-   
-   @no-js
-   Scenario Outline: it should not allow non-admins to search people
-      Given the following users:
-         | Name      | Email           | password |
-         | Hex Virus | hex@example.com | sekret   |
-      When "<user>" force searches for users with:
-         | name |
-         | John |
-      Then they should see "<msg>"
-      And they should not see "John"
-      And they should not see "Doe"
-      Examples:
-         | user | msg                              |
-         | Hex  | You are not permitted to do that |
-         |      | You are not authenticated        |
+   Rule: it should not allow unauthorized People searches
+      @security @no-js
+      Scenario: unauthenticated
+         Given the following users:
+            | Name      | Email           | password |
+            | Hex Virus | hex@example.com | sekret   |
+         When someone API searches for users with:
+            | name |
+            | John |
+         Then they should see "You are not authenticated"
+         And they should not see "John"
+         And they should not see "Doe"
+      
+      @security @no-js
+      Scenario: lacks permission
+         Given the following users:
+            | Name      | Email           | password |
+            | Hex Virus | hex@example.com | sekret   |
+         When "Hex" API signs in
+         When they API search for users with:
+            | name |
+            | John |
+         Then they should see "You are not permitted to do that"
+         And they should not see "John"
+         And they should not see "Doe"
       

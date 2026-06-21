@@ -52,26 +52,33 @@ Feature: Researcher Finds Group
          | 2 |
          | 3 |
    
-   
-   #============
-   # Security
-   #============
-   
-   @no-js
-   Scenario Outline: it should not allow non-admins to search people
-      Given the following groups:
-         | name    |
-         | Group A |
-      And the following user:
-         | Name      | Email           | password |
-         | Hex Virus | hex@example.com | sekret   |
-      When "<user>" force searches for groups with:
-         | name  |
-         | Group |
-      Then they should see "<msg>"
-      And they should not see "Group A"
-      Examples:
-         | user | msg                              |
-         | Hex  | You are not permitted to do that |
-         |      | You are not authenticated        |
+   Rule: it should not allow unauthorized Group searches
+      @security @no-js
+      Scenario: unauthenticated
+         Given the following groups:
+            | name    |
+            | Group A |
+         And the following user:
+            | Name      | Email           | password |
+            | Hex Virus | hex@example.com | sekret   |
+         And they API search for groups with:
+            | name  |
+            | Group |
+         Then they should see "You are not authenticated"
+         And they should not see "Group A"
+      
+      @security @no-js
+      Scenario: non-admin
+         Given the following groups:
+            | name    |
+            | Group A |
+         And the following user:
+            | Name      | Email           | password |
+            | Hex Virus | hex@example.com | sekret   |
+         When "Hex" API signs in
+         And they API search for groups with:
+            | name  |
+            | Group |
+         Then they should see "You are not permitted to do that"
+         And they should not see "Group A"
       

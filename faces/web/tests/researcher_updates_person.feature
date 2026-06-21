@@ -91,26 +91,30 @@ Feature: Researcher Updates Person
          | First Name | roles |
          | Allan      | Admin |
    
-   
-   #============
-   # Security
-   #============
-   
-   @no-js
-   Scenario Outline: it should not allow non-admins to update people
-      Given the following users:
-         | Name      | Email           | role   | password |
-         | Hex Virus | hex@example.com | member | sekret   |
-      When "<user>" force updates user "Allan" with:
-         | Name          | email            |
-         | Allan Daniels | derp@example.com |
-      Then they should see "<msg>"
-      And there should be 3 users
-      And there should not be a user with:
-         | email            |
-         | derp@example.com |
-      Examples:
-         | user | msg                              |
-         | Hex  | You are not permitted to do that |
-         |      | You are not authenticated        |
+   Rule: it should NOT allow unauthorized People updates
+      @security @no-js
+      Scenario: unauthenticated
+         When someone API updates user "Allan" with:
+            | Name          | email            |
+            | Allan Daniels | derp@example.com |
+         Then they should see "You are not authenticated"
+         And there should be 2 users
+         And there should not be a user with:
+            | email            |
+            | derp@example.com |
+      
+      @security @no-js
+      Scenario: lacks permission
+         Given the following users:
+            | Name      | Email           | role   | password |
+            | Hex Virus | hex@example.com | member | sekret   |
+         When "Hex" API signs in
+         And they API update user "Allan" with:
+            | Name          | email            |
+            | Allan Daniels | derp@example.com |
+         Then they should see "You are not permitted to do that"
+         And there should be 3 users
+         And there should not be a user with:
+            | email            |
+            | derp@example.com |
       

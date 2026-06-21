@@ -4,10 +4,8 @@ When 'he/she/they/someone export(s) {word}s as CSV' do |type|
    click_button "Download #{ type.capitalize } Data"
 end
 
-When '{string} force exports {export data} as CSV' do |user_name, data_type|
-   step %["#{ user_name }" force signs in]
-
-   page.driver.browser.follow(:post, '/admin/export-data', type: data_type, filter: nil)
+When 'he/she/they/someone API export(s) {export data} as CSV' do |data_type|
+   api_request '/admin/export-data', type: data_type, filter: nil
 end
 
 When 'he/she/they/someone reset(s) the click data' do
@@ -22,10 +20,8 @@ When 'he/she/they/someone reset(s) the click data' do
    wait_for_ajax
 end
 
-When('{string} force resets click data for {string}') do |admin_name, target_name|
-   step(%["#{ admin_name }" force signs in])
-
+When 'he/she/they/someone API reset(s) click data for {string}' do |target_name|
    user = persisters[:user].find(first_name: target_name)
 
-   page.driver.browser.follow(:post, '/admin/reset_clicks', user_id: user.id)
+   api_request '/admin/reset_clicks', user_id: user.id
 end

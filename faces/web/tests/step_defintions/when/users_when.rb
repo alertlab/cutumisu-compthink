@@ -47,14 +47,14 @@ When 'he/she/they update(s) user {string} with:' do |user_name, table|
    end
 end
 
-When '{string} force updates their user account with:' do |user_name, table|
-   step %["#{ user_name }" force updates user "#{ user_name }" with:], table
+When 'he/she/they/someone API update(s) their user account with:' do |table|
+   step %[they API update user "#{ @current_user.first_name }" with:], table
 end
 
-When '{string} force updates user {string} with:' do |admin_name, user_name, table|
-   step %["#{ admin_name }" force signs in]
+When 'he/she/they/someone API update(s) user {string} with:' do |user_name, table|
+   user = persisters[:user].find(first_name: user_name)
 
-   page.driver.browser.follow(:post, '/admin/update_user')
+   api_request '/admin/update_user', user_id: user.id, **symrow(table)
 end
 
 When 'he/she/they/someone fill(s) in a new person named {string}' do |person_name|
@@ -78,10 +78,8 @@ When 'he/she/they/someone save(s) the new user' do
    wait_for_ajax
 end
 
-When '{string} force adds a person named {string}' do |admin_name, person_name|
-   step %["#{ admin_name }" force signs in]
-
-   page.driver.browser.follow(:post, '/admin/create_user', first_name: person_name)
+When 'he/she/they/someone API add(s) a person named {string}' do |person_name|
+   api_request '/admin/create_user', {first_name: person_name}
 end
 
 When 'he/she/they/someone search(es) for users with:' do |table|
@@ -107,10 +105,8 @@ When 'he/she/they/someone search(es) for users with:' do |table|
    wait_for_ajax
 end
 
-When '{string} force searches for users with:' do |user_name, table|
-   step %["#{ user_name }" force signs in]
-
-   page.driver.browser.follow(:post, '/admin/search_users', filter: symrow(table))
+When 'he/she/they/someone API search(es) for users with:' do |table|
+   api_request '/admin/search_users', filter: symrow(table)
 end
 
 When 'he/she/they/someone remove(s) user {string}' do |user_name|
@@ -129,8 +125,8 @@ When 'he/she/they/someone remove(s) user {string}' do |user_name|
    wait_for_ajax
 end
 
-When '{string} force removes user {string}' do |admin_name, user_name|
-   step %["#{ admin_name }" force signs in]
+When 'he/she/they/someone API remove(s) user {string}' do |user_name|
+   user = persisters[:user].find(first_name: user_name)
 
-   page.driver.browser.follow(:post, '/admin/remove_user')
+   api_request '/admin/remove_user', user_id: user.id
 end

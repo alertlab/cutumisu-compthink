@@ -126,28 +126,37 @@ Feature: Researcher Updates Group
       And there should be a group with:
          | regex |
          |       |
-      
-   #============
-   # Security
-   #============
    
-   @no-js
-   Scenario Outline: it should not allow non-admins to update groups
-      Given the following users:
-         | Name      | Email           | role   | password |
-         | Hex Virus | hex@example.com | member | sekret   |
-      And the following group:
-         | Name    |
-         | Group A |
-      When "<user>" force updates group "Group A" with:
-         | Name    |
-         | NewName |
-      Then they should see "<msg>"
-      And there should be 1 group
-      And there should be a group with:
-         | Name    |
-         | Group A |
-      Examples:
-         | user | msg                              |
-         | Hex  | You are not permitted to do that |
-         |      | You are not authenticated        |
+   Rule: it should NOT allow unauthorized Group updates
+      @security @no-js
+      Scenario: unauthenticated
+         Given the following group:
+            | Name    |
+            | Group A |
+         When someone API updates group "Group A" with:
+            | Name    |
+            | NewName |
+         Then they should see "You are not authenticated"
+         And there should be 1 group
+         And there should be a group with:
+            | Name    |
+            | Group A |
+      
+      @security @no-js
+      Scenario: lacks permissions
+         Given the following users:
+            | Name      | Email           | role   | password |
+            | Hex Virus | hex@example.com | member | sekret   |
+         And the following group:
+            | Name    |
+            | Group A |
+         When "Hex" API signs in
+         And they API update group "Group A" with:
+            | Name    |
+            | NewName |
+         Then they should see "You are not permitted to do that"
+         And there should be 1 group
+         And there should be a group with:
+            | Name    |
+            | Group A |
+         

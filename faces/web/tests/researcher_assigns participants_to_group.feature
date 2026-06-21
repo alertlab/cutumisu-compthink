@@ -114,18 +114,30 @@ Feature: Researcher Assigns Participants to Group
       And "Phong" should be in group "Group A"
       And "Frisket" should be in group "Group A"
    
-   #============
-   #  Security
-   #============
-   @no-js
-   Scenario Outline: it should not allow non-admins to add participants to groups
-      Given the following users:
-         | first name | last name | Email           | password |
-         | Hex        | Virus     | hex@example.com | sekret   |
-      When "<user>" force adds "Hex" to group "Group A"
-      Then "<user>" should not be in group "Group A"
-      And they should see "<msg>"
-      Examples:
-         | user | msg                              |
-         | Hex  | You are not permitted to do that |
-         |      | You are not authenticated        |
+   Rule: it should not allow unauthorized adding of participants to groups
+      Background:
+         Given the following users:
+            | first name | last name | Email           | password |
+            | Hex        | Virus     | hex@example.com | sekret   |
+      
+      @security @no-js
+      Scenario Outline: it should not allow guests to add participants to groups
+         And they API add "<target>" to group "Group A"
+         Then "<target>" should not be in group "Group A"
+         And they should see "You are not authenticated"
+         Examples:
+            | target |
+            | Hex    |
+            | Kelly  |
+      
+      @security @no-js
+      Scenario Outline: it should not allow non-admins to add participants to groups
+         When "Hex" API signs in
+         And they API add "<target>" to group "Group A"
+         Then "<target>" should not be in group "Group A"
+         And they should see "You are not permitted to do that"
+         Examples:
+            | target |
+            | Hex    |
+            | Kelly  |
+         

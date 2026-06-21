@@ -3,6 +3,7 @@ Feature: Guest Access Protected View
    So that I know a view is protected
    I will be bounced to the login screen
    
+   @security
    Scenario Outline: it should redirect the guest to the login page
       When someone visits <uri>
       Then they should be at /sign-in
@@ -13,6 +14,7 @@ Feature: Guest Access Protected View
          | /admin/people |
          | /admin/groups |
    
+   @security
    Scenario Outline: it should include the original URI in the query parameters
       When someone visits <uri>
       Then they should have query parameter "<escaped>"
@@ -21,6 +23,7 @@ Feature: Guest Access Protected View
          | /admin        | %2Fadmin          |
          | /admin/people | %2Fadmin%2Fpeople |
    
+   @security
    Scenario Outline: it should bounce guests from admin views
       When someone visits <uri>
       Then they should see "You must log in to view that page"
@@ -31,6 +34,7 @@ Feature: Guest Access Protected View
          | /admin/users  |
          | /admin/groups |
    
+   @security
    Scenario Outline: it should bounce non-admin users from admin views
       Given the following user:
          | name          | email             | password |
@@ -45,9 +49,9 @@ Feature: Guest Access Protected View
          | /admin/users  |
          | /admin/groups |
    
-   @no-js
+   @security @no-js
    Scenario Outline: it should bounce guests from admin actions
-      When someone force posts to "<uri>"
+      When someone API POSTs to "<uri>"
       Then they should see 401 error "You are not authenticated."
       Examples:
          | uri                 |
@@ -58,12 +62,13 @@ Feature: Guest Access Protected View
          | /admin/delete-user  |
          | /admin/search-users |
    
-   @no-js
+   @security @no-js
    Scenario Outline: it should bounce non-admin users from admin actions
       Given the following user:
          | name          | password |
          | Allan Daniels | sekret   |
-      When "Allan" force posts to "<uri>"
+      Given "Allan" API signs in
+      When he API POSTs to "<uri>"
       Then he should see 403 error "You are not permitted to do that"
       Examples:
          | uri                 |
@@ -73,3 +78,4 @@ Feature: Guest Access Protected View
          | /admin/update-user  |
          | /admin/delete-user  |
          | /admin/search-users |
+      

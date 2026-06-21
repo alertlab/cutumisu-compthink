@@ -194,7 +194,7 @@ module HelperMethods
 
       module Actions
          def api_request(url, params)
-            page.driver.browser.post url, params.to_json, rack_env
+            page.driver.post url, params.to_json, rack_env
          end
 
          # TODO: extract to Gem or submit as pull request for Capybara (plus test properly)

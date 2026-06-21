@@ -34,14 +34,8 @@ When 'he/she/they/someone visit(s) {path}' do |uri|
    visit uri
 end
 
-When 'he/she/they/someone force posts to {string}' do |uri|
-   page.driver.browser.follow(:post, uri)
-end
-
-When '{string} force posts to {string}' do |user_name, uri|
-   step %["#{ user_name }" force signs in]
-
-   page.driver.browser.follow(:post, uri)
+When 'he/she/they/someone API POSTs to {string}' do |uri|
+   page.driver.browser.post uri, {}, rack_env
 end
 
 When 'he/she/they view(s) the pagination page {int}' do |n|
