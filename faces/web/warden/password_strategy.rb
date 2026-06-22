@@ -33,12 +33,6 @@ module CompThink
 
          def sign_in(user)
             success! user, "Welcome back, #{ user.first_name }"
-
-            return unless remember_me
-
-            user.remember_me!(user_persister: persisters[:user])
-
-            session.options[:max_age] = Model::Rememberable::USER_REMEMBER_ME_FOR
          end
 
          def user_param
@@ -51,10 +45,6 @@ module CompThink
 
          def password
             user_param['password']
-         end
-
-         def remember_me
-            user_param['remember'].to_s.match?(/^t|y|1/i)
          end
       end
 

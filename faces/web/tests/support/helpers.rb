@@ -50,6 +50,16 @@ module HelperMethods
       def reset_browser_session
          @current_user = nil
          Capybara.reset_sessions!
+
+         # TODO: separate this to a @no-js hook
+         if Capybara.current_driver == :rack_test
+            # set user agent etc to handle session hijacking checks in Rack::Protection
+            rack_env.each do |key, value|
+               Capybara.current_session.driver.browser.env key, value
+            end
+         end
+
+         # TODO: can this be removed?
          visit '/'
       end
 
@@ -82,7 +92,7 @@ module HelperMethods
 
          Timeout.timeout(duration) do
             loop do
-               break if page.title.include? '404' # error pages will cause infiniloop
+               break if page.title&.include? '404' # error pages will cause infiniloop
 
                # Rarely can hit this before page is fully loaded; typeof returns undefined when not defined
                if page.evaluate_script('(typeof ko !== "undefined") && ko.widgets.bindingComplete && !window.TenjinComms.__ajaxCount__')

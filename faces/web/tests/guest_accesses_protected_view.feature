@@ -37,8 +37,8 @@ Feature: Guest Access Protected View
    @security
    Scenario Outline: it should bounce non-admin users from admin views
       Given the following user:
-         | name          | email             | password |
-         | Allan Daniels | allan@example.com | sekret   |
+         | name          | email             | password | role       |
+         | Allan Daniels | allan@example.com | sekret   | instructor |
       And "Allan" is signed in
       When he visits <uri>
       Then he should see "You do not have permission to view that page"
@@ -67,7 +67,7 @@ Feature: Guest Access Protected View
       Given the following user:
          | name          | password |
          | Allan Daniels | sekret   |
-      Given "Allan" API signs in
+      And "Allan" is signed in
       When he API POSTs to "<uri>"
       Then he should see 403 error "You are not permitted to do that"
       Examples:

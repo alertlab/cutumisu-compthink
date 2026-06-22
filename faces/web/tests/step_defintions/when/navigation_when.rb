@@ -11,7 +11,7 @@ When 'he/she/they/someone navigate(s) to {string}' do |location|
 end
 
 When 'he/she/they/someone navigate(s) to group editor for {string}' do |name|
-   group = persisters[:group].find(name: name)
+   group = find_group name
 
    within "#group-#{ group.id }" do
       click_link 'Edit'
@@ -31,7 +31,11 @@ When 'he/she/they/someone navigate(s) to user editor for {string}' do |user_name
 end
 
 When 'he/she/they/someone visit(s) {path}' do |uri|
+   next if page.current_path == uri
+
    visit uri
+
+   wait_for_ajax
 end
 
 When 'he/she/they/someone API POSTs to {string}' do |uri|
