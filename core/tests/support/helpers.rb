@@ -12,6 +12,8 @@ module HelperMethods
    TEST_TMP_ROOT = Pathname.new(Dir.mktmpdir('compthink_test_')).expand_path.freeze
    TEST_TMP_LOG  = (TEST_TMP_ROOT / 'log').expand_path.freeze
 
+   DEFAULT_TEST_PASSWORD = 'sekret'
+
    def container
       Dirt::Test.container ||= CompThink::AppContainer.new
    end

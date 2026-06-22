@@ -1,21 +1,15 @@
 # frozen_string_literal: true
 
 When '{string} signs in' do |first_name|
-   unless first_name.nil? || first_name.empty?
-      user     = find_user first_name
-      password = 'sekret' # TODO: probably should grab this via some testing constant somewhere.
+   user = find_user first_name
 
-      step %[they sign in with "#{ user.email }" and "#{ password }"]
-   end
+   step %[they sign in with "#{ user.email }" and "#{ HelperMethods::DEFAULT_TEST_PASSWORD }"]
 end
 
 When '{string} API signs in' do |first_name|
-   unless first_name.nil? || first_name.empty?
-      user     = find_user first_name
-      password = 'sekret' # TODO: probably should grab this via some testing constant somewhere.
+   user = find_user first_name
 
-      step %[they API sign in with "#{ user.email }" and "#{ password }"]
-   end
+   step %[they API sign in with "#{ user.email }" and "#{ HelperMethods::DEFAULT_TEST_PASSWORD }"]
 end
 
 When '{string} signs in with follow uri {path}' do |first_name, uri|

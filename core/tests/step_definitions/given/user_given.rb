@@ -13,7 +13,7 @@ Given 'the following user(s):' do |table|
    symtable(table).hashes.each do |row|
       row[:roles] = parse_list(row.delete(:role) || row.delete(:roles)) if row[:role] || row[:roles]
 
-      password                          = row.delete(:password) || 'sekret'
+      password                          = row.delete(:password) || HelperMethods::DEFAULT_TEST_PASSWORD
 
       row[:first_name], row[:last_name] = row.delete(:name).split(/\s+/) if row[:name]
 
@@ -62,6 +62,8 @@ end
 Given '{int} users' do |count|
    step 'there are no users' # clear the set so that we get exactly the expected amount.
 
+   pw_hash = Model::UserAuthentication.encrypt HelperMethods::DEFAULT_TEST_PASSWORD
+
    count.times do |n|
       n += 1 # adjust for 0-counting
 
@@ -71,7 +73,7 @@ Given '{int} users' do |count|
                                          last_name:            'Doe',
                                          email:                "user#{ n }@example.com",
                                          user_authentications: {
-                                               encrypted_password: Model::UserAuthentication.encrypt('sekret')
+                                               encrypted_password: pw_hash
                                          })
    end
 end
