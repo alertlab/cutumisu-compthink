@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-ParameterType(name:        'should',
-              regexp:      /(should(?:[[:blank:]]+not)?)/,
-              type:        TrueClass,
-              transformer: ->(s) { !s.match?('not') })
-
 ParameterType(name:        'path',
               regexp:      %r{/(?:\S+/?)*},
               type:        Pathname,
