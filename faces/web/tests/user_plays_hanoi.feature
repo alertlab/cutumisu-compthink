@@ -44,7 +44,7 @@ Feature: User Plays Hanoi
       When "Bob" completes the hanoi puzzle and returns
       Then he should be at /games
    
-   # ==== Security ===
+   @security
    Scenario: it should NOT allow people who are not signed in to view the puzzle
       When a guest visits the hanoi puzzle
       Then they should be at /sign-in

@@ -63,7 +63,7 @@ Feature: User Plays Levers
       When "Bob" completes the levers puzzle and returns
       Then they should be at /games
    
-   # ==== Security ===
+   @security
    Scenario: it should NOT allow people who are not signed in to view the puzzle
       When a guest visits the lever puzzle
       Then they should be at /sign-in
