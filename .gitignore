@@ -22,12 +22,17 @@ tmp/*
 
 persist/seed_secrets.*
 
+# generated compile assets
+faces/web/public/assets/
+
+# passenger control file
 faces/web/tmp/restart.txt
 
 # old python implementation files
 python/venv/
 *.pyc
 
+# test output debug screenshots
 .screenshots
 
 # installed gems
