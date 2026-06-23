@@ -24,9 +24,6 @@ GEM
     knockoutjs-widgets (0.35.0)
       knockoutjs-core (>= 3.5.1.0, >= 3.5)
       tenjin-js-comms (>= 3.0)
-    logger (1.7.0)
-    memoist3 (1.0.0)
-    ostruct (0.6.3)
     tenjin-js-comms (3.0.0)
 
 GEM
@@ -151,7 +148,9 @@ GEM
     localhost (1.8.0)
       bake
     lockbox (2.2.0)
+    logger (1.7.0)
     matrix (0.4.2)
+    memoist3 (1.0.0)
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
@@ -167,6 +166,7 @@ GEM
     nokogiri (1.15.4)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
+    ostruct (0.6.3)
     parallel (2.1.0)
     parallel_tests (5.7.0)
       parallel
@@ -259,7 +259,7 @@ GEM
       lint_roller (~> 1.1)
       regexp_parser (>= 2.0)
       rubocop (~> 1.86, >= 1.86.2)
-    ruby-prof (2.0.4)
+    ruby-prof (2.0.5)
       base64
       ostruct
     ruby-progressbar (1.13.0)
@@ -361,4 +361,4 @@ DEPENDENCIES
   webmock (~> 3.26)
 
 BUNDLED WITH
-   2.4.19
+   2.6.9
