@@ -48,8 +48,6 @@ module CompThink
 
             set :container, CompThink::AppContainer.new
 
-            set(:test_cookies, {})
-
             # === Security Settings ===
 
             # Uncomment to allow off-machine access in development
@@ -71,15 +69,6 @@ module CompThink
                   old_secret: web_secrets / :old_cookie_signature
             }
             set :sessions, session_settings
-         end
-
-         # TODO: can this be refactored away with better testing?
-         before do
-            (settings.test_cookies || {}).each do |key, value|
-               response.set_cookie("compthink.#{ key }",
-                                   path:  '/',
-                                   value: value)
-            end
          end
       end
    end

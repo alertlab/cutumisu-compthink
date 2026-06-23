@@ -1,12 +1,19 @@
 # frozen_string_literal: true
 
 Given 'the lever order is {string}' do |lever_list|
-   levers = parse_list(lever_list).join(',') # not redundant; strips each entry of whitespace
+   # parse and join not redundant; strips each entry of whitespace
+   levers = parse_list(lever_list).join(',')
 
-   # headers = {}
-   # Rack::Utils.set_cookie_header!(headers, 'game.expected', levers)
-   #
-   # page.driver.browser.set_cookie(headers['Set-Cookie'])
+   cookie_data = {
+         name:      'game.expected',
+         value:     levers,
+         http_only: false,
+         secure:    true
+   }
 
-   Capybara.app.test_cookies['game.expected'] = levers
+   if Capybara.current_driver == :rack_test
+      page.driver.browser.set_cookie(cookie_data)
+   else
+      page.driver.browser.manage.add_cookie(cookie_data)
+   end
 end
