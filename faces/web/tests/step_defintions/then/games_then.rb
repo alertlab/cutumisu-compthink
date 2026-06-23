@@ -1,34 +1,6 @@
 # frozen_string_literal: true
 
-Then 'lever {lever} should be flipped' do |lever|
-   is_flipped = page.evaluate_script(%[
-      #{ game_vm_js }.buttonGroup.getByName("#{ lever }").switched;
-   ])
-
-   expect(is_flipped).to be true
-end
-
-Then 'lever {lever} should not be flipped' do |lever|
-   is_flipped = page.evaluate_script(%[
-      #{ game_vm_js }.buttonGroup.getByName("#{ lever }").switched;
-   ])
-
-   expect(is_flipped).to be false
-end
-
-Then 'there should be {int} disc(s) on {peg}' do |n, peg_name|
-   # for some reason this needs to be wrapped in a JS function or else headless chrome complains
-   peg_discs = page.evaluate_script(%[
-                     function() {
-                        var vm = #{ game_vm_js };
-                        var peg = vm.pegs.find(function(p){return p.name === "#{ peg_name }"});
-                        return vm.getDiscs(peg).length;
-                     }();
-                       ])
-
-   expect(peg_discs).to eq(n)
-end
-
+### General ###
 Then 'the last click should be move number {int}' do |n|
    # sorting these seems to fix a possible race condition where the last one recorded is not
    # actually the last click (because it's clicking way faster than a human)
@@ -53,4 +25,35 @@ Then 'the last click should be marked as complete' do
    clicks = persisters[:click].clicks.to_a.sort_by(&:time)
 
    expect(clicks.last.complete).to be true
+end
+
+### Levers ###
+Then 'lever {word} should be flipped' do |lever|
+   is_flipped = page.evaluate_script(%[
+      #{ game_vm_js }.buttonGroup.getByName("#{ lever }").switched;
+   ])
+
+   expect(is_flipped).to be true
+end
+
+Then 'lever {word} should not be flipped' do |lever|
+   is_flipped = page.evaluate_script(%[
+      #{ game_vm_js }.buttonGroup.getByName("#{ lever }").switched;
+   ])
+
+   expect(is_flipped).to be false
+end
+
+### Hanoi ###
+Then 'there should be {int} disc(s) on {word}' do |n, peg_name|
+   # for some reason this needs to be wrapped in a JS function or else headless chrome complains
+   peg_discs = page.evaluate_script(%[
+                     function() {
+                        var vm = #{ game_vm_js };
+                        var peg = vm.pegs.find(function(p){return p.name === "#{ peg_name }"});
+                        return vm.getDiscs(peg).length;
+                     }();
+                       ])
+
+   expect(peg_discs).to eq(n)
 end

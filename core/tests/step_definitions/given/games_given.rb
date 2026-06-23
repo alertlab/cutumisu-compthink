@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Given '{string} has completed {puzzle}' do |participant_name, puzzle|
+Given '{string} has completed {word}' do |participant_name, puzzle|
    user = find_user participant_name
 
    persisters[:click].create(user_id:  user.id,

@@ -13,16 +13,19 @@ When 'user {string} in group {string} views game list' do |user_name, group_name
    wait_for_ajax
 end
 
-When '{string} plays {puzzle}' do |user_name, puzzle|
+When '{string} plays {word}' do |user_name, puzzle|
    group = persisters[:group].first
 
    unless current_path.match? '/game'
       step %[user "#{ user_name }" in group "#{ group.name }" views game list]
 
-      if puzzle.match? 'hanoi'
+      case puzzle
+      when /hanoi/i
          click_link 'Tower Puzzle'
-      else
+      when /lever/i
          click_link 'Lever Puzzle'
+      else
+         raise "Test error: unknown puzzle #{ puzzle }"
       end
 
       wait_for_game_load
@@ -45,22 +48,25 @@ When '{string} flips levers {string}' do |user_name, lever_list|
    wait_for_ajax
 end
 
-When 'a guest visits the {puzzle} puzzle' do |puzzle|
-   if puzzle.match? 'hanoi'
+When 'a guest visits the {word} puzzle' do |puzzle|
+   case puzzle
+   when /hanoi/i
       visit '/games/towers'
-   else
+   when /lever/i
       visit '/games/leverproblem'
+   else
+      raise "Test error: unknown puzzle #{ puzzle }"
    end
 end
 
-When '{string} moves a disc from {peg} to {peg}' do |user_name, source_peg, target_peg|
+When '{string} moves a disc from {word} to {word}' do |user_name, source_peg, target_peg|
    step %["#{ user_name }" plays hanoi]
 
    step %["#{ user_name }" clicks peg #{ source_peg }]
    step %["#{ user_name }" clicks peg #{ target_peg }]
 end
 
-When '{string} moves a disc from {peg} to {peg} twice' do |user_name, source_peg, target_peg|
+When '{string} moves a disc from {word} to {word} twice' do |user_name, source_peg, target_peg|
    step %["#{ user_name }" plays hanoi]
 
    step %["#{ user_name }" moves a disc from #{ source_peg } to #{ target_peg }]
@@ -74,7 +80,7 @@ When '{string} moves 2 discs' do |user_name|
    step %["#{ user_name }" moves a disc from A to C]
 end
 
-When '{string} clicks peg {peg}' do |_user_name, peg_name|
+When '{string} clicks peg {word}' do |_user_name, peg_name|
    script = <<~JS
       function() {
             var peg = #{ game_vm_js }.pegs.find(function(p){return p.name === "#{ peg_name }"});
@@ -89,7 +95,7 @@ When '{string} clicks peg {peg}' do |_user_name, peg_name|
    wait_for_ajax
 end
 
-When '{string} completes the {puzzle} puzzle' do |user_name, puzzle_type|
+When '{string} completes the {word} puzzle' do |user_name, puzzle_type|
    step %[the lever order is "A,B,C"]
 
    step %["#{ user_name }" plays #{ puzzle_type }]
@@ -109,7 +115,7 @@ When '{string} completes the {puzzle} puzzle' do |user_name, puzzle_type|
    wait_for_ajax
 end
 
-When '{string} completes the {puzzle} puzzle and returns' do |user_name, puzzle_type|
+When '{string} completes the {word} puzzle and returns' do |user_name, puzzle_type|
    step %["#{ user_name }" completes the #{ puzzle_type } puzzle]
 
    click_link 'Back To Game list'

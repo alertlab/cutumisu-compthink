@@ -4,7 +4,7 @@ When 'he/she/they/someone export(s) {word}s as CSV' do |type|
    click_button "Download #{ type.capitalize } Data"
 end
 
-When 'he/she/they/someone API export(s) {export data} as CSV' do |data_type|
+When 'he/she/they/someone API export(s) {word} as CSV' do |data_type|
    api_request '/admin/export-data', type: data_type, filter: nil
 end
 

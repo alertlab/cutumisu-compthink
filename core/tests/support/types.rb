@@ -27,23 +27,3 @@ ParameterType(name:        'html element',
               regexp:      /<(\S+)>/,
               type:        String,
               transformer: ->(str) { str })
-
-ParameterType(name:        'puzzle',
-              regexp:      /levers?|hanoi/,
-              type:        String,
-              transformer: ->(s) { s })
-
-ParameterType(name:        'lever',
-              regexp:      /[A-Z]/,
-              type:        String,
-              transformer: ->(s) { s })
-
-ParameterType(name:        'peg',
-              regexp:      /[A-Z]/,
-              type:        String,
-              transformer: ->(s) { s })
-
-ParameterType(name:        'export data',
-              regexp:      /clicks|users/,
-              type:        String,
-              transformer: ->(s) { s })

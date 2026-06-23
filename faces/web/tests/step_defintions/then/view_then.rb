@@ -22,13 +22,13 @@ Then 'he/she/they should see {int} error {string}' do |number, msg|
    expect(page.driver.response.body).to include(msg)
 end
 
-Then 'he/she/they should see he/she/they has/have completed {puzzle}' do |puzzle|
+Then 'he/she/they should see he/she/they has/have completed {word}' do |puzzle|
    within ".participation .completed .#{ puzzle }" do
       expect(find('input[type="checkbox"]', visible: false)).to be_checked
    end
 end
 
-Then 'he/she/they should see he/she/they has/have not completed {puzzle}' do |puzzle|
+Then 'he/she/they should see he/she/they has/have not completed {word}' do |puzzle|
    within ".participation .completed .#{ puzzle }" do
       expect(find('input[type="checkbox"]', visible: false)).to_not be_checked
    end
