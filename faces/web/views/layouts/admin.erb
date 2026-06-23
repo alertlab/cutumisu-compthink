@@ -45,11 +45,11 @@
                                }">
       </navigation-menu>
    </nav>
+
+   <info-toast params="notices: window.toasts.info, warning: window.toasts.warn, errors: window.toasts.error"></info-toast>
 </header>
 
 <main>
-   <info-toast params="notices: window.toasts.info, warning: window.toasts.warn, errors: window.toasts.error"></info-toast>
-
    <%= yield %>
 
    <div class="game-container"></div>
