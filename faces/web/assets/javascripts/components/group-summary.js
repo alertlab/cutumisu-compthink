@@ -1,20 +1,5 @@
 ko.components.register('group-summary', {
-   template: ' <div class="group-summary" data-bind="attr: {id: \'group-\' + group.id}">\
-                  <header>\
-                     <a href="#" data-bind="attr: {href: edit_link}">\
-                        <span data-bind="text: group.name"></span>\
-                     </a>\
-                  </header>\
-                  <div>\
-                     Active \
-                     <span data-bind="text: humanDate(group.start_date)"></span>\
-                     to \
-                     <span data-bind="text: humanDate(group.end_date)"></span>\
-                  </div>\
-                  <div class="controls">\
-                     <a href="#" data-bind="attr: {href: edit_link}">Edit</a>\
-                  </div>\
-               </div>',
+   template: {element: 'group-summary-template'},
 
    /**
     */

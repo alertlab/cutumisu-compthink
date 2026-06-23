@@ -1,36 +1,5 @@
 ko.components.register('sign-in', {
-   template: '<h2 data-bind="text: titleText"></h2>\
-              <form data-bind="submit: signIn">\
-                 <ul data-bind="visible: isAdmin">\
-                    <li>\
-                       <label>\
-                          <span>Email</span>\
-                          <input type="email" name="email" placeholder="eg. jdoe@example.com" data-bind="value: email" />\
-                       </label>\
-                    </li>\
-                    <li>\
-                       <label>\
-                          <span>Password</span>\
-                          <input-password params="value: password"></input-password>\
-                       </label>\
-                    </li>\
-                 </ul>\
-                 <ul data-bind="visible: !isAdmin">\
-                    <li>\
-                       <label>\
-                          <span>Group</span>\
-                          <input type="text" name="group" data-bind="value: group" />\
-                       </label>\
-                    </li>\
-                    <li>\
-                       <label>\
-                          <span>Username</span>\
-                          <input type="text" name="username" data-bind="value: username" />\
-                       </label>\
-                    </li>\
-                 </ul>\
-                 <button type="submit"><span data-bind="text: buttonText"></span></button>\
-              </form>',
+   template: {element: 'sign-in-template'},
 
    viewModel: function () {
       var self = this;

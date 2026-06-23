@@ -46,5 +46,23 @@
    <%= yield %>
 </main>
 
+<%
+   templates = Pathname.glob('./faces/web/assets/components/**/*.html').sort_by(&:basename)
+
+   templates.each do |template_file| %>
+   <template id="<%= template_file.basename(template_file.extname) %>-template" style="display: none;">
+      <%
+         content = File.read(template_file)
+         # path and line needed to work around Sinatra Namespace bug
+         rendered = render :html,
+                           content,
+                           path:   template_file.expand_path,
+                           line:   1,
+                           locals: {container: settings.container}
+      %>
+      <%= rendered %>
+   </template>
+<% end %>
+
 </body>
 </html>
