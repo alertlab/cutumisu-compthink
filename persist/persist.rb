@@ -35,7 +35,7 @@ module CompThink
          # code as the source of "correctness" (because it's tested).
          # (note: this is distinct from ROM's auto_migrate!, which might be better named auto_generate_migration)
          unless migrations_path.glob('*.rb').empty?
-            config.gateways[:default].run_migrations(table: 'schema_migrations_dirt')
+            config.gateways[:default].run_migrations(table: 'schema_migrations')
          end
       end
 
