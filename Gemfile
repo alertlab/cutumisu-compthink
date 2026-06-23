@@ -51,7 +51,7 @@ group :test_core do
 end
 
 group :test_face_web do
-   gem 'capybara', '~> 3.39', require: 'capybara/cucumber'
+   gem 'capybara', '~> 3.40', require: 'capybara/cucumber'
    gem 'capybara-selenium', '~> 0.0.6'
    gem 'cucumber', '~> 11.1'
    gem 'puma', '~> 8.0'
